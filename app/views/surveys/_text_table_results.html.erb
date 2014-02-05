@@ -1,0 +1,29 @@
+<table class="text-table-results span6 table table-striped">
+	<thead>
+	<tr>
+		<th class="pointer" scope="col" data-sort="<%= survey.terms_numeric? ? "float" : "string" %>"><%= t ".term" %></th>
+		<th class="pointer" scope="col" data-sort="int"><%= t ".occurrences" %></th>
+	</tr>
+	</thead>
+	<tbody>
+    <%  %>
+	<% survey.word_counts(I18n.locale).sort_by {|_word, count| count}.reverse.each do |word, count| %>
+		<tr>
+			<td><%= word %></td>
+			<td><%= badge count.to_s, badge_style: :info %> </td>
+		</tr>
+	<% end %>
+	</tbody>
+</table>
+
+<script>
+	jQuery("table.text-table-results").stupidtable().bind('aftertablesort', function (event, data) {
+	    // data.column - the index of the column sorted after a click
+	    // data.direction - the sorting direction (either asc or desc)
+
+	    var th = $(this).find("th");
+	    th.find(".arrow").remove();
+	    var arrow = data.direction === "asc" ? "↑" : "↓";
+	    th.eq(data.column).append(' <span class="arrow">' + arrow +'</span>');
+	});
+</script>

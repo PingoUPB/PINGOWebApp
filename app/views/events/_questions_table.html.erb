@@ -1,0 +1,39 @@
+<p>
+     <%= select_tag "tags", options_for_select([["✱ " + t(".all_tags"), '']] + current_user.question_tags.sort.map{ |t| [t, t]}),  class: "span2", style: "height: auto; font-size: 10pt;" %>
+</p>
+<table id="question-list" class="table table-condensed table-striped">
+	<!-- <thead>
+	<tr>
+		<th>&nbsp;</th>
+		<th scope="col"><%= t "name" %></th>
+	</tr>
+	</thead> -->
+	<tbody>
+		<tr class="hidden" id="templateQuestionRow" data-model="question" data-tags="">
+			<td data-action="add_question"></td>
+			<td style="font-size: 9pt;" data-attribute="name"> </td>
+		</tr>
+	</tbody>
+</table>
+
+<% content_for :javascript do %>
+<script>
+$("#questions_duration").bind("change", function(){
+	var duration = $(this).val();
+	$("#question-list tbody * a").each(function(){
+		$(this).attr("href", $(this).attr("href").replace(/duration=\d+/, "duration=" + duration));
+	});
+});
+
+
+$("#tags").bind("change", function(){
+	if($(this).val() == ""){
+		$("#question-list tbody tr").not(".hidden").show();
+	} else {
+		$("#question-list tbody tr:not([data-tags*='" + $(this).val() + "'])").hide();
+		$("#question-list tbody tr[data-tags*='" + $(this).val() + "']").show();
+	}
+});
+
+</script>
+<% end %>

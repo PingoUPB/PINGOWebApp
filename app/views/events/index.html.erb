@@ -1,0 +1,191 @@
+<% title(t ".your_events") %>
+<h1><%= t ".your_events" %></h1>
+
+<table id="eventsTable" class="table table-striped table-hover">
+ <thead>
+  <tr>
+    <th><%= t ".name" %></th>
+    <th><%= t ".description" %></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <% if current_user.admin? %>
+      <th>#Umfr./max. TN</th>
+      <th>letzte Umfrage</th>
+      <th>User</th>
+    <% end %>
+  </tr>
+ </thead>
+
+ <tbody>
+<% @events.each do |event| %>
+  <tr>
+    <td><%= event.name %> <%=  link_to "#"+event.token, event_url(event) %></td>
+    <td><%= event.description %></td>
+    <td><%= link_to t("show"), event_url(event) %></td>
+    <td><%= link_to t("edit"), edit_event_path(event) %></td>
+    <td><%= link_to t("delete"), event, confirm: t(".delete_sure"), method: :delete %></td>
+    <% if current_user.admin? %>
+      <td><%= event.surveys.count %>/<%= (event.surveys).map(&:total_votes).max || 0 %></td>
+      <td><%= (event.surveys.any? ? l(event.latest_survey.created_at, format: "%d.%m.%Y/%H:%M") : "") %></td>
+      <td><%= link_to truncate(event.user.name), admin_user_path(event.user) %></td>
+    <% end %>
+  </tr>
+<% end %>
+ </tbody>
+</table>
+
+<br />
+
+<%= link_to t(".new_event"), new_event_path, class: "btn btn-primary" %>
+
+
+<% if current_user.admin? %>
+<br>
+<%= link_to "show all events (currently showing 200)", events_path(all: 'all'), class: "btn btn-small" unless params[:all] == 'all' %>
+
+  <%- content_for(:head) do -%>
+      <!-- DataTables CSS -->
+      <link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css">
+
+      <style type="text/css">
+        table.table thead .sorting,
+        table.table thead .sorting_asc,
+        table.table thead .sorting_desc,
+        table.table thead .sorting_asc_disabled,
+        table.table thead .sorting_desc_disabled {
+            cursor: pointer;
+            *cursor: hand;
+        }
+         
+        table.table thead .sorting { background: url('http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.1/images/sort_both.png') no-repeat center right; }
+        table.table thead .sorting_asc { background: url('http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.1/images/sort_asc.png') no-repeat center right; }
+        table.table thead .sorting_desc { background: url('http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.1/images/sort_desc.png') no-repeat center right; }
+         
+        table.table thead .sorting_asc_disabled { background: url('http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.1/images/sort_asc_disabled.png') no-repeat center right; }
+        table.table thead .sorting_desc_disabled { background: url('http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.1/images/sort_desc_disabled.png') no-repeat center right; }
+
+        div.dataTables_info {
+            padding-top: 8px;
+        }
+         
+        div.dataTables_paginate {
+            float: right;
+            margin: 0;
+        }
+         
+        table {
+            margin-bottom: 6px !important;
+            clear: both;
+        }
+
+      </style>
+  <%- end -%>
+
+
+
+ <% content_for :javascript do %>
+ <!-- DataTables -->
+  <script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      $.extend( $.fn.dataTableExt.oStdClasses, {
+        "sWrapper": "dataTables_wrapper form-inline"
+      } );
+
+      var getSurveyPart = function(str){
+        if (str.indexOf('/') > 0) {
+          return parseInt(str.split('/')[1]);
+        } else {
+          return str;
+        }
+      };
+
+      $.fn.dataTableExt.oSort['events-surveys-asc']  = function(x,y) {
+          x = getSurveyPart(x);
+          y = getSurveyPart(y);
+          return ((x < y) ? -1 : ((x > y) ?  1 : 0));
+      };
+       
+      $.fn.dataTableExt.oSort['events-surveys-desc'] = function(x,y) {
+          x = getSurveyPart(x);
+          y = getSurveyPart(y);
+          return ((x < y) ?  1 : ((x > y) ? -1 : 0));
+      };
+
+      $.extend( jQuery.fn.dataTableExt.oSort, {
+       "date-eu-pre": function ( date ) {
+          var date = date.replace(" ", "");
+          if(date.length == 0){
+            date = "01.01.1970";
+          }
+          
+          if (date.indexOf('/') > 0) {
+            var date_part = date.split('/')[0];
+            var time_part = date.split('/')[1];
+          } else {
+            var date_part = date;
+            var time_part = "00:00";
+          }
+
+          if (date_part.indexOf('.') > 0) {
+              /*date a, format dd.mn.(yyyy) ; (year is optional)*/
+              var eu_date = date_part.split('.');
+
+              /*year (optional)*/
+              if (eu_date[2]) {
+                var year = parseInt(eu_date[2]);
+              } else {
+                var year = 1970;
+              }
+                
+              /*month*/
+              var month = parseInt(eu_date[1]) - 1;
+                
+              /*day*/
+              var day = parseInt(eu_date[0]);
+          } else {
+              var year = 1970;
+              var day = 1;
+              var month = 0;
+          }
+
+          if (time_part.indexOf(':') > 0) {
+              /*date a, format dd.mn.(yyyy) ; (year is optional)*/
+              var eu_time = time_part.split(':');
+              var hours = parseInt(eu_time[0]) - 1;
+              var minutes = parseInt(eu_time[1]);
+          } else {
+              var hours = 0;
+              var minutes = 0;
+          }
+            
+          //return (year + month + day) * 1;
+          return new Date(year, month, day, hours, minutes, 0, 0);
+      },
+   
+      "date-eu-asc": function ( a, b ) {
+          return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+      },
+   
+      "date-eu-desc": function ( a, b ) {
+          return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+      }
+     } );
+
+      $('#eventsTable').dataTable( {
+        "bPaginate": false,
+        "aoColumnDefs": [
+         { "sType": "events-surveys", "aTargets": [ 5 ] },
+         { "sType": "date-eu", "aTargets": [ 6 ] },
+         { "bSortable": false, "aTargets": [ 2, 3, 4 ] }
+        ],
+        "sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>"
+      } );
+    } );
+
+  </script>
+ <% end %>
+
+<% end %>

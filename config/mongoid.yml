@@ -1,0 +1,15 @@
+development:
+  host: localhost
+  database: eclickr_development
+
+test:
+  uri: <%= ENV['MONGOTEST_URL'] %>
+  
+staging:
+   uri: <%= ENV['MONGOHQ_URL'] %>
+   logger: false
+
+# set these environment variables on your prod server
+production:
+ uri: <%= ENV['MONGOHQ_URL'] %>
+ logger: false

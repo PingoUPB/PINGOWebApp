@@ -1,0 +1,61 @@
+<%= semantic_form_for question, namespace: "text", html: { class: "form-inline", id: "new_text_question"  }  do |form| %>
+
+<%= error_msg_for question %>
+
+  <div class="well">
+    <div>
+
+   <%= form.input :name, input_html: {class: "input-xxlarge"} %>
+
+   </div>
+      <%= form.hidden_field :type, value: "text" %>
+      <%= hidden_field_tag :redirect_to_session, params[:redirect_to_session] %>
+    <div>
+
+      <%= form.input :tags, input_html: { class: "input-xxlarge" , placeholder: "Tags" }, required: false %>
+  <% if current_user.question_tags && !current_user.question_tags.blank? %>
+	<%= select_tag "tags", options_for_select([[t("questions.add_from_your_tags"), '']] + current_user.question_tags.sort.map{ |t| [t, t]}), id: "text_select_tag" %>
+	<br>&nbsp;
+  <% end %>
+	</div>
+
+    <div>
+      <div class="input select stringish control-group" id="text_question_options_input">
+        <label for="options"  class="select inline"><%= t "quick_start.how_many_options_short" %></label>
+        <div class="controls">
+          <%= select_tag "options", options_for_select(text_choices, question.settings.try(:[], "answers")), class: "span3" %>
+        </div>
+      </div>
+    </div>
+
+	<div>
+       <label for="public" class="checkbox inline"><%= form.check_box :public, :class => "checkbox inline" %><%= t("public") %></label>
+   </div>
+
+
+ </div>
+
+  <%= form.submit class: "btn btn-primary", id: "single_question_submit" %><span style="margin-left:20px;">
+  <% if params[:redirect_to_session] %>  
+    <label for"also_start_question" class="checkbox"><%= check_box_tag "also_start_question", "true", true %> <%= t "questions.start_in_session" %>
+  </label><br>
+  </span> 
+  <% end %>
+
+ <% end %>
+
+<% content_for :javascript do %>
+  <script>
+    $(document).ready(function() {
+     $("#text_question_tags").tagsManager({ // http://welldonethings.com/tags/manager
+        prefilled: "<%= question.tags %>",
+		hiddenTagListName: "text_question[tags]",
+		preventSubmitOnEnter: true
+      });
+	  $("#text_select_tag").change(function(){
+		$("#text_question_tags").tagsManager("pushTag", $("#text_select_tag").val());
+		$("#text_select_tag option:first").attr('selected',true);
+	  });
+    });
+  </script>
+<% end %>

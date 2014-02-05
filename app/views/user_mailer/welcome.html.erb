@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body style="margin-left: 5%; margin-right: 5%;">
+        <style type="text/css">
+        h1, p, div, small, td, a {
+              font-family: Helvetica, Arial, sans-serif;
+          }
+      </style>
+	<p>
+        <a href="http://pingo.upb.de/?utm_source=user_mail&utm_medium=email&utm_campaign=user+welcome">
+            <img src="http://pingo.upb.de/assets/logo.png" alt="PINGO">
+        </a>
+      </p>
+        <h1><small><%= @name %>,</small><br><%= t ".header" %></h1>    
+      <p>
+        <%= t ".intro_and_tour" %>:</p>
+    
+      <table align="center" width="200" height="60" style="border: 1px solid black; background-color: #00205B; text-align:center;">
+			<tr><td>
+				<a href="http://pingo.upb.de/?tour=true&utm_source=invitation&utm_medium=email&utm_campaign=user+invitation" style="color: white;"><%= t ".start_tour_button" %></a>
+			</td></tr>
+		</table>
+	
+	<% if I18n.locale == :de %>
+		<p>
+	        Das <a href="https://pingo.upb.de/tutorial/tutorial.html?utm_source=invitation&utm_medium=email&utm_campaign=user+invitation">Handbuch</a> mit ausführlicheren Anweisungen zur Anmeldung und Nutzung finden Sie <a href="https://pingo.upb.de/tutorial/tutorial.html?utm_source=invitation&utm_medium=email&utm_campaign=user+invitation">hier</a>.
+	</p>
+	<% end %>
+	
+    <p>
+      <%= t ".more_info_text" %>
+    </p>
+      &nbsp;<br>
+      <table align="center" width="200" height="60" style="border: 1px solid black; background-color: #00205B; text-align:center;">
+			<tr><td>
+				<a href="http://www.upb.de/pingo" style="color: white;"><%= t ".more_info_button" %></a>
+			</td></tr>
+      </table><br>
+	<table align="center" width="200" height="60" style="border: 1px solid black; background-color: #00205B; text-align:center;">
+			<tr><td>
+				<a href="http://blogs.uni-paderborn.de/pingo/?utm_source=invitation&utm_medium=email&utm_campaign=user+invitation" style="color: white;">Blog</a>
+			</td></tr>
+      </table>
+    
+    <p>&nbsp;<br>
+	<%= t ".videos" %>:
+    </p>
+    <p style="text-align: center;">
+        <center><a href="http://www.youtube.com/watch?v=KK22QMb0MFA"><img src="http://www.youtube.com/yt/brand/media/image/yt-brand-standard-logo-95x40.png"></a><br>
+	<small><a href="http://www.youtube.com/channel/UCoA4vCzvqmc3oRLeEpGfayQ">YouTube-Channel</a></small>
+	</center>
+    </p>
+    <p>
+        <%= t ".contact_text" %>: <a href="mailto: pingo-support@uni-paderborn.de">pingo-support@upb.de</a>.
+      </p>
+	<p><hr noshade="noshade"/>
+	<small>
+		<u>Imprint/Impressum:</u><br>
+		<a href="http://www.upb.de/pingo">PINGO &mdash; <strong>P</strong>eer <strong>In</strong>struction for very large <strong>g</strong>r<strong>o</strong>ups</a> (Fak. Wiwi)<br>
+		Universit&auml;t Paderborn, Warburger Str. 100, 33098 Paderborn, Germany.
+	</small></p>
+  </body>
+</html>

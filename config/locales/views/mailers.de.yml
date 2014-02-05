@@ -1,0 +1,27 @@
+de:
+  user_mailer:
+    welcome:
+      subject: "Willkommen bei PINGO"
+      header: "willkommen bei PINGO!"
+      intro_and_tour: "Sie haben sich erfolgreich registriert und können PINGO sofort nutzen. Wir empfehlen Ihnen sich ein paar Minuten Zeit zu nehmen um PINGO und die wichtigsten Funktionen mit Hilfe unserer interaktiver Tour kennenzulernen"
+      start_tour_button: "Tour starten"
+      more_info_text: "PINGO steht für 'Peer Instruction for very large groups' und ist das an der Universität Paderborn entwickelte Web-basierte Live-Feedback-System für die Lehre zur Aktivierung von Studierenden insbesondere in großen Lehrveranstaltungen. Auf unserer Projektseite finden Sie mehr Infos. Wir bloggen auch über Aktuelles rund um PINGO."
+      more_info_button: "Mehr Infos über PINGO"
+      videos: "Zur Erläuterung von PINGO, des Peer Instruction Konzepts allgemein sowie speziell zum idealtypischen Ablauf einer Peer Discussion zwischen den Studierenden haben wir Videotutorials entwickelt"
+      contact_text: "Bei weiteren Fragen können Sie sich gerne per Mail an uns wenden"
+  invite_mailer:
+    invite_email:
+      subject: "Einladung zu PINGO"
+      subheader: 'Sie wurden von %{name} eingeladen sich bei PINGO anzumelden.'
+      intro_text: '<a href="http://pingo.upb.de/?utm_source=invitation&utm_medium=email&utm_campaign=user+invitation">PINGO</a> steht für „<strong>P</strong>eer <strong>In</strong>struction for very large <strong>g</strong>r<strong>o</strong>ups“ und ist das an der <a href="http://www.upb.de">Universität Paderborn</a> entwickelte Web-basierte Live-Feedback-System für die Lehre zur Aktivierung von Studierenden insbesondere in großen Lehrveranstaltungen.'
+      sign_up_now: 'Jetzt anmelden!'
+      wwbm_text: 'So wie Günther Jauch bei der Quizsendung „Wer wird Millionär“ die Zuschauer im Studio über den Publikumsjoker in das Quiz einbezieht, können Dozenten mit PINGO ihre <i style="background-color: #B2DFEE;">Studierenden aus der traditionell eher passiven Rolle herausholen und aktiv an der Vorlesung beteiligen</i>.'
+      features: 'PINGO wird derzeit in deutsch und englisch angeboten und steht Nutzerinnen und Nutzern von Hochschulen weltweit <i style="background-color: #B2DFEE;">kostenlos</i> zur Verfügung.'
+      more_info: Mehr Infos über PINGO
+      footer: Sie wurden von %{name} eingeladen. Ihre Mailadresse wurde nicht gespeichert und Sie wurden für kein Abo eingetragen.
+
+
+    
+  
+
+  

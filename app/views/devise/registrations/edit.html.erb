@@ -1,0 +1,86 @@
+<!--<h2>Edit <%= resource_name.to_s.humanize %></h2>-->
+<h2><%= t("registration.edit_user")%>: <%= @user.name %></h2>
+<br>
+
+<%= form_for(resource, :as => resource_name, :url => registration_url(resource_name, protocol: ((Rails.env.production?||Rails.env.staging?) ? "https" : "http")), :html => { :method => :put }) do |f| %>
+  <%= devise_error_messages! %>
+
+<div class="tabbable"> 
+  <ul class="nav nav-tabs" id="Tabs">
+    <li class="active"><a href="#general" data-toggle="tab"><%= t("registration.general_settings") %></a></li>
+    <li><a href="#personal" data-toggle="tab"><%= t("registration.personal_data") %></a></li>
+  <% if resource.authentication_token.present? %>
+    <li><a href="#apps" data-toggle="tab"><%= t("registration.apps") %></a></li>
+  <% end %>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="general">
+        <div><%= f.label :wants_sound, t('registration.wants_sound') %> <i><small>(<%= t("registration.wants_sound_info")%>)</small></i><br />
+        <%= f.check_box :wants_sound %></div></br>
+
+		<div><%= f.label :newsletter, t('registration.newsletter') %> <i><small>(<%= t("registration.newsletter_info")%>)</small></i><br />
+        <%= f.check_box :newsletter %></div></br>
+		<div><%= f.submit t("update"), :class => "btn btn-primary" %></div>
+
+    </div>
+
+    <div class="tab-pane" id="personal">
+       <div><%= f.label :first_name, t("registration.first_name") %>
+       <%= f.text_field :first_name %></div></br>
+
+      <div><%= f.label :last_name, t("registration.last_name") %>
+       <%= f.text_field :last_name %></div></br>
+
+       <div><%= f.label :organization, t("registration.organization") %>
+        <%= f.text_field :organization %></div>
+
+      <div><%= f.label :faculty, t("registration.faculty") %>
+      <%= f.text_field :faculty %></div></br>
+
+      <div><%= f.label :chair, t("registration.chair") %>
+      <%= f.text_field :chair %></div></br>
+
+      <div><%= f.label :email, "E-Mail" %>
+      <%= f.email_field :email %></div></br>
+
+      <div><%= f.label :password, t('password') %> <i><small>(<%= t('registration.password_change_info')%>)</small></i></br>
+      <%= f.password_field :password, autocomplete:"off" %></div></br>
+
+      <div><%= f.label :password_confirmation, t('password_confirmation') %><i><small> (<%= t('registration.password_change_confirm_info')%>)</small></i><br />
+      <%= f.password_field :password_confirmation, autocomplete:"off" %></div></br>
+
+        <div><%= f.label :current_password, t('registration.current_password') %> <i><small>(<%= t("registration.current_password_info")%>)</small></i><br />
+      <%= f.password_field :current_password %></div></br>
+
+	<div><%= f.submit t("update"), :class => "btn btn-primary" %></div>
+
+
+	<p>&nbsp;<br><small><%= link_to_function t("registration.unhappy"), "jQuery('#cancel-p').slideDown();" %></small></p>
+
+	<p id="cancel-p" style="font-size:70%;display:none;background-color: #eee; padding: 5px"><%= t("registration.sorry")%><br/><%= link_to t("registration.cancel_account"), registration_path(resource_name), confirm: t("registration.sure"), method: :delete %> <%= t("registration.deletion_consequences")%><br/><br/><%= t("registration.feedback")%></p>
+	
+    </div>
+
+	<% if resource.authentication_token.present? %>
+		<div class="tab-pane" id="apps">
+	        <div>
+				<p><%= t("registration.apps_text") %></p>
+				<p><%= link_to t("registration.apps_button"), reset_auth_token_path, class: "btn btn-warning", method: :post %></p>
+			</div></br>
+	    </div>
+	<% end %>
+  </div>
+</div>
+
+	<% end %>
+
+<%= link_to t("back"), :back %>
+
+<% unless resource.errors.empty? %>
+<% content_for :javascript do %>
+  <script>
+	// change active Tab to 'Personal settings' when an error occured -->
+    $('#Tabs a[href="#personal"]').tab('show'); // Select tab by name
+  </script>
+<% end %>
+<% end %>

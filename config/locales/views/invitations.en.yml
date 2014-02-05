@@ -1,0 +1,6 @@
+en:
+  invitations:
+    new:
+      header: Invite colleagues and friends to PINGO
+      placeholder: "Recipient's mail address"
+      invite: "Invite!"

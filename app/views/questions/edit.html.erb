@@ -1,0 +1,9 @@
+<h1><%= t(".edit_question") %></h1>
+
+<%= render @question.form_partial, question: @question, namespace: 'single' %>
+
+<br>
+<%= link_to t("back"), questions_path %>
+
+<%= render "screenshot_modal" %>
+<%= render "chart_notice_modal" %>

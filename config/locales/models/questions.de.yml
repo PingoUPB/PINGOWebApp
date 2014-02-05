@@ -1,0 +1,12 @@
+de:
+  mongoid:
+    models:
+      question: Frage
+    attributes:
+      question:
+        question_options: "Antwortmöglichkeit(en)"
+        name: Frage
+  formtastic:
+    labels:
+      question:
+        name: Frage

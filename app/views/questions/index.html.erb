@@ -1,0 +1,167 @@
+<h1><%= t(".question_catalog") %></h1>
+<%= form_tag(export_questions_path) %>
+<div class="row row--margin">
+  <div class="span3">
+
+  	<div class="btn-group">
+  	  <%= link_to t("questions.create_question"), new_question_path, class: "btn btn-primary", id: "new_question_link" %>
+  	  <button class="btn dropdown-toggle btn-primary" data-toggle="dropdown">
+  	    <span class="caret"></span>
+  	  </button>
+  	  <ul class="dropdown-menu">
+  	    <li><%= link_to icon_tag("file") + t("questions.upload_questions"), import_questions_path %></li>
+  	  </ul>
+  	</div>
+
+
+  </div>
+  <div class="span9">
+    <%=  hidden_field_tag "export_type" %>
+    <%= render :partial => 'export_button' %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span3">
+  	<ul id="questionsSidebar" class="nav nav-list well">
+      <li class="nav-header">
+    <%= t ".questions_header" %>
+  </li>
+  <li class="<%= "active" if params[:tag].blank? %>">
+    <%= link_to icon_tag("asterisk") + t(".all_tags"), questions_path(public: params[:public], q_type: params[:q_type])  %>
+  </li>
+
+<% if params[:public] %>
+ <% (@tags||Question.public_question_tags).sort.each do |tag| %>
+   <li class="<%= "active" if params[:tag] == tag %>">
+   <%= link_to truncate(tag), questions_path(tag: tag, public: params[:public], q_type: params[:q_type]), title: tag %>
+  </li>
+<% end %>
+<% else %>
+  <%  @tags.sort.each do |tag| %>
+  <li class="<%= "active" if params[:tag] == tag %>">
+   <%= link_to tag, questions_path(tag: tag, public: params[:public], q_type: params[:q_type]) %>
+  </li>
+  <% end %>
+ <% end %>
+	
+ <li class="divider"></li>
+	<li class="nav-header">
+ <%= t ".questions_type_header" %>
+</li>
+
+ <li class="<%= "active" unless params[:q_type] %>">
+	<%= link_to icon_tag("asterisk") + t(".all_tags"), questions_path(tag: params[:tag], public: params[:public])  %> </li>
+ <li class="<%= "active" if params[:q_type] == "choice" %>">
+   <%= link_to icon_tag("align-left") + t("type.choice"), questions_path(tag: params[:tag], q_type: "choice", public: params[:public]), id: "questionsSidebarChoiceLink" %>
+ <li class="<%= "active" if params[:q_type] == "text" %>">
+	<%= link_to icon_tag("th") + t("type.text"), questions_path(tag: params[:tag], q_type: "text", public: params[:public])  %> </li>
+ <li class="<%= "active" if params[:q_type] == "number" %>">
+<%= link_to icon_tag("th") + t("type.number"), questions_path(tag: params[:tag], q_type: "number", public: params[:public])  %> </li>
+	
+ <li class="divider"></li>
+
+ <li class="<%= "active" unless params[:public] %>">
+	<%= link_to icon_tag("user") + t(".own_questions"), questions_path(tag: params[:tag], q_type: params[:q_type])  %> </li>
+ <li class="<%= "active" if params[:public] %>">
+   <%= link_to icon_tag("globe") + t("public"), questions_path(tag: params[:tag], public: "true", q_type: params[:q_type]), id: "questionsSidebarPublicLink" %>
+<li class="divider"></li>
+
+<li class="<%= "active" if params[:recently_commented] %>">
+<%= link_to icon_tag("comment") + t(".recently_commented"), questions_path(recently_commented: "true")  %> </li>
+
+</ul>
+  </div>
+  <div class="span9">
+  <% unless @questions.empty? %>
+  <table class="table table-condensed table-striped">
+    <thead>
+    <tr>
+      <th style="max-width:20px;"><input type="checkbox" id="mark-all" /></th>
+	  <th style="max-width:20px;">&nbsp;</td>
+      <th scope="col" style="width:80%"><%= t "name" %></th>
+      <th>&nbsp;</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @questions.each do |question| %>
+      <tr id="row<%= question.id %>" class="questions-table__row">
+        <td style="max-width:20px;"><%= check_box_tag("question_ids[]", question.id, false, class: "questions-table__checkbox") %></td>
+        <td class="check-on-click" style="max-width:20px;"><%= icon_tag("globe") if question.public %></td>
+		<td class="check-on-click" style="width:80%"><%= link_to (question.name||""), question_path(question), class: "questionLink" %> </td>
+        <% if params[:public] %>
+			<% if question.user == current_user %>
+				<td class="check-on-click"> <%= link_to icon_tag("pencil"), edit_question_path(question), title: t("edit") %> </td>
+		         <td> <%= link_to icon_tag("minus-sign"), question, 
+		          title: t(".delete_question"), confirm: t(".delete_sure"), method: :delete %></td>
+			<% else %>
+				<td><%= link_to icon_tag("plus-sign"), add_to_own_question_path(question, format: :json), remote: true, method: :post, class: "add_to_own_link", title: t("questions.show.add_to_own") %></td>
+	         	<td>&nbsp;</td>
+			<% end %>
+        <% else %>
+			<td> <%= link_to icon_tag("pencil"), edit_question_path(question), title: t("edit"), class: "question_edit_link" %> </td>
+        	<td> <%= link_to icon_tag("minus-sign"), question, 
+          title: t(".delete_question"), confirm: t(".delete_sure"), method: :delete %></td>
+        <% end %>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+        <%=	 hidden_field_tag "export_type" %>
+        <%= render :partial => 'export_button' %>
+  
+	<% else %>
+	<div class="well">	
+		<p><strong><%= t(".no_questions_yet") %></strong></p>
+		<p><%= link_to t(".click_to_create_new_question"), new_question_path %></p>
+	</div>
+	<% end %>
+  </div>
+</div>
+</form>
+
+
+  <% content_for :javascript do %>
+	<script>
+  <% if params[:public] %>
+
+		$(".add_to_own_link").bind("ajax:success", function(){
+			$(this).replaceWith('<%= icon_tag("ok-sign") %>');
+		});
+
+  <% end %>
+    var manageOpacity = function(){
+      var opacity = 1;
+
+      if ($(".questions-table__checkbox:checked").length === 0) {
+        opacity = "";
+      }
+
+      $(".questions-table__checkbox").css("opacity", opacity);
+      $(".questions-table__export-button").css("opacity", opacity);
+    };
+
+    $("#mark-all").bind("change", function () {
+      $(".questions-table__checkbox").prop("checked", $(this).prop("checked"));
+      manageOpacity();
+    });
+
+    $(".check-on-click").bind("click", function () {
+      var checkbox = $(this).parent("tr").children().find("input[type=checkbox]").first();
+      checkbox.prop("checked", !checkbox.prop("checked"));
+      manageOpacity();
+    })
+
+    $(".questions-table__checkbox").bind("change", manageOpacity);
+	</script>
+ <% end %>
+
+
+<% if params[:tour] == "true" %>
+ <%= render "tours/enable_tour" %>
+ <% if @questions.empty? %>
+  <%= render "tours/questions/index_empty" %>
+ <% else %>
+  <%= render "tours/questions/index" %>
+ <% end %>
+<% end %>

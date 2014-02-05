@@ -1,0 +1,53 @@
+<div data-role="header">
+<% if(params[:all] && current_user.admin?) %>
+	<h1>All surveys</h1>
+<% else %>
+	<h1>Your surveys</h1>
+<% end %>
+</div>
+<% if @surveys.count > 0 %>
+<table>
+  <tr>
+	<th>Title</th>
+	<th>Access code</th>
+	<% if(params[:all] && current_user.admin?) %>
+		<th>User</th>
+	<% end %>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @surveys.each do |survey| %>
+  <tr>
+	<td><%= h survey.name %></td>
+	<td><code><%= survey.token %></code></td>
+	<% if(params[:all] && current_user.admin?) %>
+			<td><%= survey.user.name %></td>
+	<% end %>
+    <td><%= link_to 'Show', survey %></td>
+    <td><%= link_to 'Edit', edit_survey_path(survey) %></td>
+    <td><%= link_to 'Delete', survey, confirm: 'Do you really want to delete ' + survey.name + '?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+<% else %>
+
+<% end %>
+
+<br />
+
+<strong><%= link_to '» Create a new survey', new_survey_path %></strong>
+
+<% if current_user.admin? %>
+<div data-role="footer">
+<hr noshade="noshade" />
+<p><small><strong>ADMIN:</strong>
+	<% if(params[:all]) %>
+		<%= link_to '» List only your surveys', surveys_path %>
+	<% else %>
+		As an admin you can <%= link_to '» View all surveys in the system', surveys_path(:all => "yes") %>
+	<% end %>
+</small></p>
+</div>
+<% end %>

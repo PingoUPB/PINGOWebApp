@@ -1,0 +1,52 @@
+<h2><%= @question.name %></h2>
+	<strong> <%= t("type_as_word") %>: </strong>
+	<% if @question.type == "single" %>
+		Single Choice
+	<% elsif @question.type == "multi" %>
+		Multiple Choice
+	<% elsif @question.type == "text" %>
+		Text
+	<% elsif @question.type == "number" %>
+		<%= t("type_number") %>
+	<% end %>
+	<br>
+	<p><strong>Tags:</strong> <%= @question.tags_array.join(", ") %> </p>
+
+
+	<% if @question.has_options? %>
+	  <strong><%= t("surveys.show.options") %></strong>
+	  <ul id="question-options-list">
+		<%= render partial: "question_option", collection: @question.question_options %>
+	  </ul>
+	<% end %>
+
+
+
+<% if current_user == @question.user %>
+	<%= link_to t("edit"), edit_question_path(@question) %> | 
+	<%= link_to t("delete"), @question, confirm: t("questions.index.delete_sure"), method: :delete %>
+<% else %>
+	<%= form_tag(add_to_own_question_path(@question), class: "form-inline", style: "float:left; margin-right: 10px") %>
+ 		<%= button_tag icon_tag("plus-sign", white: true) + t(".add_to_own"), :disable_with => t("wait"), :class => "btn btn-success", type: "submit" %>
+<% end %>
+<br/>
+<br/>
+<%= link_to t("back"), :back %>
+
+<% if current_user == @question.user %>
+  <div class="well" style="margin-top: 15px;">
+	<%= render partial: "comments", locals: {question: @question} %>
+  </div>
+<% end %>
+
+<% content_for :javascript do %>
+ <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+     tex2jax: {
+       inlineMath: [ ['$','$'] ],
+       processEscapes: true
+     }
+    });
+ </script>
+ <%= mathjax_tag %>
+<% end %>

@@ -1,0 +1,2 @@
+jQuery('#comments_list').prepend('<li><%= j simple_format(comment.text) %> <time><%= l comment.created_at %></time><hr noshade></li>');
+jQuery('#question_comment_text').val('');

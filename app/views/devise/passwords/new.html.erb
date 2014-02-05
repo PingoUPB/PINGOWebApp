@@ -1,0 +1,12 @@
+<h2><%= t("forgot_password")%></h2>
+
+<%= form_for(resource, :as => resource_name, :url => password_url(resource_name, protocol: ((Rails.env.production?||Rails.env.staging?) ? "https" : "http")), :html => { :method => :post }) do |f| %>
+  <%= devise_error_messages! %>
+
+  <div><%= f.label :email, t("email") %>
+  <%= f.email_field :email %></div>
+
+  <div><%= f.submit t("password_service.send_instructions"), :class => "btn btn-primary" %></div>
+<% end %>
+
+<%= render :partial => "devise/shared/links" %>

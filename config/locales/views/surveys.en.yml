@@ -1,0 +1,67 @@
+# nothing
+en:
+    surveys:
+        exit_question: Exit question
+        ask_exit_q: Ask the audience to rate this event.
+        create_from_catalogue_text: 'Create a new question in the <a href="/questions">question catalogue</a>.'
+        create_from_catalogue: "Create new question"
+        edit:
+            correct_answer: Correct answer
+            edit_survey: Edit survey
+            add_option: Add option
+            options_for_survey: Answer options for this survey
+        changed:
+          header: Comparison of voting behaviour
+          wait: "One moment please, gathering data"
+          from: from
+          to: to
+          switch_view: Switch view
+          aggregated_changes: "correct/wrong"
+          normal_changes: "detailled comparison"
+        participate:
+            over: "Voting time has ended. You cannot vote any longer."
+            time_left: "Time left"
+            choose: "Choose an option"
+            vote: "Vote"
+            choose-multi: "Choose all correct answers"
+            choose-text: "Please enter your answer"
+            rate_lecture: "Please rate today's presentation"
+            choose-number: "Please enter your (numerical) answer"
+        show:
+            survey: Survey
+            from: from
+            name: name
+            description: description
+            session_no: session no.
+            running: running?
+            is_text: This is a text question
+            votes_participants: participants
+            is_multi: This is a multiple-choice survey.
+            running_notice: 'This survey is <span class="label label-success">running</span>. People can access this survey at <code>%{url}</code>'
+            end: end of survey
+            time_left: time left
+            options: options
+            stop1: stop
+            start1: start now
+            continue1: continue
+            repeat1: repeat
+            chart_repeated: "current"
+            chart_first: "previous"
+            switch_view: "switch view"
+            tag_cloud: "tag cloud"
+            table: "table"
+            avg: "arithmetic mean"
+            stdev: "standard deviation"
+            median: "median"
+            chart: "chart"
+            histogram: "histogram"
+            repeated: "This is a repeated survey."
+        text_table_results:
+            term: "answer"
+            occurrences: "occurrences"
+        text_input_field:
+            add_a_field: "add a field"
+            add_field_notice: "In this survey, you can enter as many answers as you wish."
+        number_input_field:
+            notice: "Please enter the number without a thousands delimiter, e.g. 42.7"
+

@@ -1,0 +1,29 @@
+<ol id="tourStops">
+  
+  <li data-id="big_token"><p><%= t(".token").html_safe %></p>
+  </li>
+
+  <% if surveys_empty
+	surveylist_text = t(".empty_survey_list")
+  else
+	surveylist_text = t(".survey_list")
+  end %>
+	<li data-id="survey-list-left" data-options="tipLocation:top"><p><%= surveylist_text.html_safe %></p>
+	</li>
+	<li><p><%= t(".notice_testing").html_safe %></p></li>
+	
+	<li data-id="new-event-survey-accordion" data-options="tipLocation:left"><p><%= t(".quickstart").html_safe %></p>
+	</li>
+	
+	<li data-id="new-event-survey-accordion" data-options="tipLocation:left"><p><%= t(".question").html_safe %></p>
+	</li>
+	
+	<li data-id="event-edit-link" data-options="tipLocation:bottom"><p><%= t(".edit_event").html_safe %></p>
+	</li>
+	
+	<li data-button="OK"><p><%= t("tours.tour_outro").html_safe %></p><p><%= link_to t("tours.exit_tour"), params.merge(tour: "false"), class: "btn btn-small btn-warning" %></p></li>
+	
+	
+	
+
+</ol>

@@ -1,0 +1,4 @@
+<%= form_tag(exit_question_event_path(event.token), class: "form-horizontal", remote: true) %>
+	<p><%= t("surveys.ask_exit_q") %></p>
+	<%= submit_tag t("surveys.exit_question"), :class => "btn btn-primary" %>
+</form>

@@ -1,0 +1,53 @@
+de:
+  questions:
+    create_question: "Frage erstellen"
+    upload_questions: "Fragen importieren"
+    upload_error: "Fehler beim Import der folgenden Fragen:"
+    upload_succeeded: "Die folgenden Fragen konnten erfolgreich importiert werden:"
+    add_from_your_tags: "aus Ihren Tags auswählen:"
+    how_will_it_look: "Wie werden Fragen dem Publikum angezeigt"
+    chart_notice: Hinweis zum Diagramm
+    chart_notice_text: "Bitte beachten Sie, dass <strong>im Diagramm Formeln nicht angezeigt</strong> werden können. Wir empfehlen Ihnen in diesem Fall die Optionen zusätzlich mit 1/2/3/... oder A/B/C/... zu kennzeichnen. <br>Außerdem werden <strong>maximal 8 Optionen im Diagramm</strong> angezeigt. Diese Einschränkungen gelten nicht für die textuelle Auswertung über dem Diagramm."
+    choose_template: "Vorlage auswählen"
+    start_in_session: "... und direkt in der aktuellen Session starten"
+    index:
+      questions_header: Fragen-Schlagwörter
+      all_tags: Alle zeigen
+      delete_question: Frage löschen
+      delete_sure: Diese Frage wirklich löschen?
+      own_questions: Eigene Fragen
+      question_catalog: Fragenkatalog
+      no_questions_yet: Sie haben noch keine Fragen erstellt!
+      click_to_create_new_question: Klicken Sie jetzt oben links auf den blauen Button 'Frage erstellen' um Ihre erste Frage einzugeben.
+      questions_type_header: "Fragentypen"
+      recently_commented: "Vor kurzem kommentiert"
+    edit:
+      edit_question: Frage bearbeiten
+    show:
+      add_to_own: Zu eigenen Fragen hinzufügen
+    comments:
+      placeholder: Geben Sie hier Ihren Kommentar ein.
+      show_session: dazugehörige Session/Umfrage anzeigen
+    export_button:
+      export_as: Markierte exportieren als...
+    import:
+      select_file: Datei auswählen
+      select_type: Dateiformat auswählen
+      tags: Tags
+      upload: Hochladen und importieren
+      moodle_xml_info: "Zurzeit werden die Moodle XML-Formate truefalse, shortanswer, multichoice, numerical und essay unterstützt."
+      csv_info: "Zurzeit werden als Trennzeichen ausschließlich Kommata akzeptiert. Das Format sieht vor, dass eine Zeile pro Frage verwendet wird. Die erste Spalte stellt den Typ der Frage dar (single, multi, number oder text). Spalte zwei enthält den Text der Frage. Danach folgen genau 9 Spalten, die Antwortmöglichkeiten enthalten können. Die letzte Spalte ist optional und enthält bei Multiple-Choice-Fragen die Nummern der korrekten Antworten, bei mehreren getrennt durch ein Semikolon (zum Beispiel 1;3;5). Bei Freitextfragen enthält sie die Limitierung für die Anzahl der abzugebenden Antworten (1 für eine, 3 für bis zu drei)."
+      aiken_info: "Jede Frage im Aiken-Format muss eine Angabe korrekter Antworten enthalten"
+      gift_info: "Zurzeit werden True / False, Multiple Choice, Short Answer, Essay und Numerical-Fragetypen im Gift-Format unterstützt"
+      further_information: "Für weitere Informationen darüber, wie Formate interpretiert werden, klicken Sie hier"
+      upload_questions_legend: "Wählen Sie eine Datei und das Format aus, um Fragen in PINGO zu importieren."
+    error:
+      question_text: "Frage"
+      description: "Art des Fehlers"
+      unknown_error: "Unbekannter Fehler beim Sichern der Frage"
+      unsupported_type: "Fragetyp nicht unterstützt"
+      unknown_type: "Unbekannter Fragetyp"
+      aiken_missing_answers: "Keine Angabe korrekter Antworten"
+      malformed_csv: "Fehlerhaft formatierte CSV-Datei"
+      file_error: "Datei konnte nicht importiert werden. Möglicherweise ist sie falsch formatiert oder nicht im ausgewählten Format."
+      all_questions: "Fehler in Datei"

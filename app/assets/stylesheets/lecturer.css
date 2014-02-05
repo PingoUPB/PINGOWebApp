@@ -1,0 +1,14 @@
+/*
+ *= require fancybox
+ *= require formtastic-bootstrap
+ *= require jqcloud
+ *= require_tree ./libs
+ *= require ie6
+ *= require ie7
+ *= require layout
+ *= require scaffolds
+ *= require questions
+ *= require events
+ *= require users
+ *= require tour
+*/

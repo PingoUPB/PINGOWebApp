@@ -1,0 +1,7 @@
+<div class="control-group nested-fields">
+	<div class="controls">
+	<%= link_to_remove_association icon_tag("minus-sign"), f %>
+	<%= f.text_field :name, placeholder: t("name") %>
+	<label for="correct" class="checkbox inline"><%= f.check_box :correct, :class => "checkbox inline" %>(<%= t("surveys.edit.correct_answer") %>?)</label>
+ </div>
+</div>

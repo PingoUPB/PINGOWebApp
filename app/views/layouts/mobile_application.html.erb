@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= content_for?(:title) ? content_for(:title) + " — " : "" %>PINGO</title>
+
+
+  <%= stylesheet_link_tag "application" %>
+  
+  <%= yield(:head) -%>
+  <%= csrf_meta_tags %>
+
+  <link rel="icon" type="image/png" href="/favicon.png"/> 
+  <meta name="viewport" content="width=320.1, initial-scale=1.0, user-scalable=no, maximum-scale=1"/>
+  <meta name="HandheldFriendly" content="True"/>
+  <meta name="MobileOptimized" content="320"/>
+  <meta http-equiv="cleartype" content="on">
+
+  <!-- iOS device stuff -->
+  <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114.png" />
+  <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black"/> 
+  <link rel="apple-touch-startup-image" href="/splash-screen-320x460.png" media="screen and (max-device-width: 320px)" />
+  <link rel="apple-touch-startup-image" media="(max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2)" href="/splash-screen-640x920.png" /> 
+  
+</head>
+<body>
+<div class="container" data-role="page">
+  <header><h6><%= link_to "PINGO", root_path %></h6></header>
+  <%= render "shared/flashes" %>
+<%= yield %>
+<!-- <footer>
+<small><%= link_to "Switch to desktop mode", "/switch_view?mobile=0" %></small>
+
+</footer>-->
+</div>
+
+<%= javascript_include_tag "application" %>
+<%= yield(:javascript) -%>
+ 
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-35829703-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>

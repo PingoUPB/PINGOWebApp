@@ -1,0 +1,4 @@
+<% # different detail results views for switching
+%>
+
+  $('#detailed_results').html("<%= escape_javascript(render partial: @view_type, locals: {:survey => @survey} ) %>");

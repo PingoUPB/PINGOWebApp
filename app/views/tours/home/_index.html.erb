@@ -1,0 +1,29 @@
+<!-- Each tip is set within this <ol>.
+ This creates the order the tips are displayed -->
+
+<ol id="tourStops">
+  
+  <li><p><%= t(".tour_intro").html_safe %></p></li>
+  <li data-class="brand" data-options="tipLocation:bottom"><p><%= t(".home").html_safe %></p>
+  </li>
+
+<!--  <li data-id="id"><p><%= t(".access_code").html_safe %></p>
+  </li>
+-->
+
+  <li data-id="menuSettingsLink" data-options="tipLocation:bottom"><p><%= t(".settings").html_safe %></p>
+  </li>
+
+  <li data-id="help" data-options="tipLocation:left"><p><%= t(".info").html_safe %></p>
+  </li>
+
+  <li data-id="menuQuickstartLink" data-options="tipLocation:bottom"><p><%= t(".quickstart").html_safe %></p>
+  </li>
+
+  <li data-id="menuEventsLink" data-options="tipLocation:bottom"><p><%= t(".events").html_safe %></p>
+  </li>
+
+  <li data-id="menuQuestionsLink" data-options="tipLocation:bottom" data-button="OK"><p><%= t(".questions").html_safe %></p>
+  </li>
+
+</ol>

@@ -1,0 +1,26 @@
+<%= form_for [:admin, @user] do |f| %>
+ <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2>Unfortunately, <%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved properly:</h2>
+      <ul>
+      <% @user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+ <ol><label for="user_first_name">User first name:</label> <br/> <%= f.text_field :first_name %></ol>
+ <ol><label for="user_last_name">User last name:</label> <br/> <%= f.text_field :last_name %></ol>
+ <ol><label for="user_organization">User organization:</label> <br/> <%= f.text_field :organization %></ol>
+ <ol><label for="user_faculty">User faculty:</label> <br/> <%= f.text_field :faculty %></ol>
+ <ol><label for="user_chair">User chair:</label> <br/> <%= f.text_field :chair %></ol>
+ <ol><label for="user_password">Password:</label> <br/> <%= f.password_field :password %> 
+<% unless @user.new_record? %> <small>(only when changing passwords) </small><% end %>
+ </ol>
+ <ol><label for="user_password_confirmation">...confirm:</label> <br/> <%= f.password_field :password_confirmation %> 
+<% unless @user.new_record? %> <small>(only when changing passwords) </small><% end %>
+ </ol>
+ <ol><label for="user_email">E-Mail:</label> <br/> <%= f.email_field :email %></ol>
+ <ol><label for="user_admin">Admin privileges:</label> <br/> <%= f.check_box :admin %></ol>
+ <ol> <%= f.submit "Save" %> </ol>
+<% end %>

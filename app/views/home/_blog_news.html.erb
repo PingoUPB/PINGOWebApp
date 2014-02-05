@@ -1,0 +1,10 @@
+<div class="well">
+	<h4><%= link_to "News vom PINGO-Blog", "http://blogs.uni-paderborn.de/pingo/" %></h4>
+	<ul>
+		<% posts.first(3).each do |post| %>
+			<li>
+				<%= link_to post.title, post.link, title: "#{post.title} (#{l(post.date, format: :short)})" %>
+			</li>
+		<% end %>
+	</ul>
+</div>

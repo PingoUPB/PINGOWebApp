@@ -1,0 +1,36 @@
+de:
+    events:
+        show:
+            add_survey: Neue Umfrage zu Session hinzufügen
+            description: Beschreibung
+            surveys: Umfragen
+            from_when: Von wann?
+            votes: Beantwortet
+            survey_table_footer: Klicken Sie auf eine Umfrage um die Ergebnisse unten zu sehen und Aktionen durchzuführen.
+            started_ago: "vor %{time} gestartet"
+            created_ago: "vor %{time} erstellt"
+            delete_survey: Umfrage löschen
+            delete_sure: Die angeklickte Umfrage wirklich löschen?
+            no_surveys: Sie haben noch keine Umfragen in dieser Session erstellt.
+            view_survey: Umfrage ansehen
+            connected: Zur Zeit verbunden
+            compare_votings: Abstimmverhalten vergleichen
+            show_questions: Frage aus Katalog starten
+            export_results: Antworten exportieren
+        questions_table:
+            all_tags: Alle Tags
+        index:
+            delete_sure: Die angeklickte Session wirklich löschen?
+            your_events: Ihre Sessions
+            description: Beschreibung
+            name: Name
+            new_event: Neue Session anlegen
+        new:
+            headline: Neue Session anlegen
+        edit:
+            headline: Session bearbeiten
+        help:
+            description_help: Die Beschreibung wird dem Teilnehmer unter den Antwortoptionen dargestellt.
+            formula_support: "Nach Aktivierung können Sie TeX-Formeln in Fragen/Antwortoptionen eingeben, indem Sie diese mit $-Zeichen umschließen. (Beispiel: $\\sqrt{e^x}$)"
+        form:
+          formula_support: Formel-Unterstützung

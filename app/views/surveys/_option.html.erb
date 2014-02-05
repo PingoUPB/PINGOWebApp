@@ -1,0 +1,12 @@
+<li>
+<% if option.survey.total_votes == 0 || @survey.running?%>
+	<span class="votes-count"><%= badge "0", badge_style: :info %></span> 
+<% else %>
+<span class="votes-count"><%= badge option.votes.to_s, badge_style: :info %></span> 
+<span class="votes-percentage"><%= badge number_to_percentage((option.votes.to_f / option.survey.total_votes.to_f * 100.to_f), :precision => 0) %></span> 
+<% end %>
+<%= option.name %>
+<% unless option.description.blank? %>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="option-description"><%= option.description %></span>
+<% end %>
+</li>

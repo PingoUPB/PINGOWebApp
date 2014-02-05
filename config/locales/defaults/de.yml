@@ -1,0 +1,132 @@
+de:
+    "yes": "Ja"
+    "no": "Nein"
+    "with": "mit"
+    "true": "Wahr"
+    "false": "Falsch"
+    agree: "Ich stimme zu"
+    disagree: "Ich stimme nicht zu"
+    min: "Min."
+    sec: "Sek."
+    now: "jetzt"
+    duration: "Dauer"
+    indefinite: "unbegrenzt"
+    w_out_countdown: "ohne Countdown"
+    wait: "Bitte warten..."
+    imprint: "Impressum"
+    upb: "Universität Paderborn"
+    privacy_policy: "Datenschutzerklärung"
+    back: "Zurück"
+    show: "Anzeigen"
+    edit: "Bearbeiten"
+    delete: "Löschen"
+    create: "Erstellen"
+    start: "Starten"
+    name: "Name"
+    description: "Beschreibung"
+    there_were_errors_saving: "Beim Speichern sind Fehler aufgetreten"
+    forgot_password: "Passwort vergessen?"
+    remember_me: "eingeloggt bleiben"
+    close: "Schließen"
+    email: "E-Mail"
+    password: "Kennwort"
+    current_password: "Aktuelles Kennwort"
+    new_password: "Neues Kennwort"
+    change_password: "Kennwort ändern"
+    password_confirmation: "Bestätigen Sie Ihr Kennwort"
+    update: "Aktualisieren"
+    results: "Ergebnisse"
+    optional: "optional"
+    positive: "positiv"
+    neutral: "neutral"
+    negative: "negativ"
+    public: "Öffentlich"
+    type_as_word: "Typ"
+    fullscreen: Vollbild
+    one_answer: genau eine
+    up_to_three_answers: bis zu drei
+    multiple_answers: beliebig viele
+    comment: Kommentar
+    comments: Kommentare
+    survey: Umfrage
+
+    matrix_keys:
+      no_participation: n. Teiln.
+      no_answer: k. Ant.
+      right: richtig
+      wrong: falsch
+
+    navigation:
+        login: "Einloggen"
+        logout: "Abmelden"
+        sign_up: "Registrieren"
+        edit_account: "Einstellungen"
+        quick_start: "Schnellstart"
+        new_survey: "neue Session"
+        your_events: "Sessions"
+        your_questions: "Fragen"
+        getting_started: "Erste Schritte"
+        about: "Info"
+        intro_video: "Einführungsvideo"
+        project_website: "Projekt-Website"
+        take_tour: "Tour starten"
+        invite: "Weiterempfehlen"
+
+    type:
+      number: "Numerisch"
+      text: "Text"
+      choice: "Auswahlfrage"
+      single: "Single Choice"
+      multi: "Multiple Choice"
+      truefalse: "Wahr/Falsch-Frage"
+      yesno: "Ja/Nein-Frage"
+      agree: "Zustimmen/Nicht zustimmen-Frage"
+    quick_survey: "Kurzumfrage"
+
+    quick_start:
+        how_many_options_short: Wie viele Antworten?
+        how_long_short: Wie lange?
+        remember_settings: merken
+
+    messages:
+        voting_ok: "Danke fürs Abstimmen. Ihre Stimme wurde gezählt."
+        voted_for: "Sie haben für: %{option} abgestimmt."
+        survey_successfully_created: "Umfrage wurde erfolgreich erstellt."
+        survey_successfully_updated: "Umfrage wurde erfolgreich aktualisiert."
+        survey_started: "Umfrage gestartet."
+        survey_stopped: "Umfrage gestoppt."
+        survey_stop_scheduled: "Ende der Umfrage angesetzt."
+        survey_not_found: "Wir konnten diese Umfrage leider nicht finden. Bitte geben Sie die Nummer noch mal ein."
+        not_running: "<small>Diese Umfrage ist noch nicht gestartet worden. </small><br/><strong>BITTE WARTEN SIE AUF DEN START</strong>"
+        save_ok: "Erfolgreich gespeichert!"
+        save_not_ok: "Ihre Eingaben konnte nicht gespeichert werden. Bitte pruefen Sie diese, bevor Sie es noch ein mal probieren."
+        misc_error: "Oops, leider ist etwas schiefgelaufen. Würden Sie es bitte noch einmal versuchen und uns ggf. kontakieren?"
+        no_option_error: "Etwas ist schiefgelaufen: Haben Sie evtl. vergessen eine Antwort auszuwählen? Probieren Sie es bitte noch einmal."
+        already_voted: "Es tut uns Leid, bei dieser Umfrage können Sie nicht mehr abstimmen."
+        session_successfully_created: "Die Session wurde erfolgreich erstellt."
+        session_successfully_updated: "Die Session wurde erfolgreich verändert."
+        session_survey_successfully_created: "Session und Umfrage wurden erfolgreich erstellt."
+        no_access_to_session: "Sie sind nicht dazu berechtigt, auf diese Session zuzugreifen."
+        question_successfully_created: "Frage erfolgreich erstellt."
+        question_successfully_updated: "Frage erfolgreich geändert."
+        question_successfully_added: "Frage erfolgreich hinzugefügt"
+        no_access_to_question: "Sie sind nicht dazu berechtigt, auf diese Frage zuzugreifen."
+        no_access_to_survey: "Sie sind nicht dazu berechtigt, auf diese Session / Umfrage zuzugreifen."
+        invite_success: "Einladung versendet. Danke für's Weiterempfehlen!"
+        invite_fail: "Leider ist die eingegebene Mailadresse ungültig, die Einladung konnte nicht versendet werden."
+        select_questions_for_export: "Bitte wählen Sie zunächst Fragen zum Export aus"
+        token_reset_success: "Sie wurden von allen mit Ihrem PINGO-Konto verbundenen externen Anwendungen abgemeldet."
+
+    mongoid:
+      errors:
+          models:
+              user:
+                  attributes:
+                      email:
+                          taken: ist bereits vergeben
+
+
+
+
+
+

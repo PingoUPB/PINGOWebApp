@@ -1,0 +1,35 @@
+<table id="event-survey-table" class="table table-condensed table-striped">
+	<thead>
+	<tr>
+		<th>&nbsp;</th>
+		<th scope="col"><%= t "name" %></th>
+		<th scope="col"><%= t "events.show.from_when" %></th>
+		<th>&nbsp;</th>
+		<th scope="col"><%= t "events.show.votes" %></th>
+		<th>&nbsp;</th>
+		<th>&nbsp;</th>
+		<th>&nbsp;</th>
+	</tr>
+	</thead>
+	<tbody>
+	<% event.surveys.desc(:started, :created_at).each do |survey| %>
+		<tr id="row<%= survey.id %>">
+			<td><%= link_to t("events.show.view_survey"), event_survey_path(survey.event, survey), remote: true, type: :js %></td>
+			<td><%= link_to (survey.name||""), event_survey_path(survey.event, survey), remote: true, type: :js, id: "name-#{survey.id}" %> </td>
+			<td>
+			<% if survey.starts %>
+				<%= t "events.show.started_ago", time: time_ago_in_words(survey.starts) %> (<%= l survey.starts %>)
+			<% else %>
+				<%= t "events.show.created_ago", time: time_ago_in_words(survey.created_at) %> (<%= l survey.created_at %>)
+			<% end %>
+			</td>
+			<td><% if survey.original_survey && survey.service.results_comparable? %> <%= link_to icon_tag("repeat"), changed_event_survey_path(survey.event, survey), remote: true, class: "compare_link", title: t("events.show.compare_votings") %> <% end %> </td>
+			<td id="votes-<%= survey.id.to_s %>"><%= survey.total_votes %></td>
+			<td> <%= link_to icon_tag("comment"), question_question_comments_path(survey.question, survey_id: survey.id), title: t("comment"), remote: true, class: "comment_modal_link" if survey.question.present? %> </td>
+			<td> <%= link_to icon_tag("pencil"), edit_event_survey_path(survey.event, survey), title: t("edit") %> </td>
+			<td><%= link_to icon_tag("minus-sign"), event_survey_path(survey.event, survey), 
+			title: t("events.show.delete_survey"), confirm: t("events.show.delete_sure"), method: :delete %></td>
+		</tr>
+	<% end %>
+	</tbody>
+</table>

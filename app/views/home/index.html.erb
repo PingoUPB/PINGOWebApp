@@ -1,0 +1,58 @@
+<% unless ENV["USE_JUGGERNAUT"] == "false" %>
+	<%- content_for(:head) do -%>
+		<link rel="dns-prefetch" href="//<%= ENV["JUGGERNAUT_HOST"] %>">
+	<%- end -%>
+<% end %>
+
+<h1><%= t ".participate" %></h1>
+
+<% if user_signed_in? and I18n.locale == :de %>
+
+<div class="row">
+	<div class="span7">
+
+		<%= form_tag("/find")%>
+			<label for="id"><%= t ".enter_access" %>:</label> <br/>
+			<%= text_field_tag :id, "", :type => "tel", :class => "input-xlarge" %><br/>
+			<%= submit_tag t(".open_vote"), :disable_with => t("wait"), :class => "btn btn-large btn-primary" %>
+		</form>
+
+	</div>
+
+	<div class="span5">
+		<%= render "blog_news", posts: @posts %>
+	</div>
+
+</div>
+
+<% else %>
+
+		<%= form_tag("/find")%>
+			<label for="id"><%= t ".enter_access" %>:</label> <br/>
+			<%= text_field_tag :id, "", :type => "tel", :class => "input-xlarge" %><br/>
+			<%= submit_tag t(".open_vote"), disable_with: t("wait"), class: "btn btn-large btn-primary", autocomplete: "off" %>
+		</form>
+
+<% end %>
+
+<% if flash.empty? %>
+  <% content_for :javascript do %>
+	<script>
+	if (window.navigator.userAgent.indexOf('iPhone') != -1) { 
+		if (window.navigator.standalone == false) {
+			var addToHomeConfig = {
+				returningVisitor: true
+			};
+			// load dynamically only for iPhones to reduce requests
+			loadjscssfile("/stylesheets/add2home.css", "css");
+			loadjscssfile("/scripts/add2home.js", "js");
+		}
+	}
+	</script>
+  <% end %>
+<% end %>
+
+<% if params[:tour] == "true" && user_signed_in? %>
+ <%= render "tours/enable_tour" %>
+ <%= render "tours/home/index" %>
+<% end %>

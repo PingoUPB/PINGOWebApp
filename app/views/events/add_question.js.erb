@@ -1,0 +1,3 @@
+// define here what JS should be executed after adding a question via ajax.
+window.PINGO.events.updateSurveyTable("#event-survey-content", "<%= event_surveys_path(@event)%>");
+window.PINGO.events.loadSurvey("<%= event_survey_path(@event, @survey) %>");

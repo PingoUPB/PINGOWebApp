@@ -1,0 +1,24 @@
+// Place all the styles related to the questions controller here.
+// They will automatically be included in application.css.
+// You can use Less here: http://lesscss.org/
+input[type="checkbox"].questions-table__checkbox {
+	opacity: 0;
+	transition: all 200ms ease;
+	margin: 0;
+}
+
+.questions-table__row {
+	&:hover {
+		.questions-table__checkbox {
+			opacity: 1;
+		}
+	}
+}
+
+.questions-table__export-button {
+	opacity: 0;
+} 
+
+.import-info, #compatibility {
+	display: none;
+}

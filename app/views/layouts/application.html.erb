@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale  %>">
+<head>
+    <title><%= content_for?(:title) ? content_for(:title) + " — " : "" %>PINGO</title>
+  <%= stylesheet_link_tag "application" %>
+  <%= stylesheet_link_tag "lecturer" %>
+  <!--[if lt IE 9]>
+  	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <% unless Rails.env.production? %>
+    <style type="text/css">
+      .translation_missing {
+        border-bottom: 1px dashed #F5A9A9;
+        background-color: #F4DCDC;
+      }
+    </style>
+  <% end %>
+
+  <%= csrf_meta_tags %>
+
+  <%= yield(:head) -%>
+
+  <link rel="shortcut icon" href="/favicon.ico"/>
+  <link rel="icon" type="image/png" href="/favicon.png"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <!-- iOS device stuff -->
+  <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114.png" />
+  <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black"/> 
+  <link rel="apple-touch-startup-image" href="/splash-screen-320x460.png" media="screen and (max-device-width: 320px)" />
+  <link rel="apple-touch-startup-image" media="(max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2)" href="/splash-screen-640x920.png" /> 
+
+ <% if is_device?("msie") %>
+    <meta name="application-name" content="PINGO">
+    <meta name="msapplication-starturl" content="/">
+    <link rel="shortcut icon" href="/favicon.ico">
+   <% if user_signed_in? %>
+    <meta name="msapplication-task"
+        content="name=neue Session;
+        action-uri=/events/new;
+        icon-uri=http://icons.iconseeker.com/ico/web-development-3/action-add-grey-thin.ico">
+    <meta name="msapplication-task" 
+        content="name=Ihre Sessions;
+        action-uri=/events;
+        icon-uri=http://icons.iconseeker.com/ico/aspnet/unordered-list.ico">
+   <% end %>
+ <% end %>
+
+</head>
+
+<body>
+  <header class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+          <div class="container-fluid">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+			<% unless Rails.env.staging? %>
+            	<%= link_to "PINGO", root_path, class: "brand" %>
+			<% else %>
+				<%= link_to "PINGO beta", root_path, class: "brand", title: ENV['COMMIT_HASH'] %>
+			<% end %>
+            <div class="nav-collapse">
+              <ul class="nav">
+                <%= render 'shared/navigation' %>
+              </ul>
+            </div><!--/.nav-collapse -->
+          </div>
+        </div>
+  </header>
+<div class="container">
+ 
+<%= render "shared/flashes" %>
+
+<%= yield %>
+<hr noshade id="footer-hr" />
+<footer>
+	<strong><%= t "imprint" %></strong>: <a href="http://www.uni-paderborn.de/pingo" target="_blank">PINGO</a>, <%= t "upb" %> | pingo-support(at)uni-paderborn.de | <a id="privacy-policy-link" href="/privacy_policy.html" class="iframe" title="<%= t "privacy_policy" %>"><%= t "privacy_policy" %></a>
+</footer>
+</div>
+
+<% unless user_signed_in? %>
+  <%= render partial: "shared/login_modal" %>
+<% end %>
+
+
+<%= render "shared/video" %>
+
+<%= javascript_include_tag "application" %>
+<%= javascript_include_tag "lecturer" %>
+
+<!-- view specific javascript: -->
+<%= yield(:javascript) -%>
+
+<% if user_signed_in? %>
+    <script>
+        window.PINGO.surveys.vars.choice_answers = "<%= escape_javascript options_for_select(answer_choices, quick_start_settings["options"]) %>";
+        window.PINGO.surveys.vars.text_answers = "<%= escape_javascript options_for_select(text_choices) %>";
+    </script>
+<% end %>
+
+<% if is_device?("msie") && user_signed_in? %>
+ <!-- IE 9+ pinned site (recent sessions): -->
+  <script>
+    try {
+      window.external.msSiteModeClearJumpList();
+      window.external.msSiteModeCreateJumplist('Letzte Sessions');
+        <% current_user.events.desc(:created_at).limit(2).each do |le| %>
+          window.external.msSiteModeAddJumpListItem 
+              ('<%= [truncate(le.name), "-", le.token.to_s].join(" ") %>', 
+               '<%= event_path(le, only_path: false) %>',
+               '/favicon.ico');
+        <% end %>
+      window.external.msSiteModeShowJumplist();
+    } catch (ex) { }
+  </script>
+<% end %>
+
+
+<script>
+  // policy fancybox:
+  jQuery(document).ready(function() {
+    jQuery("#privacy-policy-link").fancybox();
+  });
+
+<% if Rails.env.production? %>
+  // google analytics:
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-35829703-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+<% end %>
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+<%
+   clusters = survey.number_counts(params[:method_kind] == "histogram" && survey.total_votes > 1 ? :histogram : :clustered)
+   pp clusters.values
+   chart = Gchart.bar(data: clusters.values.map {|num| num * 100 / survey.total_votes },
+                          max_value: 100,
+                          title: "#{t("results")} (%)",
+                          bar_colors: '253C6E',
+                          stacked: false,
+                          encoding: 'extended',
+                          legend: nil,
+                          axis_labels: [clusters.keys.join("|")],
+                          axis_with_labels: ['x','y'],
+                          axis_range: [nil, [0,100,10]],
+                          size: "#{[1000, (clusters.count * 90 + 70)].min}x300",
+                          bar_width_and_spacing: "50,5,20")
+
+ %>
+<img class="survey_chart" src="<%= chart %>" />

@@ -1,0 +1,39 @@
+<h1><%= t("questions.create_question") %></h1>
+
+<%= link_to t("back"), :back %>
+<br/>
+<br/>
+<div class="tabbable tabs-left">
+  <ul class="nav nav-tabs" id="Tabs">
+    <li class="active"><a href="#single-tab" data-toggle="tab"><%= t "type.single" %></a></li>
+    <li><a href="#multi-tab" data-toggle="tab"><%= t "type.multi" %></a></li>
+  	<li><a href="#text-tab" data-toggle="tab"><%= t "type.text" %></a></li>
+    <li><a href="#number-tab" data-toggle="tab"><%= t "type.number" %> <span class="label label-info">BETA</span></a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="single-tab">
+      <%= render partial: @question_single.form_partial, locals: {question: @question_single, namespace: 'single'} %>
+    </div>
+    <div class="tab-pane" id="multi-tab">
+     	<%= render partial: @question_multi.form_partial, locals: {question: @question_multi} %>
+    </div>
+	  <div class="tab-pane" id="text-tab">
+     	<%= render partial: @question_text.form_partial, locals: {question: @question_text} %>
+    </div>
+    <div class="tab-pane" id="number-tab">
+      <%= render partial: @question_number.form_partial, locals: {question: @question_number} %>
+    </div>
+  </div>
+</div>
+
+<%= link_to t("back"), :back %>
+
+<%= render "screenshot_modal" %>
+<%= render "chart_notice_modal" %>
+
+<% if params[:tour] == "true" %>
+ <%= render "tours/enable_tour" %>
+ <%= render "tours/questions/new" %>
+<% end %>
+
+

@@ -1,0 +1,407 @@
+--- 
+es: 
+  activemodel: 
+    errors: 
+      format: "%{attribute} %{message}"
+      messages: 
+        accepted: "debe ser aceptado"
+        blank: "no puede estar en blanco"
+        confirmation: "no coincide con la confirmación"
+        empty: "no puede estar vacío"
+        equal_to: "debe ser igual a %{count}"
+        even: "debe ser par"
+        exclusion: "está reservado"
+        greater_than: "debe ser mayor que %{count}"
+        greater_than_or_equal_to: "debe ser mayor que o igual a %{count}"
+        inclusion: "no está incluido en la lista"
+        invalid: "no es válido"
+        less_than: "debe ser menor que %{count}"
+        less_than_or_equal_to: "debe ser menor que o igual a %{count}"
+        not_a_number: "no es un número"
+        not_an_integer: "debe ser un entero"
+        odd: "debe ser impar"
+        record_invalid: "La validación falló: %{errors}"
+        taken: "ya está en uso"
+        too_long: "es demasiado largo (%{count} caracteres máximo)"
+        too_short: "es demasiado corto (%{count} caracteres mínimo)"
+        wrong_length: "no tiene la longitud correcta (%{count} caracteres exactos)"
+      template: 
+        body: "Se encontraron problemas con los siguientes campos:"
+        header: 
+          one: "No se pudo guardar este/a %{model} porque se encontró 1 error"
+          other: "No se pudo guardar este/a %{model} porque se encontraron %{count} errores"
+  activerecord: 
+    errors: 
+      format: "%{attribute} %{message}"
+      messages: 
+        accepted: "debe ser aceptado"
+        blank: "no puede estar en blanco"
+        confirmation: "no coincide con la confirmación"
+        empty: "no puede estar vacío"
+        equal_to: "debe ser igual a %{count}"
+        even: "debe ser par"
+        exclusion: "está reservado"
+        greater_than: "debe ser mayor que %{count}"
+        greater_than_or_equal_to: "debe ser mayor que o igual a %{count}"
+        inclusion: "no está incluido en la lista"
+        invalid: "no es válido"
+        less_than: "debe ser menor que %{count}"
+        less_than_or_equal_to: "debe ser menor que o igual a %{count}"
+        not_a_number: "no es un número"
+        not_an_integer: "debe ser un entero"
+        odd: "debe ser impar"
+        record_invalid: "La validación falló: %{errors}"
+        taken: "ya está en uso"
+        too_long: "es demasiado largo (%{count} caracteres máximo)"
+        too_short: "es demasiado corto (%{count} caracteres mínimo)"
+        wrong_length: "no tiene la longitud correcta (%{count} caracteres exactos)"
+      template: 
+        body: "Se encontraron problemas con los siguientes campos:"
+        header: 
+          one: "No se pudo guardar este/a %{model} porque se encontró 1 error"
+          other: "No se pudo guardar este/a %{model} porque se encontraron %{count} errores"
+  close: cerrar
+  create: crear
+  date: 
+    abbr_day_names: 
+      - dom
+      - lun
+      - mar
+      - mié
+      - jue
+      - vie
+      - sáb
+    abbr_month_names: 
+      - ~
+      - ene
+      - feb
+      - mar
+      - abr
+      - may
+      - jun
+      - jul
+      - ago
+      - sep
+      - oct
+      - nov
+      - dic
+    day_names: 
+      - domingo
+      - lunes
+      - martes
+      - miércoles
+      - jueves
+      - viernes
+      - sábado
+    formats: 
+      default: "%d/%m/%Y"
+      long: "%d de %B de %Y"
+      short: "%d de %b"
+    month_names: 
+      - ~
+      - enero
+      - febrero
+      - marzo
+      - abril
+      - mayo
+      - junio
+      - julio
+      - agosto
+      - septiembre
+      - octubre
+      - noviembre
+      - diciembre
+    order: 
+      - !ruby/symbol day
+      - !ruby/symbol month
+      - !ruby/symbol year
+  datetime: 
+    distance_in_words: 
+      about_x_hours: 
+        one: "alrededor de 1 hora"
+        other: "alrededor de %{count} horas"
+      about_x_months: 
+        one: "alrededor de 1 mes"
+        other: "alrededor de %{count} meses"
+      about_x_years: 
+        one: "alrededor de 1 año"
+        other: "alrededor de %{count} años"
+      almost_x_years: 
+        one: "casi 1 año"
+        other: "casi %{count} años"
+      half_a_minute: "medio minuto"
+      less_than_x_minutes: 
+        one: "menos de 1 minuto"
+        other: "menos de %{count} minutos"
+      less_than_x_seconds: 
+        one: "menos de 1 segundo"
+        other: "menos de %{count} segundos"
+      over_x_years: 
+        one: "más de 1 año"
+        other: "más de %{count} años"
+      x_days: 
+        one: "1 día"
+        other: "%{count} días"
+      x_minutes: 
+        one: "1 minuto"
+        other: "%{count} minutos"
+      x_months: 
+        one: "1 mes"
+        other: "%{count} meses"
+      x_seconds: 
+        one: "1 segundo"
+        other: "%{count} segundos"
+    prompts: 
+      day: Día
+      hour: Hora
+      minute: Minutos
+      month: Mes
+      second: Segundos
+      year: Año
+  devise: 
+    confirmations: 
+      confirmed: "Tu cuenta fue confirmada. Has iniciado sesión."
+      send_instructions: "Recibirás instrucciones para confirmar tu cuenta en tu email en unos minutos."
+      send_paranoid_instructions: "Si tu email existe en el sistema, recibirás instrucciones para confirmar tu cuenta en tu email en unos minutos."
+    failure: 
+      already_authenticated: "Ya iniciaste sesión."
+      inactive: "Tu cuenta aun no ha sido activada."
+      invalid: "Email o contraseña inválidos."
+      invalid_token: "Token de autentificación inválido."
+      locked: "Tu cuente está bloqueada."
+      timeout: "Tu sesión ha expirado. Inicia sesión nuevamente."
+      unauthenticated: "Tienes que registrarte o iniciar sesión antes de continuar."
+      unconfirmed: "Tienes que confirmar tu cuenta antes de continuar."
+    mailer: 
+      confirmation_instructions: 
+        subject: "Instrucciones de confirmación"
+      reset_password_instructions: 
+        subject: "Instrucciones de cambio de contraseña"
+      unlock_instructions: 
+        subject: "Instrucciones de desbloqueo"
+    omniauth_callbacks: 
+      failure: "No pudimos autentificar tu cuenta de %{kind} por la siguiente razón: %{reason}."
+      success: "Te autentificaste correctamente con tu cuenta de %{kind}."
+    passwords: 
+      send_instructions: "Recibirás un email con instrucciones para reiniciar tu contraseña en unos minutos."
+      send_paranoid_instructions: "Si tu email existe en el sistema, recibirás instrucciones para recuperar tu contraseña en él"
+      updated: "Tu contraseña fue cambiada correctamente. Has iniciado sesión."
+      updated_not_active: "Tu contraseña fue cambiada correctamente."
+    registrations: 
+      destroyed: "Adiós, tu cuenta ha sido eliminada. Esperamos verte de vuelta pronto!"
+      signed_up: "Bienvenido! Te has registrado correctamente."
+      signed_up_but_inactive: "Te has registrado correctamente, pero tu cuenta aun no ha sido activada."
+      signed_up_but_locked: "Te has registrado correctamente, pero tu cuenta está bloqueada."
+      signed_up_but_unconfirmed: "Te hemos enviado un email con instrucciones para que confirmes tu cuenta."
+      update_needs_confirmation: "Actualizaste tu cuenta correctamente, pero tenemos que revalidar tu email. Revisa tu correo para confirmar la dirección."
+      updated: "Actualizaste tu cuenta correctamente."
+    sessions: 
+      signed_in: "Iniciaste sesión correctamente."
+      signed_out: "Cerraste sesión correctamente."
+    unlocks: 
+      send_instructions: "Recibirás un email con instrucciones para desbloquear tu cuenta en unos minutos"
+      send_paranoid_instructions: "Si tu cuenta existe, recibirás instrucciones para desbloquear tu cuenta en unos minutos"
+      unlocked: "Tu cuenta ha sido desbloqueada. Inicia sesión para continuar."
+  errors: 
+    format: "%{attribute} %{message}"
+    messages: 
+      accepted: "debe ser aceptado"
+      already_confirmed: "ya fue confirmada. Intenta ingresar."
+      blank: "no puede estar en blanco"
+      confirmation: "no coincide con la confirmación"
+      empty: "no puede estar vacío"
+      equal_to: "debe ser igual a %{count}"
+      even: "debe ser par"
+      exclusion: "está reservado"
+      expired: "ha expirado, por favor pide una nueva"
+      greater_than: "debe ser mayor que %{count}"
+      greater_than_or_equal_to: "debe ser mayor que o igual a %{count}"
+      inclusion: "no está incluido en la lista"
+      invalid: "no es válido"
+      less_than: "debe ser menor que %{count}"
+      less_than_or_equal_to: "debe ser menor que o igual a %{count}"
+      not_a_number: "no es un número"
+      not_an_integer: "debe ser un entero"
+      not_found: "no encontrado"
+      not_locked: "no ha sido bloqueada"
+      not_saved: 
+        one: "Ha habido 1 error:"
+        other: "Han habido %{count} errores:"
+      odd: "debe ser impar"
+      record_invalid: "La validación falló: %{errors}"
+      taken: "ya está en uso"
+      too_long: "es demasiado largo (%{count} caracteres máximo)"
+      too_short: "es demasiado corto (%{count} caracteres mínimo)"
+      wrong_length: "no tiene la longitud correcta (%{count} caracteres exactos)"
+    template: 
+      body: "Se encontraron problemas con los siguientes campos:"
+      header: 
+        one: "No se pudo guardar este/a %{model} porque se encontró 1 error"
+        other: "No se pudo guardar este/a %{model} porque se encontraron %{count} errores"
+  events: 
+    edit: 
+      headline: "Editar sesion"
+    form: 
+      formula_support: "Soporte para formulas"
+  helpers: 
+    select: 
+      prompt: "Por favor seleccione"
+    submit: 
+      create: "Crear %{model}"
+      submit: "Guardar %{model}"
+      update: "Actualizar %{model}"
+  mongoid: 
+    errors: 
+      format: "%{attribute} %{message}"
+      messages: 
+        accepted: "debe ser aceptado"
+        blank: "no puede estar en blanco"
+        confirmation: "no coincide con la confirmación"
+        empty: "no puede estar vacío"
+        equal_to: "debe ser igual a %{count}"
+        even: "debe ser par"
+        exclusion: "está reservado"
+        greater_than: "debe ser mayor que %{count}"
+        greater_than_or_equal_to: "debe ser mayor que o igual a %{count}"
+        inclusion: "no está incluido en la lista"
+        invalid: "no es válido"
+        less_than: "debe ser menor que %{count}"
+        less_than_or_equal_to: "debe ser menor que o igual a %{count}"
+        not_a_number: "no es un número"
+        not_an_integer: "debe ser un entero"
+        odd: "debe ser impar"
+        record_invalid: "La validación falló: %{errors}"
+        taken: "ya está en uso"
+        too_long: "es demasiado largo (%{count} caracteres máximo)"
+        too_short: "es demasiado corto (%{count} caracteres mínimo)"
+        wrong_length: "no tiene la longitud correcta (%{count} caracteres exactos)"
+      template: 
+        body: "Se encontraron problemas con los siguientes campos:"
+        header: 
+          one: "No se pudo guardar este/a %{model} porque se encontró 1 error"
+          other: "No se pudo guardar este/a %{model} porque se encontraron %{count} errores"
+  navigation: 
+    take_tour: "Comience la visita"
+  number: 
+    currency: 
+      format: 
+        delimiter: "."
+        format: "%n %u"
+        precision: 2
+        separator: ","
+        significant: false
+        strip_insignificant_zeros: false
+        unit: €
+    format: 
+      delimiter: "."
+      precision: 3
+      separator: ","
+      significant: false
+      strip_insignificant_zeros: false
+    human: 
+      decimal_units: 
+        format: "%n %u"
+        units: 
+          billion: "mil millones"
+          million: millón
+          quadrillion: "mil billones"
+          thousand: mil
+          trillion: billón
+          unit: ""
+      format: 
+        delimiter: ""
+        precision: 1
+        significant: true
+        strip_insignificant_zeros: true
+      storage_units: 
+        format: "%n %u"
+        units: 
+          byte: 
+            one: Byte
+            other: Bytes
+          gb: GB
+          kb: KB
+          mb: MB
+          tb: TB
+    percentage: 
+      format: 
+        delimiter: ""
+    precision: 
+      format: 
+        delimiter: ""
+  support: 
+    array: 
+      last_word_connector: ", y "
+      two_words_connector: " y "
+      words_connector: ", "
+  surveys: 
+    show: 
+      from: ""
+      is_multi: ""
+      name: ""
+      options: ""
+      repeat1: ""
+      running: ""
+      running_notice: ""
+      session_no: ""
+      start1: ""
+      stop1: ""
+      survey: ""
+      time_left: ""
+      votes_participants: ""
+  there_were_errors_saving: ""
+  time: 
+    am: am
+    formats: 
+      default: "%A, %d de %B de %Y %H:%M:%S %z"
+      long: "%d de %B de %Y %H:%M"
+      short: "%d de %b %H:%M"
+    pm: pm
+  tours: 
+    events: 
+      new: 
+        about_events: ""
+        title: ""
+      show: 
+        edit_event: ""
+        empty_survey_list: ""
+        notice_testing: ""
+        question: ""
+        quickstart: ""
+        survey_list: ""
+        token: ""
+    exit_tour: ""
+    home: 
+      index: 
+        access_code: ""
+        events: ""
+        home: ""
+        info: ""
+        questions: ""
+        quickstart: ""
+        settings: ""
+        tour_intro: ""
+    questions: 
+      index: 
+        create_session: ""
+        question_edit: ""
+        question_show: ""
+        question_sidebar1: ""
+        question_sidebar_public: ""
+      index_empty: 
+        new_question: ""
+      new: 
+        finish: ""
+        options_correct: ""
+        options_first: "Las opciones de respuesta aparecen debajo del titulo de la pregunta. Escriba la primera opcion de respuesta aqui, por ejemplo: 17."
+        options_more: ""
+        public: ""
+        tags: ""
+        title: ""
+        title_formula: ""
+        types: ""
+    tour_outro: ""
+  type: ""
+  back: ""
+  upb: "Universidad de Paderborn"
+  wait: "Por favor espere"

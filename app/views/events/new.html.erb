@@ -1,0 +1,10 @@
+<h1><%= t ".headline" %></h1>
+
+<%= render 'form' %>
+
+<%= link_to t("back"), events_path %>
+
+<% if params[:tour] == "true" %>
+ <%= render "tours/enable_tour" %>
+ <%= render "tours/events/new" %>
+<% end %>

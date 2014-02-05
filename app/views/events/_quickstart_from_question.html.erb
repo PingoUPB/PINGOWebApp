@@ -1,0 +1,7 @@
+<p>
+    <label for="duration"><%= t "quick_start.how_long_short" %></label>
+     <%= select_tag "duration", options_for_select(duration_choices, quick_start_settings["duration"]), tabindex: 5, class: "span2", style: "height: auto; font-size: 10pt;", id: "questions_duration" %>
+</p>
+<div style="max-height: 300px; overflow-x: hidden; overflow-y: scroll;">
+<%= render "events/questions_table" %>
+</div>

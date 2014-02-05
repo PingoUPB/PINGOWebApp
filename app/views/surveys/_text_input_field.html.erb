@@ -1,0 +1,37 @@
+<% if defined?(survey) && survey.respond_to?(:max_answers) %>
+    <% survey.max_answers.times do |i| %>
+        <% is_first = (i==0) %>
+        <div style="display:block;" class="text-input-field-container input-append" data-count="<%= i.to_s %>">
+            <%= text_field_tag "option[]", "", required: is_first, class: "span3 text-input-field", style: "margin-left: 0 !important;" %>
+            <% if survey.multi? %>
+                <% unless is_first %>
+                    <button type="button" class="btn hide text-input-remove-button" data-count="<%= i.to_s %>"><%= icon_tag :minus %></button>
+                <% end %>
+            <% end %>
+            <br>
+        </div>
+    <% end %>
+    <% if survey.multi? %>
+        <button type="button" class="btn hide text-input-add-button"><%= icon_tag :plus%> <%= t ".add_a_field" %></button>
+        <small id="add_field_notice" style="margin-left: 10px;">(<%= t ".add_field_notice" %>)</small>
+        <br>&nbsp;
+        <% content_for :javascript do %>
+            <script>
+                 $(".text-input-add-button").show().click(function(e){
+                     $(".text-input-field-container:hidden").first().show();
+                     if($(".text-input-field-container:hidden").length == 0){
+                         $(".text-input-add-button").hide();
+                     }
+                 });
+                 $(".text-input-remove-button").show().click(function(e){
+                    $(".text-input-field-container[data-count='" + $(this).data("count") + "']").hide().find("input").val("");
+                 });
+                 $(".text-input-field-container").not("[data-count='0']").hide();
+            </script>
+        <% end %>
+    <% end %>
+<% else %>
+    <label for="option" class="well">
+        <%= text_field_tag "option", "", required: true, class: "span3" %>
+    </label>
+<% end %>

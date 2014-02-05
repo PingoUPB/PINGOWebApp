@@ -1,0 +1,8 @@
+<li>
+	<%= question_option.name %> 
+	<% if question_option.correct %>
+		<%= icon_tag("ok") %>
+	<% else %>
+		<%= icon_tag("remove") %>
+	<% end %>
+</li>

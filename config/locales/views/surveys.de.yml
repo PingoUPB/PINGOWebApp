@@ -1,0 +1,66 @@
+de:
+    surveys:
+        exit_question: Veranstaltungsfeedback
+        ask_exit_q: Bitten Sie die Teilnehmer Ihre Veranstaltung zu bewerten.
+        create_from_catalogue_text: 'Erstellen Sie eine neue Frage im <a href="/questions">Fragenkatalog</a>.'
+        create_from_catalogue: "Neue Frage erstellen"
+        edit:
+            correct_answer: Korrekte Antwort
+            edit_survey: Umfrage bearbeiten
+            add_option: Antwortmöglichkeit hinzufügen
+            options_for_survey: Antwortmöglichkeiten für diese Umfrage
+        changed:
+          header: Vergleich des Antwortverhaltens
+          wait: "Einen Moment bitte, Daten werden berechnet"
+          from: von
+          to: zu
+          switch_view: Ansicht umschalten
+          aggregated_changes: "Richtig/Falsch"
+          normal_changes: "detaillierter Vergleich"
+        participate:
+            over: "Die Zeit zum Abstimmen ist abgelaufen. Sie können nicht mehr abstimmen."
+            time_left: "Zeit zum Abstimmen"
+            choose: "Wählen Sie eine Antwortmöglichkeit aus"
+            vote: "Abstimmen"
+            choose-multi: "Wählen Sie alle richtigen Antwortmöglichkeiten aus"
+            rate_lecture: "Bitte bewerten Sie die heutige Veranstaltung"
+            choose-text: "Bitte geben Sie Ihre Antwort ein"
+            choose-number: "Bitte geben Sie eine Zahl ein"
+        show:
+            survey: Umfrage
+            from: vom
+            name: Name
+            description: Beschreibung
+            session_no: Session Nr.
+            running: Am laufen?
+            is_text: Dies ist eine Freitext-Frage.
+            votes_participants: Teilnehmer
+            is_multi: Dies ist eine Multiple-Choice-Umfrage.
+            running_notice: 'Diese Umfrage <span class="label label-success">läuft</span>. Teilnahme ist über <code>%{url}</code> möglich.'
+            end: Ende der Abstimmzeit
+            time_left: "Zeit übrig"
+            options: Antwortmöglichkeiten
+            stop1: Stoppen
+            start1: Jetzt starten
+            continue1: Fortsetzen
+            repeat1: Wiederholen
+            chart_repeated: "aktuelle"
+            chart_first: "vorherige"
+            switch_view: "Ansicht ändern"
+            tag_cloud: "Tag-Cloud"
+            table: "Tabelle"
+            avg: "Arithmetisches Mittel"
+            stdev: "Standardabweichung"
+            median: "Median"
+            chart: "Diagramm"
+            histogram: "Histogramm"
+            repeated: "Diese Umfrage ist eine wiederholte Umfrage."
+        text_table_results:
+            term: "Antwort"
+            occurrences: "Häufigkeit"
+        text_input_field:
+            add_a_field: "Antwort hinzufügen"
+            add_field_notice: "Bei dieser Umfrage können Sie beliebig viele Antworten eingeben."
+        number_input_field:
+            notice: "Zahl bitte ohne 1.000er-Trennzeichen eingeben, z. B. 42,7"
+

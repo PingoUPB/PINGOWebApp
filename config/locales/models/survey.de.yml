@@ -1,0 +1,7 @@
+de:
+  mongoid:
+    models:
+      survey: Umfrage
+    attributes:
+      survey:
+        options: "Antwortoption(en)"

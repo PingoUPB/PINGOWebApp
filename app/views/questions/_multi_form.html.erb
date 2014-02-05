@@ -1,0 +1,55 @@
+<%= semantic_form_for question, namespace: "multi", html: { class: "form-inline", id: "new_multiple_choice_question" }  do |form| %>
+<%= error_msg_for question %>
+<div class="well">
+  <div>
+    <%= form.input :name, input_html: {class: "input-xxlarge"} %>
+  </div>
+    <%= form.hidden_field :type, value: "multi" %>
+    <%= hidden_field_tag :redirect_to_session, params[:redirect_to_session] %>
+  <div>
+    <%= form.input :tags, input_html: { class:  "input-xxlarge" , placeholder: "Tags" }, required: false %>
+    <% if current_user.question_tags && !current_user.question_tags.blank? %>
+    <%= select_tag "tags", options_for_select([[t("questions.add_from_your_tags"), '']] + current_user.question_tags.sort.map{ |t| [t, t]}), id: "multi_select_tag" %>
+    <br>&nbsp;
+    <% end %>
+  </div>
+  <div>
+    <label for="public" class="checkbox inline"><%= form.check_box :public, :class => "checkbox inline" %><%= t("public") %></label>
+  </div>
+</div>
+
+<h3><%= t("surveys.edit.options_for_survey") %></h3>
+<div id="options" class="row-fluid">
+  <div class="span7">
+    <%= form.semantic_fields_for :question_options, class: "form-inline" do |option| %>
+    <%= render "multi_question_option_fields", f: option %>
+    <% end %>
+    <div class="links">
+      <%= link_to_add_association icon_tag("plus")+t("surveys.edit.add_option"), form, :question_options, partial:"multi_question_option_fields" %>
+    </div>
+    <br>
+  </div>
+  <div class="offset5"></div>
+</div>
+<%= form.submit class: "btn btn-primary", id: "single_question_submit" %><span style="margin-left:20px;">
+<% if params[:redirect_to_session] %>  
+  <label for"also_start_question" class="checkbox"><%= check_box_tag "also_start_question", "true", true %> <%= t "questions.start_in_session" %>
+</label><br>
+</span> 
+<% end %><small>(<%= link_to t("questions.how_will_it_look")+"?", "#screenshotModal", data: {toggle: "modal"} %> | <%= link_to t("questions.chart_notice"), "#chartNoticeModal", data: {toggle: "modal"} %>)</small></span>
+<% end %>
+<% content_for :javascript do %>
+  <script>
+    $(document).ready(function() {
+      $("#multi_question_tags").tagsManager({ // http://welldonethings.com/tags/manager
+        prefilled: "<%= question.tags %>",
+        hiddenTagListName: "multi_question[tags]",
+		preventSubmitOnEnter: true
+      });
+	  $("#multi_select_tag").change(function(){
+		$("#multi_question_tags").tagsManager("pushTag", $("#multi_select_tag").val());
+		$("#multi_select_tag option:first").attr('selected',true);
+	  });
+    });
+  </script>
+<% end %>

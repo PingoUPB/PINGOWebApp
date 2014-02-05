@@ -1,0 +1,33 @@
+pre {
+  background-color: #eee;
+  padding: 10px;
+  font-size: 11px; }
+
+div {
+  &.field, &.actions {
+    margin-bottom: 10px; } 
+}
+.field_with_errors > label,
+.field_with_errors .help-block,
+.field_with_errors .help-inline,
+.control-group.error > label,
+.control-group.error .help-block,
+.control-group.error .help-inline,
+.control-group .field_with_errors > label,
+.control-group .field_with_errors .help-block,
+.control-group .field_with_errors .help-inline {
+  color: #b94a48;
+}
+.field_with_errors > input,
+.field_with_errors > textarea {
+	border-color: #b94a48;
+}
+
+#error_explanation {
+  width: 450px;
+  border: 2px solid #b94a48;
+  padding: 7px;
+  padding-bottom: 0;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+}

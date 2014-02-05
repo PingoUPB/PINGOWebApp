@@ -1,0 +1,46 @@
+<% unless params[:no_body] == "true" %>
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal">&times;</a>
+		<h3><%= t ".header" %></h3>
+	</div>
+
+<div id="changed_modal_body" class="modal-body"> 
+<% end %>
+
+	<table class="table table-bordered table-hover table-condensed">
+		<thead>
+			<th><%= icon_tag("arrow-down") %><em><%= t ".from" %></em> <span style="float:right;"><em><%= t ".to" %></em> <%= icon_tag("arrow-right") %></span></th>
+			<% @cols.each do |col| %>
+				<th><%= col.second %></th>
+			<% end %>
+		</thead>
+		<tbody>
+	<% @rows.each do |row| %>
+	  <tr><th><%= row.second %></th>
+		<% @cols.each do |col| %>
+			<td><%= @matrix[[row.first, col.first]] %></td>
+		<% end %>
+	  </tr>
+	<% end %>
+		</tbody>
+	</table>
+
+<% unless params[:no_body] == "true" %>
+	</div>
+
+
+	<div class="modal-footer" <%= "style=\"height: 80px;\"".html_safe if @survey.correct_answers %>>
+		<% if @survey.correct_answers %>
+			<div class="btn-group" style="float:left;">
+		        <button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><%= t(".switch_view") %> <span class="caret"></span></button>
+		          <ul class="dropdown-menu">
+		            <li><%= link_to t(".normal_changes"), changed_event_survey_path(@survey.event, @survey, no_body: "true"), remote: true, class: "compare_modal_link" %></li>
+		            <li><%= link_to t(".aggregated_changes"), changed_aggregated_event_survey_path(@survey.event, @survey, no_body: "true"), remote: true, class: "compare_modal_link" %></li>
+		        </ul>
+		    </div>
+		<% end %>
+		<a class="btn btn-primary" data-dismiss="modal"><%= t("close") %></a>
+	</div>
+
+<% end %>
+

@@ -1,0 +1,23 @@
+en:
+  user_mailer:
+    welcome:
+      subject: "Welcome to PINGO"
+      header: "welcome to PINGO!"
+      intro_and_tour: "You successfully signed up and are ready to use PINGO. We recommend to spend a few minutes taking our interactive tour, which will introduce you to the most important PINGO features"
+      start_tour_button: "Start tour"
+      more_info_text: "PINGO is an acronym for 'Peer Instruction for very large groups'  is the web-based classroom response system that has been developed at the University of Paderborn. You can find out more about our project online. We also blog about PINGO (currently in German, though)."
+      more_info_button: "Find out more about PINGO"
+      videos: "To explain the Peer Instruction concept in general as well as the idealtype Peer Discussion, we have developed some video tutorials"
+      contact_text: "Please do not hesitate to contact us, if you got further questions concerning PINGO"
+  invite_mailer:
+    invite_email:
+       subject: "Invitation to PINGO"
+       intro_text: '<a href="http://pingo.upb.de/?utm_source=invitation&utm_medium=email&utm_campaign=user+invitation">PINGO</a> PINGO is a web-based classroom response system that has been developed at the University of Paderborn. The acronym PINGO stands for “<strong>P</strong>eer <strong>In</strong>struction for very large <strong>g</strong>r<strong>o</strong>ups”. PINGO is designed to encourage active student participation – especially in large lectures.'
+       subheader: "You've been invited by %{name} to join PINGO."
+       sign_up_now: 'Sign up now!'
+       wwbm_text: 'Comparable to the ask-the-audience life-line in “Who Wants to Be a Millionaire?”, students can actively participate in the lecture by answering questions posed by the instructor using their Internet-enabled devices (smartphones, tablets, laptops etc.).'
+       features: 'PINGO is offered as a hosted service <i style="background-color: #B2DFEE;">free of charge</i> to universities worldwide.'
+       more_info: More information about PINGO
+       footer: "You've been invited by %{name}. You have not been subscribed to a newsletter nor will your mail address be saved."
+
+

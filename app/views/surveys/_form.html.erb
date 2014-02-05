@@ -1,0 +1,32 @@
+<%= semantic_form_for @survey.to_model, url: event_survey_path do |form| %>
+<%= error_msg_for @survey %>
+  <div class="well">
+   <%= form.input :name %>
+   <!-- <%= form.input :description, :input_html => { :class => 'autogrow', :rows => 10, :cols => 20  }%> -->
+ </div>
+<% if @survey.has_options? %>
+	<div id="options" class="well">
+	<h3><%= t("surveys.edit.options_for_survey") %></h3>
+	<%= form.semantic_fields_for :options, :class => "form-inline" do |option| %>
+		<%= render "option_fields", :f => option %>
+	<% end %>
+    <div class="links">
+   <%= link_to_add_association icon_tag("plus")+t("surveys.edit.add_option"), form, :options %> 
+  </div>
+	</div>
+<% end %>
+   <%= form.submit t("update"), :class => "btn btn-primary", :style => "padding:5px !important;" %>
+ <% end %>
+<% content_for :javascript do %>
+  <script>
+    
+    $(document).ready(function() {
+        $(".radio_correct_true").live("change",function() {
+          $(".radio_correct_true").prop('checked', false);        
+          $(".radio_correct_false").prop('checked', true);
+          $(this).prop('checked',true);
+
+      });
+    });
+  </script>
+<% end %>

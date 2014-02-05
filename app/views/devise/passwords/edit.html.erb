@@ -1,0 +1,16 @@
+<h2><%= t "change_password" %></h2>
+
+<%= form_for(resource, :as => resource_name, :url => password_url(resource_name, protocol: ((Rails.env.production?||Rails.env.staging?) ? "https" : "http")), :html => { :method => :put }) do |f| %>
+  <%= devise_error_messages! %>
+  <%= f.hidden_field :reset_password_token %>
+
+  <div><%= f.label :password, t("new_password") %>
+  <%= f.password_field :password %></div>
+
+  <div><%= f.label :password_confirmation, t("password_confirmation") %>
+  <%= f.password_field :password_confirmation %></div>
+
+  <div><%= f.submit t("change_password"), class: "btn btn-primary" %></div>
+<% end %>
+
+<%= render :partial => "devise/shared/links" %>

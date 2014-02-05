@@ -1,0 +1,123 @@
+en:
+    "yes": "Yes"
+    "no": "No"
+    "with": "with"
+    true: "True"
+    false: "False"
+    agree: "I agree"
+    disagree: "I disagree"
+    min: "min."
+    sec: "sec."
+    now: "now"
+    indefinite: "not limited"
+    w_out_countdown: "w/out countdown"
+    duration: "Duration"
+    wait: "Please wait..."
+    imprint: "Imprint"
+    upb: "University of Paderborn"
+    privacy_policy: "Privacy policy (German)"
+    back: "back"
+    show: "show"
+    edit: "edit"
+    delete: "delete"
+    create: "create"
+    start: "Start"
+    there_were_errors_saving: "Errors occured during saving"
+    name: "Name"
+    description: "Description"
+    forgot_password: "Forgot your password?"
+    remember_me: "Remember me"
+    close: "close"
+    email: "e-mail"
+    password: "Password"
+    new_password: "New password"
+    change_password: "Change password"
+    password_confirmation: "Password confirmation"
+    update: "Update"
+    results: "results"
+    optional: "optional"
+    positive: "positive"
+    neutral: "neutral"
+    negative: "negative"
+    public: "Public"
+    type_as_word: "Type"
+    fullscreen: "Full screen"
+    one_answer: a single one
+    up_to_three_answers: up to three
+    multiple_answers: any number
+    comment: comment
+    comments: comments
+    survey: Survey
+
+    matrix_keys:
+      no_participation: no part.
+      no_answer: no answer
+      right: right
+      wrong: wrong
+
+    navigation:
+        login: "Login"
+        logout: "Logout"
+        sign_up: "Sign up"
+        edit_account: "Settings"
+        quick_start: "Quick start"
+        new_survey: "New session"
+        your_events: "Sessions"
+        your_questions: "Questions"
+        getting_started: "Getting started"
+        about: "Info"
+        project_website: "Project Website"
+        intro_video: "Intro video"
+        take_tour: "Take the tour"
+        invite: "Recommend PINGO"
+
+    type:
+      number: "Numeric"
+      text: "Text"
+      choice: "Choice Question"
+      single: "Single Choice"
+      multi: "Multiple Choice"
+      truefalse: "True/False Question"
+      yesno: "Yes/No Question"
+      agree: "Agree/Disagree Question"
+    quick_survey: "Quick survey"
+
+    quick_start:
+        how_many_options_short: How many options?
+        how_long_short: How long?
+        remember_settings: remember
+
+    messages:
+        voting_ok: "Thanks for voting! Everything worked fine."
+        voted_for: "You have voted for: %{option}"
+        survey_successfully_created: "Survey successfully created."
+        survey_successfully_updated: "Survey successfully updated."
+        survey_started: "Survey started."
+        survey_stopped: "Survey stopped."
+        survey_stop_scheduled: "Survey scheduled to stop."
+        survey_not_found: "We could not find that survey, sorry... Please enter the number again"
+        save_ok: "Succesfully saved!"
+        save_not_ok: "The data you entered could not be saved. Please review your input and try again."
+        not_running: "<small>This survey is not running. </small><br/><strong>PLEASE WAIT FOR THE START</strong>"
+        misc_error: "Sorry, something went wrong. Can you try again and report?"
+        no_option_error: "Something went wrong: maybe you forgot to select an option? Try again!"
+        already_voted: "Sorry, you cannot vote on this survey anymore."
+        session_successfully_created: "Session was successfully created."
+        session_successfully_updated: "Session was successfully updated."
+        session_survey_successfully_created: "Session/Event and Survey successfully created."
+        no_access_to_session: "You do not have access to this session."
+        question_successfully_created: "Question successfully created."
+        question_successfully_updated: "Question successfully updated."
+        question_successfully_added: "Question successfully added"
+        no_access_to_question: "You do not have access to this question."
+        token_reset_success: "You've been signed off from all third-party apps that were connected to your PINGO account."
+        select_questions_for_export: "Please select questions for export"
+    mongoid:
+        errors:
+            models:
+                user:
+                    attributes:
+                        email:
+                            taken: is already taken
+
+

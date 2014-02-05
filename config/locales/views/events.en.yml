@@ -1,0 +1,37 @@
+en:
+    events:
+        show:
+            add_survey: Add new survey to this session
+            description: Description
+            surveys: Surveys
+            from_when: from when?
+            votes: answered
+            survey_table_footer: Click on a survey to view the results and perform actions.
+            started_ago: "started %{time} ago"
+            created_ago: "created %{time} ago"
+            delete_survey: Delete survey
+            delete_sure: Do you really want to delete the survey you clicked on?
+            no_surveys: You have not created any surveys in this session yet.
+            view_survey: View survey
+            connected: currently connected
+            compare_votings: compare voting behaviour
+            show_questions: Start question from list
+        questions_table:
+            all_tags: All Tags
+        index:
+            delete_sure: Do you really want to delete the session you clicked on?
+            your_events: Your sessions
+            description: Description
+            name: Name
+            new_event: Create new session
+        new:
+            headline: Create new session
+        edit:
+            headline: Edit session
+        help:
+            description_help: The description is shown at the bottom of the participant's view.
+            formula_support: "After activation you can use TeX formulas in questions and answer options by enclosing them with dollar symbols (e.g. $\\sqrt{e^x}$)."
+        form:
+          formula_support: Formula support
+        
+    

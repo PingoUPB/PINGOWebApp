@@ -1,0 +1,26 @@
+<%= t '.subheader', name: @user.name %>
+
+<%= strip_tags(t('.intro_text').html_safe) %>
+
+<%= t '.sign_up_now' %>:
+https://pingo.upb.de/users/sign_up
+
+
+<% if I18n.locale == :de %>
+Das Handbuch mit ausführlicheren Anweisungen finden Sie unter:
+http://pingo.upb.de/tutorial/tutorial.html
+<% end %>
+
+<%= strip_tags(t('.wwbm_text').html_safe) %>
+
+<%= strip_tags(t('.features').html_safe) %>
+
+<%= t('.more_info') %>:
+http://www.upb.de/pingo
+
+<%= t('user_mailer.welcome.videos') %>
+http://www.youtube.com/watch?v=KK22QMb0MFA
+
+<%= t "user_mailer.welcome.contact_text" %>: pingo-support@upb.de
+
+<%= t '.footer', name: @user.name %>

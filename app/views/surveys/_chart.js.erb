@@ -1,0 +1,146 @@
+var data = {
+	labels : <%= raw survey.options.map {|option| truncate(option.name.gsub(/\$\$.+\$\$/, "").gsub(/\$.+\$/, ""), length: 24, separator: ' ')}.to_json %>,
+	datasets : [
+	<% if survey.original_survey %>
+		{
+			fillColor : "rgba(198, 217, 253, .8)",
+			strokeColor : "rgba(198, 217, 253, 1)",
+			data : <%= survey.original_survey.options.map {|option| (survey.original_survey.total_votes > 0 ? option.votes.to_f / survey.original_survey.total_votes * 100 : 0) }.to_json %>,
+			highlight: {
+				<% 
+				highlight_str = "";
+				survey.original_survey.options.each_with_index do |option, index|
+					if option.correct
+							highlight_str += "#{index}: {
+								fillColor : \"rgba(108,220,116,0.5)\",
+								strokeColor : \"rgba(108,220,116,0.7)\"
+							},\n"		
+					end			
+				end 
+				%>
+				<%= highlight_str[0..-3].html_safe %>
+			}
+		},
+	<% end %>
+		{
+			fillColor : "rgba(37, 60, 110, .8)",
+			strokeColor : "rgba(37, 60, 110, 1)",
+			data : <%= survey.options.map {|option| (survey.total_votes > 0 && !survey.running? ? option.votes.to_f / survey.total_votes * 100 : 0) }.to_json %>,
+			highlight: {
+				<% 
+					highlight_str = "";
+					survey.options.each_with_index do |option, index|
+					  if option.correct
+							highlight_str += "#{index}: {
+								fillColor : \"rgba(108,220,116,0.8)\",
+								strokeColor : \"rgba(108,220,116,1)\"
+							},\n"		
+					  end			
+					end 
+				%>
+				<%= highlight_str[0..-3].html_safe %>
+			}
+		}
+	]
+};
+
+var opts = {
+				
+	//Boolean - If we show the scale above the chart data			
+	scaleOverlay : false,
+	
+	//Boolean - If we want to override with a hard coded scale
+	scaleOverride : true,
+	
+	//** Required if scaleOverride is true **
+	//Number - The number of steps in a hard coded scale
+	scaleSteps : 10,
+	//Number - The value jump in the hard coded scale
+	scaleStepWidth : 10,
+	//Number - The scale starting value
+	scaleStartValue : 0,
+
+	//String - Colour of the scale line	
+	scaleLineColor : "rgba(0,0,0,.1)",
+	
+	//Number - Pixel width of the scale line	
+	scaleLineWidth : 1,
+
+	//Boolean - Whether to show labels on the scale	
+	scaleShowLabels : true,
+	
+	//String - Scale label font declaration for the scale label
+	scaleFontFamily : "'Helvetica Neue', Helvetica, Arial",
+	
+	//Number - Scale label font size in pixels	
+	scaleFontSize : 12,
+	
+	//String - Scale label font weight style	
+	scaleFontStyle : "normal",
+	
+	//String - Scale label font colour	
+	scaleFontColor : "#666",	
+	
+	///Boolean - Whether grid lines are shown across the chart
+	scaleShowGridLines : true,
+	
+	//String - Colour of the grid lines
+	scaleGridLineColor : "rgba(0,0,0,.05)",
+	
+	//Number - Width of the grid lines
+	scaleGridLineWidth : 1,	
+
+	//Boolean - If there is a stroke on each bar	
+	barShowStroke : true,
+	
+	//Number - Pixel width of the bar stroke	
+	barStrokeWidth : 1,
+	
+	//Number - Spacing between each of the X value sets
+	barValueSpacing : 12,
+	
+	//Number - Spacing between data sets within X values
+	barDatasetSpacing : 4,
+	
+	//Boolean - Whether to animate the chart
+	animation : false,
+
+	//Number - Number of animation steps
+	animationSteps : 60,
+	
+	//String - Animation easing effect
+	animationEasing : "easeOutQuart",
+
+	//Function - Fires when the animation is complete
+	onAnimationComplete : null,
+
+	// show correct answers
+	showHighlights: false
+	
+};
+
+
+var setChartSize = function(){
+  $('<%= selector %>').prop({
+  	"width": $('<%= selector %>').parent("div").width(),
+  	"height": 300
+  });
+};
+var drawChart = function(){
+  setChartSize();
+  var ctx = $('<%= selector %>').get(0).getContext("2d");
+  new Chart(ctx).Bar(data,opts);
+};
+
+drawChart();
+
+$(window).resize(drawChart);
+$(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange', drawChart);
+
+$("#show-highlights").click(function() {
+
+	$(".chart-container").toggleClass("hide-button");
+
+	opts.showHighlights = !opts.showHighlights;
+	drawChart();
+});

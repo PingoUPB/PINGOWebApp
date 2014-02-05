@@ -1,0 +1,36 @@
+<!-- Each tip is set within this <ol>.
+ This creates the order the tips are displayed -->
+
+<ol id="tourStops">
+	
+  <li data-id="Tabs" data-options="tipLocation:top"><p><%= t(".types").html_safe %></p>
+  </li>
+  
+  <li data-id="single_question_name"><p><%= t(".title").html_safe %></p>
+  </li>
+
+  <li data-id="single_question_tags" data-options="tipLocation:top"><p><%= t(".tags").html_safe %></p>
+  </li>
+
+  <li data-id="question_question_options_attributes_0_name" data-options="tipLocation:top"><p><%= t(".options_first") %></p>
+  </li>
+  
+
+  <li data-class="add_fields" data-options="tipLocation:top"><p><%= t(".options_more") %></p>
+  </li>
+
+<li data-id="question_public"><p><%= t(".public") %></p>
+  </li>
+
+<li data-id="question_question_options_attributes_0_correct_true" data-options="tipLocation:top"><p><%= t(".options_correct") %></p>
+  </li>
+
+  <li data-id="single_question_submit" ><p><%= t(".finish") %></p>
+  </li>
+
+<!-- 
+  /* you can put a class for custom styling */
+  /* using 'data-button' lets you have custom button text */
+  <li data-id="parentElementID" class="custom-class" data-button="Second Button" data-options="tipLocation:top;tipAnimation:fade">Content...</li>
+-->
+</ol>

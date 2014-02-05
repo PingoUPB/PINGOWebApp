@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale  %>">
+<head>
+    <title><%= content_for?(:title) ? content_for(:title) + " — " : "" %>PINGO</title>
+  <%= stylesheet_link_tag "application" %>
+  <%= stylesheet_link_tag "lecturer" %>
+<style>
+	#actions {display: none;}
+	body {padding-top: 2px; padding-left: 2px;}
+</style>
+
+<%= javascript_include_tag "application" %>
+
+<body><%= render partial: "show", locals: {survey: @survey} %></body>
+
+<%= javascript_include_tag "lecturer" %>
+
+<!-- view specific javascript: -->
+<%= yield(:javascript) -%>
+
+<% if @survey.starts && @survey.starts <= DateTime.now %>
+
+<script>  
+<%= h render partial: "chart.js", locals: {:survey => @survey, :selector => "#chart"} %>
+</script>
+<% # TODO  chart only if choice question
+%>
+<% end %>
+
+</html>

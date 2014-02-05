@@ -1,0 +1,435 @@
+GIT
+  remote: git://github.com/MichaelWhi/obscenity.git
+  revision: a5256958be284bbe0f8cdcb28b85a40e5a940e13
+  specs:
+    obscenity (1.0.1)
+
+GIT
+  remote: git://github.com/PingoUPB/amnesia.git
+  revision: 16578316d07134d9cc4967084f259b2996537fed
+  specs:
+    amnesia (1.0.2)
+      dalli
+      googlecharts
+      haml (>= 3.0.0)
+      sinatra (>= 1.0)
+
+GIT
+  remote: git://github.com/mattheworiordan/capybara-screenshot.git
+  revision: f5f2f58319978a8eabb5b6f4d6cacd4afcb72ba7
+  specs:
+    capybara-screenshot (0.3)
+      capybara (>= 1.0)
+
+GIT
+  remote: git://github.com/stuart/gift-parser.git
+  revision: f1e219d4126bdb8e3887659103c136739cc54f2c
+  specs:
+    gift-parser (0.2.1)
+      treetop (>= 1.4.5)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    actionmailer (3.2.13)
+      actionpack (= 3.2.13)
+      mail (~> 2.5.3)
+    actionpack (3.2.13)
+      activemodel (= 3.2.13)
+      activesupport (= 3.2.13)
+      builder (~> 3.0.0)
+      erubis (~> 2.7.0)
+      journey (~> 1.0.4)
+      rack (~> 1.4.5)
+      rack-cache (~> 1.2)
+      rack-test (~> 0.6.1)
+      sprockets (~> 2.2.1)
+    activemodel (3.2.13)
+      activesupport (= 3.2.13)
+      builder (~> 3.0.0)
+    activerecord (3.2.13)
+      activemodel (= 3.2.13)
+      activesupport (= 3.2.13)
+      arel (~> 3.0.2)
+      tzinfo (~> 0.3.29)
+    activeresource (3.2.13)
+      activemodel (= 3.2.13)
+      activesupport (= 3.2.13)
+    activesupport (3.2.13)
+      i18n (= 0.6.1)
+      multi_json (~> 1.0)
+    addressable (2.3.4)
+    arel (3.0.2)
+    bcrypt-ruby (3.0.1)
+    better_errors (0.8.0)
+      coderay (>= 1.0.0)
+      erubis (>= 2.6.6)
+    better_logging (1.0.3)
+    binding_of_caller (0.7.1)
+      debug_inspector (>= 0.0.1)
+    bson (1.6.4)
+    bson_ext (1.6.4)
+      bson (~> 1.6.4)
+    builder (3.0.4)
+    capistrano (2.15.4)
+      highline
+      net-scp (>= 1.0.0)
+      net-sftp (>= 2.0.0)
+      net-ssh (>= 2.0.14)
+      net-ssh-gateway (>= 1.1.0)
+    capybara (2.1.0)
+      mime-types (>= 1.16)
+      nokogiri (>= 1.3.3)
+      rack (>= 1.0.0)
+      rack-test (>= 0.5.4)
+      xpath (~> 2.0)
+    cocoon (1.1.1)
+    coderay (1.0.8)
+    coffee-rails (3.2.2)
+      coffee-script (>= 2.2.0)
+      railties (~> 3.2.0)
+    coffee-script (2.2.0)
+      coffee-script-source
+      execjs
+    coffee-script-source (1.4.0)
+    commonjs (0.2.6)
+    cookiejar (0.3.0)
+    css_parser (1.2.6)
+      addressable
+      rdoc
+    cucumber (1.3.2)
+      builder (>= 2.1.2)
+      diff-lcs (>= 1.1.3)
+      gherkin (~> 2.12.0)
+      multi_json (~> 1.3)
+    cucumber-rails (1.3.1)
+      capybara (>= 1.1.2)
+      cucumber (>= 1.2.0)
+      nokogiri (>= 1.5.0)
+      rails (~> 3.0)
+    cucumber-websteps (0.10.0)
+      capybara (>= 1.1.2)
+      cucumber (>= 1.1.1)
+      launchy
+    daemons (1.1.9)
+    dalli (2.6.4)
+    database_cleaner (0.9.1)
+    debug_inspector (0.0.2)
+    devise (2.1.2)
+      bcrypt-ruby (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (~> 3.1)
+      warden (~> 1.2.1)
+    diff-lcs (1.1.3)
+    em-hiredis (0.1.1)
+      hiredis (~> 0.4.0)
+    em-http-request (1.0.2)
+      addressable (>= 2.2.3)
+      cookiejar
+      em-socksify
+      eventmachine (>= 1.0.0.beta.4)
+      http_parser.rb (>= 0.5.3)
+    em-mongo (0.4.3)
+      bson (>= 1.1.3)
+      eventmachine (>= 0.12.10)
+    em-redis (0.3.0)
+      eventmachine
+    em-socksify (0.2.0)
+      eventmachine (>= 1.0.0.beta.4)
+    em-synchrony (1.0.2)
+      eventmachine (>= 1.0.0.beta.1)
+    erubis (2.7.0)
+    eventmachine (1.0.0)
+    execjs (1.4.0)
+      multi_json (~> 1.0)
+    factory_girl (4.1.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.1.0)
+      factory_girl (~> 4.1.0)
+      railties (>= 3.0.0)
+    fancybox-rails (0.1.4)
+      railties (>= 3.1.0)
+    faye-websocket (0.4.7)
+      eventmachine (>= 0.12.0)
+    foreman (0.60.2)
+      thor (>= 0.13.6)
+    formtastic (2.2.1)
+      actionpack (>= 3.0)
+    formtastic-bootstrap (2.0.0)
+      formtastic (~> 2.2)
+      formtastic-bootstrap
+    gherkin (2.12.0)
+      multi_json (~> 1.3)
+    googlecharts (1.6.8)
+    grit (2.5.0)
+      diff-lcs (~> 1.1)
+      mime-types (~> 1.15)
+      posix-spawn (~> 0.3.6)
+    haml (4.0.3)
+      tilt
+    headless (0.3.1)
+    high_voltage (1.2.1)
+    highline (1.6.19)
+    hike (1.2.3)
+    hiredis (0.4.5)
+    histogram (0.2.1)
+    htmlentities (4.3.1)
+    http_parser.rb (0.5.3)
+    i18n (0.6.1)
+    journey (1.0.4)
+    jqcloud-rails (1.0.0)
+      jquery-rails
+    jquery-rails (2.1.3)
+      railties (>= 3.1.0, < 5.0)
+      thor (~> 0.14)
+    json (1.8.0)
+    juggernaut (2.1.1)
+      redis
+    kgio (2.8.0)
+    launchy (2.1.2)
+      addressable (~> 2.3)
+    less (2.3.3)
+      commonjs (~> 0.2.6)
+    less-rails (2.3.3)
+      actionpack (>= 3.1)
+      less (~> 2.3.1)
+    less-rails-bootstrap (2.3.3)
+      less-rails (~> 2.3.1)
+    libv8 (3.11.8.17)
+    lograge (0.2.2)
+      actionpack (>= 3)
+      activesupport (>= 3)
+      railties (>= 3)
+    macaddr (1.6.1)
+      systemu (~> 2.5.0)
+    mail (2.5.3)
+      i18n (>= 0.4.0)
+      mime-types (~> 1.16)
+      treetop (~> 1.4.8)
+    maktoub (0.2.5)
+      nokogiri
+      premailer
+      rails (>= 3.1.1)
+    method_source (0.8.1)
+    mime-types (1.23)
+    mini_portile (0.5.1)
+    mongo (1.6.2)
+      bson (~> 1.6.2)
+    mongoid (2.4.12)
+      activemodel (~> 3.1)
+      mongo (<= 1.6.2)
+      tzinfo (~> 0.3.22)
+    mongoid-rspec (1.4.5)
+      mongoid (>= 2.4.6)
+      rake
+      rspec (>= 2.9)
+    mongoid_taggable (0.1.7)
+    mongoid_token (1.0.0)
+      activesupport (>= 3.0)
+    multi_json (1.7.9)
+    net-scp (1.1.1)
+      net-ssh (>= 2.6.5)
+    net-sftp (2.1.2)
+      net-ssh (>= 2.6.5)
+    net-ssh (2.6.7)
+    net-ssh-gateway (1.2.0)
+      net-ssh (>= 2.6.5)
+    newrelic_rpm (3.5.4.34)
+    nokogiri (1.6.0)
+      mini_portile (~> 0.5.0)
+    orm_adapter (0.4.0)
+    poltergeist (1.3.0)
+      capybara (~> 2.1.0)
+      faye-websocket (>= 0.4.4, < 0.5.0)
+      http_parser.rb (~> 0.5.3)
+    polyglot (0.3.3)
+    posix-spawn (0.3.6)
+    premailer (1.7.3)
+      css_parser (>= 1.1.9)
+      htmlentities (>= 4.0.0)
+    pry (0.9.10)
+      coderay (~> 1.0.5)
+      method_source (~> 0.8)
+      slop (~> 3.3.1)
+    pry-rails (0.2.2)
+      pry (>= 0.9.10)
+    rack (1.4.5)
+    rack-cache (1.2)
+      rack (>= 0.4)
+    rack-contrib (1.1.0)
+      rack (>= 0.9.1)
+    rack-fiber_pool (0.9.2)
+    rack-mini-profiler (0.1.26)
+      rack (>= 1.1.3)
+    rack-protection (1.5.0)
+      rack
+    rack-ssl (1.3.3)
+      rack
+    rack-test (0.6.2)
+      rack (>= 1.0)
+    rails (3.2.13)
+      actionmailer (= 3.2.13)
+      actionpack (= 3.2.13)
+      activerecord (= 3.2.13)
+      activeresource (= 3.2.13)
+      activesupport (= 3.2.13)
+      bundler (~> 1.0)
+      railties (= 3.2.13)
+    railties (3.2.13)
+      actionpack (= 3.2.13)
+      activesupport (= 3.2.13)
+      rack-ssl (~> 1.3.2)
+      rake (>= 0.8.7)
+      rdoc (~> 3.4)
+      thor (>= 0.14.6, < 2.0)
+    rake (10.0.4)
+    rdoc (3.12.2)
+      json (~> 1.4)
+    redis (3.0.2)
+    redis-namespace (1.2.1)
+      redis (~> 3.0.0)
+    ref (1.0.2)
+    resque (1.23.0)
+      multi_json (~> 1.0)
+      redis-namespace (~> 1.0)
+      sinatra (>= 0.9.2)
+      vegas (~> 0.1.2)
+    rpm_contrib (2.1.11)
+      newrelic_rpm (>= 3.1.1)
+      newrelic_rpm (>= 3.1.1)
+    rspec (2.12.0)
+      rspec-core (~> 2.12.0)
+      rspec-expectations (~> 2.12.0)
+      rspec-mocks (~> 2.12.0)
+    rspec-core (2.12.0)
+    rspec-expectations (2.12.0)
+      diff-lcs (~> 1.1.3)
+    rspec-mocks (2.12.0)
+    rspec-rails (2.12.0)
+      actionpack (>= 3.0)
+      activesupport (>= 3.0)
+      railties (>= 3.0)
+      rspec-core (~> 2.12.0)
+      rspec-expectations (~> 2.12.0)
+      rspec-mocks (~> 2.12.0)
+    ruby-standard-deviation (2.0.0)
+    rvm-capistrano (1.3.0)
+      capistrano (>= 2.0.0)
+    seer (0.10.0)
+    simplecov (0.7.1)
+      multi_json (~> 1.0)
+      simplecov-html (~> 0.7.1)
+    simplecov-html (0.7.1)
+    sinatra (1.4.3)
+      rack (~> 1.4)
+      rack-protection (~> 1.4)
+      tilt (~> 1.3, >= 1.3.4)
+    slop (3.3.3)
+    sprockets (2.2.2)
+      hike (~> 1.2)
+      multi_json (~> 1.0)
+      rack (~> 1.0)
+      tilt (~> 1.1, != 1.3.0)
+    strong_parameters (0.1.5)
+      actionpack (~> 3.1)
+      activemodel (~> 3.1)
+      railties (~> 3.1)
+    systemu (2.5.2)
+    therubyracer (0.11.3)
+      libv8 (~> 3.11.8.12)
+      ref
+    thin (1.5.0)
+      daemons (>= 1.0.9)
+      eventmachine (>= 0.12.6)
+      rack (>= 1.0.0)
+    thor (0.18.1)
+    tilt (1.4.1)
+    translate-rails3 (0.2.3)
+      ya2yaml (~> 0.30)
+    treetop (1.4.12)
+      polyglot
+      polyglot (>= 0.3.1)
+    tzinfo (0.3.37)
+    uglifier (1.3.0)
+      execjs (>= 0.3.0)
+      multi_json (~> 1.0, >= 1.0.2)
+    uuid (2.3.6)
+      macaddr (~> 1.0)
+    vegas (0.1.11)
+      rack (>= 1.0.0)
+    warden (1.2.1)
+      rack (>= 1.0)
+    xpath (2.0.0)
+      nokogiri (~> 1.3)
+    ya2yaml (0.31)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  amnesia!
+  better_errors (>= 0.7.2)
+  better_logging
+  binding_of_caller (>= 0.7.1)
+  bson_ext (>= 1.6.4)
+  capistrano
+  capybara (>= 1.0.1)
+  capybara-screenshot!
+  cocoon
+  coffee-rails (~> 3.2.2)
+  cucumber-rails (>= 1.0.2)
+  cucumber-websteps
+  dalli
+  database_cleaner (>= 0.6.7)
+  devise (>= 1.5.3)
+  em-hiredis
+  em-http-request
+  em-mongo
+  em-redis (>= 0.3.0)
+  em-synchrony
+  eventmachine
+  factory_girl_rails (~> 4.0)
+  fancybox-rails
+  foreman
+  formtastic-bootstrap
+  gift-parser!
+  googlecharts
+  grit
+  headless
+  high_voltage
+  histogram
+  jqcloud-rails
+  jquery-rails
+  juggernaut
+  kgio
+  launchy (>= 2.0.5)
+  less-rails-bootstrap (~> 2.3)
+  lograge
+  maktoub
+  mongo (= 1.6.2)
+  mongoid (= 2.4.12)
+  mongoid-rspec (>= 1.4.4)
+  mongoid_taggable
+  mongoid_token (= 1.0.0)
+  newrelic_rpm (~> 3.5.4.33)
+  obscenity!
+  poltergeist
+  pry-rails
+  rack-contrib
+  rack-fiber_pool
+  rack-mini-profiler
+  rails (= 3.2.13)
+  resque
+  rpm_contrib
+  rspec-rails (>= 2.6.1)
+  ruby-standard-deviation
+  rvm-capistrano
+  seer (>= 0.10.0)
+  simplecov
+  strong_parameters (~> 0.1.5)
+  therubyracer (~> 0.11.3)
+  thin
+  translate-rails3
+  uglifier (~> 1.3.0)
+  uuid (>= 2.3.4)
+  ya2yaml

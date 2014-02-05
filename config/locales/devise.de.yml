@@ -1,0 +1,52 @@
+#from https://gist.github.com/520859
+de:
+
+  errors:
+    messages:
+      not_found: "nicht gefunden"
+      already_confirmed: "wurde bereits bestätigt"
+      not_locked: "ist nicht gesperrt"
+      not_saved:
+        one: "1 Fehler ist beim Speichern aufgetreten:"
+        other: "%{count} Fehler sind beim Speichern aufgetreten:"
+
+  devise:
+    failure:
+      already_authenticated: 'Sie sind bereits angemeldet.'
+      unauthenticated: 'Sie müssen sich anmelden oder registrieren, bevor Sie fortfahren können.'
+      unconfirmed: 'Sie müssen Ihren Account bestätigen, bevor Sie fortfahren können.'
+      locked: 'Ihr Account ist gesperrt.'
+      invalid: 'Ungültige Anmeldedaten.'
+      invalid_token: 'Invalid authentication token.'
+      timeout: 'Ihre Sitzung ist abgelaufen, bitte melden Sie sich erneut an.'
+      inactive: 'Ihr Account ist nicht aktiv.'
+    settings:
+      user:
+        signed_up: Sie sind nun registriert und können PINGO direkt nutzen.
+        destroyed: "Ihr Benutzerkonto bei PINGO wurde nun unwiderruflich entfernt. Sie können sich natürlich jederzeit neu registrieren. Bitte teilen Sie uns doch via pingo-support@upb.de Ihre Erfahrungen mit PINGO mit. Danke für die Nutzung!"
+    sessions:
+      signed_in: 'Erfolgreich angemeldet.'
+      signed_out: 'Erfolgreich abgemeldet.'
+    passwords:
+      send_instructions: 'Sie erhalten in wenigen Minuten eine E-Mail mit der Anleitung, wie Sie ihr Passwort zurücksetzten können.' 
+      updated: 'Ihr Passwort wurde geändert. Sie sind angemeldet.'
+    confirmations:
+      send_instructions: 'Sie erhalten in wenigen Minuten eine E-Mail mit der Anleitung, wie Sie ihr Passwort zurücksetzten können.' 
+      updated: 'Ihr Passwort wurde geändert. Sie sind angemeldet.'
+    registrations:
+      signed_up: 'Willkommen! Sie haben sich erfolgreich registriert und können PINGO direkt mit Ihrer E-Mailadresse und Ihrem Passwort nutzen.'
+      updated: 'Die Angaben wurden erfolgreich geändert.'
+      destroyed: 'Ihr Account wurde erfolgreich gelöscht.'
+    unlocks:
+      send_instructions: 'Sie erhalten in wenigen Minuten eine E-Mail mit der Anleitung, wie Sie Ihren Account entsperren können.'
+      unlocked: 'Ihr Account wurde entsperrt. Sie sind angemeldet.'
+    oauth_callbacks:
+      success: 'Erfolgreich mit dem %{kind}-Account angemeldet.'
+      failure: 'Sie konnten nicht mit dem %{kind}-Account angemeldet werden, weil "%{reason}".'
+    mailer:
+      confirmation_instructions:
+        subject: 'Anleitung zur Bestätigung Ihres Accounts'
+      reset_password_instructions:
+        subject: 'Anleitung um das Passwort zurückzusetzten'
+      unlock_instructions:
+        subject: 'Anleitung um Ihren Account freizuschalten'

@@ -1,0 +1,8 @@
+<div id="answer_cloud" style="width: 550px; height: 300px;"></div>
+
+<script>
+$(document).ready(function() { 
+	var word_array = <%= word_count_js_array(survey).to_json.html_safe %>; 			
+	$("#answer_cloud").jQCloud(word_array);
+});
+</script>

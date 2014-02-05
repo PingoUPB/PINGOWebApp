@@ -1,0 +1,40 @@
+#survey-container {
+	display:none;
+	width: 100%;
+}
+#new-event-survey-accordion {
+	width:260px;
+}
+#connected-container {
+	display:none;
+	margin-bottom: 10px;
+}
+#fullscreenLink {
+	display: none;
+}
+.container:-moz-full-screen {
+	background-color: white;
+	overflow:auto;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	padding: 1em 2em;
+}
+
+.container:-webkit-full-screen {
+		width:100%;
+		height:100%;
+		background-color: white;
+		overflow:auto;
+		padding: 1em 2em;
+		box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+}
+
+.container:fullscreen {
+	width:100%;
+	height:100%;
+	background-color: white;
+	overflow:auto;
+	box-sizing: border-box;
+	padding: 1em 2em;
+}

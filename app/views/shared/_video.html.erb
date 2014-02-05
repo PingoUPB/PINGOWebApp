@@ -1,0 +1,35 @@
+<% 
+if I18n.locale == :de
+	ytlink = "KK22QMb0MFA"
+else
+	ytlink = "aZC3NnUqZcs"
+end
+%>
+<div style="width: 680px" class="modal hide fade" id="pingo_video" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">PINGO Video</h3>
+  </div>
+  <div id="videoContainer" class="modal-body">
+    <!-- iframe will be inserted here as soon as modal loads -->
+  </div>
+  <div class="modal-footer">
+	<small style="float:left;">Link: <%= link_to "http://youtu.be/#{ytlink}", "http://youtu.be/#{ytlink}", target: "_blank", rel: "alternate" %></small>
+    <button class="btn" data-dismiss="modal" aria-hidden="true"><%= t "close" %></button> </div>
+</div>
+
+<% content_for :javascript do %>
+	<script>
+
+	var iFrameHTML = '<iframe id="videoiFrame" width="640" height="360" src="http://www.youtube-nocookie.com/embed/<%= ytlink %>?rel=0&enablejsapi=1&origin=<%= ENV["URL_PREFIX"] %>" frameborder="0" allowfullscreen></iframe>';
+
+		$('#pingo_video').on('show', function () {
+		    $("#videoContainer").html(iFrameHTML);
+		});
+		$('#pingo_video').on('hide', function () {
+			// Remove video
+			 $("#videoiFrame").remove();
+		});
+
+	</script>
+<% end %>

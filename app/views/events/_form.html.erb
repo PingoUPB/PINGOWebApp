@@ -1,0 +1,26 @@
+<%= form_for @event, :class => "well form-horizontal" do |f| %>
+<%= error_msg_for @event %>
+<fieldset>
+  <div class="control-group">
+    <label class="control-label" for="event_name"><%= t "name" %></label>
+    <div class="controls">
+      <%= f.text_field :name, class: "input-xlarge", required: "required" %>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="event_description"><%= t "description" %></label>
+    <div class="controls">
+      <%= f.text_area :description, class: "input-xlarge autogrow", rows: 3, rel: "popover", data: {content:  t("events.help.description_help"), trigger: "hover"}, title: t("description") %>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="event_mathjax"><%= t ".formula_support" %></label>
+    <div class="controls">
+      <%= f.check_box :mathjax, rel: "popover", data: {content: t("events.help.formula_support", default: "formula support")}, title: t(".formula_support", default: "formula support") %>
+    </div>
+  </div>
+   <div class="form-actions">
+    <%= f.submit "OK", :class => "btn btn-primary", id: "new_event_submit" %>
+  </div>
+</fieldset>
+<% end %>

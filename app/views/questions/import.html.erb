@@ -1,0 +1,393 @@
+<h1> <%=   t "questions.upload_questions" %> </h1>
+<%= link_to t("back"), :back %>
+<%= form_tag upload_questions_path, multipart: true, class: "form-horizontal" do %>
+  <fieldset>
+    <legend> <%=   t ".upload_questions_legend" %> </legend>
+    <div class="control-group">
+      <label class="control-label" for="file"><%=	 t ".select_file" %></label> 
+      <div class="controls">
+        <%= file_field_tag "file", required: true %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="import_type"><%=   t ".select_type" %></label>
+      <div class="controls">   
+        <%= select_tag "import_type", options_for_select([["Moodle XML", "moodle_xml"], ["CSV", "csv"], ["Aiken / Pearson", "aiken"], ["Gift", "gift"]]), id: "select_type" %>
+      </div>
+    </div>
+
+
+    <div class="control-group">
+      <label class="control-label" for="question_tags"><%=	 t ".tags" %></label>
+      <div class="controls">
+      <%= text_field_tag :question_tags,"", input_html: { class: "input-large" , placeholder: "Tags" }, required: false %>
+      <% if current_user.question_tags && !current_user.question_tags.blank? %>
+          <%= select_tag "tags", options_for_select([[t("questions.add_from_your_tags"), '']] + current_user.question_tags.sort.map{ |t| [t, t]}), id: "select_tag" %>
+      <% end %>
+      </div>
+    </div>
+    <div class="control-group">
+      <div class="controls">
+        <%= button_tag icon_tag(:upload, white: true)+t(".upload"), class:"btn btn-primary" %>
+      </div>
+    </div>
+  </fieldset>
+<% end %>
+<div id="moodle_xml" class="well import-info">
+  <%= t(".moodle_xml_info") %>
+</div>
+<div id="csv" class="well import-info">
+  <p><%= t(".csv_info") %></p>
+  <%= link_to(icon_tag(:file) + "Excelvorlage laden", "/templates/csv-import-template.xlsx", class: "btn") %>
+</div>
+<div id="aiken" class="well import-info">
+  <%= t(".aiken_info") %>
+</div>
+<div id="gift" class="well import-info">
+  <%= t(".gift_info") %>
+</div>
+
+<%	 if @errors %>
+    <h4><%=	 t "questions.upload_error" %></h4>
+    <table class="table">
+      <thead>
+      <tr>
+        <th><%= t "questions.error.question_text" %></th>
+        <th><%= t "questions.error.description" %></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @errors.each do |error| %>
+          <tr>
+            <td>
+              <% if error["text"] == "all" %>
+                  <%= t "questions.error.all_questions" %>
+              <% else %>
+                  <%=	error["text"] %>
+              <% end %>
+            </td>
+            <td><%=	t "questions.error." + error["type"] %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+<%	 end %>
+
+<% if @successes && !@successes.empty? %>
+    <h4><%=	 t "questions.upload_succeeded" %></h4>
+    <table class="table">
+      <thead>
+      <tr>
+        <th><%= t "questions.error.question_text" %></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @successes.each do |success| %>
+          <tr>
+            <td>
+              <%=	success["text"] %>
+            </td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+<% end %>
+
+<a id="further_information" href="#">
+  <%= icon_tag("info-sign") %>
+  <%= t ".further_information" %>
+</a>
+<div id="compatibility">
+  <% if I18n.locale == :de %>
+  <table class="table table-striped table-condensed">
+    <thead>
+    <tr>
+      <th>Format</th>
+      <th>Wird übersetzt zu PINGO-Fragetyp</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <th>CSV</th>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspErste Spalte enthält "single"</td>
+      <td>Single Choice-Frage</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspErste Spalte enthält "multi"</td>
+      <td>Multiple Choice-Frage</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspErste Spalte enthält "text"</td>
+      <td>Freitext-Frage</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspErste Spalte enthält "number"</td>
+      <td>Numerische Frage</td>
+    </tr>
+    <tr>
+      <th>Moodle XML</th>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspmultichoice und "single" enthält "false" oder fehlt</td>
+      <td>Multiple Choice-Frage</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspmultichoice und "single" enthält "true"</td>
+      <td>Single Choice-Frage</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbsptruefalse</td>
+      <td>Single Choice-Frage</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspshortanswer</td>
+      <td>Freitext-Frage</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspmatch</td>
+      <td class="text-error">Nicht unterstützt</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspcloze</td>
+      <td class="text-error">Nicht unterstützt</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspessay</td>
+      <td>Freitext-Frage</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspnumerical</td>
+      <td>Numerische Frage</td>
+    </tr>
+    <tr>
+      <th>Gift</th>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspMultiple Choice mit mehreren korrekten Antworten</td>
+      <td>Multiple Choice-Frage</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspMultiple Choice mit einer korrekten Antwort</td>
+      <td>Single Choice-frage</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspTrue - False</td>
+      <td>Single Choice-Frage</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspShort Answer</td>
+      <td>Freitext-Frage</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspMatching</td>
+      <td class="text-error">Nicht unterstützt</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspMissing Word</td>
+      <td class="text-error">Nicht unterstützt</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspNumerical</td>
+      <td>Numerische Frage</td>
+    </tr>
+    <tr>
+      <th>Aiken</th>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspStandard Aiken Frage (eine korrekte Antwort)</td>
+      <td>Single Choice-Frage</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspNicht-Standard Aiken Frage (mehrere korrekte Antworten)</td>
+      <td>Multiple Choice-Frage</td>
+    </tr>
+    <tr>
+      <th>Pearson</th>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspTrue - False</td>
+      <td>Single Choice-Frage</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspMultiple Choice</td>
+      <td>Multiple Choice-Frage</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspLückentext</td>
+      <td>Freitext-Frage</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspDefinition / Text-Antwort</td>
+      <td>Freitext-Frage</td>
+    </tr>
+    </tbody>
+  </table>
+  <% else %>
+    <table class="table table-condensed">
+      <thead>
+      <tr>
+        <th>Format</th>
+        <th>Importad as PINGO question type</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <th>CSV</th>
+        <td></td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspFirst column contains "single"</td>
+        <td>Single Choice-question</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspFirst column contains "multi"</td>
+        <td>Multiple Choice-question</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspFirst column contains "text"</td>
+        <td>Text-question</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspFirst column contains "number"</td>
+        <td>Numeric question</td>
+      </tr>
+      <tr>
+        <th>Moodle XML</th>
+        <td></td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspmultichoice and "single" contains "false" or is missing</td>
+        <td>Multiple Choice-question</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspmultichoice and "single" contains "true"</td>
+        <td>Single Choice-question</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbsptruefalse</td>
+        <td>Single Choice-question</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspshortanswer</td>
+        <td>Text-question</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspmatch</td>
+        <td class="text-error">Not supported</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspcloze</td>
+        <td class="text-error">Not supported</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspessay</td>
+        <td>Text-question</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspnumerical</td>
+        <td>Numeric question</td>
+      </tr>
+      <tr>
+        <th>Gift</th>
+        <td></td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspMultiple choice with multiple correct answers</td>
+        <td>Multiple Choice-question</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspMultiple choice with one correct answer</td>
+        <td>Single Choice-question</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspTrue - False</td>
+        <td>Single Choice-question</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspShort Answer</td>
+        <td>Text-question</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspMatching</td>
+        <td class="text-error">Not supported</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspMissing Word</td>
+        <td class="text-error">Not supported</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspNumerical</td>
+        <td class="text-error">Not supported</td>
+      </tr>
+      <tr>
+        <th>Aiken</th>
+        <td></td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspStandard Aiken question (one correct answer)</td>
+        <td>Single Choice-question</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspNon-standard Aiken question (multiple correct answers)</td>
+        <td>Multiple Choice-question</td>
+      </tr>
+      <tr>
+        <th>Pearson</th>
+        <td></td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspTrue - False</td>
+        <td>Single Choice-question</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspMultiple Choice</td>
+        <td>Multiple Choice-question</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspCloze</td>
+        <td>Text-question</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspDefinition / Text</td>
+        <td>Text-question</td>
+      </tr>
+      </tbody>
+    </table>
+  <% end %>
+</div>
+
+<% content_for :javascript do %>
+    <script>
+        jQuery(document).ready(function() {
+            jQuery(".import-info").hide();
+            jQuery("#compatibility").hide();
+            jQuery("#moodle_xml").show();
+            jQuery("#select_type").on("change", function() {
+                var type = jQuery(this).val();
+                jQuery(".import-info").hide();
+                jQuery("#"+type).fadeIn();
+            });
+            jQuery("#further_information").on("click", function() {
+                jQuery("#compatibility").fadeToggle();
+            });
+            $("#question_tags").tagsManager({ // http://welldonethings.com/tags/manager
+                hiddenTagListName: "question[tags]",
+                preventSubmitOnEnter: true
+            });
+
+            $("#select_tag").change(function(){
+                $("#question_tags").tagsManager("pushTag", $("#select_tag").val());
+                $("#select_tag option:first").attr('selected',true);
+            });
+        });
+    </script>
+
+<% end %>

@@ -1,0 +1,1 @@
+concurrency: web=2,worker=1

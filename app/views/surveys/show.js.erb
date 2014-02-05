@@ -1,0 +1,89 @@
+// This view is rendered when a survey is requested via Ajax on an event page.
+
+view_url = "<%= event_survey_path(@survey.event, @survey) %>";
+event_page = true;
+
+$('tr.info').removeClass("info");
+$('tr#row<%= @survey.id %>').addClass("info");
+
+$('#survey-container').slideDown().html("<%= escape_javascript(render partial: 'show', locals: {:survey => @survey} ) %>");
+
+window.PINGO.Init();
+
+$('#survey_name').on('update', function() {
+	$('#name-<%= @survey.id.to_s %>').text($(this).data('editable').value);
+});
+
+if(!History){
+	var History = window.History;
+}
+if(History){
+	History.pushState(null, "<%= @survey.name||"Umfrage" %> [<%= @survey.event.token %>] - PINGO", "<%= event_survey_path(@survey.event, @survey)%>");
+
+	// Inform Google Analytics of the change
+	if(typeof window._gaq !== 'undefined'){
+		window._gaq.push(['_trackPageview', "<%= event_survey_path(@survey.event, @survey)%>"]);
+	}
+}
+
+setVoterCount(<%= @survey.total_votes %>, "<%= @survey.id.to_s %>");
+
+<% if @survey.running?(true) && @survey.ends %>
+
+	// TODO fixme refactor
+
+	startCountdown(<%= @survey.time_left(true)-1000 %>);
+
+	<% unless ENV["USE_JUGGERNAUT"] == "false" %>
+		// Juggernaut Push init
+	  	jug = new Juggernaut({
+		      secure: false, // ('https:' == document.location.protocol)
+		      host: "<%= ENV["JUGGERNAUT_HOST"] %>",
+		      port: <%= ENV["JUGGERNAUT_PORT"] %>
+	  	});
+
+	  	jug.on("connect", function(){ 
+			connected = true;
+	  	});
+		jug.on("disconnect", function(){ 
+	  		connected = false;
+	  	});
+
+		// subscribe callback, that's the push stuff
+	  	jug.subscribe("s<%= @survey.id.to_s %>", function(data){
+			if(data.type == "countdown"){
+				if(iterationOk(data.iteration)){
+					setCountdown(data.payload);
+				}
+			}
+	  	});
+		jug.subscribe("v<%= @survey.id.to_s %>", function(data){
+			if (data.type == "voter_count"){
+				if(timestampOk(data.timestamp)){
+					setVoterCount(data.payload, "<%= @survey.id.to_s %>");
+				}
+			}
+	  	});
+	<% end %>
+	
+<% end %>
+
+<% if @survey.starts && @survey.starts <= DateTime.now %>
+
+// Draw Chart  
+<%= render partial: "chart", locals: {:survey => @survey, :selector => "#chart"} %>
+
+<% # TODO  chart only if choice question
+%>
+
+<% end %>
+
+// scroll into view (we scroll to h1 since there's a 60px bootstrap menu bar)
+
+$('#survey-container').imagesLoaded(function() {
+	$('.container h1').get(0).scrollIntoView(true);
+});
+
+if(MathJax !== undefined) {
+	MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+}

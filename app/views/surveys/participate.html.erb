@@ -1,0 +1,187 @@
+<% title "##{@event.token}" %>
+<style>
+fieldset[data-role="controlgroup"] input {
+	margin-left: 10px !important;
+	margin-right: 10px !important;
+}
+fieldset[data-role="controlgroup"] label {
+	font-weight: bold;
+}
+</style>
+
+
+<% unless ENV["USE_JUGGERNAUT"] == "false" %>
+	<% content_for :javascript do %>
+		<script type="text/javascript" charset="utf-8" src="http://<%= ENV["JUGGERNAUT_HOST"] %>:<%= ENV["JUGGERNAUT_PORT"] %>/application.js"></script>
+	<% end %>
+<% end %>
+
+<% if @survey && @survey.running? %>
+		<h2><%= @event.name %></h2>
+	<script>var running = true;</script>
+	<h3><%= @survey.name %></h3>
+	<div id="overmsg">	
+		<p><%= t ".over" %></p>
+	</div>
+	<div id="countdown-container" style="display:none;">
+		<p style="float:left"><strong><%= t ".time_left" %>: </strong>&nbsp;&nbsp;&nbsp;<span id="countdown">XX:XX</span></p>
+	</div>
+	<% if @survey.ends %>
+		<% content_for :javascript do %>
+			<script>
+				startCountdown(<%= @survey.time_left(true) %>);
+			</script>
+		<% end %>
+	<% end %>
+	<%= form_tag("/vote", style: 'clear:both;') %>
+	<div id="survey-content" data-role="fieldcontain">
+	    <fieldset data-role="controlgroup">
+			<legend>
+				<%= @survey.prompt %>:
+			</legend>
+			<% if @survey.has_options? %>
+				<%= render partial: @survey.participate_partial, collection: @survey.options %>
+			<% else %>
+				<%= render partial: @survey.participate_partial, locals: {survey: @survey} %>
+			<% end %>
+	    </fieldset>
+	</div>
+	<%= hidden_field_tag "id", @survey.id %>
+	<div id="vote-button"><%= submit_tag t(".vote")+"!", :disable_with => t("wait"), :class => "btn btn-primary btn-large" %></div>
+	</form>
+
+	<% unless @event.description.blank? %>
+	<footer>
+		<small>	<%= @event.description %> </small>
+	</footer>
+	<% end %>
+
+
+<% else %>
+	<h1><%= t "wait" %></h1>
+	<script>running = false;</script>
+	<div data-role="content">
+		<p id="not_running"><%= t("messages.not_running").html_safe %>
+		<br/>	<%= image_tag "waiting.png" %></p>
+	</div>
+<% end %>
+
+
+
+
+<% if Rails.env.development?
+# websocket console
+%>
+<textarea rows="10" cols="40" readonly="readonly" id="log"></textarea>
+<script type="text/javascript" charset="utf-8">
+
+	// dev log
+	var logElement = document.getElementById("log");
+    logElement.value = "LOG\n====\n";
+    var log = function(data){
+	  if(typeof data == "object") {
+		text = "Object: ";
+		logElement.value += (text + JSON.stringify(data) + "\n\n");
+		if (console && console.log){
+	      console.log(text + JSON.stringify(data));
+		}
+	} else {
+		logElement.value += (data + "\n");
+		if (console && console.log){
+	      console.log(data);
+		}
+	}
+      
+    };
+</script>
+<% else %>
+<script>
+	var log = function(data){return true;};
+</script>
+<% end %>
+
+
+
+
+<% content_for :javascript do %>
+	<% unless ENV["USE_JUGGERNAUT"] == "false" %>
+		<script>
+
+			// Juggernaut Push init
+		  	var jug = new Juggernaut({
+			      secure: false, //('https:' == document.location.protocol),
+			      host: "<%= ENV["JUGGERNAUT_HOST"] %>",
+			      port: <%= ENV["JUGGERNAUT_PORT"] %>
+		  	});
+
+			
+		  	jug.on("connect", function(){ 
+				connected = true;
+				log("connected!"); // debug
+		  	});
+			jug.on("disconnect", function(){ 
+		  		connected = false;
+				log("disconnected!"); // debug
+		  	});
+
+
+			<% if @survey %>
+
+			// subscribe callback, that's the push stuff
+		  	jug.subscribe("s<%= @survey.id.to_s %>", function(data){
+				log(data); // debug
+				if(data.type == "status_change"){
+					if(timestampOk(data.timestamp)){
+						if(data.payload == "stopped"){
+							disableUI();
+						}
+						if(data.payload == "started"){
+							enableUI();
+						}
+						if(data.payload == "started_with_end"){
+							enableUI();
+						}
+						if(data.payload == "stop_scheduled"){
+							startCountdown(data.time);
+						}
+					}
+				} else if(data.type == "countdown"){
+					if(iterationOk(data.iteration)){
+						setCountdown(data.payload);
+					}
+				}
+		  	});
+
+			<% end %>
+
+			jug.subscribe("sess<%= @event.token.to_s %>", function(data){
+				log(data); // debug
+				if(data.type == "status_change"){
+					if(timestampOk(data.timestamp)){
+						if(data.payload == "started"){
+							enableUI();
+						}
+					}
+				}
+			});
+		</script>
+	<% end %>
+
+	<script>
+		state = <%= @event.state.to_s %>;
+		window.addEventListener("pageshow", pageShown, false);
+		connect_timeout = setTimeout(function() {if(!connected && !running) { location.reload(); }}, 7500);
+	</script>
+
+	<% if @survey && @survey.mathjax? %>
+	 <script type="text/x-mathjax-config">
+	    MathJax.Hub.Config({
+	     tex2jax: {
+	       inlineMath: [ ['$','$'] ],
+	       processEscapes: true
+	     }
+	    });
+	 </script>
+	 <%= mathjax_tag %>
+	<% end %>
+<% end %>

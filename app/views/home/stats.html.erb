@@ -1,0 +1,18 @@
+<h1>Some usage stats…</h1>
+
+<div class="well">
+<% if user_signed_in? and current_user.admin %>
+	<h2>Users: <%= @users %></h2>
+<% end %>
+	<h2>Votes: <%= number_with_delimiter @votes %>+</h2>
+	<h3>Surveys: <%= number_with_delimiter @surveys %> <small>(repeated: <%= number_with_delimiter @repeated_surveys %>)</small></h3>
+	<h3>Sessions: <%= number_with_delimiter @sessions %></h3>
+	<h3>Questions: <%= number_with_delimiter @questions %>  <small>(public: <%= number_with_delimiter @public_questions %>)</small></h3>
+	<hr>
+<% if user_signed_in? and current_user.admin %>
+	 <h4>Newsletter subscribers: <%= number_with_delimiter @newsletter_users %></h4>
+	 <h4>Sent invitations: <%= number_with_delimiter @invitations %> <small>(since February '13)</small></h4>
+	 <hr>
+<% end %>
+	<small>approx. values, from Oct. 2012 until now</small>
+</div>

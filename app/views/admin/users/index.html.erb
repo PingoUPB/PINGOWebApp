@@ -1,0 +1,49 @@
+<% title("Admin") %>
+<div data-role="header">
+<p><%= link_to "» Session-Spion", events_path(all: true), class: "btn btn-success" %> <%= link_to "» Fragen-Spion", questions_path(all: true), class: "btn btn-warning" %> <%= link_to "» Stats", stats_path, class: "btn" %></p>
+<h1>Listing users</h1>
+</div>
+<table class="table table-bordered table-hover table-condensed">
+<theader>
+  <tr>
+	<th>User name</th>
+	<th>Organization</th>
+    <th>Created at</th>
+    <th>Sessions</th>
+    <th></th>
+    <th></th>
+	<th></th>
+  </tr>
+</theader>
+<tbody>
+<% @users.each do |user| %>
+  <tr>
+	<td><%= h user.name %> 
+    <td><%= user.organization %> <%= user.faculty %> <%= user.chair %></td>
+	<td><%= l(user.created_at, :format => :short) if user.created_at %></td>
+	<td><%= user.events.count if user.events %></td>
+    <td><%= link_to 'Show', admin_user_path(user) %></td>
+    <td><%= link_to 'Edit', edit_admin_user_path(user) %></td>
+	<td>
+<% unless user == current_user %>
+	<%= link_to 'Delete', admin_user_path(user), confirm: 'Do you really want to delete the user ' + user.name + '?', method: :delete %>
+<% end %>
+&nbsp;</td>
+  </tr>
+<% end %>
+</tbody>
+</table>
+<p>
+<%= link_to 'New User', new_admin_user_path, :class => "btn" %><br><br>
+
+<h5>Chart: User registrations per day</h5>
+<p>
+<%= 	Gchart.line(:size => "800x200",
+					:data => @registrations.values, :encoding => 'text',
+					:max_value =>  @registrations.values.max + 1,
+					:axis_with_labels => 'x,y',
+	            	:axis_labels => [@registrations.keys, [@registrations.values.min, (@registrations.values.min + @registrations.values.max + 1) / 2, @registrations.values.max + 1]],
+					:format => 'image_tag',
+					:custom => 'chxs=0,383838,9,-1,t,383838' # smaller x-axis labels
+					).html_safe
+%>

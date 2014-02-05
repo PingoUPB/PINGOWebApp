@@ -1,0 +1,15 @@
+PEOPLE BEHIND *PINGO*:
+============================
+
+* Michael Whittaker (michael-whittaker.de / mwhittak@campus.uni-paderborn.de)
+* Juergen Neumann (juergen.neumann@wiwi.uni-paderborn.de)
+* Christoph Bach (the-inspired-ones.de / chbach@mail.upb.de)
+* Philipp Bednarek (philipp.bednarek@wiwi.uni-paderborn.de)
+* many more from the Chair of Prof. Kundisch (upb.de/winfo2), the IMT (imt.upb.de) and the PPI-Team (upb.de/ppi)
+
+
+STORY:
+======
+The PINGO software originated from an "eClickr" software developed by **Michael Whittaker** for a project paper.
+Together with **Juergen Neumann** we polished the software. In mid-2013 **Christoph Bach** joined our team.
+We develop at the Chair for Information Management & E-Finance at the University of Paderborn.

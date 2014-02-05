@@ -1,0 +1,17 @@
+<div class="btn-group questions-table__export-button">
+  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+    <%=	 t ".export_as" %>
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu">
+    <li>
+      <%=	 link_to_export "CSV", "csv"  %>
+    </li>
+    <li>
+      <%=	 link_to_export "Moodle XML", "moodle_xml"  %>
+    </li>
+    <li>
+      <%=	 link_to_export "Aiken", "aiken"  %>
+    </li>
+  </ul>
+</div>

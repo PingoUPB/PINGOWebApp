@@ -1,0 +1,26 @@
+<!-- Each tip is set within this <ol>.
+ This creates the order the tips are displayed -->
+
+<ol id="tourStops">
+
+  <li data-id="questionsSidebar" data-options="tipLocation:right"><p><%= t(".question_sidebar1") %></p>
+  </li>
+
+  <li data-id="questionsSidebarPublicLink"><p><%= t(".question_sidebar_public") %></p>
+  </li>
+
+  <li data-options="tipLocation:left" data-class="question_edit_link" ><p><%= t(".question_edit") %></p>
+  </li>
+
+  <li data-class="questionLink" ><p><%= t(".question_show") %></p>
+  </li>
+
+  <li data-id="menuNewEventLink" data-options="tipLocation:bottom" data-button="OK"><p><%= t(".create_session").html_safe %></p>
+  </li>
+
+<!-- 
+  /* you can put a class for custom styling */
+  /* using 'data-button' lets you have custom button text */
+  <li data-id="parentElementID" class="custom-class" data-button="Second Button" data-options="tipLocation:top;tipAnimation:fade">Content...</li>
+-->
+</ol>
