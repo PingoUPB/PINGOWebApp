@@ -1,5 +1,21 @@
-<% title(t ".your_events") %>
-<h1><%= t ".your_events" %></h1>
+<% if params[:shared] %>
+  <% title(t ".shared_events") %>
+  <h1><%= t ".shared_events" %></h1>
+<% else %>
+  <% title(t ".your_events") %>
+  <h1><%= t ".your_events" %></h1>
+<% end %>
+
+<% if current_user.shared_events.any? %>
+<ul class="nav nav-tabs margin-inverted">
+  <li<% unless params[:shared] %> class="active"<% end %>>
+    <%= link_to t(".your_events"), events_path %>
+  </li>
+  <li<% if params[:shared] %> class="active"<% end %>>
+    <%= link_to t(".shared_events"), events_path(shared: true), id: "sharedEventsLink" %>
+  </li>
+</ul>
+<% end %>
 
 <table id="eventsTable" class="table table-striped table-hover">
  <thead>
@@ -24,7 +40,7 @@
     <td><%= event.description %></td>
     <td><%= link_to t("show"), event_url(event) %></td>
     <td><%= link_to t("edit"), edit_event_path(event) %></td>
-    <td><%= link_to t("delete"), event, confirm: t(".delete_sure"), method: :delete %></td>
+    <td><%= link_to(t("delete"), event, confirm: t(".delete_sure"), method: :delete) unless params[:shared] %></td>
     <% if current_user.admin? %>
       <td><%= event.surveys.count %>/<%= (event.surveys).map(&:total_votes).max || 0 %></td>
       <td><%= (event.surveys.any? ? l(event.latest_survey.created_at, format: "%d.%m.%Y/%H:%M") : "") %></td>
@@ -37,8 +53,7 @@
 
 <br />
 
-<%= link_to t(".new_event"), new_event_path, class: "btn btn-primary" %>
-
+<%= link_to t(".new_event"), new_event_path, class: "btn btn-primary" %> 
 
 <% if current_user.admin? %>
 <br>

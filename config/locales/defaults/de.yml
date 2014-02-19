@@ -21,6 +21,7 @@ de:
     edit: "Bearbeiten"
     delete: "Löschen"
     create: "Erstellen"
+    remove: "Entfernen"
     start: "Starten"
     name: "Name"
     description: "Beschreibung"

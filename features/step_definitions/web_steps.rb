@@ -136,3 +136,16 @@ end
 Then /^show me a screenshot$/ do
   screenshot_and_open_image
 end
+
+Given /^I wait (\d+) seconds$/ do |n|
+  sleep n.to_i
+end
+
+Given /^I wait a second$/ do
+  sleep 1
+end
+
+Given /^I hit enter in "([^"]*)"$/ do |id_enter|
+  keypress_script = "$('##{id_enter}').trigger($.Event('keydown', { keyCode: 13 })).trigger($.Event('keyup', { keyCode: 13 }));"
+  page.driver.execute_script(keypress_script)
+end

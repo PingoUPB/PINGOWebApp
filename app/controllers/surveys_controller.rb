@@ -458,6 +458,7 @@ class SurveysController < ApplicationController
     end
   end
   
+  # :nocov:
   # GET /api
   def api
     render :json => "ERROR! no cmd" and return if params[:cmd].nil?
@@ -479,6 +480,7 @@ class SurveysController < ApplicationController
     end
     render :nothing => true
   end
+  # :nocov:
   
   protected
   def survey_params
@@ -486,6 +488,6 @@ class SurveysController < ApplicationController
   end
 
   def check_access
-    render :text => t("messages.no_access_to_survey"), status: :forbidden and return  if !@survey.nil? && !current_user.admin && @survey.user != current_user
+    render :text => t("messages.no_access_to_survey"), status: :forbidden and return  if !@survey.nil? && !current_user.admin && @survey.user != current_user && !@survey.collaborators.include?(current_user)
   end
 end

@@ -63,7 +63,7 @@
 		</div>
 	</div>
 
-	<h1><%= @event.name %> <%= link_to @event.token, participate_path(@event.token), id: "big_token" %> <sub><%= link_to icon_tag("pencil"), edit_event_path(@event), title: t("edit") %></sub> <sub><%= link_to icon_tag("qr"), "#qrModal", title: "QR-Code", id: "qrLink", data: {toggle: "modal"} %></sub> <sub><%= link_to icon_tag("fullscreen"), "#fullscreen", title: t("fullscreen"), id: "fullscreenLink" %></sub></h1>
+	<h1><%= @event.name %> <%= link_to @event.token, participate_path(@event.token), id: "big_token" %> <sub><%= link_to icon_tag("pencil"), edit_event_path(@event), title: t("edit"), id: "editEventLink" %></sub> <sub><%= link_to icon_tag("qr"), "#qrModal", title: "QR-Code", id: "qrLink", data: {toggle: "modal"} %></sub> <sub><%= link_to icon_tag("fullscreen"), "#fullscreen", title: t("fullscreen"), id: "fullscreenLink" %></sub></h1>
 	<% unless @event.description.blank? %>
 	<p class="muted">
 		<%= @event.description %>

@@ -24,6 +24,7 @@ en:
             description: Description
             name: Name
             new_event: Create new session
+            shared_events: Sessions shared with you
         new:
             headline: Create new session
         edit:
@@ -33,5 +34,9 @@ en:
             formula_support: "After activation you can use TeX formulas in questions and answer options by enclosing them with dollar symbols (e.g. $\\sqrt{e^x}$)."
         form:
           formula_support: Formula support
-        
-    
+        collaborators:
+            collaborators_headline: Share access with
+            collaborators_tooltip: "Using this feature you can share this session with other PINGO users. Simply search on or more email address(es), click 'share' after each address and confirm your updates by with 'OK'."
+            collaborators_placeholder: The user’s email address
+            not_found: There is no user with this email address. Please try again with a different email.
+            share: share

@@ -5,9 +5,14 @@ Given /^I am logged in as a user$/ do
 end
 
 Given /^I am logged in as the user with email "(.*?)"$/ do |email|
-  create_visitor
-  @visitor[:email] = email
-  @user = FactoryGirl.create(:user, email: @visitor[:email])
+  found_users = User.where(email: email)
+  unless found_users.any?
+    create_visitor
+    @visitor[:email] = email
+    @user = FactoryGirl.create(:user, email: @visitor[:email])
+  else
+    @user = found_users.first
+  end
   login_as(@user, :scope => :user)
 end
 

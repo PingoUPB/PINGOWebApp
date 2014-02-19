@@ -1,5 +1,6 @@
 class ApiController < ApplicationController
   include ApplicationHelper
+  before_filter :authenticate_user!, :only => [:find_user_by_email]
 
   INVALID_TOKEN = "invalid"
   EMPTY_OPTIONS = [""]
@@ -63,5 +64,21 @@ class ApiController < ApplicationController
   def duration_choices
     # drop(1) because without countdown is not supported by PINGO remote
     render json: {duration_choices: DURATION_CHOICES.drop(1)}
+  end
+  
+  
+  ### for collaborators:
+  
+  def find_user_by_email
+    head :precondition_failed and return if params[:email].empty?
+    email = params[:email].match(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i).try(:to_s)
+    head :precondition_failed and return unless email
+    
+    user = User.where(email: email).first
+    if user && current_user != user
+      render json: user, only: [:email], methods: [:name, :id]
+    else
+      head :not_found
+    end
   end
 end

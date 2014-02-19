@@ -8,6 +8,9 @@ class EventsController < ApplicationController
     if(params[:all] && current_user.admin?)
       @events = Event.all.desc(:created_at)
       @events = @events.limit(200) unless params[:all] == 'all'
+    elsif params[:shared]
+      @events = current_user.shared_events.desc(:created_at)
+      redirect_to events_url, alert: "No shared sessions found." and return unless @events.any? # should not occur
     else
       @events = current_user.events.desc(:created_at)
     end
@@ -89,6 +92,9 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.update_attributes(event_params)
+        current_user.contacts.concat (@event.collaborators - current_user.contacts)
+        current_user.save
+        
         format.html { redirect_to @event, notice: t("messages.session_successfully_updated") }
         format.json { head :ok }
       else
@@ -253,10 +259,10 @@ class EventsController < ApplicationController
 
   protected
   def event_params
-    params.require(:event).permit(:name, :description, :mathjax)
+    params.require(:event).permit(:name, :description, :mathjax, :collaborators_form)
   end
 
   def check_access
-    render text: t("messages.no_access_to_session"), status: :forbidden and return  if !@event.nil? && !current_user.admin && @event.user != current_user
+    render text: t("messages.no_access_to_session"), status: :forbidden and return  if !@event.nil? && !current_user.admin && @event.user != current_user && !@event.collaborators.include?(current_user)
   end
 end

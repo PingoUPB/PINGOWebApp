@@ -1,3 +1,4 @@
+# :nocov:
 class Metric
 	include Mongoid::Document
 	include Mongoid::Timestamps::Created
@@ -19,3 +20,4 @@ class Metric
   end
 
 end
+# :nocov:

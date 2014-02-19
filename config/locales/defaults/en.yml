@@ -21,6 +21,7 @@ en:
     edit: "edit"
     delete: "delete"
     create: "create"
+    remove: "remove"
     start: "Start"
     there_were_errors_saving: "Errors occured during saving"
     name: "Name"

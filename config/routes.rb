@@ -11,6 +11,8 @@ Eclickr::Application.routes.draw do
   post "api/check_auth_token" => "api#check_auth_token"
   get "api/question_types" => "api#question_types"
   get "api/duration_choices" => "api#duration_choices"
+  
+  get "api/find_user_by_email" => "api#find_user_by_email"
 
   get "stats" => "home#stats", as: :stats
   get "switch_view" => "home#switch_view"

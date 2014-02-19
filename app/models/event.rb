@@ -23,6 +23,9 @@ class Event
   belongs_to :user
   has_many :surveys, dependent: :destroy
   
+  has_and_belongs_to_many :collaborators, class_name: "User", inverse_of: :shared_events
+  index :collaborator_ids, sparse: true
+  
   validates :name, presence: true
   validates :user, presence: true
   
@@ -57,6 +60,18 @@ class Event
   
   def mathjax?
     self.mathjax
+  end
+  
+  # for FORM
+  
+  def collaborators_form
+    self.collaborators.map(&:id).join(",")
+  end
+  
+  def collaborators_form=(v)
+    self.collaborators = v.split(",").reject(&:blank?).map do |u|
+      User.find(u)
+    end
   end
   
 end

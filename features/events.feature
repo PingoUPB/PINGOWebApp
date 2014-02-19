@@ -28,6 +28,41 @@ Feature: Create und manage events
     And I go to the events page
     Then I should see "my event"
     And I should see "this is a description"
+    
+  @javascript
+  Scenario: Sharing works and a shared event can be viewe
+    Given the user with email "test_share2@example.com" exists
+    And I am logged in as the user with email "test_share1@example.com"
+    And there exists an event with the name "unshared event"
+    And there exists an event with the name "shared event"
+    And I go to the event's page
+    And I follow "editEventLink"
+    And I fill in "mail_for_collaborators" with "test_share2@example.com"
+    And I hit enter in "mail_for_collaborators"
+    And I wait a second
+    And I press "OK"
+    And I am logged in as the user with email "test_share2@example.com"
+    And I go to the event's page
+    Then I should see "shared event"
+    And I should not see "You do not have access"
+    
+  @javascript
+  Scenario: Shared events show up in the events list
+    Given the user with email "test_share3@example.com" exists
+    And I am logged in as the user with email "test_share4@example.com"
+    And there exists an event with the name "unshared list event"
+    And there exists an event with the name "shared list event"
+    And I go to the event's page
+    And I follow "editEventLink"
+    And I fill in "mail_for_collaborators" with "test_share3@example.com"
+    And I hit enter in "mail_for_collaborators"
+    And I wait a second
+    And I press "OK"
+    And I am logged in as the user with email "test_share3@example.com"
+    When I go to the events page
+    And I follow "sharedEventsLink"
+    Then I should see "shared list event"
+    And I should not see "unshared list event"
 
   Scenario: Add survey to event
     Given there exists an event with the name "test event"

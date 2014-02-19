@@ -64,6 +64,10 @@ class Survey
     self.event.user
   end
   
+  def collaborators
+    self.event.collaborators || []
+  end
+  
   def total_votes
     unless self.voters.nil?
       self.voters.count
@@ -97,6 +101,7 @@ class Survey
     ((self.ends - DateTime.now) * 24 * 60 * 60 * m).to_i
   end
 
+  # :nocov:
   def track_vote(vid)
     if ENV["ANALYTICS"] == "true"
       begin #  we do not want anything from this tracking to produce an error
@@ -109,6 +114,7 @@ class Survey
       rescue ; end
     end
   end
+  # :nocov:
   
   def mathjax?
     self.event.mathjax?

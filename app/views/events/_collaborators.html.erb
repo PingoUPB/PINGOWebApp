@@ -1,0 +1,15 @@
+<label for="mail_for_collaborators"><span rel="popover" data-placement="left" data-content="<%= strip_tags(t(".collaborators_tooltip")) %>" title="<%= strip_tags(t(".collaborators_headline")) %>"><%= icon_tag(:share) %> <%= t ".collaborators_headline" %></span></label>
+<ul id="collaborators-list" class="collaborators">
+<% event.collaborators.each do |user| %>
+  <li class="collaborators__item">
+  	<strong><%= user.name %></strong> (<%= user.email %>)
+  	<a href="#" data-id="<%= user.id %>" class="remove-collaborator collaborators__action"><%= t("remove") %></a>
+  </li>
+<% end %>
+</ul>
+
+<div class="input-append">
+  <input placeholder="<%= strip_tags(t(".collaborators_placeholder")) %>"  autocomplete="off" type="text" data-provide="typeahead" name="email" id="mail_for_collaborators" 
+data-source='<%= current_user.contacts.map {|u| "#{u.name} (#{u.email})"}.to_json %>'> <a class="btn" id="collaborator-search"><%= t(".share") %></a>
+</div>
+<p class="alert alert-danger small" id="collaborators_feedback" style="display: none"></p>

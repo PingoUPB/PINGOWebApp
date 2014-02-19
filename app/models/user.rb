@@ -55,6 +55,10 @@ class User
   has_many :events, dependent: :destroy
   has_many :questions, dependent: :destroy
   
+  has_and_belongs_to_many :shared_events, class_name: "Event", inverse_of: :collaborators
+  has_and_belongs_to_many :contacts, class_name: "User", inverse_of: nil
+  
+  
   # returns latest session from user.
   # creates a new one and returns it if the user has no session
   def latest_event

@@ -1,5 +1,5 @@
 source 'http://rubygems.org'
-gem 'rails', '= 3.2.13'
+gem 'rails', '= 3.2.16'
 gem "strong_parameters", "~> 0.1.5" # Rails 4 style attr_accessible / https://github.com/rails/strong_parameters
 
 group :assets do
@@ -23,7 +23,7 @@ group :test do
 	gem "capybara", ">= 1.0.1"
 	gem "launchy", ">= 2.0.5"
 	gem 'cucumber-websteps'
-	gem "capybara-screenshot", :git => "git://github.com/mattheworiordan/capybara-screenshot.git"
+	gem 'capybara-screenshot'
 	gem "headless"
 	gem "poltergeist" # DEPS: mac: brew install phantomjs / linux: apt-get install phantomjs
 	gem 'simplecov', :require => false
@@ -32,7 +32,7 @@ end
 
 gem "bson_ext", ">= 1.6.4"
 gem "mongoid", "2.4.12"
-gem "devise", ">=1.5.3"
+gem "devise", "~> 2.1.4"
 
 gem 'mongoid_taggable'
 gem "jqcloud-rails"

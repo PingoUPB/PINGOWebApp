@@ -25,6 +25,7 @@ de:
             description: Beschreibung
             name: Name
             new_event: Neue Session anlegen
+            shared_events: Für Sie freigegebene Sessions
         new:
             headline: Neue Session anlegen
         edit:
@@ -34,3 +35,9 @@ de:
             formula_support: "Nach Aktivierung können Sie TeX-Formeln in Fragen/Antwortoptionen eingeben, indem Sie diese mit $-Zeichen umschließen. (Beispiel: $\\sqrt{e^x}$)"
         form:
           formula_support: Formel-Unterstützung
+        collaborators:
+            collaborators_headline: Freigeben für
+            collaborators_tooltip: "Hier können Sie die Session mit anderen PINGO-Nutzern gemeinsam nutzen. Geben Sie eine/mehrere E-Mail-Adresse(n) gefolgt von einem Klick auf 'Freigeben' ein und bestätigen Sie am Ende die Änderung mit 'OK'."
+            collaborators_placeholder: E-Mail Adresse des Benutzers
+            not_found: Es ist kein Benutzer mit der angegebenen E-Mail Adresse registriert. Bitte versuchen Sie es noch einmal mit einer anderen Adresse.
+            share: Freigeben
