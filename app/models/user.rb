@@ -56,6 +56,7 @@ class User
   has_many :questions, dependent: :destroy
   
   has_and_belongs_to_many :shared_events, class_name: "Event", inverse_of: :collaborators
+  has_and_belongs_to_many :shared_questions, class_name: "Question", inverse_of: :collaborators
   has_and_belongs_to_many :contacts, class_name: "User", inverse_of: nil
   
   
@@ -84,4 +85,13 @@ class User
       self.questions.flat_map(&:tags_array).uniq if self.questions
     end
   end
+  
+  def shared_question_tags(type = nil)
+    if type
+      self.shared_questions.in(type: type).flat_map(&:tags_array).uniq
+    else
+      self.shared_questions.flat_map(&:tags_array).uniq
+    end
+  end
+  
 end

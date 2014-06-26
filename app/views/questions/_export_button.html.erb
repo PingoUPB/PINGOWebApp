@@ -1,5 +1,5 @@
-<div class="btn-group questions-table__export-button">
-  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+<div class="btn-group">
+  <a class="btn dropdown-toggle disabled questions-table__action-button" data-toggle="dropdown" href="#">
     <%=	 t ".export_as" %>
     <span class="caret"></span>
   </a>
@@ -12,6 +12,9 @@
     </li>
     <li>
       <%=	 link_to_export "Aiken", "aiken"  %>
+    </li>
+    <li>
+      <%=	 link_to_export "Ilias QTI", "ilias"  %>
     </li>
   </ul>
 </div>

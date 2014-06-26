@@ -49,6 +49,7 @@ en:
     comment: comment
     comments: comments
     survey: Survey
+    share: Share
 
     matrix_keys:
       no_participation: no part.

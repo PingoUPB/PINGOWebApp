@@ -39,7 +39,7 @@ class EventsController < ApplicationController
     @surveys = @event.surveys.display_fields.desc(:created_at)
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html { set_locale_for_event_or_survey } # show.html.erb
       format.json { render json: @event, methods: :latest_survey }
       format.csv { export }
     end
@@ -94,7 +94,7 @@ class EventsController < ApplicationController
       if @event.update_attributes(event_params)
         current_user.contacts.concat (@event.collaborators - current_user.contacts)
         current_user.save
-        
+
         format.html { redirect_to @event, notice: t("messages.session_successfully_updated") }
         format.json { head :ok }
       else
@@ -259,7 +259,7 @@ class EventsController < ApplicationController
 
   protected
   def event_params
-    params.require(:event).permit(:name, :description, :mathjax, :collaborators_form)
+    params.require(:event).permit(:name, :description, :mathjax, :collaborators_form, :custom_locale)
   end
 
   def check_access

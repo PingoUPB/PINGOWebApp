@@ -4,17 +4,9 @@
     <%= render 'form' %>
   </div>
   <div class="span6">
-    <%= render "collaborators", event: @event %>
+    <%= render "collaborators", item: @event %>
+    <%= render "advanced_settings", event: @event %>
   </div>
 </div>
 
 <%= link_to t("back"), @event %>
-
-<% content_for :javascript do %>
-<script type="text/javascript" charset="utf-8">
-window.PINGO.events.locales = {
-	remove: "<%= t('remove').html_safe %>",
-	not_found: "<%= t('events.collaborators.not_found').html_safe %>"
-}
-</script>
-<% end %>

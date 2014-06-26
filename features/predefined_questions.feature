@@ -105,4 +105,42 @@ Feature: Pre-define questions
     And I go to the event's page
     Then I should see "my test question"
 
-    
+  @javascript
+  Scenario: Transform single into multiple choice question 
+    Given there exists a single choice question with the name "my test question" for "example@example.com"
+    And I go to the questions page
+    And I follow "my test question"
+    And I follow "edit"
+    And I follow "transform_link"
+    And I go to the questions page
+    And I follow "my test question"
+    Then I should see "Type: Multiple Choice"
+
+  @javascript
+  Scenario: Transform multiple into single choice question 
+    Given there exists a multiple choice question with the name "my test question" for "example@example.com"
+    And I go to the questions page
+    And I follow "my test question"
+    And I follow "edit"
+    And I follow "transform_link"
+    And I go to the questions page
+    And I follow "my test question"
+    Then I should see "Type: Single Choice"
+
+  @javascript
+  Scenario: Sharing questions works and questions can be viewed
+    Given the user named "Sharing Tester" with email "test_share1@example.com" exists
+    And the user with email "test_share2@example.com" exists
+    And there exists a single choice question with the name "my test question" for "test_share1@example.com"
+    And I am logged in as the user with email "test_share1@example.com"
+    And I go to the question's page
+    And I follow "edit"
+    And I fill in "mail_for_collaborators" with "test_share2@example.com"
+    And I hit enter in "mail_for_collaborators"
+    And I wait a second
+    And I press "single_question_submit"
+    And I am logged in as the user with email "test_share2@example.com"
+    And I go to the question's page
+    Then I should see "shared question"
+    And I should not see "You do not have access"
+    And I should see "Sharing Tester"

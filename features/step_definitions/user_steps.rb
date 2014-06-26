@@ -41,6 +41,14 @@ Given /^the user with email "(.*?)" exists$/ do |email|
   @user = FactoryGirl.create(:user, email: @visitor[:email])
 end
 
+Given /^the user named "(.*?)" with email "(.*?)" exists$/ do |name, email|
+  create_visitor
+  @visitor[:email] = email
+  @visitor[:first_name] = name.rpartition(" ").first
+  @visitor[:last_name] = name.rpartition(" ").last
+  @user = FactoryGirl.create(:user, email: @visitor[:email], first_name: @visitor[:first_name], last_name: @visitor[:last_name])
+end
+
 Given /^I do not exist as a user$/ do
   create_visitor
   delete_user

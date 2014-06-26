@@ -21,7 +21,7 @@
 <% if @survey.starts && @survey.starts <= DateTime.now %>
 
 <script>  
-<%= h render partial: "chart.js", locals: {:survey => @survey, :selector => "#chart"} %>
+<%= h render partial: "chart",  formats: [:js], locals: {survey: @survey, selector: "#chart"} %>
 </script>
 <% # TODO  chart only if choice question
 %>

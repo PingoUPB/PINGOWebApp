@@ -1,7 +1,17 @@
 <h1><%= t(".edit_question") %></h1>
 
-<%= render @question.form_partial, question: @question, namespace: 'single' %>
+<div class="row">
+  <div class="span8">
+    <%= render @question.form_partial, question: @question, namespace: 'single' %>
+  </div>
+  <div class="span4">
+    <%= render "events/collaborators", item: @question %>
+  </div>
+</div>
 
+<% if @question.kind_of?(ChoiceQuestion) %>
+	<p><small><%= link_to t(".transform", kind: @question.type == "multi" ? "Single" : "Multiple"), transform_question_path, method: :post, class: "", id: "transform_link" %></small></p>
+<% end %>
 <br>
 <%= link_to t("back"), questions_path %>
 

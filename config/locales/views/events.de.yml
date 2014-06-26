@@ -41,3 +41,8 @@ de:
             collaborators_placeholder: E-Mail Adresse des Benutzers
             not_found: Es ist kein Benutzer mit der angegebenen E-Mail Adresse registriert. Bitte versuchen Sie es noch einmal mit einer anderen Adresse.
             share: Freigeben
+        advanced_settings:
+            language_headline: Session-Sprache
+            language_tooltip: Mit dieser Einstellung können Sie für diese Session die Sprache für die Dozentenansicht festlegen. Dies überschreibt die automatische Erkennung der Browsersprache.
+            de: Deutsch
+            en: Englisch

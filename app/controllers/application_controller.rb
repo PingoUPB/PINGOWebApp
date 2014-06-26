@@ -2,16 +2,16 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   #before_filter :check_ip
   before_filter :setup_test_helper
-  
+
   # for lograge, add IP to logs
   def append_info_to_payload(payload)
     super
     payload[:ip] = request.remote_ip
   end
-  
+
   private
   MOBILE_BROWSERS = ["android", "ipod", "ipad", "iphone", "opera mini", "blackberry", "palm","hiptop","avantgo","plucker", "xiino","blazer","elaine", "windows ce; ppc;", "windows ce; smartphone;","windows ce; iemobile", "up.browser","up.link","mmp","symbian","smartphone", "midp","wap","vodafone","o2","pocket","kindle", "mobile","pda","psp","treo"]
-  
+
   protected
 
   def default_url_options(options={})
@@ -25,12 +25,12 @@ class ApplicationController < ActionController::Base
   def require_admin
     redirect_to root_path, alert: "Admins would have been able to view the requested page. But not you..." unless current_user.admin?
   end
-  
+
   def detect_browser
     return "mobile_application" if is_mobile? && cookies[:mobile_view] != "0"
     return "application"
   end
-  
+
   def is_mobile?
     agent = (request.headers["HTTP_USER_AGENT"]||"").downcase
     MOBILE_BROWSERS.each do |m|
@@ -45,11 +45,11 @@ class ApplicationController < ActionController::Base
     request.user_agent.to_s.downcase.include?(type.to_s.downcase)
   end
   helper_method :is_device?
-  
+
   def is_numeric?(i)
       i.to_i.to_s == i || i.to_f.to_s == i
   end
-  
+
   def get_or_create_voter_id
     if user_signed_in?
       return current_user.voter_id
@@ -58,7 +58,7 @@ class ApplicationController < ActionController::Base
       return cookies[:voter_id]
     end
   end
-  
+
   # use as a filter
   def check_ip
     upb_net = ENV["ORG_SUBNET"]||"131.234.0.0/16"
@@ -80,7 +80,7 @@ class ApplicationController < ActionController::Base
       #worker.run_local #(:timeout=>30) # note: this is blocking!
     end
   end
-  
+
   def publish_push_notification(*args)
     unless ENV["USE_JUGGERNAUT"] == "false"
       begin
@@ -98,5 +98,15 @@ class ApplicationController < ActionController::Base
       I18n.locale = :en
     end
   end
-    
+
+  def set_locale_for_event_or_survey
+    if @event && !@event.custom_locale.blank?
+      I18n.locale = @event.custom_locale
+      Rails.logger.info "set locale to #{@event.custom_locale}"
+    elsif @survey && !@survey.event.custom_locale.blank?
+      I18n.locale = @survey.event.custom_locale
+      Rails.logger.info "set locale to #{@survey.event.custom_locale}"
+    end
+  end
+
 end

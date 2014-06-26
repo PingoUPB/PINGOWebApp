@@ -1,23 +1,23 @@
 Given /^there exists a single choice question with the name "(.*?)" for "(.*?)"$/ do |name, user|
-  Question.create!(name: name, type: "single", user: get_user_by_mail(user))
+  @question = Question.create!(name: name, type: "single", user: get_user_by_mail(user))
 end
 
-Given /^there exists a multi choice question with the name "(.*?)" for "(.*?)"$/ do |name, user|
-  Question.create!(name: name, type: "multi", user: get_user_by_mail(user))
+Given /^there exists a multiple choice question with the name "(.*?)" for "(.*?)"$/ do |name, user|
+  @question = Question.create!(name: name, type: "multi", user: get_user_by_mail(user))
 end
 
 Given /^there exists a public question with the name "(.*?)"$/ do |name|
-  Question.create!(name: name, type:"multi", public: true)
+  @question = Question.create!(name: name, type:"multi", public: true)
 end
 
 When /^I create the single choice question "(.*?)" with the answers "(.*?)"$/ do |name, answers|
-  q = Question.create!(name: name, type: "single", user: @user)
-  populate_question_with_answers!(q, answers)
+  @question = Question.create!(name: name, type: "single", user: @user)
+  populate_question_with_answers!(@question, answers)
 end
 
 When /^I create the multiple choice question "(.*?)" with the answers "(.*?)"$/ do |name, answers|
-  q = Question.create!(name: name, type: "multiple", user: @user)
-  populate_question_with_answers!(q, answers)
+  @question = Question.create!(name: name, type: "multiple", user: @user)
+  populate_question_with_answers!(@question, answers)
 end
 
 Given /^I tag "(.*?)" with "(.*?)"$/ do |name, tag|

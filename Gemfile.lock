@@ -1,10 +1,4 @@
 GIT
-  remote: git://github.com/MichaelWhi/obscenity.git
-  revision: a5256958be284bbe0f8cdcb28b85a40e5a940e13
-  specs:
-    obscenity (1.0.1)
-
-GIT
   remote: git://github.com/PingoUPB/amnesia.git
   revision: 16578316d07134d9cc4967084f259b2996537fed
   specs:
@@ -15,11 +9,17 @@ GIT
       sinatra (>= 1.0)
 
 GIT
-  remote: git://github.com/stuart/gift-parser.git
+  remote: git://github.com/PingoUPB/gift-parser.git
   revision: f1e219d4126bdb8e3887659103c136739cc54f2c
   specs:
     gift-parser (0.2.1)
       treetop (>= 1.4.5)
+
+GIT
+  remote: git://github.com/PingoUPB/obscenity.git
+  revision: a5256958be284bbe0f8cdcb28b85a40e5a940e13
+  specs:
+    obscenity (1.0.1)
 
 GEM
   remote: http://rubygems.org/

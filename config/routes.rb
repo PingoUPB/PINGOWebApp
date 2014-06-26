@@ -58,8 +58,10 @@ Eclickr::Application.routes.draw do
       post "export"
       get 'import'
       post 'upload'
+      post 'share'
     end
   end
+  post "questions/:id/transform" => "questions#transform", as: "transform_question"
 
   get "invitations/new", :as => "invitation"
   post "invitations/deliver", :as => "deliver_invitation"

@@ -20,6 +20,13 @@ module NavigationHelpers
     when /the event's page/
       event_path(@event)
 
+    when /the event's edit page/
+      edit_event_path(@event)
+
+    when /the question's page/
+      question_path(@question)
+
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #

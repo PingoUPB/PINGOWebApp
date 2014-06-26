@@ -13,7 +13,7 @@
     <div class="control-group">
       <label class="control-label" for="import_type"><%=   t ".select_type" %></label>
       <div class="controls">   
-        <%= select_tag "import_type", options_for_select([["Moodle XML", "moodle_xml"], ["CSV", "csv"], ["Aiken / Pearson", "aiken"], ["Gift", "gift"]]), id: "select_type" %>
+        <%= select_tag "import_type", options_for_select([["Moodle XML", "moodle_xml"], ["CSV", "csv"], ["Aiken / Pearson", "aiken"], ["Gift", "gift"], ["Ilias QTI", "ilias"]]), id: "select_type" %>
       </div>
     </div>
 
@@ -46,6 +46,9 @@
 </div>
 <div id="gift" class="well import-info">
   <%= t(".gift_info") %>
+</div>
+<div id="ilias" class="well import-info">
+  <%= t(".ilias_info") %>
 </div>
 
 <%	 if @errors %>
@@ -228,6 +231,58 @@
       <td>&nbsp&nbspDefinition / Text-Antwort</td>
       <td>Freitext-Frage</td>
     </tr>
+    <tr>
+      <th>Ilias QTI</th>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspSingle Choice</td>
+      <td>Single Choice-Frage</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspMultiple Choice</td>
+      <td>Multiple Choice-Frage</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspFehler/Worte markieren</td>
+      <td class="text-error">Nicht unterstützt</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspHotspot/Image Map</td>
+      <td class="text-error">Nicht unterstützt</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspCloze</td>
+      <td class="text-error">Nicht unterstützt</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspNumerische Frage</td>
+      <td>Numerische Frage</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspBegriffe benennen</td>
+      <td>Freitext-Frage</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspAnordnungsfrage</td>
+      <td class="text-error">Nicht unterstützt</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspZuordnungsfrage</td>
+      <td class="text-error">Nicht unterstützt</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspFreitext</td>
+      <td>Freitext-Frage</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspDatei Hochladen</td>
+      <td class="text-error">Nicht unterstützt</td>
+    </tr>
+    <tr>
+      <td>&nbsp&nbspEingebettete Frage</td>
+      <td class="text-error">Nicht unterstützt</td>
+    </tr>
     </tbody>
   </table>
   <% else %>
@@ -358,6 +413,58 @@
       <tr>
         <td>&nbsp&nbspDefinition / Text</td>
         <td>Text-question</td>
+      </tr>
+      <tr>
+        <th>Ilias QTI</th>
+        <td></td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspSingle Choice</td>
+        <td>Single Choice-Question</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspMultiple Choice</td>
+        <td>Multiple Choice-Question</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspError/Flag Words</td>
+        <td class="text-error">Not Supported</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspHotspot/Image Map</td>
+        <td class="text-error">Not Supported</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspCloze</td>
+        <td class="text-error">Not Supported</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspNumeric Question</td>
+        <td>Numeric Question</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspTextsubset</td>
+        <td>Text-Question</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspOrder</td>
+        <td class="text-error">Not Supported</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspAssign</td>
+        <td class="text-error">Not Supported</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspText-Question</td>
+        <td>Text-Question</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspUpload File</td>
+        <td class="text-error">Not Supported</td>
+      </tr>
+      <tr>
+        <td>&nbsp&nbspEmbedded Question</td>
+        <td class="text-error">Not Supported</td>
       </tr>
       </tbody>
     </table>

@@ -1,21 +1,30 @@
 class QuestionsController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :check_access, except: [:index, :new, :create, :show, :add_to_own, :import, :export, :upload, :share]
 
   def index
     if params[:public]
       @questions = Question.where(public:true)
+    elsif params[:shared]  
+      @questions = current_user.shared_questions
+      unless @questions.any?
+        @questions = current_user.questions
+        params.delete :shared
+      end
     else
-      @questions = current_user.questions
+      @questions = current_user.questions.desc(:created_at)
       @questions = Question.all.desc(:created_at) if(params[:all] && current_user.admin?)
     end
 
-    if params[:q_type]
+    if params[:q_type] # TODO: refactor maybe? soooo long :(
       q_before = @questions
       if params[:q_type] == "choice"
         choice_types = ["single", "multi"]
         @questions = @questions.in(type: choice_types)
         if params[:public]
           @tags = Question.public_question_tags(choice_types)
+        elsif params[:shared]
+          @tags = current_user.shared_question_tags(choice_types)
         else
           @tags = current_user.question_tags(choice_types)
         end
@@ -23,6 +32,8 @@ class QuestionsController < ApplicationController
         @questions = @questions.where(type: params[:q_type])
         if params[:public]
           @tags = Question.public_question_tags([params[:q_type]])
+        elsif params[:shared]
+          @tags = current_user.shared_question_tags([params[:q_type]])
         else
           @tags = current_user.question_tags([params[:q_type]])
         end
@@ -34,12 +45,20 @@ class QuestionsController < ApplicationController
         @questions = q_before
         if params[:public]
           @tags = Question.public_question_tags
+        elsif params[:shared]
+          @tags = current_user.shared_question_tags
         else
           @tags = current_user.question_tags
         end
       end
     else
-      @tags = current_user.question_tags
+      if params[:public]
+        @tags = Question.public_question_tags
+      elsif params[:shared]
+        @tags = current_user.shared_question_tags
+      else
+        @tags = current_user.question_tags
+      end
     end
 
     if params[:tag]
@@ -64,41 +83,30 @@ class QuestionsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @questions.map(&:service), except: [:user_id] }
+      format.json { render json: @questions.uniq.map(&:service), except: [:user_id] }
     end
   end
 
   def show
     @question = Question.find(params[:id]).service
     unless @question.public
-
      check_access
-     return if performed?
-
     end
   end
 
   def new
-    @question_single = SingleChoiceQuestion.new
-    @question_multi = MultipleChoiceQuestion.new
+    @question_single = SingleChoiceQuestion.new.tap { |q| q.question_options.build }
+    @question_multi = MultipleChoiceQuestion.new.tap { |q| q.question_options.build }
     @question_text = TextQuestion.new
     @question_number = NumberQuestion.new  #refactor this maybe?
-
-    @question_single.question_options.build
-    @question_multi.question_options.build
   end
 
   def edit
-    @question = Question.find(params[:id]).service
-
-    check_access
-    return if performed?
 
   end
 
   def update
     set_js_tags
-    @question = Question.find(params[:id]).service
 
     if params[:options] && @question.has_settings?
       @question.add_setting("answers", params[:options])
@@ -106,6 +114,19 @@ class QuestionsController < ApplicationController
 
     respond_to do |format|
       if @question.update_attributes(question_params)
+        current_user.contacts.concat (@question.collaborators - current_user.contacts)
+        format.html { redirect_to question_path(@question), notice: t("messages.question_successfully_updated") }
+        format.json { render text: "" }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @question.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def transform
+    respond_to do |format|
+      if @question.kind_of?(ChoiceQuestion) && @question.transform
         format.html { redirect_to question_path(@question), notice: t("messages.question_successfully_updated") }
         format.json { render text: "" }
       else
@@ -146,11 +167,6 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question = Question.find(params[:id])
-
-    check_access
-    return if performed?
-
     @question.destroy
 
     respond_to do |format|
@@ -180,6 +196,8 @@ class QuestionsController < ApplicationController
     unless params[:question_ids].blank?
       questions = params[:question_ids].map do |id|
         Question.find(id).service        
+      end.select do |question|
+        question.user == current_user
       end
       extension, exporter = get_parser params[:export_type]
       exported_string = exporter.export questions
@@ -187,6 +205,24 @@ class QuestionsController < ApplicationController
     else
       redirect_to questions_path, alert: t("messages.select_questions_for_export")
     end    
+  end
+  
+  def share
+    unless params[:question_ids].blank? && params[:share_user_id].blank?
+      questions = params[:question_ids].map do |id|
+        Question.find(id).service        
+      end.select do |question|
+        question.user == current_user
+      end
+      share_user = User.find(params[:share_user_id])
+      questions.each do |q|
+        q.collaborators << share_user
+      end
+      current_user.contacts.concat(share_user) unless current_user.contacts.include?(share_user)
+      redirect_to questions_path, notice: t("messages.question_successfully_updated")
+    else
+      redirect_to questions_path, alert: t("messages.select_questions_to_share")
+    end
   end
 
   def import
@@ -216,6 +252,8 @@ class QuestionsController < ApplicationController
         return "xml", MoodleXmlParser.new
       when "gift"
         return "gift", GiftImporter.new
+      when "ilias"
+        return "xml", IliasParser.new
       else
         # Fehler
     end
@@ -234,10 +272,16 @@ class QuestionsController < ApplicationController
   end
 
   def check_access
-    render :text => t("messages.no_access_to_question"), status: :forbidden and return  if !@question.nil? && !current_user.admin && @question.user != current_user
+    @question = Question.find(params[:id]).service
+
+    unless !@question.nil? && @question.can_be_accessed_by?(current_user)
+      flash[:error] = t("messages.no_access_to_question") 
+      redirect_to questions_path, status: :forbidden and return false
+    end
+    true
   end
 
   def question_params
-    params.require(:question).permit(:name, :type, :description, :tags, :public, question_options_attributes: [:name, :correct, :id, :_destroy])
+    params.require(:question).permit(:name, :type, :description, :tags, :public, :collaborators_form, question_options_attributes: [:name, :correct, :id, :_destroy])
   end
 end

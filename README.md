@@ -56,5 +56,8 @@ More Infos
 -------
 
 * Rails Guides at <http://guides.rubyonrails.org/v3.2.13/>
-* <http://www.upb.de/pingo> (our website) and <http://blog.pingo-projekt.de> (our blog)
-* contact us at pingo-support…ät…uni-paderborn.de
+* <http://www.trypingo.com> for more information about features and the team
+* <http://www.upb.de/pingo> (our more detailed project website) and <http://blog.pingo-projekt.de> (our blog)
+* if you need support, please open an issue at GitHub: https://github.com/PingoUPB/PINGOWebApp/issues/new
+* (or contact us at pingo-support…ät…uni-paderborn.de if you cannot post a publicly visible ticket)
+* If you would like to contribute, please fork and create a pull request on Github.

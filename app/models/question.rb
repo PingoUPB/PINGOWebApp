@@ -27,6 +27,9 @@ class Question
   belongs_to :original_question, class_name: "Question", inverse_of: :copied_questions
   has_many :copied_questions, class_name: "Question", inverse_of: :original_question
 
+  has_and_belongs_to_many :collaborators, class_name: "User", inverse_of: :shared_questions
+  index :collaborator_ids, sparse: true
+
 
   # this is where we setup getting the service objects
   def service
@@ -60,6 +63,10 @@ class Question
     survey.settings = self.settings if self.settings
     survey
   end
+
+  def can_be_accessed_by?(_user)
+    (collaborators + [user]).include?(_user) || _user.admin
+  end
   
   def self.new_from_existing(original_question)
     Question.new.tap do |question|
@@ -84,6 +91,17 @@ class Question
 
   def self.recently_commented
     self.where("question_comments.created_at" => {"$gte" => Time.now - 14.days}).desc("question_comments.created_at")
+  end
+  
+  # for FORM
+  def collaborators_form
+    self.collaborators.map(&:id).join(",")
+  end
+
+  def collaborators_form=(v)
+    self.collaborators = v.split(",").reject(&:blank?).map do |u|
+      User.find(u)
+    end
   end
 
 end

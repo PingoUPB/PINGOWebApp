@@ -12,22 +12,34 @@ FactoryGirl.define do
     chair "test chair"
     # required if the Devise Confirmable module is used
     # confirmed_at Time.now
-    
-    factory :admin do 
+
+    factory :admin do
       admin true
     end
   end
-  
+
+  factory :hacker, class: User do
+    first_name 'Hacky'
+    last_name 'McCracker'
+    email 'hack@example.com'
+    password 'please'
+    password_confirmation 'please'
+    organization "test orga"
+    faculty "test fac"
+    chair "test chair"
+  end
+
   factory :event do
     name 'Test Session'
+    user
   end
-  
-  factory :option do 
+
+  factory :option do
     sequence :name do |n|
       "Option ##{n}"
     end
   end
-  
+
   factory :survey do
     name 'Test survey'
     event
@@ -48,13 +60,13 @@ FactoryGirl.define do
         FactoryGirl.create_list(:option, evaluator.options_count, survey: survey)
       end
     end
-    
-    
+
+
     factory :text_survey do
       name 'Tag cloud test survey'
       type "text"
     end
-    
+
     factory :numeric_survey do
       name 'Numeric test survey'
       type "number"

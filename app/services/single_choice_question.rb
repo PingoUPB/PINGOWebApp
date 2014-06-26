@@ -8,4 +8,9 @@ class SingleChoiceQuestion < ChoiceQuestion
   def form_partial
     "single_form"
   end
+
+  def transform
+    self.question.type = "multi"
+    self.save
+  end
 end

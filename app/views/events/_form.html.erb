@@ -20,7 +20,8 @@
     </div>
   </div>
    <div class="form-actions">
-    <%= f.hidden_field :collaborators_form %>
+    <%= f.hidden_field :collaborators_form, class: "collaborators-form" %>
+    <%= f.hidden_field :custom_locale %>
     <%= f.submit "OK", :class => "btn btn-primary", id: "new_event_submit" %>
   </div>
 </fieldset>

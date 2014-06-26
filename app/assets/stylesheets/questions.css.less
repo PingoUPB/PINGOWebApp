@@ -15,8 +15,10 @@ input[type="checkbox"].questions-table__checkbox {
 	}
 }
 
-.questions-table__export-button {
-	opacity: 0;
+.questions-table__action-button {
+	&.btn.disabled, &.btn[disabled] {
+		opacity: .3;
+	}
 } 
 
 .import-info, #compatibility {

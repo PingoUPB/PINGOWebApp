@@ -14,7 +14,7 @@ class Statistics
 
   def self.stdev(arr)
     if arr.size > 1
-     arr.stdev
+     standard_deviation arr
    else
     0
     end
@@ -44,6 +44,21 @@ class Statistics
   end
 
   private
+  
+  def self.standard_deviation(array)
+    result = 0
+    total = array.sum
+  
+    if array.size >= 1
+      mean = avg array
+      total_distance_from_mean = array.map do |i|
+        (i - mean) ** 2
+      end.sum
+      (total_distance_from_mean / ([1, array.size - 1].max)) ** 0.5   # TODO: talk with Philipp
+    else
+      0
+    end
+  end
 
   def self.recursive_cluster(arr, threshold, agg)
     arr.each do |cluster|

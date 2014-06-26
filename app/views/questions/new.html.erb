@@ -5,13 +5,16 @@
 <br/>
 <div class="tabbable tabs-left">
   <ul class="nav nav-tabs" id="Tabs">
-    <li class="active"><a href="#single-tab" data-toggle="tab"><%= t "type.single" %></a></li>
+    <li><a href="#single-tab" data-toggle="tab"><%= t "type.single" %></a></li>
     <li><a href="#multi-tab" data-toggle="tab"><%= t "type.multi" %></a></li>
-  	<li><a href="#text-tab" data-toggle="tab"><%= t "type.text" %></a></li>
+    <li><a href="#text-tab" data-toggle="tab"><%= t "type.text" %></a></li>
     <li><a href="#number-tab" data-toggle="tab"><%= t "type.number" %> <span class="label label-info">BETA</span></a></li>
   </ul>
   <div class="tab-content">
-    <div class="tab-pane active" id="single-tab">
+    <div class="tab-pane active" id="choose-tab">
+      <strong><%= icon_tag "icon-chevron-left" %> <%= t ".please_choose_question_type_to_continue" %></strong>
+    </div>
+    <div class="tab-pane" id="single-tab">
       <%= render partial: @question_single.form_partial, locals: {question: @question_single, namespace: 'single'} %>
     </div>
     <div class="tab-pane" id="multi-tab">

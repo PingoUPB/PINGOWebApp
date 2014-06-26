@@ -42,6 +42,7 @@
     </div>
   </div>
 </div>
+<%= form.hidden_field :collaborators_form, class:"collaborators-form" %>
 <%= form.submit class: "btn btn-primary", id: "single_question_submit" %><span style="margin-left:20px;">
 <% if params[:redirect_to_session] %>  
   <label for"also_start_question" class="checkbox"><%= check_box_tag "also_start_question", "true", true %> <%= t "questions.start_in_session" %>

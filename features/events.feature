@@ -69,3 +69,11 @@ Feature: Create und manage events
     When I go to the event's page
     And I press "new-event-survey_submit"
     Then I should see "Survey successfully created"
+
+  @javascript
+  Scenario: Change survey language
+    Given there exists an event with the name "test event"
+    And I go to the event's edit page
+    And I select "German" from "event_custom_locale_select"
+    And I press "new_event_submit"
+    Then I should see "Umfragen"

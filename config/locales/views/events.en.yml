@@ -40,3 +40,8 @@ en:
             collaborators_placeholder: The user’s email address
             not_found: There is no user with this email address. Please try again with a different email.
             share: share
+        advanced_settings:
+            language_headline: Session Language
+            language_tooltip: Use this setting to override the automatic detection of your browser language for this session.
+            de: German
+            en: English

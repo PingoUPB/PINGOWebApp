@@ -94,7 +94,7 @@ end
 
 gem 'maktoub'
 
-gem 'obscenity', git: "git://github.com/MichaelWhi/obscenity.git"
+gem 'obscenity', git: "git://github.com/PingoUPB/obscenity.git"
 
 gem 'better_logging'
 
@@ -103,4 +103,4 @@ gem 'pry-rails', :group => :development
 gem 'ruby-standard-deviation'
 gem 'histogram', require: 'histogram/array'
 
-gem 'gift-parser', :git => 'git://github.com/stuart/gift-parser.git', :require => 'gift'
+gem 'gift-parser', :git => 'git://github.com/PingoUPB/gift-parser.git', :require => 'gift'

@@ -15,14 +15,19 @@ en:
           all_tags: show all
           delete_question: Delete question
           delete_sure: Do you really want to delete this question?
-          own_questions: Own Questions 
-          question_catalog: List of Questions
+          own_questions: Own questions
+          shared_questions: Shared questions
+          question_catalog: List of questions
           questions_type_header: "question types"
           recently_commented: "Recently commented"
         edit:
           edit_question: Edit question
+          transform: "Transform into %{kind}-Choice question"
+        new:
+          please_choose_question_type_to_continue: "Please choose a question type (single/multiple choice, text, numerical) on the left hand side."
         show:
           add_to_own: Add to own questions
+          shared_question: "shared question from %{by}"
         comments:
           placeholder: Enter your comment here.
           show_session: show related survey
@@ -37,8 +42,11 @@ en:
           csv_info: "Currently commas are accepted as separator exclusively. The format is specified as follows: Each line contains one question. The first column specifies the type of the question (single, multi, number or text). Column two contains the text of the question. The following nine columns may contain question options. The last column is optional an can contain the numbers of the correct answers for multiple choice questions, in case of multiple correct answers separated by a semicolon (e.g. 1;3;5). In case of text questions it contains the limitation of the quantity of answers a respondent can give (1 for one, 3 for up to three)."
           aiken_info: "Any question in written in Aiken must specify correct answers"
           gift_info: "Currently True / False, Multiple Choice, Short Answer, Essay and Numerical questions are supported for the Gift format"
+          ilias_info: "Currently Multiple Choice, Single Choice, Text, Textsubset and Numeric questions are supported for the Ilias format."
           further_information: "For further information on how imported files are interpreted click here"
           upload_questions_legend: "Please choose a file and format to import questions into PINGO."
+        share_button: 
+          share_questions: "Share selected questions"
         error:
           question_text: "Question"
           description: "Type of error"
