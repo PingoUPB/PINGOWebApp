@@ -13,7 +13,9 @@
 <% elsif @question.type == "text" %>
 	Text
 <% elsif @question.type == "number" %>
-	<%= t("type_number") %>
+	<%= t("questions.show.type_number") %>
+<% elsif @question.type == "dragdrop" %>
+  Drag and Drop
 <% end %>
 <br>
 <p><strong>Tags:</strong> <%= @question.tags_array.join(", ") %> </p>
@@ -26,7 +28,12 @@
   </ul>
 <% end %>
 
-
+<% if @question.has_answer_pairs? %>
+  <strong><%= t("surveys.show.answer_pairs") %></strong>
+  <ul id="answer-pair-list">
+  <%= render partial: "answer_pair", collection: @question.answer_pairs %>
+  </ul>
+<% end %>
 
 <% if @question.can_be_accessed_by?(current_user) %>
 	<%= link_to t("edit"), edit_question_path(@question), class: "btn btn-small" %> 

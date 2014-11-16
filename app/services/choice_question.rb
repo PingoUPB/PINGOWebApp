@@ -10,5 +10,9 @@ class ChoiceQuestion < GenericQuestion
   def has_options?
     true
   end
+
+  def has_answer_pairs?
+    false
+  end
   
 end

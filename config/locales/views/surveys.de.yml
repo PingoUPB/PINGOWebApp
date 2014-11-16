@@ -8,7 +8,9 @@ de:
             correct_answer: Korrekte Antwort
             edit_survey: Umfrage bearbeiten
             add_option: Antwortmöglichkeit hinzufügen
+            add_answer_pair: Antwortpaar hinzufügen
             options_for_survey: Antwortmöglichkeiten für diese Umfrage
+            answer_pairs_for_dragdrop_survey: Antwortpaare für diese Umfrage
         changed:
           header: Vergleich des Antwortverhaltens
           wait: "Einen Moment bitte, Daten werden berechnet"
@@ -40,6 +42,7 @@ de:
             end: Ende der Abstimmzeit
             time_left: "Zeit übrig"
             options: Antwortmöglichkeiten
+            answer_pairs: Antwortpaare
             stop1: Stoppen
             start1: Jetzt starten
             continue1: Fortsetzen
@@ -63,4 +66,6 @@ de:
             add_field_notice: "Bei dieser Umfrage können Sie beliebig viele Antworten eingeben."
         number_input_field:
             notice: "Zahl bitte ohne 1.000er-Trennzeichen eingeben, z. B. 42,7"
+        dragdrop_input_field_1: "Das gehört..."
+        dragdrop_input_field_2: "...zu dem."
 

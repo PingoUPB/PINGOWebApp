@@ -12,6 +12,9 @@ class Survey
   
   embeds_many :options
   accepts_nested_attributes_for :options, :allow_destroy => true
+
+  embeds_many :answer_pairs
+  accepts_nested_attributes_for :answer_pairs, :allow_destroy => true
     
   field :name, type: String
   field :description, type: String
@@ -55,6 +58,8 @@ class Survey
       NumberSurvey.new(self)
     when "exit_q"
       ExitSurvey.new(self)
+    when "dragdrop"
+      DragDropSurvey.new(self)
     else
       self
     end

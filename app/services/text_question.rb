@@ -12,6 +12,10 @@ class TextQuestion < GenericQuestion
   def has_options?
     false
   end
+
+  def has_answer_pairs?
+    false
+  end
   
   def form_partial
     "text_form"
