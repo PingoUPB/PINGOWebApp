@@ -58,8 +58,8 @@
 	<%= link_to icon_tag("th") + t("type.text"), questions_path(tag: params[:tag], q_type: "text", public: params[:public], shared: params[:shared])  %> </li>
  <li class="<%= "active" if params[:q_type] == "number" %>">
   <%= link_to icon_tag("th") + t("type.number"), questions_path(tag: params[:tag], q_type: "number", public: params[:public], shared: params[:shared])  %> </li>
- <li class="<%= "active" if params[:q_type] == "dragdrop" %>">
-  <%= link_to icon_tag("move") + t("type.dragdrop"), questions_path(tag: params[:tag], q_type: "dragdrop", public: params[:public], shared: params[:shared])  %> </li>
+ <li class="<%= "active" if params[:q_type] == "drag_drop" %>">
+  <%= link_to icon_tag("move") + t("type.drag_drop"), questions_path(tag: params[:tag], q_type: "drag_drop", public: params[:public], shared: params[:shared])  %> </li>
 	
  <li class="divider"></li>
 

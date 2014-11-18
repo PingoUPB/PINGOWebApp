@@ -1,15 +1,15 @@
 class DragDropSurvey < GenericSurvey
   def initialize(survey)
-  	raise "type of survey (#{survey.type}) not correct" if survey.type != "dragdrop"
+  	raise "type of survey (#{survey.type}) not correct" if survey.type != "drag_drop"
   	super
   end
 
   def prompt
-    I18n.t "surveys.participate.dragdrop"
+    I18n.t "surveys.participate.drag_drop"
   end
   
   def participate_partial
-    "dragdrop_option"
+    "drag_drop_option"
   end
 
    # VIEW OPTIONS
@@ -22,7 +22,7 @@ class DragDropSurvey < GenericSurvey
   end
 
   def has_settings?
-    false
+    true
   end
 
   def results_comparable?

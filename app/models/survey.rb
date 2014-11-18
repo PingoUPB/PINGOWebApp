@@ -58,7 +58,7 @@ class Survey
       NumberSurvey.new(self)
     when "exit_q"
       ExitSurvey.new(self)
-    when "dragdrop"
+    when "drag_drop"
       DragDropSurvey.new(self)
     else
       self

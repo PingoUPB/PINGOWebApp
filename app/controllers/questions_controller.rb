@@ -1,5 +1,4 @@
 class QuestionsController < ApplicationController
-  require_dependency "app/services/dragdrop_question.rb"
   before_filter :authenticate_user!
   before_filter :check_access, except: [:index, :new, :create, :show, :add_to_own, :import, :export, :upload, :share]
 
@@ -100,7 +99,7 @@ class QuestionsController < ApplicationController
     @question_multi = MultipleChoiceQuestion.new.tap { |q| q.question_options.build }
     @question_text = TextQuestion.new
     @question_number = NumberQuestion.new  #refactor this maybe?
-    @question_dragdrop = DragDropQuestion.new.tap { |q| q.answer_pairs.build }
+    @question_drag_drop = DragDropQuestion.new.tap { |q| q.answer_pairs.build }
   end
 
   def edit
@@ -149,10 +148,6 @@ class QuestionsController < ApplicationController
 
     if params[:options] && @question.has_settings?
       @question.add_setting("answers", params[:options])
-    end
-
-    if params[:answer_pairs] && @question.has_settings?
-      @question.add_setting("answers", params[:answer_pairs])
     end
 
     respond_to do |format|
@@ -278,8 +273,8 @@ class QuestionsController < ApplicationController
       params[:question][:tags] = params["text_question"][:tags]
     elsif params["number_question"] && params["number_question"][:tags]
       params[:question][:tags] = params["number_question"][:tags]
-    elsif params["dragdrop_question"] && params["dragdrop_question"][:tags]
-      params[:question][:tags] = params["dragdrop_question"][:tags]
+    elsif params["drag_drop_question"] && params["drag_drop_question"][:tags]
+      params[:question][:tags] = params["drag_drop_question"][:tags]
     end
   end
 
@@ -294,6 +289,6 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:name, :type, :description, :tags, :public, :collaborators_form, question_options_attributes: [:name, :correct, :id, :_destroy], answer_pair_attributes: [:answer1, :answer2, :id, :_destroy])
+    params.require(:question).permit(:name, :type, :description, :tags, :public, :collaborators_form, question_options_attributes: [:name, :correct, :id, :_destroy], answer_pairs_attributes: [:answer1, :answer2, :id, :_destroy])
   end
 end

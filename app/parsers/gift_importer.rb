@@ -28,7 +28,7 @@ class GiftImporter
         elsif question.is_a? Gift::NumericQuestion
           q = Question.new(type:"number")
         elsif question.is_a? Gift::DragDropQuestion
-          q = Question.new(type:"dragdrop")
+          q = Question.new(type:"drag_drop")
         elsif question.is_a?(Gift::DescriptionQuestion) || question.is_a?(Gift::MatchQuestion) || question.is_a?(Gift::FillInQuestion)
           # Abfrage nicht unterstützter Typen
           errors << {"type" => "unsupported_type", "text" => question.text}

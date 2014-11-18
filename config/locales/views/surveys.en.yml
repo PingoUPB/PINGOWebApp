@@ -10,7 +10,7 @@ en:
             add_option: Add option
             add_answer_pair: Add answer pair
             options_for_survey: Answer options for this survey
-            answer_pairs_for_dragdrop_survey: Answer pairs for this survey
+            answer_pairs_for_drag_drop_survey: Answer pairs for this survey
         changed:
           header: Comparison of voting behaviour
           wait: "One moment please, gathering data"
@@ -66,6 +66,6 @@ en:
             add_field_notice: "In this survey, you can enter as many answers as you wish."
         number_input_field:
             notice: "Please enter the number without a thousands delimiter, e.g. 42.7"
-        dragdrop_input_field_1: "This belongs..."
-        dragdrop_input_field_2: "...to that."
+        drag_drop_input_field_1: "This belongs..."
+        drag_drop_input_field_2: "...to that."
 

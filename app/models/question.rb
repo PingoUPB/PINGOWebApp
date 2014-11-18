@@ -12,7 +12,7 @@ class Question
   field :settings, type: Hash, default: {}
   
   def self.question_types
-    ["multi", "single", "text", "exit_q", "number", "dragdrop"]
+    ["multi", "single", "text", "exit_q", "number", "drag_drop"]
   end
   
   validates :type, inclusion: {in: Question.question_types}
@@ -45,7 +45,7 @@ class Question
       MultipleChoiceQuestion.new(self)
     when "number"
       NumberQuestion.new(self)
-    when "dragdrop"
+    when "drag_drop"
       DragDropQuestion.new(self)
     else
       self

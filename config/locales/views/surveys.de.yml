@@ -10,7 +10,7 @@ de:
             add_option: Antwortmöglichkeit hinzufügen
             add_answer_pair: Antwortpaar hinzufügen
             options_for_survey: Antwortmöglichkeiten für diese Umfrage
-            answer_pairs_for_dragdrop_survey: Antwortpaare für diese Umfrage
+            answer_pairs_for_drag_drop_survey: Antwortpaare für diese Umfrage
         changed:
           header: Vergleich des Antwortverhaltens
           wait: "Einen Moment bitte, Daten werden berechnet"
@@ -66,6 +66,6 @@ de:
             add_field_notice: "Bei dieser Umfrage können Sie beliebig viele Antworten eingeben."
         number_input_field:
             notice: "Zahl bitte ohne 1.000er-Trennzeichen eingeben, z. B. 42,7"
-        dragdrop_input_field_1: "Das gehört..."
-        dragdrop_input_field_2: "...zu dem."
+        drag_drop_input_field_1: "Das gehört..."
+        drag_drop_input_field_2: "...zu dem."
 

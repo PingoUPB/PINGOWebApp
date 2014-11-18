@@ -1,8 +1,8 @@
 class DragDropQuestion < GenericQuestion
-  def initialize(question = Question.new(type: "dragdrop"))
-    raise "type of question not correct" if question.type != "dragdrop"
+  def initialize(question = Question.new(type: "drag_drop"))
+    raise "type of question not correct" if question.type != "drag_drop"
     super
-    self.question.type = "dragdrop" unless self.question.persisted?
+    self.question.type = "drag_drop" unless self.question.persisted?
   end
 
   def has_options?
@@ -18,7 +18,7 @@ class DragDropQuestion < GenericQuestion
   end
 
   def form_partial
-    "dragdrop_form"
+    "drag_drop_form"
   end
 
   def to_survey

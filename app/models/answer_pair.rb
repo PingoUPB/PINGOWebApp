@@ -1,7 +1,7 @@
 class AnswerPair
   include Mongoid::Document
 
-  embedded_in :question
+  embedded_in :question, :inverse_of => :answer_pairs
   field :answer1, type: String
   field :answer2, type: String
 
