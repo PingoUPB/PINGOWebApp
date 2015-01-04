@@ -10,7 +10,7 @@ de:
             add_option: Antwortmöglichkeit hinzufügen
             add_answer_pair: Antwortpaar hinzufügen
             options_for_survey: Antwortmöglichkeiten für diese Umfrage
-            answer_pairs_for_drag_drop_survey: Antwortpaare für diese Umfrage
+            answer_pairs_for_match_survey: Antwortpaare für diese Umfrage
         changed:
           header: Vergleich des Antwortverhaltens
           wait: "Einen Moment bitte, Daten werden berechnet"
@@ -28,6 +28,8 @@ de:
             rate_lecture: "Bitte bewerten Sie die heutige Veranstaltung"
             choose-text: "Bitte geben Sie Ihre Antwort ein"
             choose-number: "Bitte geben Sie eine Zahl ein"
+            choose-match: "Bitte ordnen Sie die Felder einander zu, indem Sie nacheinander eines auf der linken und eines auf der rechten Seite anklicken"
+            chosen-match: "Sie haben zugeordnet"
         show:
             survey: Umfrage
             from: vom
@@ -36,6 +38,7 @@ de:
             session_no: Session Nr.
             running: Am laufen?
             is_text: Dies ist eine Freitext-Frage.
+            is_match: Dies ist eine Zuordnungsfrage.
             votes_participants: Teilnehmer
             is_multi: Dies ist eine Multiple-Choice-Umfrage.
             running_notice: 'Diese Umfrage <span class="label label-success">läuft</span>. Teilnahme ist über <code>%{url}</code> möglich.'
@@ -43,6 +46,7 @@ de:
             time_left: "Zeit übrig"
             options: Antwortmöglichkeiten
             answer_pairs: Antwortpaare
+            correct_answer_pairs: Korrekte Antwortpaare
             stop1: Stoppen
             start1: Jetzt starten
             continue1: Fortsetzen
@@ -58,6 +62,8 @@ de:
             chart: "Diagramm"
             histogram: "Histogramm"
             repeated: "Diese Umfrage ist eine wiederholte Umfrage."
+            mark_corrects: Korrekte markieren
+            wait_to_end: Warten bis Zeit abgelaufen ist...
         text_table_results:
             term: "Antwort"
             occurrences: "Häufigkeit"
@@ -66,6 +72,6 @@ de:
             add_field_notice: "Bei dieser Umfrage können Sie beliebig viele Antworten eingeben."
         number_input_field:
             notice: "Zahl bitte ohne 1.000er-Trennzeichen eingeben, z. B. 42,7"
-        drag_drop_input_field_1: "Das gehört..."
-        drag_drop_input_field_2: "...zu dem."
+        match_input_field_1: "Das gehört..."
+        match_input_field_2: "...zu dem."
 

@@ -9,7 +9,7 @@
     <li><a href="#multi-tab" data-toggle="tab"><%= t "type.multi" %></a></li>
     <li><a href="#text-tab" data-toggle="tab"><%= t "type.text" %></a></li>
     <li><a href="#number-tab" data-toggle="tab"><%= t "type.number" %> <span class="label label-info">BETA</span></a></li>
-    <li><a href="#drag_drop-tab" data-toggle="tab"><%= t "type.drag_drop" %></a></li>
+    <li><a href="#match-tab" data-toggle="tab"><%= t "type.match" %></a></li>
   </ul>
   <div class="tab-content">
     <div class="tab-pane active" id="choose-tab">
@@ -27,8 +27,8 @@
     <div class="tab-pane" id="number-tab">
       <%= render partial: @question_number.form_partial, locals: {question: @question_number} %>
     </div>
-    <div class="tab-pane" id="drag_drop-tab">
-      <%= render partial: @question_drag_drop.form_partial, locals: {question: @question_drag_drop} %>
+    <div class="tab-pane" id="match-tab">
+      <%= render partial: @question_match.form_partial, locals: {question: @question_match} %>
     </div>
   </div>
 </div>

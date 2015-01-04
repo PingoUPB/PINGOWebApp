@@ -14,8 +14,8 @@
 	Text
 <% elsif @question.type == "number" %>
 	<%= t("questions.show.type_number") %>
-<% elsif @question.type == "drag_drop" %>
-  Drag and Drop
+<% elsif @question.type == "match" %>
+  <%= t("questions.show.type_match") %>
 <% end %>
 <br>
 <p><strong>Tags:</strong> <%= @question.tags_array.join(", ") %> </p>
@@ -31,7 +31,7 @@
 <% if @question.has_answer_pairs? %>
   <strong><%= t("surveys.show.answer_pairs") %></strong>
   <ul id="answer-pair-list">
-  <%= render partial: "answer_pair", collection: @question.answer_pairs %>
+  <%= render partial: "answer_pair", collection: @question.answer_pairs.where(correct: true) %>
   </ul>
 <% end %>
 

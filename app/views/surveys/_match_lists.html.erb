@@ -1,0 +1,44 @@
+<head>
+  	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  	<script>
+  		$(document).ready(function(){
+  			$(".left").click(function(){
+            $(".left").addClass("selected");
+        		$(".left").removeClass("selected");
+        		$(this).toggleClass("selected");
+        	});
+        	$(".right").click(function(){
+            $(".right").addClass("selected");
+        		$(".right").removeClass("selected");
+        		$(this).toggleClass("selected");
+        	});
+        });
+  	</script>
+</head>
+<body>
+<table style="width:100%">
+	<% answer1s = survey.get_all_answer1 %>
+	<% answer2s = survey.get_all_answer2 %>
+	<% answer2s.shuffle! %>
+	<tr>
+		<td style="width:50%">
+			<ol id="selectable">
+				<% for j in 0..(answer1s.length - 1) %>
+					<li class="left"><%= answer1s[j] %></li>
+				<% end %>
+			</ol>
+  		</td>
+  		<td style="width:50%">
+			<ol id="selectable">
+				<% for j in 0..(answer2s.length - 1) %>
+					<li class="right"><%= answer2s[j] %></li>
+				<% end %>
+			</ol>
+  		</td>
+  	</tr>
+</table>
+<hr />
+<p>
+<span><%= t "surveys.participate.chosen-match" %>:</span> <span id="select-result">none</span>.
+</p>
+</body>

@@ -24,11 +24,12 @@ en:
           edit_question: Edit question
           transform: "Transform into %{kind}-Choice question"
         new:
-          please_choose_question_type_to_continue: "Please choose a question type (single/multiple choice, text, numerical, drag and drop) on the left hand side."
+          please_choose_question_type_to_continue: "Please choose a question type (single/multiple choice, text, numerical, match) on the left hand side."
         show:
           add_to_own: Add to own questions
           shared_question: "shared question from %{by}"
           type_number: Numerical
+          type_match: Match
         comments:
           placeholder: Enter your comment here.
           show_session: show related survey

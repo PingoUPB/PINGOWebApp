@@ -1,0 +1,19 @@
+<table height="300" class="table table-striped table-bordered table-hover chart-container__chart">
+  <thead>
+    <tr>
+        <th>&nbsp;</th>
+        <% survey.answer_pairs.where(correct: true).each do |pair| %>
+          <th scope="col"><%= pair.answer2 %></th>
+        <% end %>
+    </tr> 
+  </thead>
+  <tbody>
+    <% survey.answer_pairs.where(correct: true).each do |pair1| %>
+      <tr><th scope="row"><%= pair1.answer1 %></th>
+      <% survey.answer_pairs.where(correct: true).each do |pair2| %>
+        <td class="survey-actions"><%= survey.answer_pairs.where(answer1: pair1.answer1, answer2: pair2.answer2).first.votes %></td>
+      <% end %>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

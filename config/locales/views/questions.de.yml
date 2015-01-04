@@ -29,8 +29,9 @@ de:
       add_to_own: Zu eigenen Fragen hinzufügen
       shared_question: "Für Sie von %{by} freigegebene Frage"
       type_number: Numerisch
+      type_match: Zuordnen
     new:
-      please_choose_question_type_to_continue: "Bitte wählen Sie links einen Fragetyp (Single/Multiple-Choice, Text, Numerisch oder Drag-and-Drop) aus."
+      please_choose_question_type_to_continue: "Bitte wählen Sie links einen Fragetyp (Single/Multiple-Choice, Text, Numerisch oder Zuordnen) aus."
     comments:
       placeholder: Geben Sie hier Ihren Kommentar ein.
       show_session: dazugehörige Session/Umfrage anzeigen

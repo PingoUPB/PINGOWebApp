@@ -1,15 +1,15 @@
-<%= semantic_form_for question, namespace: "drag_drop", html: { class: "form-inline ", id: "new_drag_drop_question" }  do |form| %>
+<%= semantic_form_for question, namespace: "match", html: { class: "form-inline ", id: "new_match_question" }  do |form| %>
 <%= error_msg_for question %>
 <div class="well">
   <div>
     <%= form.input :name, input_html: {class: "input-xxlarge"} %>
   </div>
-    <%= form.hidden_field :type, value: "drag_drop" %>
+    <%= form.hidden_field :type, value: "match" %>
     <%= hidden_field_tag :redirect_to_session, params[:redirect_to_session] %>
   <div>
     <%= form.input :tags, input_html: { class:  "input-xxlarge" , placeholder: "Tags" }, required: false %>
     <% if current_user.question_tags && !current_user.question_tags.blank? %>
-    <%= select_tag "tags", options_for_select([[t("questions.add_from_your_tags"), '']] + current_user.question_tags.sort.map{ |t| [t, t]}), id: "drag_drop_select_tag" %>
+    <%= select_tag "tags", options_for_select([[t("questions.add_from_your_tags"), '']] + current_user.question_tags.sort.map{ |t| [t, t]}), id: "match_select_tag" %>
     <br>&nbsp;
     <% end %>
   </div>
@@ -18,14 +18,14 @@
   </div>
 </div>
 
-<h3><%= t("surveys.edit.answer_pairs_for_drag_drop_survey") %></h3>
+<h3><%= t("surveys.edit.answer_pairs_for_match_survey") %></h3>
 <div id="options" class="row-fluid">
   <div class="span8">
     <%= form.semantic_fields_for :answer_pairs, class: "form-inline" do |pair| %>
-    <%= render "drag_drop_question_answer_pair_fields", f: pair %>
+      <%= render "match_question_answer_pair_fields", f: pair %>
     <% end %>
     <div class="links">
-      <%= link_to_add_association icon_tag("plus")+t("surveys.edit.add_answer_pair"), form, :answer_pairs, partial:"drag_drop_question_answer_pair_fields" %>
+      <%= link_to_add_association icon_tag("plus")+t("surveys.edit.add_answer_pair"), form, :answer_pairs, partial:"match_question_answer_pair_fields" %>
     </div>
     <br>
   </div>
@@ -42,14 +42,14 @@
 <% content_for :javascript do %>
   <script>
     $(document).ready(function() {
-      $("#drag_drop_question_tags").tagsManager({ // http://welldonethings.com/tags/manager
+      $("#match_question_tags").tagsManager({ // http://welldonethings.com/tags/manager
         prefilled: "<%= question.tags %>",
-        hiddenTagListName: "drag_drop_question[tags]",
+        hiddenTagListName: "match_question[tags]",
 		    preventSubmitOnEnter: true
       });
-	  $("#drag_drop_select_tag").change(function(){
-		$("#drag_drop_question_tags").tagsManager("pushTag", $("#drag_drop_select_tag").val());
-		$("#drag_drop_select_tag option:first").attr('selected',true);
+	  $("#match_select_tag").change(function(){
+		$("#match_question_tags").tagsManager("pushTag", $("#match_select_tag").val());
+		$("#match_select_tag option:first").attr('selected',true);
 	  });
     });
   </script>

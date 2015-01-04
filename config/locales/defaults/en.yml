@@ -79,7 +79,7 @@ en:
       choice: "Choice Question"
       single: "Single Choice"
       multi: "Multiple Choice"
-      drag_drop: "Drag and Drop"
+      match: "Match"
       truefalse: "True/False Question"
       yesno: "Yes/No Question"
       agree: "Agree/Disagree Question"

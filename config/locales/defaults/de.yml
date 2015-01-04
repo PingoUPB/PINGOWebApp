@@ -80,7 +80,7 @@ de:
       choice: "Auswahlfrage"
       single: "Single Choice"
       multi: "Multiple Choice"
-      drag_drop: "Drag and Drop"
+      match: "Zuordnen"
       truefalse: "Wahr/Falsch-Frage"
       yesno: "Ja/Nein-Frage"
       agree: "Zustimmen/Nicht zustimmen-Frage"

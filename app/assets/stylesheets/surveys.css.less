@@ -2,6 +2,7 @@
 	font-style: italic;
 	font-size: 80%;
 }
+
 #survey-options-list li {
 	margin-bottom:10px;
 }
@@ -56,7 +57,18 @@
 	}
 }
 
+#selectable { 
+	list-style-type: none; 
+	margin: 0; 
+	padding: 0; 
+}
 
+#selectable li { 
+	border: 1px solid LightGray; 
+	margin: 3px; 
+	padding: 0.4em; 
+	text-align: center; 
+}
 
 
 /* ========================================
@@ -96,7 +108,9 @@
 	display: inline;
 }
 
-
+.selected { 
+	background: #FECA40; 
+}
 
 
 
@@ -166,7 +180,7 @@
 	margin-top: 0.25em;
 }
 
-.canvas_downloadable {
+.canvas_downloadable .table_downloadable {
 	position: relative;
 
 	.canvas_download-button {

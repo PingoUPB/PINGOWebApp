@@ -44,6 +44,7 @@ class SurveysController < ApplicationController
   def new
     @survey = Survey.new
     @survey.options.build
+    @survey.answer_pairs.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -200,6 +201,9 @@ class SurveysController < ApplicationController
     @survey.quick = true
     original_survey.options.map do |option|
       @survey.options.new(name: option.name, correct: option.correct)
+    end
+    original_survey.answer_pairs.map do |pair|
+      @survey.answer_pairs.new(answer1: pair.answer1, answer2: pair.answer2, correct: pair.correct)
     end
     @survey.type = original_survey.type
     @survey.settings = original_survey.settings
@@ -492,7 +496,7 @@ class SurveysController < ApplicationController
 
   protected
   def survey_params
-    params.require(:survey).permit(:name, :description, options_attributes: [:name, :correct, :id])
+    params.require(:survey).permit(:name, :description, options_attributes: [:name, :correct, :id], answer_pairs_attributes: [:answer1, :answer2, :correct, :id])
   end
 
   def check_access

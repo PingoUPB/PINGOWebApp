@@ -24,6 +24,10 @@ class GenericSurvey < Delegator
   def has_options?
     false
   end
+
+  def has_answer_pairs?
+    false
+  end
   
   def terms_numeric? # are individual answers numeric?
     false

@@ -99,11 +99,11 @@ class QuestionsController < ApplicationController
     @question_multi = MultipleChoiceQuestion.new.tap { |q| q.question_options.build }
     @question_text = TextQuestion.new
     @question_number = NumberQuestion.new  #refactor this maybe?
-    @question_drag_drop = DragDropQuestion.new.tap { |q| q.answer_pairs.build }
+    @question_match = MatchQuestion.new.tap { |q| q.answer_pairs.build }
   end
 
   def edit
-
+    @question.delete_all_false_answer_pairs
   end
 
   def update
@@ -111,10 +111,6 @@ class QuestionsController < ApplicationController
 
     if params[:options] && @question.has_settings?
       @question.add_setting("answers", params[:options])
-    end
-
-    if params[:answer_pairs] && @question.has_settings?
-      @question.add_setting("answers", params[:answer_pairs])
     end
 
     respond_to do |format|
@@ -127,6 +123,7 @@ class QuestionsController < ApplicationController
         format.json { render json: @question.errors, status: :unprocessable_entity }
       end
     end
+
   end
 
   def transform
@@ -273,8 +270,8 @@ class QuestionsController < ApplicationController
       params[:question][:tags] = params["text_question"][:tags]
     elsif params["number_question"] && params["number_question"][:tags]
       params[:question][:tags] = params["number_question"][:tags]
-    elsif params["drag_drop_question"] && params["drag_drop_question"][:tags]
-      params[:question][:tags] = params["drag_drop_question"][:tags]
+    elsif params["match_question"] && params["match_question"][:tags]
+      params[:question][:tags] = params["match_question"][:tags]
     end
   end
 
@@ -289,6 +286,7 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:name, :type, :description, :tags, :public, :collaborators_form, question_options_attributes: [:name, :correct, :id, :_destroy], answer_pairs_attributes: [:answer1, :answer2, :id, :_destroy])
+    params.require(:question).permit(:name, :type, :description, :tags, :public, :collaborators_form, question_options_attributes: [:name, :correct, :id, :_destroy], answer_pairs_attributes: [:answer1, :answer2, :correct, :id, :_destroy])
   end
+
 end

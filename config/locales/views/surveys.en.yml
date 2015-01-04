@@ -10,7 +10,7 @@ en:
             add_option: Add option
             add_answer_pair: Add answer pair
             options_for_survey: Answer options for this survey
-            answer_pairs_for_drag_drop_survey: Answer pairs for this survey
+            answer_pairs_for_match_survey: Answer pairs for this survey
         changed:
           header: Comparison of voting behaviour
           wait: "One moment please, gathering data"
@@ -28,6 +28,8 @@ en:
             choose-text: "Please enter your answer"
             rate_lecture: "Please rate today's presentation"
             choose-number: "Please enter your (numerical) answer"
+            choose-match: "Please match the fields by successively clicking one on the left and one on the right side"
+            chosen-match: "You've matched"
         show:
             survey: Survey
             from: from
@@ -36,6 +38,7 @@ en:
             session_no: session no.
             running: running?
             is_text: This is a text question
+            is_match: This is a match question
             votes_participants: participants
             is_multi: This is a multiple-choice survey.
             running_notice: 'This survey is <span class="label label-success">running</span>. People can access this survey at <code>%{url}</code>'
@@ -43,6 +46,7 @@ en:
             time_left: time left
             options: options
             answer_pairs: answer pairs
+            correct_answer_pairs: correct answer pairs
             stop1: stop
             start1: start now
             continue1: continue
@@ -58,6 +62,8 @@ en:
             chart: "chart"
             histogram: "histogram"
             repeated: "This is a repeated survey."
+            mark_corrects: mark correct answers
+            wait_to_end: Wait until time is up...
         text_table_results:
             term: "answer"
             occurrences: "occurrences"
@@ -66,6 +72,6 @@ en:
             add_field_notice: "In this survey, you can enter as many answers as you wish."
         number_input_field:
             notice: "Please enter the number without a thousands delimiter, e.g. 42.7"
-        drag_drop_input_field_1: "This belongs..."
-        drag_drop_input_field_2: "...to that."
+        match_input_field_1: "This belongs..."
+        match_input_field_2: "...to that."
 

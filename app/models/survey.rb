@@ -39,8 +39,8 @@ class Survey
   belongs_to :question
   
   scope :current, where(:starts.gte => DateTime.now).and(:ends.lt => DateTime.now)
-  scope :display_fields, only(:description, :ends, :name, :options, :starts, :event_id, :quick, :created_at, :multi, :type, :settings, :voters, :voters_hash, :original_survey_id, :exit_q, :question_id)
-  scope :participate_fields, only(:description, :ends, :name, :options, :starts, :event_id, :quick, :multi, :type, :exit_q, :settings)
+  scope :display_fields, only(:description, :ends, :name, :options, :answer_pairs, :starts, :event_id, :quick, :created_at, :multi, :type, :settings, :voters, :voters_hash, :original_survey_id, :exit_q, :question_id)
+  scope :participate_fields, only(:description, :ends, :name, :options, :answer_pairs, :starts, :event_id, :quick, :multi, :type, :exit_q, :settings)
   scope :worker_fields, only(:voters, :multi, :type, :starts, :ends)
   
   validates :event, presence: true
@@ -58,8 +58,8 @@ class Survey
       NumberSurvey.new(self)
     when "exit_q"
       ExitSurvey.new(self)
-    when "drag_drop"
-      DragDropSurvey.new(self)
+    when "match"
+      MatchSurvey.new(self)
     else
       self
     end

@@ -5,7 +5,7 @@ class Option
    field :name, type: String
    field :description, type: String
    field :votes, type: Integer, default: 0
-   field :correct, type: Boolean, defaut: nil
+   field :correct, type: Boolean, default: nil
    
    validates_presence_of :name
    

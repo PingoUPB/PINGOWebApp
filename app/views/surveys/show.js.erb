@@ -69,13 +69,10 @@ setVoterCount(<%= @survey.total_votes %>, "<%= @survey.id.to_s %>");
 <% end %>
 
 <% if @survey.starts && @survey.starts <= DateTime.now %>
-
-// Draw Chart  
-<%= render partial: "chart", locals: {:survey => @survey, :selector => "#chart"} %>
-
-<% # TODO  chart only if choice question
-%>
-
+	<% if @survey.type == "multi" or @survey.type == "single" %>
+		// Draw Bar Chart  
+		<%= render partial: "chart", locals: {:survey => @survey, :selector => "#chart"} %>	
+	<% end %>
 <% end %>
 
 // scroll into view (we scroll to h1 since there's a 60px bootstrap menu bar)

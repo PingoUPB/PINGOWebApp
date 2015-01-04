@@ -12,7 +12,7 @@ class Question
   field :settings, type: Hash, default: {}
   
   def self.question_types
-    ["multi", "single", "text", "exit_q", "number", "drag_drop"]
+    ["multi", "single", "text", "exit_q", "number", "match"]
   end
   
   validates :type, inclusion: {in: Question.question_types}
@@ -33,6 +33,7 @@ class Question
   has_and_belongs_to_many :collaborators, class_name: "User", inverse_of: :shared_questions
   index :collaborator_ids, sparse: true
 
+  before_save :fill_up_answer_pairs
 
   # this is where we setup getting the service objects
   def service
@@ -45,8 +46,8 @@ class Question
       MultipleChoiceQuestion.new(self)
     when "number"
       NumberQuestion.new(self)
-    when "drag_drop"
-      DragDropQuestion.new(self)
+    when "match"
+      MatchQuestion.new(self)
     else
       self
     end
@@ -83,7 +84,10 @@ class Question
         question.question_options.build(name: option.name, correct: option.correct)
       end
       original_question.answer_pairs.each do |pair|
-        question.answer_pairs.build(answer1: pair.answer1, answer2: pair.answer2)
+        question.answer_pairs.build(
+          answer1: pair.answer1, 
+          answer2: pair.answer2,
+          correct: pair.correct)
       end
       question.type = original_question.type
       question.original_question = original_question
@@ -114,5 +118,30 @@ class Question
       User.find(u)
     end
   end
+
+  
+  def delete_all_false_answer_pairs
+    if(self.answer_pairs.any?)
+      self.answer_pairs.where(correct: false).each do |pair|
+        pair.delete
+      end
+    end
+  end
+
+  # adds all possible combinations of false answer_pairs to the collection "answer_pairs"
+  private
+    def fill_up_answer_pairs
+      if(self.answer_pairs.any?)
+        self.answer_pairs.where(correct: true).each do |pair1|
+          self.answer_pairs.where(correct: true).each do |pair2|
+            if(pair1.answer1 != pair2.answer1)
+              if(pair1.answer2 != pair2.answer2) 
+                self.add_to_set(:answer_pairs, AnswerPair.buildnew(pair1.answer1, pair2.answer2, false)) 
+              end
+            end
+          end
+        end
+      end
+    end
 
 end
