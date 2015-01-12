@@ -248,6 +248,14 @@ class SurveysController < ApplicationController
             else
               voted_for = @survey.options.only(:name).find(params[:option]).name
             end
+          elsif @survey.has_answer_pairs?
+            if @survey.type == "match"
+              unless params[:option].nil?
+                voted_for = "<br>"+params[:option].map { |o| o+"<br>"}.join
+              else
+                voted_for = t("matrix_keys.no_answer")
+              end
+            end
           else
             if params[:option].respond_to? :each
               voted_for = "<br>- " + params[:option].reject {|o| o.blank? }.join("<br>- ") + "<br>"
@@ -392,7 +400,7 @@ class SurveysController < ApplicationController
   end
 
   def changed
-    @survey = Survey.only(:original_survey_id, :type, :options, :voters_hash, :event_id).find(params[:id]).service
+    @survey = Survey.only(:original_survey_id, :type, :options, :answer_pairs, :voters_hash, :event_id).find(params[:id]).service
     check_access
     return if performed?
 
@@ -429,7 +437,7 @@ class SurveysController < ApplicationController
   end
 
   def changed_aggregated
-    @survey = Survey.only(:original_survey_id, :type, :options, :voters_hash, :event_id).find(params[:id]).service
+    @survey = Survey.only(:original_survey_id, :type, :options, :answer_pairs, :voters_hash, :event_id).find(params[:id]).service
     check_access
     return if performed?
 
@@ -456,7 +464,7 @@ class SurveysController < ApplicationController
   end
 
   def results
-    @survey = Survey.only(:type, :options, :voters_hash, :event_id, :voters).find(params[:id]).service
+    @survey = Survey.only(:type, :options, :answer_pairs, :voters_hash, :event_id, :voters).find(params[:id]).service
     check_access
     return if performed?
 

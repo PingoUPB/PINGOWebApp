@@ -1,44 +1,124 @@
 <head>
   	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-  	<script>
-  		$(document).ready(function(){
-  			$(".left").click(function(){
-            $(".left").addClass("selected");
-        		$(".left").removeClass("selected");
-        		$(this).toggleClass("selected");
-        	});
-        	$(".right").click(function(){
-            $(".right").addClass("selected");
-        		$(".right").removeClass("selected");
-        		$(this).toggleClass("selected");
-        	});
-        });
-  	</script>
 </head>
 <body>
-<table style="width:100%">
-	<% answer1s = survey.get_all_answer1 %>
-	<% answer2s = survey.get_all_answer2 %>
-	<% answer2s.shuffle! %>
-	<tr>
-		<td style="width:50%">
-			<ol id="selectable">
-				<% for j in 0..(answer1s.length - 1) %>
-					<li class="left"><%= answer1s[j] %></li>
-				<% end %>
-			</ol>
+  <table style="width:100%">
+	  <% answer1s = survey.get_all_answer1 %>
+	  <% answer2s = survey.get_all_answer2 %>
+	  <% answer2s.shuffle! %>
+	  <tr>
+		  <td style="width:50%">
+			  <ol class="leftOptions" id="selectable">
+				  <% for j in 0..(answer1s.length - 1) %>
+					  <li class="left"><%= answer1s[j] %></li>
+				  <% end %>
+			  </ol>
   		</td>
   		<td style="width:50%">
-			<ol id="selectable">
-				<% for j in 0..(answer2s.length - 1) %>
-					<li class="right"><%= answer2s[j] %></li>
-				<% end %>
-			</ol>
+			  <ol class="rightOptions" id="selectable">
+				  <% for j in 0..(answer2s.length - 1) %>
+					  <li class="right"><%= answer2s[j] %></li>
+				  <% end %>
+			  </ol>
   		</td>
   	</tr>
-</table>
-<hr />
-<p>
-<span><%= t "surveys.participate.chosen-match" %>:</span> <span id="select-result">none</span>.
-</p>
+  </table>
+  <hr />
+  <p><strong>
+    <%= t "surveys.participate.chosen-match" %>:
+  </strong></p>
+  <table class="select-result"></table>
+  <br />
+
+  <script>
+    function removeClazz(className, from) {
+      $(from).addClass(className);
+      $(from).removeClass(className)
+    }
+
+    function writeSelectResultRow(anzwer1, anzwer2) {
+      return(  '<tr>' +
+                '<td>' +
+                  '<div>' +
+                    '<table style="width:100%;">' +
+                      '<tr>' +
+                        '<td style="width:10%;">' +
+                          '<div id="remove-btn"><%= icon_tag "remove" %></div>' +
+                        '</td>' +
+                        '<td style="width:90%;">' +
+                          anzwer1 +
+                          ' - ' +
+                          anzwer2 +
+                        '</td>' +
+                      '</tr>' +
+                    '</table>' +
+                    '<input type="hidden"' +
+                            'name="option[]"' + 
+                            'value="' + anzwer1 + ' - ' + anzwer2 + '"' +
+                    '/>' +
+                  '</div>' +
+                '</td>' +
+              '</tr>')
+    }
+
+    $(document).ready(function(){
+     $(".leftOptions").delegate(".left","click",function(){
+        var leftbox = $(this);
+        
+        removeClazz("selected", ".left");
+        leftbox.toggleClass("selected");
+
+        $(".right").each(function(index, element) {
+          if($(element).is(".selected")) {
+
+            removeClazz("selected", ".left");
+            removeClazz("selected", ".right");
+
+            leftbox.hide(500);
+            $(element).hide(500);
+
+            $(".select-result").append(
+              writeSelectResultRow(leftbox.text(), $(element).text())
+            );
+          }
+        });
+      });
+
+      $(".rightOptions").delegate(".right","click",function(){
+        var rightbox = $(this);
+          
+        removeClazz("selected", ".right");
+        rightbox.toggleClass("selected");
+        
+        $(".left").each(function(index, element) {
+          if($(element).is(".selected")) {
+            
+            removeClazz("selected", ".left");
+            removeClazz("selected", ".right");
+      
+            $(element).hide(500);
+            rightbox.hide(500);
+
+            $(".select-result").append(
+              writeSelectResultRow($(element).text(), rightbox.text())
+            );
+          }
+        });
+      });
+        
+      $(".select-result").delegate("#remove-btn","click",function(){
+        var tableRow = $(this).parent().parent();
+        var answerpair = tableRow.find(":contains(' - ')").text().split(" - ");
+        $(".leftOptions").append('<li class="left">' +
+          answerpair[0] +
+          '</li>'
+        );
+        $(".rightOptions").append('<li class="right">' +
+          answerpair[1] +
+          '</li>'
+        );
+        tableRow.parent().parent().parent().parent().remove();
+      });
+    });
+  </script>
 </body>
