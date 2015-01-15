@@ -63,7 +63,6 @@ en:
             histogram: "histogram"
             repeated: "This is a repeated survey."
             mark_corrects: mark correct answers
-            wait_to_end: Wait until time is up...
         text_table_results:
             term: "answer"
             occurrences: "occurrences"

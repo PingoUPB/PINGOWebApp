@@ -63,7 +63,6 @@ de:
             histogram: "Histogramm"
             repeated: "Diese Umfrage ist eine wiederholte Umfrage."
             mark_corrects: Korrekte markieren
-            wait_to_end: Warten bis Zeit abgelaufen ist...
         text_table_results:
             term: "Antwort"
             occurrences: "Häufigkeit"

@@ -1,19 +1,42 @@
-<table height="300" class="table table-striped table-bordered table-hover chart-container__chart">
-  <thead>
-    <tr>
-        <th>&nbsp;</th>
-        <% survey.answer_pairs.where(correct: true).each do |pair| %>
-          <th scope="col"><%= pair.answer2 %></th>
+<body>
+  <table id="result-table" height="300" class="table table-bordered">
+    <thead>
+      <tr>
+          <th>&nbsp;</th>
+          <% answer2s = survey.get_all_answer2 %>
+          <% answer2s.shuffle! %>
+          <% answer2s.each do |answer2| %>
+            <th scope="col"><%= answer2 %></th>
+          <% end %>
+      </tr> 
+    </thead>
+    <tbody>
+      <% survey.answer_pairs.where(correct: true).each do |pair1| %>
+        <tr><th scope="row"><%= pair1.answer1 %></th>
+        <% answer2s.each do |answer2| %>
+          <% percentage = "0%" %>
+          <% current_answer_pair = survey.answer_pairs.where(answer1: pair1.answer1, answer2: answer2).first %>
+          <% if survey.total_votes > 0 %>
+            <% percentage = number_to_percentage(current_answer_pair.votes.to_f / survey.total_votes.to_f * 100.to_f, :precision => 0) %>
+          <% end %>
+          <% if current_answer_pair.correct? %>
+            <td class="toCorrectSwitchable">
+              <div style="position: relative; height: 100%;">
+                <div style="position: absolute; left: 0px; top: 0px; z-index:-1; background-color: #A9E2F3; height: 100%; width:<%= percentage %>;" /> <!-- maybe bottom: 0px here ... or dv around p -->
+                <p><%= percentage %></p>
+              </div>
+            </td>
+          <% else %>
+            <td>
+              <div style="position: relative; height: 100%;">  
+                <div style="position: absolute; left: 0px; top: 0px; z-index:-1; background-color: #A9E2F3; height: 100%; width:<%= percentage %>;" />
+                <p style="vertical-align: middle;"><%= percentage %></p>
+              </div>
+            </td>
+          <% end %>
         <% end %>
-    </tr> 
-  </thead>
-  <tbody>
-    <% survey.answer_pairs.where(correct: true).each do |pair1| %>
-      <tr><th scope="row"><%= pair1.answer1 %></th>
-      <% survey.answer_pairs.where(correct: true).each do |pair2| %>
-        <td class="survey-actions"><%= survey.answer_pairs.where(answer1: pair1.answer1, answer2: pair2.answer2).first.votes %></td>
+      </tr>
       <% end %>
-    </tr>
-    <% end %>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+</body>

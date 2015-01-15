@@ -75,10 +75,10 @@
 
 			<div class="canvas_downloadable clearfix">
 				<canvas id="chart" height="300" class="chart-container__chart"></canvas>
-				<a href="#chart" class="btn canvas_download-button" id="save_chart_btn" download="pingo_chart.png"><%= icon_tag("download-alt") %></a>
+				<a href="#chart" class="btn canvas_download-button" id="save_chart_btn" download="pingo_chart.png" target"_blank"><%= icon_tag("download-alt") %></a>
 
 				<% if survey.options.any?(&:correct) %>
-				<a class="btn pull-right canvas__show-highlight" id="show-highlights" data-toggle="button"><%= t ".mark_corrects" %></a>
+				<a class="btn pull-right canvas__show-highlight" id="show-highlights" data-toggle="button"><%= t("surveys.show.mark_corrects") %></a>
 				<% end %>
 
     			<% if survey.original_survey %>
@@ -95,14 +95,12 @@
 <% elsif survey.has_answer_pairs? %> 
     <section class="option-results">
 		<div class="chart-container hide-button">
-			<h4 class="chart-container__heading text-center"><%= t("results") %> (%)</h4>
-			<% if !survey.running? %>
-				<div class="table_downloadable clearfix table-responsive">
-					<%= render partial: "answer_pair_result_table", locals: {survey: survey} %>
-				</div>
-			<% else %>
-				<p class="survey-actions"><%= t "surveys.show.wait_to_end" %></p>
-			<% end %>
+			<h4 class="chart-container__heading"><%= t("results") %></h4>
+			<div class="canvas_downloadable clearfix">
+				<%= render partial: "answer_pair_result_table", locals: {survey: survey} %>
+				<a href="#result-table" class="btn canvas_download-button" id="save_chart_btn" download="pingo_chart.png" target"_blank"><%= icon_tag("download-alt") %></a>
+				<a class="btn pull-right canvas__show-highlight" id="showCorrectsBtn" data-toggle="button"><%= t("surveys.show.mark_corrects") %></a>
+			</div>
 		</div>
 	</section> 
 
@@ -199,6 +197,9 @@
 				if(window.PINGO.isMSIE()){
 			  		$(".canvas_downloadable").removeClass("canvas_downloadable");
 			  	}
+			  	$("#showCorrectsBtn").click(function() {
+			  		$(".toCorrectSwitchable").toggleClass("isCorrect");
+			  	});
 		  	});
 		 	</script>
 	<% end %>
