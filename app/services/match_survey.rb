@@ -55,7 +55,7 @@ class MatchSurvey < GenericSurvey
         self.survey.add_to_set(:voters, voter.to_s)
         if word_pairs.respond_to?(:each)
           word_pairs.each do |pair|
-            pairArray = pair.split(' - ')
+            pairArray = pair.split(' ~-~ ')
             if(pairArray.length == 2)
               self.survey.answer_pairs.where(answer1: pairArray[0], answer2: pairArray[1]).first.vote_up
             end
@@ -63,7 +63,7 @@ class MatchSurvey < GenericSurvey
         elsif word_pairs.nil?
           # MC and nothing selected
         else
-          pairArray = word_pairs.split(' - ')
+          pairArray = word_pairs.split(' ~-~ ')
           if(pairArray.length == 2)
               self.survey.answer_pairs.where(answer1: pairArray[0], answer2: pairArray[1]).first.vote_up
             end

@@ -251,7 +251,7 @@ class SurveysController < ApplicationController
           elsif @survey.has_answer_pairs?
             if @survey.type == "match"
               unless params[:option].nil?
-                voted_for = "<br>"+params[:option].map { |o| o+"<br>"}.join
+                voted_for = "<br><ul>"+params[:option].map { |o| "<li style='word-wrap: break-word;'>"+o+"</li>"}.join + "</ul>"
               else
                 voted_for = t("matrix_keys.no_answer")
               end

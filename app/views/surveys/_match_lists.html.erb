@@ -2,20 +2,20 @@
   	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 <body>
-  <table style="width:100%">
+  <table id="survey-table">
 	  <% answer1s = survey.get_all_answer1 %>
 	  <% answer2s = survey.get_all_answer2 %>
 	  <% answer2s.shuffle! %>
 	  <tr>
-		  <td style="width:50%">
-			  <ol class="leftOptions" id="selectable">
+		  <td>
+			  <ol class="leftOptions selectable">
 				  <% for j in 0..(answer1s.length - 1) %>
 					  <li class="left"><%= answer1s[j] %></li>
 				  <% end %>
 			  </ol>
   		</td>
-  		<td style="width:50%">
-			  <ol class="rightOptions" id="selectable">
+  		<td>
+			  <ol class="rightOptions selectable">
 				  <% for j in 0..(answer2s.length - 1) %>
 					  <li class="right"><%= answer2s[j] %></li>
 				  <% end %>
@@ -37,24 +37,28 @@
     }
 
     function writeSelectResultRow(anzwer1, anzwer2) {
-      return(  '<tr>' +
+      return( '<tr>' +
                 '<td>' +
-                  '<div>' +
-                    '<table style="width:100%;">' +
+                  '<div style="width: 100%">' +
+                    '<table style="width: 100%">' +
                       '<tr>' +
                         '<td style="width:10%;">' +
-                          '<div id="remove-btn"><%= icon_tag "remove" %></div>' +
+                          '<div class="remove-btn"><%= icon_tag "remove" %></div>' +
                         '</td>' +
                         '<td style="width:90%;">' +
-                          anzwer1 +
-                          ' - ' +
-                          anzwer2 +
+                          '<table>' + 
+                            '<tr>' +
+                              '<td class="selected_left">' + anzwer1 + '</td>' +
+                              '<td style="width:10%;"> - </td>' +
+                              '<td class="selected_right">' + anzwer2 + '</td>' +
+                            '</tr>' +
+                          '</table>' + 
                         '</td>' +
                       '</tr>' +
                     '</table>' +
                     '<input type="hidden"' +
                             'name="option[]"' + 
-                            'value="' + anzwer1 + ' - ' + anzwer2 + '"' +
+                            'value="' + anzwer1 + ' ~-~ ' + anzwer2 + '"' +
                     '/>' +
                   '</div>' +
                 '</td>' +
@@ -62,7 +66,16 @@
     }
 
     $(document).ready(function(){
-     $(".leftOptions").delegate(".left","click",function(){
+
+      $(".selectable").width($(window).width()/2 - 23);
+      $(".select-result").width($(window).width() - 40);
+
+      $(window).resize(function(){
+        $(".selectable").width($(window).width()/2 - 23);
+        $(".select-result").width($(window).width() - 40);
+      });
+
+      $(".leftOptions").delegate(".left","click",function(){
         var leftbox = $(this);
         
         removeClazz("selected", ".left");
@@ -74,8 +87,8 @@
             removeClazz("selected", ".left");
             removeClazz("selected", ".right");
 
-            leftbox.hide(500);
-            $(element).hide(500);
+            leftbox.hide(100);
+            $(element).hide(100);
 
             $(".select-result").append(
               writeSelectResultRow(leftbox.text(), $(element).text())
@@ -96,8 +109,8 @@
             removeClazz("selected", ".left");
             removeClazz("selected", ".right");
       
-            $(element).hide(500);
-            rightbox.hide(500);
+            $(element).hide(100);
+            rightbox.hide(100);
 
             $(".select-result").append(
               writeSelectResultRow($(element).text(), rightbox.text())
@@ -106,18 +119,19 @@
         });
       });
         
-      $(".select-result").delegate("#remove-btn","click",function(){
-        var tableRow = $(this).parent().parent();
-        var answerpair = tableRow.find(":contains(' - ')").text().split(" - ");
+      $(".select-result").delegate(".remove-btn","click",function(){
+        var div = $(this).parent().parent().parent().parent();
+        var answer1 = div.find(".selected_left").first().text();
+        var answer2 = div.find(".selected_right").first().text();
         $(".leftOptions").append('<li class="left">' +
-          answerpair[0] +
+          answer1 +
           '</li>'
         );
         $(".rightOptions").append('<li class="right">' +
-          answerpair[1] +
+          answer2 +
           '</li>'
         );
-        tableRow.parent().parent().parent().parent().remove();
+        div.parent().parent().remove();
       });
     });
   </script>

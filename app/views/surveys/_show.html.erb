@@ -75,7 +75,7 @@
 
 			<div class="canvas_downloadable clearfix">
 				<canvas id="chart" height="300" class="chart-container__chart"></canvas>
-				<a href="#chart" class="btn canvas_download-button" id="save_chart_btn" download="pingo_chart.png" target"_blank"><%= icon_tag("download-alt") %></a>
+				<a href="#chart" class="btn canvas_download-button" id="save_chart_btn" download="pingo_chart.png" target="_blank"><%= icon_tag("download-alt") %></a>
 
 				<% if survey.options.any?(&:correct) %>
 				<a class="btn pull-right canvas__show-highlight" id="show-highlights" data-toggle="button"><%= t("surveys.show.mark_corrects") %></a>
@@ -98,7 +98,7 @@
 			<h4 class="chart-container__heading"><%= t("results") %></h4>
 			<div class="canvas_downloadable clearfix">
 				<%= render partial: "answer_pair_result_table", locals: {survey: survey} %>
-				<a href="#result-table" class="btn canvas_download-button" id="save_chart_btn" download="pingo_chart.png" target"_blank"><%= icon_tag("download-alt") %></a>
+				<a href="#chart" class="btn canvas_download-button" id="save_table_btn" download="pingo_table.html" target="_blank"><%= icon_tag("download-alt") %></a>
 				<a class="btn pull-right canvas__show-highlight" id="showCorrectsBtn" data-toggle="button"><%= t("surveys.show.mark_corrects") %></a>
 			</div>
 		</div>
@@ -182,7 +182,11 @@
 			<%= select_tag "duration", options_for_select(duration_choices(false), 120), id: "repeatDuration" %>
 		</form>
 		
-			<script>
+		<script>
+			parseResultTableToSimpleTable = function(htmlSourceFromResultTable) {
+
+			}
+
 			$(document).ready(function() {  			
 		  		$(document).on("change", "#repeatDuration", function() {
 		  			$("#hidden_stoptime").val($('#repeatDuration option:selected').val());
@@ -194,13 +198,24 @@
 		  				return true;
 		  			}
 		  		});
+		  	
+				$(document).on("click", "#save_table_btn", function(e) {
+					if($("#result-table").length > 0) {
+						var base_str = 'data:text/html,' + '<div class="canvas_downloadable clearfix">' +
+						'<table id="result-table" height="300" class="table table-bordered">' +
+						$("#result-table").html() + '</table></div>';
+						$(this).attr("href", base_str);
+		  				return true;
+					}
+				});
+
 				if(window.PINGO.isMSIE()){
 			  		$(".canvas_downloadable").removeClass("canvas_downloadable");
 			  	}
 			  	$("#showCorrectsBtn").click(function() {
-			  		$(".toCorrectSwitchable").toggleClass("isCorrect");
+			  		$(".toCorrectSwitchable").toggleClass("greenBorder");
 			  	});
 		  	});
-		 	</script>
+		</script>
 	<% end %>
 </div>

@@ -2,17 +2,18 @@
   <table id="result-table" height="300" class="table table-bordered">
     <thead>
       <tr>
-          <th>&nbsp;</th>
           <% answer2s = survey.get_all_answer2 %>
+          <% columnWidthPercentage = number_to_percentage(1.to_f / (1 + answer2s.length).to_f * 100.to_f, :precision => 0) %>
+          <th style="width: <%= columnWidthPercentage %>;">&nbsp;</th>
           <% answer2s.shuffle! %>
           <% answer2s.each do |answer2| %>
-            <th scope="col"><%= answer2 %></th>
+            <th scope="col" style="width: <%= columnWidthPercentage %>;"><%= answer2 %></th>
           <% end %>
       </tr> 
     </thead>
     <tbody>
       <% survey.answer_pairs.where(correct: true).each do |pair1| %>
-        <tr><th scope="row"><%= pair1.answer1 %></th>
+        <tr><td style="text-align: center; word-wrap: break-word; padding: 10px; font-weight: bold; vertical-align:middle; width: <%= columnWidthPercentage %>;"><%= pair1.answer1 %></td>
         <% answer2s.each do |answer2| %>
           <% percentage = "0%" %>
           <% current_answer_pair = survey.answer_pairs.where(answer1: pair1.answer1, answer2: answer2).first %>
@@ -20,17 +21,17 @@
             <% percentage = number_to_percentage(current_answer_pair.votes.to_f / survey.total_votes.to_f * 100.to_f, :precision => 0) %>
           <% end %>
           <% if current_answer_pair.correct? %>
-            <td class="toCorrectSwitchable">
-              <div style="position: relative; height: 100%;">
-                <div style="position: absolute; left: 0px; top: 0px; z-index:-1; background-color: #A9E2F3; height: 100%; width:<%= percentage %>;" /> <!-- maybe bottom: 0px here ... or dv around p -->
-                <p><%= percentage %></p>
+            <td id="result-table-td" class="toCorrectSwitchable">
+              <div style="position: relative; height: 100%; width:100%; text-align:center;">
+                <div style="position: absolute; left: 0px; top: 0px; z-index:-1; background-color: #DAEDF7; height: 100%; width:<%= percentage %>;" />
+                <p style="Height:any; Width:any; Position:relative; top:50%; margin-top:-HalfYourHeigth; line-height: 0%;"><%= percentage %></p>
               </div>
             </td>
           <% else %>
-            <td>
-              <div style="position: relative; height: 100%;">  
-                <div style="position: absolute; left: 0px; top: 0px; z-index:-1; background-color: #A9E2F3; height: 100%; width:<%= percentage %>;" />
-                <p style="vertical-align: middle;"><%= percentage %></p>
+            <td id="result-table-td">
+              <div style="position: relative; height: 100%; width:100%; text-align:center;">  
+                <div style="position: absolute; left: 0px; top: 0px; z-index:-1; background-color: #DAEDF7; height: 100%; width:<%= percentage %>;" />
+                <p style="Height:any; Width:any; Position:relative; top:50%; margin-top:-HalfYourHeigth; line-height: 0%;"><%= percentage %></p>
               </div>
             </td>
           <% end %>
