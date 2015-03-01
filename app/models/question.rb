@@ -33,8 +33,6 @@ class Question
   has_and_belongs_to_many :collaborators, class_name: "User", inverse_of: :shared_questions
   index :collaborator_ids, sparse: true
 
-  before_save :fill_up_answer_pairs
-
   # this is where we setup getting the service objects
   def service
     case type 
@@ -127,21 +125,5 @@ class Question
       end
     end
   end
-
-  # adds all possible combinations of false answer_pairs to the collection "answer_pairs"
-  private
-    def fill_up_answer_pairs
-      if(self.answer_pairs.any?)
-        self.answer_pairs.where(correct: true).each do |pair1|
-          self.answer_pairs.where(correct: true).each do |pair2|
-            if(pair1.answer1 != pair2.answer1)
-              if(pair1.answer2 != pair2.answer2) 
-                self.add_to_set(:answer_pairs, AnswerPair.buildnew(pair1.answer1, pair2.answer2, false)) 
-              end
-            end
-          end
-        end
-      end
-    end
 
 end
