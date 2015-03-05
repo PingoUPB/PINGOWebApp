@@ -33,6 +33,8 @@ class Question
   has_and_belongs_to_many :collaborators, class_name: "User", inverse_of: :shared_questions
   index :collaborator_ids, sparse: true
 
+  after_save :fill_up_answer_pairs
+
   # this is where we setup getting the service objects
   def service
     case type 
@@ -117,11 +119,17 @@ class Question
     end
   end
 
-  
-  def delete_all_false_answer_pairs
+  # adds all wrong answer pairs to the collection answer_pairs of the just saved match question
+  def fill_up_answer_pairs
     if(self.answer_pairs.any?)
-      self.answer_pairs.where(correct: false).each do |pair|
-        pair.delete
+      self.answer_pairs.where(correct: true).each do |pair1|
+        self.answer_pairs.where(correct: true).each do |pair2|
+          if(pair1.answer1 != pair2.answer1)
+            if(pair1.answer2 != pair2.answer2)
+              self.answer_pairs.create(:answer1 => pair1.answer1, :answer2 => pair2.answer2, :correct => false)
+            end
+          end
+        end
       end
     end
   end

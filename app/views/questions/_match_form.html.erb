@@ -21,18 +21,9 @@
 <h3><%= t("surveys.edit.answer_pairs_for_match_survey") %></h3>
 <div id="options" class="row-fluid">
   <div id="rightVisibleWrongHidden" class="span8">
-    <% if question.answer_pairs.any? %>
-      <% question.answer_pairs.each do |answerpair| %>
-        <% if answerpair.correct? %>
-          <%= form.fields_for :answer_pairs, answerpair do |pair| %>
-              <%= render "match_question_answer_pair_fields", f: pair %>
-          <% end %>
-        <% end %>
-      <% end %>
-    <% end %>
-    <!--<%= form.semantic_fields_for :answer_pairs, class: "form-inline" do |pair| %>
+    <%= form.semantic_fields_for :answer_pairs, class: "form-inline" do |pair| %>
       <%= render "match_question_answer_pair_fields", f: pair %>
-    <% end %>-->
+    <% end %>
     <div class="links">
       <%= link_to_add_association icon_tag("plus")+t("surveys.edit.add_answer_pair"), form, :answer_pairs, partial:"match_question_answer_pair_fields" %>
     </div>
@@ -43,66 +34,13 @@
 <%= form.hidden_field :collaborators_form, class:"collaborators-form" %>
 <%= form.submit class: "btn btn-primary", id: "single_question_submit" %><span style="margin-left:20px;">
 <% if params[:redirect_to_session] %>  
-  <label for="also_start_question" class="checkbox"><%= check_box_tag "also_start_question", "true", true %> <%= t "questions.start_in_session" %>
+  <label for="also_start_question" class="checkbox"><%= check_box_tag "also_start_question", "false", false %> <%= t "questions.start_in_session" %>
 </label><br>
 </span> 
 <% end %><small>(<%= link_to t("questions.chart_notice"), "#chartNoticeModal", data: {toggle: "modal"} %>)</small></span>
 <% end %>
 <% content_for :javascript do %>
   <script>
-    /**
-     * adds all possible combinations of false answer_pairs as hidden inputs to the form,
-     * using the answer1s and answer2s from the correct answer_pairs
-     */
-    function fill_up_answer_pairs() {
-      var inputs = $("#rightVisibleWrongHidden :input");
-      var numberOfAllInputs = inputs.length;
-
-      var pathArray = window.location.href.split( '/' ); 
-      var actionName = pathArray[pathArray.length - 1];
-      var numberOfCorrectAnswerPairs = 0;
-      var period = 1;
-      if(actionName == "new") {
-        period = 3;
-      } else {
-        period = 4;
-      }
-      numberOfCorrectAnswerPairs = numberOfAllInputs / period;
-      if(numberOfCorrectAnswerPairs <= 1) {
-        return;
-      }
-  
-      var correctAnswer1s = new Array(numberOfCorrectAnswerPairs);
-      var correctAnswer2s = new Array(numberOfCorrectAnswerPairs);
-      for (var i=0; i<numberOfCorrectAnswerPairs; i++) {  
-        correctAnswer1s[i] = inputs[""+(1 + i*period)]["value"];
-        correctAnswer2s[i] = inputs[""+(2 + i*period)]["value"];
-      }
-
-      var answerPairCollectionIndex = numberOfCorrectAnswerPairs + 1;
-      for(var i=0; i<numberOfCorrectAnswerPairs; i++) {
-        for(var j=0; j<numberOfCorrectAnswerPairs; j++) {
-          if(j != i) {
-            addWrongHiddenAnswerPair(correctAnswer1s[i], 
-              correctAnswer2s[j], 
-              answerPairCollectionIndex
-            );
-            answerPairCollectionIndex++;
-          }
-        }
-      }
-      
-    }
-
-    function addWrongHiddenAnswerPair(anzwer1, anzwer2, arrayIndex) {
-      $("#rightVisibleWrongHidden").append(
-        '<input id="question_answer_pairs_attributes_' + arrayIndex + '_answer1" name="question[answer_pairs_attributes][' + arrayIndex + '][answer1]" type="text" value="' + anzwer1 + '" />' +
-        '<input id="question_answer_pairs_attributes_' + arrayIndex + '_answer2" name="question[answer_pairs_attributes][' + arrayIndex + '][answer2]" type="text" value="' + anzwer2 + '" />' +
-        '<input name="question[answer_pairs_attributes][' + arrayIndex + '][correct]" type="hidden" value="0" />' +
-        '<input id="question_answer_pairs_attributes_' + arrayIndex + '_correct" name="question[answer_pairs_attributes][' + arrayIndex + '][correct]" type="checkbox" value="0" />'
-      );
-    }
-
     $(document).ready(function() {
       $("#match_question_tags").tagsManager({ // http://welldonethings.com/tags/manager
         prefilled: "<%= question.tags %>",

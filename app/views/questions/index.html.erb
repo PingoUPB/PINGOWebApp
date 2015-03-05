@@ -53,13 +53,13 @@
  <li class="<%= "active" unless params[:q_type] %>">
 	<%= link_to icon_tag("asterisk") + t(".all_tags"), questions_path(tag: params[:tag], public: params[:public], shared: params[:shared])  %> </li>
  <li class="<%= "active" if params[:q_type] == "choice" %>">
-   <%= link_to icon_tag("align-left") + t("type.choice"), questions_path(tag: params[:tag], q_type: "choice", public: params[:public], shared: params[:shared]), id: "questionsSidebarChoiceLink" %>
+   <%= link_to icon_tag("check") + t("type.choice"), questions_path(tag: params[:tag], q_type: "choice", public: params[:public], shared: params[:shared]), id: "questionsSidebarChoiceLink" %>
  <li class="<%= "active" if params[:q_type] == "text" %>">
-	<%= link_to icon_tag("th") + t("type.text"), questions_path(tag: params[:tag], q_type: "text", public: params[:public], shared: params[:shared])  %> </li>
+	<%= link_to icon_tag("align-left") + t("type.text"), questions_path(tag: params[:tag], q_type: "text", public: params[:public], shared: params[:shared])  %> </li>
  <li class="<%= "active" if params[:q_type] == "number" %>">
   <%= link_to icon_tag("th") + t("type.number"), questions_path(tag: params[:tag], q_type: "number", public: params[:public], shared: params[:shared])  %> </li>
  <li class="<%= "active" if params[:q_type] == "match" %>">
-  <%= link_to icon_tag("move") + t("type.match"), questions_path(tag: params[:tag], q_type: "match", public: params[:public], shared: params[:shared])  %> </li>
+  <%= link_to icon_tag("random") + t("type.match"), questions_path(tag: params[:tag], q_type: "match", public: params[:public], shared: params[:shared])  %> </li>
 	
  <li class="divider"></li>
 
