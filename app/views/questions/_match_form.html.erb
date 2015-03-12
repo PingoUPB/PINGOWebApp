@@ -20,9 +20,11 @@
 
 <h3><%= t("surveys.edit.answer_pairs_for_match_survey") %></h3>
 <div id="options" class="row-fluid">
-  <div id="rightVisibleWrongHidden" class="span8">
-    <%= form.semantic_fields_for :answer_pairs, class: "form-inline" do |pair| %>
-      <%= render "match_question_answer_pair_fields", f: pair %>
+  <div id="rightVisibleWrongHidden" class="span10">
+    <% question.answer_pairs.where(correct: true).each do |trueAP| %>
+      <%= form.semantic_fields_for trueAP, class: "form-inline" do |pair| %>
+        <%= render "match_question_answer_pair_fields", f: pair %>
+      <% end %>
     <% end %>
     <div class="links">
       <%= link_to_add_association icon_tag("plus")+t("surveys.edit.add_answer_pair"), form, :answer_pairs, partial:"match_question_answer_pair_fields" %>

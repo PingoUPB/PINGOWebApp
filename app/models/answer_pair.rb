@@ -12,6 +12,10 @@ class AnswerPair
   validates_presence_of :answer1
   validates_presence_of :answer2
 
+  validates_format_of :answer1, :without => / - /
+  validates_format_of :answer2, :without => / - /
+
+
   def vote_up
     self.inc(:votes, 1)
   end

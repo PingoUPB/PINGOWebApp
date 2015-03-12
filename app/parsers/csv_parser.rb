@@ -4,9 +4,9 @@ class CsvParser
   def export(questions)
     csv_string = CSV.generate(quote_char: '"') do |csv|
       # CSV-Header einfügen
-      csv << ["Type", "Question", "Answer 1", "Answer 2", "Answer 3", "Answer 4", "Answer 5", "Answer 6", "Answer 7", "Answer 8", "Answer 9", "Correct"]
+      csv << ["Type", "Question", "Correct", "Answers"]
       questions.each do |question|
-        current = [question.type, question.name]
+        current = [question.type, question.name, ""]
         correct_options = []
         option_number = 1
         if question.type == "single" || question.type == "multi"
@@ -22,12 +22,16 @@ class CsvParser
           elsif answer_type == TextSurvey::THREE_ANSWERS
             correct_options << '3'
           end
+        elsif question.type == 'match'
+          question.answer_pairs.each do |pair|
+            current << pair.answer1 + ' - ' + pair.answer2
+            correct_options << option_number if pair.correct?
+            option_number = option_number + 1
+          end
         end
         unless correct_options.empty?
           correct_options = correct_options.join ";"
-          current[11] = correct_options # Korrekte Antworten anhängen
-        else
-          current[11] = ""
+          current[2] = correct_options # Korrekte Antworten anhängen
         end
         csv << current
       end
@@ -60,14 +64,20 @@ class CsvParser
 
             # Korrekte Antwortmöglichkeiten extrahieren
             if question[0] == "single" || question[0] == "text"
-              answers = [question[11]]
-            elsif question[0] == "multi"
-              answers =  question[11].split(";")
+              answers = [question[2]]
+            elsif question[0] == "multi" || question[0] == "match"
+              answers =  question[2].split(";")
             end
 
-            question.drop(2).take(question.size-3).each do |option| # Letztes und die beiden ersten Elemente beinhalten keine Antworten
-              unless option.nil? || option == ""
-                q.question_options << QuestionOption.new(name: option) # QuestionOptions sind in der Frage eingebettet und werden mitgesichert
+            if question[0] == "match"
+              question.drop(3).each do |pair| # Die ersten drei Elemente beinhalten keine Antworten
+                q.answer_pairs << AnswerPair.new(answer1: pair.split(' - ')[0], answer2: pair.split(' - ')[1], correct: false) # AnswerPairs sind in der Frage eingebettet und werden mitgesichert
+              end
+            else
+              question.drop(3).each do |option| # Die ersten drei Elemente beinhalten keine Antworten
+                unless option.nil? || option == ""
+                  q.question_options << QuestionOption.new(name: option) # QuestionOptions sind in der Frage eingebettet und werden mitgesichert
+                end
               end
             end
 
@@ -79,6 +89,12 @@ class CsvParser
                 q.add_setting "answers", TextSurvey::THREE_ANSWERS
               elsif answers.first.blank?
                 q.add_setting "answers", TextSurvey::MULTI_ANSWERS
+              end
+            elsif q.type == "match"
+              if answers
+                answers.each do |answer|
+                  q.answer_pairs[answer.to_i-1].correct = true
+                end
               end
             else
               if answers

@@ -20,18 +20,19 @@
           <% if survey.total_votes > 0 %>
             <% percentage = number_to_percentage(current_answer_pair.votes.to_f / survey.total_votes.to_f * 100.to_f, :precision => 0) %>
           <% end %>
+          <% rowHeightPercentage = number_to_percentage(1.to_f / (1 + answer2s.length).to_f * 100.to_f, :precision => 0) %>
           <% if current_answer_pair.correct? %>
-            <td id="result-table-td" class="toCorrectSwitchable">
-              <div style="position: relative; height: 100%; width:100%; text-align:center;">
-                <div style="position: absolute; left: 0px; top: 0px; z-index:-1; background-color: #DAEDF7; height: 100%; width:<%= percentage %>;" />
-                <p style="Height:any; Width:any; Position:relative; top:50%; margin-top:-HalfYourHeigth; line-height: 0%;"><%= percentage %></p>
+            <td class="result-table-td toCorrectSwitchable" style="height: <%= rowHeightPercentage %>;">
+              <div>
+                <div style="width:<%= percentage %>;" />
+                <p><%= percentage %></p>
               </div>
             </td>
           <% else %>
-            <td id="result-table-td">
-              <div style="position: relative; height: 100%; width:100%; text-align:center;">  
-                <div style="position: absolute; left: 0px; top: 0px; z-index:-1; background-color: #DAEDF7; height: 100%; width:<%= percentage %>;" />
-                <p style="Height:any; Width:any; Position:relative; top:50%; margin-top:-HalfYourHeigth; line-height: 0%;"><%= percentage %></p>
+            <td class="result-table-td" style="height: <%= rowHeightPercentage %>;">
+              <div>  
+                <div style="width:<%= percentage %>;" />
+                <p><%= percentage %></p>
               </div>
             </td>
           <% end %>

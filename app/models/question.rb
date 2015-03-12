@@ -33,7 +33,7 @@ class Question
   has_and_belongs_to_many :collaborators, class_name: "User", inverse_of: :shared_questions
   index :collaborator_ids, sparse: true
 
-  after_save :fill_up_answer_pairs
+  after_save :delete_all_false_answer_pairs, :fill_up_answer_pairs
 
   # this is where we setup getting the service objects
   def service
@@ -116,6 +116,14 @@ class Question
   def collaborators_form=(v)
     self.collaborators = v.split(",").reject(&:blank?).map do |u|
       User.find(u)
+    end
+  end
+
+  def delete_all_false_answer_pairs
+    if(self.answer_pairs.any?)
+      self.answer_pairs.where(correct: false).each do |pair|
+        pair.delete
+      end
     end
   end
 

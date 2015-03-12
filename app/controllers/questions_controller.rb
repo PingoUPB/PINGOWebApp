@@ -103,7 +103,7 @@ class QuestionsController < ApplicationController
   end
 
   def edit
-    delete_all_false_answer_pairs
+    
   end
 
   def update
@@ -287,14 +287,6 @@ class QuestionsController < ApplicationController
 
   def question_params
     params.require(:question).permit(:name, :type, :description, :tags, :public, :collaborators_form, question_options_attributes: [:name, :correct, :id, :_destroy], answer_pairs_attributes: [:answer1, :answer2, :correct, :id, :_destroy])
-  end
-
-  def delete_all_false_answer_pairs
-    if(@question.answer_pairs.any?)
-      @question.answer_pairs.where(correct: false).each do |pair|
-        pair.delete
-      end
-    end
   end
 
 end

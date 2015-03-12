@@ -260,24 +260,50 @@
 
 #result-table {
 	table-layout:fixed;
+
+	div {
+		margin: 0px !important;
+	    padding: 0px !important;	
+	}
+
+	th {
+		text-align: center; 
+	    vertical-align: middle;	
+	    word-wrap: break-word;
+	}
 }
 
-#result-table th {
-	text-align: center; 
-    vertical-align: middle;	
-    word-wrap: break-word;
-}
 
-#result-table-td {
+.result-table-td {
     text-align: center; 
     word-wrap: break-word;
     margin: 0px !important;
     padding: 0px !important;
-}
 
-#result-table div {
-	margin: 0px !important;
-    padding: 0px !important;	
+    div {
+	    position: relative; 
+	    height: 100%; 
+	    width:100%; 
+	    text-align:center;
+
+	    div {
+			position: absolute; 
+			left: 0px; 
+			top: 0px; 
+			z-index:-1; 
+			background-color: #DAEDF7; 
+			height: 100%; 
+		}
+
+		p {
+			height:any; 
+			width:any; 
+			position:relative; 
+			top:50%; 
+			margin-top:-HalfYourHeigth; 
+			line-height: 0%;
+		}
+	}
 }
 
 .greenBorder {

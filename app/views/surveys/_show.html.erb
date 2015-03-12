@@ -57,11 +57,6 @@
 		<% end %>
 	</div>
 
-<!-- 
-<p>
-<small><%= link_to t("edit"), edit_event_survey_path(survey.event, survey) %></small>
-</p> 
-//-->
 <% if survey.has_options? and survey.options.count > 0 %>
 	<section class="option-results">
 		<p><strong><%= t ".options" %>:</strong></p>
@@ -183,11 +178,7 @@
 		</form>
 		
 		<script>
-			parseResultTableToSimpleTable = function(htmlSourceFromResultTable) {
-
-			}
-
-			$(document).ready(function() {  			
+			$(document).ready(function() {
 		  		$(document).on("change", "#repeatDuration", function() {
 		  			$("#hidden_stoptime").val($('#repeatDuration option:selected').val());
 		  		}); 
@@ -201,7 +192,9 @@
 		  	
 				$(document).on("click", "#save_table_btn", function(e) {
 					if($("#result-table").length > 0) {
-						var base_str = 'data:text/html,' + '<div class="canvas_downloadable clearfix">' +
+						var base_str = 'data:text/html,' + '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">'
+						+ '<p><b><%= survey.name || t(".survey") %></b></p><br />'
+						+ '<div class="canvas_downloadable clearfix">' +
 						'<table id="result-table" height="300" class="table table-bordered">' +
 						$("#result-table").html() + '</table></div>';
 						$(this).attr("href", base_str);

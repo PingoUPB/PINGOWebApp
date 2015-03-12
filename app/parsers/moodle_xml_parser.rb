@@ -55,6 +55,17 @@ class MoodleXmlParser
       if question.type == "single" || question.type == "multi"
         (question_node.add_element "answernumbering").text = "abc"
       end
+
+      if question.type == "match"
+        question_node.attributes["type"] = "match"
+        question.answer_pairs.where(correct: true).each do |pair|
+          subquestion_node = question_node.add_element "subquestion"
+          (subquestion_node.add_element "text").text = pair.answer1
+          answer_node = subquestion_node.add_element "answer"
+          (answer_node.add_element "text").text = pair.answer2
+        end
+        (question_node.add_element "shuffleanswers").text = "true"
+      end
     end
 
     s = ""
@@ -94,7 +105,9 @@ class MoodleXmlParser
         q = Question.new(type:"text").service
       elsif question_type == 'numerical'
         q = Question.new(type:"number").service
-      elsif question_type == 'cloze' || question_type == 'match' || question_type == 'description'
+      elsif question_type == 'match'
+        q = Question.new(type:"match").service
+      elsif question_type == 'cloze' || question_type == 'description'
         # Nicht unterstützte Fragen abfangen
         errors << {"type" => "unsupported_type", "text" => element.elements["questiontext/text"].text}
         next
@@ -108,7 +121,14 @@ class MoodleXmlParser
       q.name = element.elements["questiontext/text"].text
 
       # Über Antwortmöglichkeiten iterieren, bei Number-Fragen oder Freitext-Fragen werden die korrekten Antworten ignoriert
-      unless question_type == "numerical" || question_type == "essay" || question_type == "shortanswer"
+      if question_type == "numerical" || question_type == "essay" || question_type == "shortanswer"
+      elsif question_type == "match"
+        element.elements.each("subquestion") do |pair|
+          answer1 = pair.elements["text"].text
+          answer2 = pair.elements["answer"].elements["text"].text
+          q.answer_pairs << AnswerPair.new(answer1: answer1, answer2: answer2)
+        end
+      else
         element.elements.each("answer") do |answer|
           correct = Integer(answer.attributes["fraction"]) > 0 ? true : false
           text = answer.elements["text"].text
