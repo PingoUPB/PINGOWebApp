@@ -59,3 +59,5 @@ en:
           malformed_csv: "Malformed CSV file"
           file_error: "File could not be imported. It is possibly formatted wrong or does not accord with the chosen format."
           all_questions: "Error in file"
+          only_wrong_weight_based_answers: "Multiple-Choice-Questions with only wrong weight-based answer options cannot be processed."
+          is_description: "Descriptions will not be processed."

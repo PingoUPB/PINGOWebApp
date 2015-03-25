@@ -22,6 +22,8 @@ class IliasParser
         ilias_question_type = "NUMERIC QUESTION"
       elsif question.type == "text"
         ilias_question_type = "TEXT QUESTION"
+      elsif question.type == "match"
+        ilias_question_type = "MATCHING QUESTION"
       end
 
       # Metadaten einfügen
@@ -107,6 +109,9 @@ class IliasParser
         setvar_node = respcondition_node.add_element "setvar"
         setvar_node.text = "3"
         setvar_node.attributes["action"] = "Add"
+      elsif question.type == "match"
+        question.answer_pairs.where(correct: true).each do |pair|
+        end
       end
 
 
@@ -137,7 +142,7 @@ class IliasParser
         end
 
         # Bekannte aber nicht unterstützte Formate filtern
-        if question_type.in? ['assOrderingHorizontal', 'ORDERING QUESTION', 'assFileUpload', 'assFlashQuestion', 'IMAGE MAP QUESTION', 'assErrorText', 'MATCHING QUESTION', 'CLOZE QUESTION']
+        if question_type.in? ['assOrderingHorizontal', 'ORDERING QUESTION', 'assFileUpload', 'assFlashQuestion', 'IMAGE MAP QUESTION', 'assErrorText', 'CLOZE QUESTION']
           errors << {"type" => "unsupported_type", "text" => element.elements["presentation/flow/material/mattext"].text.gsub(/<\S*>/,"")}
           next
         end
@@ -147,6 +152,8 @@ class IliasParser
           q = Question.new(type:"single").service
         elsif question_type == 'MULTIPLE CHOICE QUESTION'
           q = Question.new(type:"multi").service
+        elsif question_type == 'MATCHING QUESTION'
+          q = Question.new(type:"match").service
         elsif question_type == 'NUMERIC QUESTION'
           q = Question.new(type:"number").service
         elsif question_type.in? ['TEXT QUESTION', 'TEXTSUBSET QUESTION']
@@ -184,6 +191,8 @@ class IliasParser
               end
             end
           end
+        elsif question_type == 'MATCHING QUESTION'
+          element.elements.each(#...)
         end
 
         q.user = user

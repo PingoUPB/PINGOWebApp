@@ -112,7 +112,7 @@ de:
         no_access_to_session: "Sie sind nicht dazu berechtigt, auf diese Session zuzugreifen."
         question_successfully_created: "Frage erfolgreich erstellt."
         question_successfully_updated: "Frage erfolgreich geändert."
-        question_successfully_added: "Frage erfolgreich hinzugefügt"
+        question_successfully_added: "Frage(n) erfolgreich hinzugefügt"
         no_access_to_question: "Sie sind nicht dazu berechtigt, auf diese Frage zuzugreifen."
         no_access_to_survey: "Sie sind nicht dazu berechtigt, auf diese Session / Umfrage zuzugreifen."
         invite_success: "Einladung versendet. Danke für's Weiterempfehlen!"

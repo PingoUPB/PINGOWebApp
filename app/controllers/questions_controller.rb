@@ -253,7 +253,7 @@ class QuestionsController < ApplicationController
       when "moodle_xml"
         return "xml", MoodleXmlParser.new
       when "gift"
-        return "gift", GiftImporter.new
+        return "gift", GiftTxtParser.new
       when "ilias"
         return "xml", IliasParser.new
       else
