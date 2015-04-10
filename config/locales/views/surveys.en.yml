@@ -9,8 +9,10 @@ en:
             edit_survey: Edit survey
             add_option: Add option
             add_answer_pair: Add answer pair
+            add_order_option: Add option to bring in order
             options_for_survey: Answer options for this survey
             answer_pairs_for_match_survey: Answer pairs for this survey
+            order_options_for_order_survey: Options to bring in order
         changed:
           header: Comparison of voting behaviour
           wait: "One moment please, gathering data"
@@ -30,6 +32,7 @@ en:
             choose-number: "Please enter your (numerical) answer"
             choose-match: "Please match the fields by successively clicking one on the left and one on the right side"
             chosen-match: "You've matched"
+            choose-order: "Change the order of the fields via drag and drop."
         show:
             survey: Survey
             from: from
@@ -39,6 +42,7 @@ en:
             running: running?
             is_text: This is a text question
             is_match: This is a match question
+            is_order: This is an order question.
             votes_participants: participants
             is_multi: This is a multiple-choice survey.
             running_notice: 'This survey is <span class="label label-success">running</span>. People can access this survey at <code>%{url}</code>'
@@ -46,6 +50,7 @@ en:
             time_left: time left
             options: options
             answer_pairs: answer pairs
+            order_options: Options to bring in order
             correct_answer_pairs: correct answer pairs
             stop1: stop
             start1: start now

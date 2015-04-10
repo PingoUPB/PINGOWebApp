@@ -15,6 +15,9 @@ class Survey
 
   embeds_many :answer_pairs
   accepts_nested_attributes_for :answer_pairs, :allow_destroy => true
+
+  embeds_many :order_options
+  accepts_nested_attributes_for :order_options, :allow_destroy => true
     
   field :name, type: String
   field :description, type: String
@@ -39,8 +42,8 @@ class Survey
   belongs_to :question
   
   scope :current, where(:starts.gte => DateTime.now).and(:ends.lt => DateTime.now)
-  scope :display_fields, only(:description, :ends, :name, :options, :answer_pairs, :starts, :event_id, :quick, :created_at, :multi, :type, :settings, :voters, :voters_hash, :original_survey_id, :exit_q, :question_id)
-  scope :participate_fields, only(:description, :ends, :name, :options, :answer_pairs, :starts, :event_id, :quick, :multi, :type, :exit_q, :settings)
+  scope :display_fields, only(:description, :ends, :name, :options, :answer_pairs, :order_options, :starts, :event_id, :quick, :created_at, :multi, :type, :settings, :voters, :voters_hash, :original_survey_id, :exit_q, :question_id)
+  scope :participate_fields, only(:description, :ends, :name, :options, :answer_pairs, :order_options, :starts, :event_id, :quick, :multi, :type, :exit_q, :settings)
   scope :worker_fields, only(:voters, :multi, :type, :starts, :ends)
   
   validates :event, presence: true
@@ -60,6 +63,8 @@ class Survey
       ExitSurvey.new(self)
     when "match"
       MatchSurvey.new(self)
+    when "order"
+      OrderSurvey.new(self)
     else
       self
     end

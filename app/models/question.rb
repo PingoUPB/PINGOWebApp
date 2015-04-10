@@ -12,7 +12,7 @@ class Question
   field :settings, type: Hash, default: {}
   
   def self.question_types
-    ["multi", "single", "text", "exit_q", "number", "match"]
+    ["multi", "single", "text", "exit_q", "number", "match", "order"]
   end
   
   validates :type, inclusion: {in: Question.question_types}
@@ -25,6 +25,9 @@ class Question
 
   embeds_many :answer_pairs
   accepts_nested_attributes_for :answer_pairs, allow_destroy: true
+
+  embeds_many :order_options
+  accepts_nested_attributes_for :order_options, allow_destroy: true
 
   belongs_to :user   # TODO can questions exist without user?
   belongs_to :original_question, class_name: "Question", inverse_of: :copied_questions
@@ -48,6 +51,8 @@ class Question
       NumberQuestion.new(self)
     when "match"
       MatchQuestion.new(self)
+    when "order"
+      OrderQuestion.new(self)
     else
       self
     end
@@ -67,6 +72,9 @@ class Question
     end
     answer_pairs.each do |ap|
       survey.answer_pairs.push ap
+    end
+    order_options.each do |oo|
+      survey.order_options.push oo
     end
     survey.question = self
     survey.settings = self.settings if self.settings
@@ -88,6 +96,9 @@ class Question
           answer1: pair.answer1, 
           answer2: pair.answer2,
           correct: pair.correct)
+      end
+      original_question.order_options.each do |option|
+        question.order_options.build(name: option.name, position: option.position)
       end
       question.type = original_question.type
       question.original_question = original_question

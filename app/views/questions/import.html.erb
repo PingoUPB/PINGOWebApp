@@ -39,7 +39,7 @@
 </div>
 <div id="csv" class="well import-info">
   <p><%= t(".csv_info") %></p>
-  <%= link_to(icon_tag(:file) + "Excelvorlage laden", "/templates/csv-import-template.xlsx", class: "btn") %>
+  <%= link_to(icon_tag(:file) + t(".csv_template_load"), "/templates/csv-import-template.csv", class: "btn") %>
 </div>
 <div id="aiken" class="well import-info">
   <%= t(".aiken_info") %>
@@ -131,6 +131,10 @@
       <td>&nbsp&nbspErste Spalte enthält "number"</td>
       <td>Numerische Frage</td>
     </tr>
+     <tr>
+      <td>&nbsp&nbspErste Spalte enthält "match"</td>
+      <td>Zuordnungsfrage</td>
+    </tr>
     <tr>
       <th>Moodle XML</th>
       <td></td>
@@ -153,7 +157,7 @@
     </tr>
     <tr>
       <td>&nbsp&nbspmatch</td>
-      <td class="text-error">Nicht unterstützt</td>
+      <td>Zuordnungsfrage</td>
     </tr>
     <tr>
       <td>&nbsp&nbspcloze</td>
@@ -189,11 +193,11 @@
     </tr>
     <tr>
       <td>&nbsp&nbspMatching</td>
-      <td class="text-error">Nicht unterstützt</td>
+      <td>Zuordnungsfrage</td>
     </tr>
     <tr>
       <td>&nbsp&nbspMissing Word</td>
-      <td class="text-error">Nicht unterstützt</td>
+      <td>Freitext-Frage</td>
     </tr>
     <tr>
       <td>&nbsp&nbspNumerical</td>

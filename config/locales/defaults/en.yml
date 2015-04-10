@@ -25,6 +25,7 @@ en:
     start: "Start"
     there_were_errors_saving: "Errors occured during saving"
     name: "Name"
+    position: "Position (1,2,3, ...)"
     description: "Description"
     forgot_password: "Forgot your password?"
     remember_me: "Remember me"
@@ -50,6 +51,7 @@ en:
     comments: comments
     survey: Survey
     share: Share
+    duplicate: "Duplicate"
 
     matrix_keys:
       no_participation: no part.
@@ -80,6 +82,7 @@ en:
       single: "Single Choice"
       multi: "Multiple Choice"
       match: "Match"
+      order: "Order"
       truefalse: "True/False Question"
       yesno: "Yes/No Question"
       agree: "Agree/Disagree Question"
@@ -112,6 +115,7 @@ en:
         question_successfully_created: "Question successfully created."
         question_successfully_updated: "Question successfully updated."
         question_successfully_added: "Question successfully added"
+        question_successfully_duplicated: "Question successfully duplicated."
         no_access_to_question: "You do not have access to this question."
         token_reset_success: "You've been signed off from all third-party apps that were connected to your PINGO account."
         select_questions_for_export: "Please select questions for export"

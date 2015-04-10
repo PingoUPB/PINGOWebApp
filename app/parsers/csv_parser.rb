@@ -23,7 +23,7 @@ class CsvParser
             correct_options << '3'
           end
         elsif question.type == 'match'
-          question.answer_pairs.each do |pair|
+          question.answer_pairs.where(correct: true).each do |pair|
             current << pair.answer1 + ' - ' + pair.answer2
             correct_options << option_number if pair.correct?
             option_number = option_number + 1

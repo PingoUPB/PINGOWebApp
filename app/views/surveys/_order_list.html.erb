@@ -1,0 +1,30 @@
+<head>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js" type="text/javascript"></script>
+  <script>
+    $(document).ready(function(){
+    $('#sortable-list').sortable({
+      axis: "y"
+    }); 
+});
+</script>
+</head>
+<body>
+  <ul id="sortable-list">
+    <li id="order_option_1">testWordA</li>
+    <li id="order_option_2">testWordB</li>
+    <li id="order_option_3">testWordC</li>
+    <li id="order_option_4">testWordD</li>
+  </ul>
+  <br />
+</body>
+
+<!--<body>
+  <ul id="sortable-list" class="selectable">
+    <% survey.order_options.shuffle! %>
+	  <% survey.order_options.each do |option| %>
+      <li id="order_option_<%= option.id %>" class="btn1"><%= option.name %></li>
+	  <% end %>
+  </ul>
+  <br />
+</body>-->

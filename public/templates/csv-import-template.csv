@@ -1,0 +1,7 @@
+Type,Question,Correct,Answers
+multi,Welche Antworten sind die richtigen?,1;2,a,b,c,d
+text,"Was sind die ersten drei Farben, die Ihnen einfallen?",3
+single,Welche Antwort ist die richtige?,2,a,b,c,d
+match,Ordnen Sie die Paare richtig zu!,1;2;3,a1 - a2,b1 - b2,c1 - c2
+text,Wie geht es Ihnen heute?,1
+number,Welche natürliche Zahl liegt zwischen 3 und 5?,""

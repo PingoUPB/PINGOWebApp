@@ -3,6 +3,42 @@ class GiftTxtParser
   @@log = Logger.new('log.txt')
   @@log.debug "Log file created" 
 
+  def export(questions)
+    txt_content = ""
+    questions.each do |question|
+      txt_content << question.name
+      if(question.has_options?)
+        txt_content << "{\r\n"
+        question.question_options.each do |option|
+          if(option.correct)
+            txt_content << "\t="
+          else
+            txt_content << "\t~"
+          end
+          txt_content << option.name
+          txt_content << "\r\n"
+        end
+        txt_content << '}'
+      elsif(question.type == "text")
+        txt_content << '{}'
+      elsif(question.type == "number")
+        txt_content << '{#}'
+      elsif(question.has_answer_pairs?)
+        txt_content << "{\r\n"
+        question.answer_pairs.where(correct: true).each do |pair|
+          txt_content << "\t="
+          txt_content << pair.answer1
+          txt_content << ' -> '
+          txt_content << pair.answer2
+          txt_content << "\r\n"
+        end
+        txt_content << '}'
+      end
+      txt_content << "\r\n\n"
+    end
+    txt_content
+  end
+
   def import (gift_file, user, tags)
     errors = []
     successes = []
