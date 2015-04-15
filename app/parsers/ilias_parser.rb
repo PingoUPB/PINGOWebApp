@@ -192,7 +192,9 @@ class IliasParser
             end
           end
         elsif question_type == 'MATCHING QUESTION'
-          element.elements.each(#...)
+          element.elements.each do |elem|
+            #TODO implement
+          end
         end
 
         q.user = user
