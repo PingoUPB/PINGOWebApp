@@ -37,6 +37,8 @@ en:
     password_confirmation: "Password confirmation"
     update: "Update"
     results: "results"
+    absolute_results: "Absolute Results"
+    relative_results: "Relative Results"
     optional: "optional"
     positive: "positive"
     neutral: "neutral"

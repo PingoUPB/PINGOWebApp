@@ -24,11 +24,13 @@ class OrderSurvey < GenericSurvey
     if self.survey.running?(false)
       unless self.survey.matches?(voters: voter) #:fixme: is this "enough" concurrency safe?
         self.survey.add_to_set(:voters, voter.to_s)
+        #TODO: erstelle objekt zum füllen der relativen Tabelle
         if option_position_pairs.respond_to?(:each)
           option_position_pairs.each do |pair|
             pairArray = pair.split(' - ')
             if(pairArray.length == 2)
-              self.survey.order_options.where(name: pairArray[0]).first.vote_up(Integer(pairArray[1]))
+              #TODO rausfinden, warum folgender Befehl nicht funktionert
+              self.survey.order_options.where(name: pairArray[0]).first.vote_up(Integer(pairArray[1])) 
             end
           end
         elsif option_position_pairs.nil?

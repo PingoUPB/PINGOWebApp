@@ -38,6 +38,8 @@ de:
     password_confirmation: "Bestätigen Sie Ihr Kennwort"
     update: "Aktualisieren"
     results: "Ergebnisse"
+    absolute_results: "Absolute Ergebnisse"
+    relative_results: "Relative Ergebnisse"
     optional: "optional"
     positive: "positiv"
     neutral: "neutral"

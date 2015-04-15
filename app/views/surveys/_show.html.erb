@@ -105,7 +105,14 @@
 <% elsif survey.has_order_options? %> 
     <section class="option-results">
 		<div class="chart-container hide-button">
-			<h4 class="chart-container__heading"><%= t("results") %></h4>
+			<h4 class="chart-container__heading"><%= t("absolute_results") %></h4>
+			<div class="canvas_downloadable clearfix">
+				<%= render partial: "order_option_result_table", locals: {survey: survey} %>
+				<a href="#chart" class="btn canvas_download-button" id="save_table_btn" download="pingo_table.html" target="_blank"><%= icon_tag("download-alt") %></a>
+				<a class="btn pull-right canvas__show-highlight" id="showCorrectsBtn" data-toggle="button"><%= t("surveys.show.mark_corrects") %></a>
+			</div>
+			<h4 class="chart-container__heading"><%= t("relative_results") %></h4>
+			<!-- TODO: Folgende Tabelle durch relative ersetzen -->
 			<div class="canvas_downloadable clearfix">
 				<%= render partial: "order_option_result_table", locals: {survey: survey} %>
 				<a href="#chart" class="btn canvas_download-button" id="save_table_btn" download="pingo_table.html" target="_blank"><%= icon_tag("download-alt") %></a>
