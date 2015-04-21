@@ -24,7 +24,7 @@ de:
     remove: "Entfernen"
     start: "Starten"
     name: "Name"
-    position: "Position (1,2,3, ...)"
+    position: "Position"
     description: "Beschreibung"
     there_were_errors_saving: "Beim Speichern sind Fehler aufgetreten"
     forgot_password: "Passwort vergessen?"

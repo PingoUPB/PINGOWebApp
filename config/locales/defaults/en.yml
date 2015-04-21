@@ -25,7 +25,7 @@ en:
     start: "Start"
     there_were_errors_saving: "Errors occured during saving"
     name: "Name"
-    position: "Position (1,2,3, ...)"
+    position: "Position"
     description: "Description"
     forgot_password: "Forgot your password?"
     remember_me: "Remember me"

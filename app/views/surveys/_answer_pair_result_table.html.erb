@@ -24,14 +24,14 @@
           <% if current_answer_pair.correct? %>
             <td class="result-table-td toCorrectSwitchable" style="height: <%= rowHeightPercentage %>;">
               <div>
-                <div style="width:<%= percentage %>;" />
+                <div style="height:<%= percentage %>;" />
                 <p><%= percentage %></p>
               </div>
             </td>
           <% else %>
             <td class="result-table-td" style="height: <%= rowHeightPercentage %>;">
               <div>  
-                <div style="width:<%= percentage %>;" />
+                <div style="height:<%= percentage %>;" />
                 <p><%= percentage %></p>
               </div>
             </td>

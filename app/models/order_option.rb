@@ -11,9 +11,10 @@ class OrderOption
   # But since there's is no Mongoid field type "IntegerArray", we do it via a String,
   # e.g. "5,8,0,0,5,3"
 
-  validates_presence_of :name
-  validates_presence_of :position
-  validates_format_of :name, :without => / - /
+  # TODO: Why are the messages not working?
+  validates_presence_of :name, message: ": Name of option can't be blank."
+  validates_presence_of :position, message: ": Positions of options are missing."
+  validates_format_of :name, :without => / - /, message: ": No ' - ' inside option names."
 
   def vote_up(position)
     votesArray = self.votes.split(",")

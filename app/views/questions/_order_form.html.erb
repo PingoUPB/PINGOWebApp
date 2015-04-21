@@ -21,15 +21,17 @@
   <h3><%= t("surveys.edit.order_options_for_order_survey") %></h3>
   <div id="options" class="row-fluid">
     <div class="span10">
-      <%= form.semantic_fields_for :order_options, class: "form-inline" do |option| %>
-        <%= render "order_question_order_option_fields", f: option %>
-      <% end %>
-      <div class="links">
-        <%= link_to_add_association icon_tag("plus")+t("surveys.edit.add_order_option"), form, :order_options, partial:"order_question_order_option_fields" %>
-      </div>
+      <ul id="sortable-list" class="create_order_option_list">
+        <%= form.semantic_fields_for :order_options, class: "form-inline" do |option| %>
+          <%= render "order_question_order_option_fields", f: option %>
+        <% end %>
+        <div class="links">
+          <%= link_to_add_association icon_tag("plus")+t("surveys.edit.add_order_option"), form, :order_options, partial:"order_question_order_option_fields" %>
+        </div>
+      </ul>
       <br>
     </div>
-    <div class="offset4"></div>
+    <div id="div_for_hidden_inputs" class="offset4"></div>
   </div>
   <%= form.hidden_field :collaborators_form, class:"collaborators-form" %>
   <%= form.submit class: "btn btn-primary", id: "single_question_submit" %>
@@ -54,5 +56,49 @@
 		    $("#order_select_tag option:first").attr('selected',true);
       });
     });
+  </script>
+
+  <script src="/scripts/Sortable.js"></script>
+  <script src="/scripts/Sortable.min.js"></script>
+  <script>
+    var sortable_list = document.getElementById("sortable-list");
+    var sortable = Sortable.create(sortable_list, { ghostClass: "ghost"}); 
+
+    $(function() {
+      // This function allows us to change the inputs just before the submit
+      $('#new_order_question').submit(function() {
+        exchangeInputs();
+        return true;
+      });
+    });
+
+    /*
+      Workaround, since simple adding of the position inputs
+      doesn't seem to work (strang id occur and what not):
+      Finds the inputs, extract the names, deletes the inputs
+      and writes new hidden inputs including the positions.
+    */
+    function exchangeInputs() {
+      var current_index = 0;
+      $(".actual_input_div").each(function(){
+
+        current_name = $(this).find(".name_field_for_order_option").attr("value");
+
+        $(this).children().each(function(index, element) { 
+          $(element).remove();
+        });
+
+        $("#div_for_hidden_inputs").append('<input id="question_order_options_attributes_'
+          + current_index + '_name" name="question[order_options_attributes]['
+          + current_index + '][name]" type="hidden" value="' + current_name + '" />'
+          + '<input id="question_order_options_attributes_'
+          + current_index + '_position" name="question[order_options_attributes]['
+          + current_index + '][position]" type="hidden" value="' + (current_index+1) + '" />'
+        );
+        
+        current_index += 1;
+      });
+      
+    }
   </script>
 <% end %>
