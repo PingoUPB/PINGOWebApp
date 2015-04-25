@@ -6,6 +6,10 @@ class GiftTxtParser
   def export(questions)
     txt_content = ""
     questions.each do |question|
+      if question.has_order_options?
+        # the gift format doesn't support order-questions, so skip them
+        next
+      end
       txt_content << question.name
       if(question.has_options?)
         txt_content << "{\r\n"

@@ -205,6 +205,9 @@ class SurveysController < ApplicationController
     original_survey.answer_pairs.map do |pair|
       @survey.answer_pairs.new(answer1: pair.answer1, answer2: pair.answer2, correct: pair.correct)
     end
+    original_survey.order_options.map do |option|
+      @survey.order_options.new(name: option.name, position: option.position)
+    end
     @survey.type = original_survey.type
     @survey.settings = original_survey.settings
     @survey.original_survey = original_survey
@@ -252,6 +255,14 @@ class SurveysController < ApplicationController
             if @survey.type == "match"
               unless params[:option].nil?
                 voted_for = "<br><ul>"+params[:option].map { |o| "<li style='word-wrap: break-word;'>"+o+"</li>"}.join + "</ul>"
+              else
+                voted_for = t("matrix_keys.no_answer")
+              end
+            end
+          elsif @survey.has_order_options?
+            if @survey.type == "order"
+              unless params[:option].nil?
+                voted_for = '<br><ul style="list-style-type: none;">'+params[:option].map { |o| '<li style="word-wrap: break-word;">'+o.split(" - ")[1]+') '+ o.split(" - ")[0] +'</li>'}.join + '</ul>'
               else
                 voted_for = t("matrix_keys.no_answer")
               end
@@ -400,7 +411,9 @@ class SurveysController < ApplicationController
   end
 
   def changed
-    @survey = Survey.only(:original_survey_id, :type, :options, :answer_pairs, :voters_hash, :event_id).find(params[:id]).service
+    @survey = Survey.only(:original_survey_id, :type, :options, :answer_pairs, 
+      :order_options, :relative_option_order_object, :voters_hash, 
+      :event_id).find(params[:id]).service
     check_access
     return if performed?
 
@@ -437,7 +450,9 @@ class SurveysController < ApplicationController
   end
 
   def changed_aggregated
-    @survey = Survey.only(:original_survey_id, :type, :options, :answer_pairs, :voters_hash, :event_id).find(params[:id]).service
+    @survey = Survey.only(:original_survey_id, :type, :options, :answer_pairs, 
+      :order_options, :relative_option_order_object, :voters_hash, 
+      :event_id).find(params[:id]).service
     check_access
     return if performed?
 
@@ -464,7 +479,7 @@ class SurveysController < ApplicationController
   end
 
   def results
-    @survey = Survey.only(:type, :options, :answer_pairs, :voters_hash, :event_id, :voters).find(params[:id]).service
+    @survey = Survey.only(:type, :options, :answer_pairs, :order_options, :relative_option_order_object, :voters_hash, :event_id, :voters).find(params[:id]).service
     check_access
     return if performed?
 
@@ -504,7 +519,11 @@ class SurveysController < ApplicationController
 
   protected
   def survey_params
-    params.require(:survey).permit(:name, :description, options_attributes: [:name, :correct, :id], answer_pairs_attributes: [:answer1, :answer2, :correct, :id])
+    params.require(:survey).permit(:name, :description, 
+      options_attributes: [:name, :correct, :id], 
+      answer_pairs_attributes: [:answer1, :answer2, :correct, :id],
+      order_options_attributes: [:name, :position, :id, :_destroy],
+      relative_option_order_object_attributes: [:content_hash, :id, :_destroy])
   end
 
   def check_access

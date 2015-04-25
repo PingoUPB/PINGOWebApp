@@ -24,12 +24,25 @@ class OrderSurvey < GenericSurvey
     if self.survey.running?(false)
       unless self.survey.matches?(voters: voter) #:fixme: is this "enough" concurrency safe?
         self.survey.add_to_set(:voters, voter.to_s)
-        #TODO: erstelle objekt zum füllen der relativen Tabelle
+
+        # fill relative_option_order_object
+        if option_position_pairs.length > 0
+          for outer_index in 0..(option_position_pairs.length-1)
+            beforeName = option_position_pairs[outer_index].split(' - ')[0]
+            if option_position_pairs.length > (outer_index + 1)
+              for inner_index in (outer_index + 1)..(option_position_pairs.length - 1)
+                afterName = option_position_pairs[inner_index].split(' - ')[0]
+                self.survey.relative_option_order_object.vote_up(beforeName, afterName)
+              end
+            end
+          end
+        end
+
+        # fill order_option.votes
         if option_position_pairs.respond_to?(:each)
           option_position_pairs.each do |pair|
             pairArray = pair.split(' - ')
             if(pairArray.length == 2)
-              #TODO rausfinden, warum folgender Befehl nicht funktionert
               self.survey.order_options.where(name: pairArray[0]).first.vote_up(Integer(pairArray[1])) 
             end
           end

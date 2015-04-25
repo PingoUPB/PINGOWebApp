@@ -39,6 +39,7 @@ en:
     results: "results"
     absolute_results: "Absolute Results"
     relative_results: "Relative Results"
+    x_before_y: "X before Y"
     optional: "optional"
     positive: "positive"
     neutral: "neutral"

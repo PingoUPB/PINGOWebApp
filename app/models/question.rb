@@ -29,6 +29,9 @@ class Question
   embeds_many :order_options
   accepts_nested_attributes_for :order_options, allow_destroy: true
 
+  embeds_one :relative_option_order_object
+  accepts_nested_attributes_for :relative_option_order_object, allow_destroy: true
+
   belongs_to :user   # TODO can questions exist without user?
   belongs_to :original_question, class_name: "Question", inverse_of: :copied_questions
   has_many :copied_questions, class_name: "Question", inverse_of: :original_question
@@ -76,6 +79,7 @@ class Question
     order_options.each do |oo|
       survey.order_options.push oo
     end
+    survey.relative_option_order_object = self.relative_option_order_object
     survey.question = self
     survey.settings = self.settings if self.settings
     survey
@@ -100,6 +104,7 @@ class Question
       original_question.order_options.each do |option|
         question.order_options.build(name: option.name, position: option.position)
       end
+      question.relative_option_order_object = original_question.relative_option_order_object
       question.type = original_question.type
       question.original_question = original_question
       question.description = original_question.description

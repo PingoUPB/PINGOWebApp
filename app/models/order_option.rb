@@ -18,12 +18,24 @@ class OrderOption
 
   def vote_up(position)
     votesArray = self.votes.split(",")
-    votesArray[position] = (Integer(votesArray[position]) + 1).to_s
+    votesArray[position-1] = Integer(votesArray[position-1]) + 1
+    self.votes = votesArray.to_s
+    self.votes.gsub! '"', ''
+    self.votes.gsub! '[', ''
+    self.votes.gsub! ']', ''
+    self.votes.gsub! ' ', ''
+    self.save!
   end
    
-  def vote_down
+  def vote_down(position)
     votesArray = self.votes.split(",")
-    votesArray[position] = (Integer(votesArray[position]) - 1).to_s
+    votesArray[position-1] = Integer(votesArray[position-1]) - 1
+    self.votes = votesArray.to_s
+    self.votes.gsub! '"', ''
+    self.votes.gsub! '[', ''
+    self.votes.gsub! ']', ''
+    self.votes.gsub! ' ', ''
+    self.save!
   end
 
 end

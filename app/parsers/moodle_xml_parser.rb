@@ -6,6 +6,11 @@ class MoodleXmlParser
 
     # Über Fragen iterieren
     questions.each do |question|
+
+      if question.type == "order"
+        # moodle xml doesn't support order-questions, so we skip them
+        next
+      end
       # Grundbaum der Frage aufbauen
       question_node = root.add_element "question"
       name_node = question_node.add_element "name"
@@ -66,6 +71,7 @@ class MoodleXmlParser
         end
         (question_node.add_element "shuffleanswers").text = "true"
       end
+
     end
 
     s = ""

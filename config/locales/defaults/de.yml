@@ -40,6 +40,7 @@ de:
     results: "Ergebnisse"
     absolute_results: "Absolute Ergebnisse"
     relative_results: "Relative Ergebnisse"
+    x_before_y: "X vor Y"
     optional: "optional"
     positive: "positiv"
     neutral: "neutral"

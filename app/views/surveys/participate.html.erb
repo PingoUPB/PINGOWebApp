@@ -33,7 +33,7 @@ fieldset[data-role="controlgroup"] label {
 			</script>
 		<% end %>
 	<% end %>
-	<%= form_tag("/vote", style: 'clear:both;') %>
+	<%= form_tag("/vote", style: 'clear:both;', id: "participate_order_form") %>
 	<div id="survey-content" data-role="fieldcontain">
 	    <fieldset data-role="controlgroup">
 			<legend>
@@ -172,6 +172,29 @@ fieldset[data-role="controlgroup"] label {
 		window.addEventListener("pageshow", pageShown, false);
 		connect_timeout = setTimeout(function() {if(!connected && !running) { location.reload(); }}, 7500);
 	</script>
+
+	<% if @survey.type == "order" %>
+		<script>
+			function exchangeInputs() {
+			    var listItems = document.getElementsByClassName("move_handler");
+			    for(var index = 0; index<listItems.length;index++) {
+			      var input = document.createElement("input");
+			      input.setAttribute("type", "hidden");
+			      input.setAttribute("name", "option[]"); 
+			      input.setAttribute("value", listItems[index].innerHTML + " - " + (index + 1) );         
+			      document.getElementById("hiddenInputs").appendChild(input); 
+			    }
+	  		}
+
+			$(function() {
+			    // This function allows us to change the inputs just before the submit
+			    $('#participate_order_form').submit(function() {
+			      exchangeInputs();
+			      return true;
+			    });
+		  	});
+		</script>
+	<% end %>
 
 	<% if @survey && @survey.mathjax? %>
 	 <script type="text/x-mathjax-config">

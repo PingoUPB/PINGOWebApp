@@ -25,8 +25,10 @@ class CsvParser
         elsif question.type == 'match'
           question.answer_pairs.where(correct: true).each do |pair|
             current << pair.answer1 + ' - ' + pair.answer2
-            correct_options << option_number if pair.correct?
-            option_number = option_number + 1
+          end
+        elsif question.type == 'order'
+          question.order_options.each do |option|
+            current << option.position.to_s + ") " + option.name
           end
         end
         unless correct_options.empty?
@@ -71,7 +73,11 @@ class CsvParser
 
             if question[0] == "match"
               question.drop(3).each do |pair| # Die ersten drei Elemente beinhalten keine Antworten
-                q.answer_pairs << AnswerPair.new(answer1: pair.split(' - ')[0], answer2: pair.split(' - ')[1], correct: false) # AnswerPairs sind in der Frage eingebettet und werden mitgesichert
+                q.answer_pairs << AnswerPair.new(answer1: pair.split(' - ')[0], answer2: pair.split(' - ')[1])
+              end
+            elsif question[0] == "order"
+              question.drop(3).each do |option|
+                q.order_options << OrderOption.new(name: option.split(') ')[1], position: option.split(') ')[0])
               end
             else
               question.drop(3).each do |option| # Die ersten drei Elemente beinhalten keine Antworten
@@ -89,12 +95,6 @@ class CsvParser
                 q.add_setting "answers", TextSurvey::THREE_ANSWERS
               elsif answers.first.blank?
                 q.add_setting "answers", TextSurvey::MULTI_ANSWERS
-              end
-            elsif q.type == "match"
-              if answers
-                answers.each do |answer|
-                  q.answer_pairs[answer.to_i-1].correct = true
-                end
               end
             else
               if answers

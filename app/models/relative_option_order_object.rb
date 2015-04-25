@@ -11,7 +11,7 @@ class RelativeOptionOrderObject
   # votes, indicating that this order_option
   # belongs after the super order_option. E.g.
   #
-  # contentHash:
+  # content_hash:
   # {
   #   "A" => {
   #     "B" => 2, //i.e. 2 people voted, that A belongs before B
@@ -26,23 +26,24 @@ class RelativeOptionOrderObject
   #     "B" => 1
   #   }
   # }
-  field :contentHash, type: Hash
+  field :content_hash, type: Hash, default: Hash.new
 
   def vote_up(beforeName, afterName)
-    if self.contentHash[beforeName].nil?
-      self.contentHash[beforeName] = Hash[afterName, 1]
-    elsif self.contentHash[beforeName][afterName].nil?
-      self.contentHash[beforeName][afterName] = 1
+    if self.content_hash[beforeName].nil?
+      self.content_hash[beforeName] = Hash[afterName, 1]
+    elsif self.content_hash[beforeName][afterName].nil?
+      self.content_hash[beforeName][afterName] = 1
     else
-      self.contentHash[beforeName][afterName] += 1
+      self.content_hash[beforeName][afterName] += 1
     end
+    self.save!
   end
 
   def get_votes_for(beforeName, afterName)
-    if self.contentHash[beforeName][afterName].nil?
+    if self.content_hash[beforeName].nil? || self.content_hash[beforeName][afterName].nil?
       return(0)
     else
-      return(self.contentHash[beforeName][afterName])
+      return(self.content_hash[beforeName][afterName])
     end
   end
 

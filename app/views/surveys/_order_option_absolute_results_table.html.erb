@@ -1,5 +1,4 @@
-<body>
-  <table id="result-table" height="300" class="table table-bordered">
+  <table id="result-table" height="300" class="result-table table table-bordered">
     <thead>
       <tr>
           <% numberOfOptions = survey.order_options.length %>
@@ -19,7 +18,7 @@
           <% votesForPositionInteger = Integer(votesForPosition) %>
           <% percentage = "0%" %>
           <% if survey.total_votes > 0 %>
-            <% percentage = number_to_percentage(votesForPositionInteger.to_f / total_votes.to_f * 100.to_f, :precision => 0) %>
+            <% percentage = number_to_percentage(votesForPositionInteger.to_f / survey.total_votes.to_f * 100.to_f, :precision => 0) %>
           <% end %>
           <% rowHeightPercentage = number_to_percentage(1.to_f / (1 + survey.order_options.length).to_f * 100.to_f, :precision => 0) %>
           <% if option.position == currentPosition %>
@@ -43,4 +42,3 @@
       <% end %>
     </tbody>
   </table>
-</body>

@@ -112,10 +112,9 @@
 				<a class="btn pull-right canvas__show-highlight" id="showCorrectsBtn" data-toggle="button"><%= t("surveys.show.mark_corrects") %></a>
 			</div>
 			<h4 class="chart-container__heading"><%= t("relative_results") %></h4>
-			<!-- TODO: Folgende Tabelle durch relative ersetzen -->
 			<div class="canvas_downloadable clearfix">
 				<%= render partial: "order_option_relative_results_table", locals: {survey: survey} %>
-				<a href="#chart" class="btn canvas_download-button" id="save_table_btn" download="pingo_table.html" target="_blank"><%= icon_tag("download-alt") %></a>
+				<a href="#chart" class="btn canvas_download-button" id="save_relative_table_btn" download="pingo_relative_table.html" target="_blank"><%= icon_tag("download-alt") %></a>
 			</div>
 		</div>
 	</section> 
@@ -218,6 +217,18 @@
 						+ '<div class="canvas_downloadable clearfix">' +
 						'<table id="result-table" height="300" class="table table-bordered">' +
 						$("#result-table").html() + '</table></div>';
+						$(this).attr("href", base_str);
+		  				return true;
+					}
+				});
+
+				$(document).on("click", "#save_relative_table_btn", function(e) {
+					if($("#relative-result-table").length > 0) {
+						var base_str = 'data:text/html,' + '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">'
+						+ '<p><b><%= survey.name || t(".survey") %></b></p><br />'
+						+ '<div class="canvas_downloadable clearfix">' +
+						'<table id="relative-result-table" height="300" class="table table-bordered">' +
+						$("#relative-result-table").html() + '</table></div>';
 						$(this).attr("href", base_str);
 		  				return true;
 					}

@@ -160,6 +160,7 @@ class QuestionsController < ApplicationController
       @question.order_options.each do |option|
         option.votes = votesString
       end
+      @question.relative_option_order_object = Hash.new
     end
 
     # shitty work-around: Don't know why, but the first answer_pair doesn't seem to get into
@@ -326,7 +327,12 @@ class QuestionsController < ApplicationController
   end 
 
   def question_params
-    params.require(:question).permit(:name, :type, :description, :tags, :public, :collaborators_form, question_options_attributes: [:name, :correct, :id, :_destroy], answer_pairs_attributes: [:answer1, :answer2, :correct, :id, :_destroy], order_options_attributes: [:name, :position, :id, :_destroy])
+    params.require(:question).permit(:name, :type, :description, :tags, 
+      :public, :collaborators_form, 
+      question_options_attributes: [:name, :correct, :id, :_destroy], 
+      answer_pairs_attributes: [:answer1, :answer2, :correct, :id, :_destroy], 
+      order_options_attributes: [:name, :position, :id, :_destroy],
+      relative_option_order_object_attributes: [:content_hash, :id, :_destroy])
   end
 
 end
