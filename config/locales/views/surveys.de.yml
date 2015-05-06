@@ -9,10 +9,13 @@ de:
             edit_survey: Umfrage bearbeiten
             add_option: Antwortmöglichkeit hinzufügen
             add_answer_pair: Antwortpaar hinzufügen
+            add_category: Kategorie hinzufügen
+            add_sub_word: Begriff hinzufügen
             add_order_option: Zu ordnende Option hinzufügen
             options_for_survey: Antwortmöglichkeiten für diese Umfrage
             answer_pairs_for_match_survey: Antwortpaare für diese Umfrage
             order_options_for_order_survey: Zu ordnende Begriffe für diese Umfrage
+            categories_and_sub_words_for_category_survey: Kategorien und Begriffe für diese Umfrage
         changed:
           header: Vergleich des Antwortverhaltens
           wait: "Einen Moment bitte, Daten werden berechnet"
@@ -51,6 +54,7 @@ de:
             options: Antwortmöglichkeiten
             answer_pairs: Antwortpaare
             order_options: Zu ordnende Begriffe
+            categories: Kategorien und ihre Begriffe
             correct_answer_pairs: Korrekte Antwortpaare
             stop1: Stoppen
             start1: Jetzt starten
@@ -78,4 +82,5 @@ de:
             notice: "Zahl bitte ohne 1.000er-Trennzeichen eingeben, z. B. 42,7"
         match_input_field_1: "Das gehört..."
         match_input_field_2: "...zu dem."
-
+        category_name: "Kategoriename..."
+        sub_word_name: "...Begriff"

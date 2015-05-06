@@ -86,6 +86,7 @@ en:
       multi: "Multiple Choice"
       match: "Match"
       order: "Order"
+      category: "Category"
       truefalse: "True/False Question"
       yesno: "Yes/No Question"
       agree: "Agree/Disagree Question"

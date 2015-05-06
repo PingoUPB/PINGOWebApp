@@ -13,10 +13,6 @@ class MatchQuestion < GenericQuestion
     true
   end
 
-  def has_settings?
-    false
-  end
-
   def form_partial
     "match_form"
   end

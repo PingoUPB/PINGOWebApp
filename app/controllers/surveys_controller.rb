@@ -45,6 +45,8 @@ class SurveysController < ApplicationController
     @survey = Survey.new
     @survey.options.build
     @survey.answer_pairs.build
+    @survey.categories.build
+    @survey.sub_words.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -208,6 +210,12 @@ class SurveysController < ApplicationController
     original_survey.order_options.map do |option|
       @survey.order_options.new(name: option.name, position: option.position)
     end
+    original_survey.categories.map do |category|
+      @survey.categories.new(name: category.name, sub_words: category.sub_words)
+    end
+    original_survey.sub_words.map do |sub_word|
+      @survey.categories.new(name: sub_word.name, category: sub_word.category)
+    end
     @survey.type = original_survey.type
     @survey.settings = original_survey.settings
     @survey.original_survey = original_survey
@@ -262,7 +270,15 @@ class SurveysController < ApplicationController
           elsif @survey.has_order_options?
             if @survey.type == "order"
               unless params[:option].nil?
-                voted_for = '<br><ul style="list-style-type: none;">'+params[:option].map { |o| '<li style="word-wrap: break-word;">'+o.split(" - ")[1]+') '+ o.split(" - ")[0] +'</li>'}.join + '</ul>'
+                voted_for = ''#'<br><ul style="list-style-type: none;">'+params[:option].map { |o| '<li style="word-wrap: break-word;">'+o.split(" - ")[1]+') '+ o.split(" - ")[0] +'</li>'}.join + '</ul>'
+              else
+                voted_for = t("matrix_keys.no_answer")
+              end
+            end
+          elsif @survey.has_categories?
+            if @survey.type == "category"
+              unless params[:option].nil?
+                voted_for = ''#<br><ul style="list-style-type: none;">'+params[:option].map { |o| '<li style="word-wrap: break-word;">'+o.split(" - ")[0]+':<br /><ul>'+ o.split(";").each { |word| '<li style="word-wrap: break-word;">' + word + '</li>'}.join +'</ul></li>'}.join + '</ul>'
               else
                 voted_for = t("matrix_keys.no_answer")
               end
@@ -412,8 +428,8 @@ class SurveysController < ApplicationController
 
   def changed
     @survey = Survey.only(:original_survey_id, :type, :options, :answer_pairs, 
-      :order_options, :relative_option_order_object, :voters_hash, 
-      :event_id).find(params[:id]).service
+      :order_options, :relative_option_order_object, :voters_hash, :categories, 
+      :sub_words, :event_id).find(params[:id]).service
     check_access
     return if performed?
 
@@ -451,8 +467,8 @@ class SurveysController < ApplicationController
 
   def changed_aggregated
     @survey = Survey.only(:original_survey_id, :type, :options, :answer_pairs, 
-      :order_options, :relative_option_order_object, :voters_hash, 
-      :event_id).find(params[:id]).service
+      :order_options, :relative_option_order_object, :voters_hash, :categories,
+      :sub_words, :event_id).find(params[:id]).service
     check_access
     return if performed?
 
@@ -479,7 +495,9 @@ class SurveysController < ApplicationController
   end
 
   def results
-    @survey = Survey.only(:type, :options, :answer_pairs, :order_options, :relative_option_order_object, :voters_hash, :event_id, :voters).find(params[:id]).service
+    @survey = Survey.only(:type, :options, :answer_pairs, :order_options, 
+      :relative_option_order_object, :voters_hash, :categories, 
+      :sub_words, :event_id, :voters).find(params[:id]).service
     check_access
     return if performed?
 
@@ -523,7 +541,9 @@ class SurveysController < ApplicationController
       options_attributes: [:name, :correct, :id], 
       answer_pairs_attributes: [:answer1, :answer2, :correct, :id],
       order_options_attributes: [:name, :position, :id, :_destroy],
-      relative_option_order_object_attributes: [:content_hash, :id, :_destroy])
+      relative_option_order_object_attributes: [:content_hash, :id, :_destroy],
+      categories_attributes: [:name, :sub_words, :id, :_destroy],
+      sub_words_attributes: [:name, :category, :id, :_destroy])
   end
 
   def check_access

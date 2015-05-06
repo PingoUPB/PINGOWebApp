@@ -21,6 +21,12 @@ class Survey
 
   embeds_one :relative_option_order_object
   accepts_nested_attributes_for :relative_option_order_object, :allow_destroy => true
+
+  embeds_many :categories
+  accepts_nested_attributes_for :categories, :allow_destroy => true
+
+  embeds_many :sub_words
+  accepts_nested_attributes_for :sub_words, :allow_destroy => true
     
   field :name, type: String
   field :description, type: String
@@ -48,10 +54,10 @@ class Survey
   scope :display_fields, only(:description, :ends, :name, :options, :answer_pairs, 
     :order_options, :relative_option_order_object, :starts, :event_id, :quick, 
     :created_at, :multi, :type, :settings, :voters, :voters_hash, :original_survey_id, 
-    :exit_q, :question_id)
+    :exit_q, :question_id, :categories, :sub_words)
   scope :participate_fields, only(:description, :ends, :name, :options, :answer_pairs, 
     :order_options, :relative_option_order_object, :starts, :event_id, :quick, :multi, 
-    :type, :exit_q, :settings)
+    :type, :exit_q, :settings, :categories, :sub_words)
   scope :worker_fields, only(:voters, :multi, :type, :starts, :ends)
   
   validates :event, presence: true
@@ -73,6 +79,8 @@ class Survey
       MatchSurvey.new(self)
     when "order"
       OrderSurvey.new(self)
+    when "category"
+      CategorySurvey.new(self)  
     else
       self
     end

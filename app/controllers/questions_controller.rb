@@ -101,6 +101,10 @@ class QuestionsController < ApplicationController
     @question_number = NumberQuestion.new  #refactor this maybe?
     @question_match = MatchQuestion.new.tap { |q| q.answer_pairs.build }
     @question_order = OrderQuestion.new.tap { |q| q.order_options.build }
+    @question_category = CategoryQuestion.new.tap do |q| 
+      q.categories.build 
+      q.sub_words.build
+    end
   end
 
   def edit
@@ -313,6 +317,8 @@ class QuestionsController < ApplicationController
       params[:question][:tags] = params["match_question"][:tags]
     elsif params["order_question"] && params["order_question"][:tags]
       params[:question][:tags] = params["order_question"][:tags]
+    elsif params["category_question"] && params["category_question"][:tags]
+      params[:question][:tags] = params["category_question"][:tags]  
     end
   end
 
@@ -332,7 +338,9 @@ class QuestionsController < ApplicationController
       question_options_attributes: [:name, :correct, :id, :_destroy], 
       answer_pairs_attributes: [:answer1, :answer2, :correct, :id, :_destroy], 
       order_options_attributes: [:name, :position, :id, :_destroy],
-      relative_option_order_object_attributes: [:content_hash, :id, :_destroy])
+      relative_option_order_object_attributes: [:content_hash, :id, :_destroy],
+      categories_attributes: [:name, :sub_words, :id, :_destroy],
+      sub_words_attributes: [:name, :category, :id, :_destroy])
   end
 
 end

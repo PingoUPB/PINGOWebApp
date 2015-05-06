@@ -32,6 +32,7 @@ en:
           type_number: Numerical
           type_match: Match
           type_order: Order
+          type_category: Category
         comments:
           placeholder: Enter your comment here.
           show_session: show related survey

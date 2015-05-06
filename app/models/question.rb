@@ -12,7 +12,7 @@ class Question
   field :settings, type: Hash, default: {}
   
   def self.question_types
-    ["multi", "single", "text", "exit_q", "number", "match", "order"]
+    ["multi", "single", "text", "exit_q", "number", "match", "order", "category"]
   end
   
   validates :type, inclusion: {in: Question.question_types}
@@ -31,6 +31,12 @@ class Question
 
   embeds_one :relative_option_order_object
   accepts_nested_attributes_for :relative_option_order_object, allow_destroy: true
+
+  embeds_many :categories
+  accepts_nested_attributes_for :categories, allow_destroy: true
+
+  embeds_many :sub_words
+  accepts_nested_attributes_for :sub_words, allow_destroy: true
 
   belongs_to :user   # TODO can questions exist without user?
   belongs_to :original_question, class_name: "Question", inverse_of: :copied_questions
@@ -56,6 +62,8 @@ class Question
       MatchQuestion.new(self)
     when "order"
       OrderQuestion.new(self)
+    when "category"
+      CategoryQuestion.new(self)
     else
       self
     end
@@ -78,6 +86,12 @@ class Question
     end
     order_options.each do |oo|
       survey.order_options.push oo
+    end
+    categories.each do |ca|
+      survey.categories.push ca
+    end
+    sub_words.each do |sw|
+      survey.sub_words.push sw
     end
     survey.relative_option_order_object = self.relative_option_order_object
     survey.question = self
@@ -105,6 +119,12 @@ class Question
         question.order_options.build(name: option.name, position: option.position)
       end
       question.relative_option_order_object = original_question.relative_option_order_object
+      original_question.categories.each do |category|
+        question.categories.build(name: category.name, sub_words: category.sub_words)
+      end
+      original_question.sub_words.each do |sub_word|
+        question.sub_words.build(name: sub_word.name, category: sub_word.category)
+      end
       question.type = original_question.type
       question.original_question = original_question
       question.description = original_question.description

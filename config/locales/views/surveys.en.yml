@@ -9,10 +9,13 @@ en:
             edit_survey: Edit survey
             add_option: Add option
             add_answer_pair: Add answer pair
+            add_category: Add category
             add_order_option: Add option to bring in order
+            add_sub_word: Add sub word
             options_for_survey: Answer options for this survey
             answer_pairs_for_match_survey: Answer pairs for this survey
-            order_options_for_order_survey: Options to bring in order
+            order_options_for_order_survey: Options to bring in order for this survey
+            categories_and_sub_words_for_category_survey: Categories and sub words for this survey
         changed:
           header: Comparison of voting behaviour
           wait: "One moment please, gathering data"
@@ -51,6 +54,7 @@ en:
             options: options
             answer_pairs: answer pairs
             order_options: Options to bring in order
+            categories: Categories and their sub words
             correct_answer_pairs: correct answer pairs
             stop1: stop
             start1: start now
@@ -78,4 +82,5 @@ en:
             notice: "Please enter the number without a thousands delimiter, e.g. 42.7"
         match_input_field_1: "This belongs..."
         match_input_field_2: "...to that."
-
+        category_name: "Category name..."
+        sub_word_name: "... sub word"

@@ -17,7 +17,9 @@
 <% elsif @question.type == "match" %>
   <%= t("questions.show.type_match") %>
 <% elsif @question.type == "order" %>
-  <%= t("questions.show.type_order") %>  
+  <%= t("questions.show.type_order") %>
+<% elsif @question.type == "category" %>
+  <%= t("questions.show.type_category") %>  
 <% end %>
 <br>
 <p><strong>Tags:</strong> <%= @question.tags_array.join(", ") %> </p>
@@ -41,6 +43,22 @@
   <strong><%= t("surveys.show.order_options") %></strong>
   <ul id="answer-pair-list">
   <%= render partial: "order_option", collection: @question.order_options %>
+  </ul>
+<% end %>
+
+<% if @question.has_categories? %>
+  <strong><%= t("surveys.show.categories") %></strong>
+  <ul id="answer-pair-list">
+    <% @question.categories.each do |category| %>
+      <li>
+        <%= category.name %>:
+        <ul> 
+          <% category.sub_words.split(';').each do |sub_word| %>
+            <li style="word-wrap: break-word;"><%= sub_word %></li>
+          <% end %>
+        </ul>
+      </li>
+    <% end %>
   </ul>
 <% end %>
 

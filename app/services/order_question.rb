@@ -9,10 +9,6 @@ class OrderQuestion < GenericQuestion
     false
   end
 
-  def has_answer_pairs?
-    false
-  end
-
   def has_order_options?
     true
   end

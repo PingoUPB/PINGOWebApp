@@ -32,6 +32,7 @@ de:
       type_number: Numerisch
       type_match: Zuordnen
       type_order: Reihenfolge
+      type_category: Kategorie
     new:
       please_choose_question_type_to_continue: "Bitte wählen Sie links einen Fragetyp (Single/Multiple-Choice, Text, Numerisch oder Zuordnen) aus."
     comments:

@@ -61,7 +61,9 @@
  <li class="<%= "active" if params[:q_type] == "match" %>">
   <%= link_to icon_tag("random") + t("type.match"), questions_path(tag: params[:tag], q_type: "match", public: params[:public], shared: params[:shared])  %> </li>
  <li class="<%= "active" if params[:q_type] == "order" %>">
-  <%= link_to icon_tag("list") + t("type.order"), questions_path(tag: params[:tag], q_type: "order", public: params[:public], shared: params[:shared])  %> </li>
+  <%= link_to icon_tag("list") + t("type.order"), questions_path(tag: params[:tag], q_type: "order", public: params[:public], shared: params[:shared]) %></li>
+ <li class="<%= "active" if params[:q_type] == "category" %>">
+  <%= link_to icon_tag("th-large") + t("type.category"), questions_path(tag: params[:tag], q_type: "category", public: params[:public], shared: params[:shared]) %></li>
 	
  <li class="divider"></li>
 

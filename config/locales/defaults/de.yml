@@ -87,6 +87,7 @@ de:
       multi: "Multiple Choice"
       match: "Zuordnen"
       order: "Reihenfolge"
+      category: "Kategorie"
       truefalse: "Wahr/Falsch-Frage"
       yesno: "Ja/Nein-Frage"
       agree: "Zustimmen/Nicht zustimmen-Frage"

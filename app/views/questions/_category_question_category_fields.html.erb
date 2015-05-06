@@ -1,0 +1,17 @@
+<div class="control-group nested-fields">
+    <div class="controls">
+    	<%= link_to_remove_association icon_tag("minus-sign"), f %>
+        <%= f.text_field :name, placeholder: t("surveys.category_name"), class: "category_name_field" %>
+        <%= f.hidden_field :sub_words, value: "", class: "hidden_sub_words_field" %>
+        <ul class="bulletless_plus_margin">
+            <% question.sub_words.where(category: cat.name).each do |sub_word| %>
+                <%= form.semantic_fields_for :sub_words, sub_word, class: "form-inline" do |word| %>
+                    <%= render "category_question_sub_words_fields", f: word %>
+              	<% end %>
+            <% end %>
+            <div class="links">
+            	<%= link_to_add_association icon_tag("plus")+t("surveys.edit.add_sub_word"), form, :sub_words, partial:"category_question_sub_words_fields" %>
+            </div>
+        </ul>
+    </div>
+</div>

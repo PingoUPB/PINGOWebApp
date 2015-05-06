@@ -11,6 +11,7 @@
     <li><a href="#number-tab" data-toggle="tab"><%= t "type.number" %> <span class="label label-info">BETA</span></a></li>
     <li><a href="#match-tab" data-toggle="tab"><%= t "type.match" %></a></li>
     <li><a href="#order-tab" data-toggle="tab"><%= t "type.order" %></a></li>
+    <li><a href="#category-tab" data-toggle="tab"><%= t "type.category" %></a></li>
   </ul>
   <div class="tab-content">
     <div class="tab-pane active" id="choose-tab">
@@ -33,6 +34,9 @@
     </div>
     <div class="tab-pane" id="order-tab">
       <%= render partial: @question_order.form_partial, locals: {question: @question_order} %>
+    </div>
+    <div class="tab-pane" id="category-tab">
+      <%= render partial: @question_category.form_partial, locals: {question: @question_category} %>
     </div>
   </div>
 </div>
