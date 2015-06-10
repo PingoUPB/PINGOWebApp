@@ -1,0 +1,43 @@
+<body>
+  <table id="result-table" class="result-table table table-bordered">
+    <thead>
+      <tr>
+          <% numberOfCategories = survey.categories.length %>
+          <% columnWidthPercentage = number_to_percentage(1.to_f / (1 + numberOfCategories).to_f * 100.to_f, :precision => 0) %>
+          <th style="width: <%= columnWidthPercentage %>;">&nbsp;</th>
+          <% survey.categories.each do |category| %>
+            <th scope="col" style="width: <%= columnWidthPercentage %>;"><%= category.name %></th>
+          <% end %>
+      </tr> 
+    </thead>
+    <tbody>
+      <% sub_words = survey.sub_words.shuffle %> 
+      <% sub_words.each do |sub_word| %>
+        <tr><td style="text-align: center; word-wrap: break-word; padding: 15px; font-weight: bold; vertical-align:middle; width: <%= columnWidthPercentage %>;"><%= sub_word.name %></td>
+        <% survey.categories.each do |category| %>
+          <% percentage = "0%" %>
+          <% currently_correct_category = sub_word.category %>
+          <% if survey.total_votes > 0 %>
+            <% percentage = number_to_percentage(sub_word.get_votes_for(category.name).to_f / survey.total_votes.to_f * 100.to_f, :precision => 0) %>
+          <% end %>
+          <% if category.name == currently_correct_category %>
+            <td class="result-table-td toCorrectSwitchable">
+              <div>
+                <div style="height:<%= percentage %>;" />
+                <p><%= percentage %></p>
+              </div>
+            </td>
+          <% else %>
+            <td class="result-table-td">
+              <div>  
+                <div style="height:<%= percentage %>;" />
+                <p><%= percentage %></p>
+              </div>
+            </td>
+          <% end %>
+        <% end %>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</body>

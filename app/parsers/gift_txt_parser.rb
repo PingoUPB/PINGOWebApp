@@ -1,13 +1,12 @@
 class GiftTxtParser
-  require 'Logger'
-  @@log = Logger.new('log.txt')
-  @@log.debug "Log file created" 
 
   def export(questions)
     txt_content = ""
     questions.each do |question|
+      # the gift format doesn't support order- nor category questions, so skip them
       if question.has_order_options?
-        # the gift format doesn't support order-questions, so skip them
+        next
+      elsif question.has_categories?
         next
       end
       txt_content << question.name
@@ -47,7 +46,6 @@ class GiftTxtParser
     errors = []
     successes = []
 
-    @@log.debug "Start..."
     begin
       gift_string = gift_file.read
 

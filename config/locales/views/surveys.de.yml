@@ -36,6 +36,7 @@ de:
             choose-match: "Bitte ordnen Sie die Felder einander zu, indem Sie nacheinander eines auf der linken und eines auf der rechten Seite anklicken"
             chosen-match: "Sie haben zugeordnet"
             choose-order: "Sie verändern die Reihenfolge der Felder durch Anklicken, Verschieben und Loslassen (Drag and Drop)"
+            categorize-words: "Sie ordnen die Wörter auf der rechten Seite den Kategorien auf der linken Seite zu, indem Sie sie anklicken, verschieben und loslassen (Drag and Drop)"
         show:
             survey: Umfrage
             from: vom
@@ -46,6 +47,7 @@ de:
             is_text: Dies ist eine Freitext-Frage.
             is_match: Dies ist eine Zuordnungsfrage.
             is_order: Dies ist eine Reihenfolge-Frage.
+            is_category: Dies ist eine Kategorie-Frage.
             votes_participants: Teilnehmer
             is_multi: Dies ist eine Multiple-Choice-Umfrage.
             running_notice: 'Diese Umfrage <span class="label label-success">läuft</span>. Teilnahme ist über <code>%{url}</code> möglich.'
@@ -72,6 +74,7 @@ de:
             histogram: "Histogramm"
             repeated: "Diese Umfrage ist eine wiederholte Umfrage."
             mark_corrects: Korrekte markieren
+            correct_order_and_mark: Korrekt anordnen und markieren
         text_table_results:
             term: "Antwort"
             occurrences: "Häufigkeit"

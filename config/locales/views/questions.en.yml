@@ -44,11 +44,11 @@ en:
           tags: Tags
           upload: Upload and import
           moodle_xml_info: "Currently the Moodle XML formats truefalse, shortanswer, multichoice, numerical, match and essay are supported."
-          csv_info: "Currently commas are accepted as separator exclusively. The format is specified as follows: Each line contains one question. The first column specifies the type of the question (single, multi, number, match or text). Column two contains the text of the question. Column three consists of numbers, that are seperated by semicolons, where these numbers stand for the correct answer options. (zum Beispiel 1;3;5). If it's a text question, this column holds the limitations for the numbers of answers to give (1 for one, 3 for up to three). In each of the following columns is an answer option. In case of match questions, only the correct pairings are given, whereby a pair is seperated by ' - '."
+          csv_info: "Currently commas are accepted as separator exclusively. The format is specified as follows: Each line contains one question. The first column specifies the type of the question (single, multi, number, match or text). Column two contains the text of the question. Column three consists of numbers, that are seperated by semicolons, where these numbers stand for the correct answer options. (e.g. 1;3;5). If it's a text question, this column holds the limitations for the numbers of answers to give (1 for one, 3 for up to three). In each of the following columns is an answer option. In case of match questions, only the correct pairings are given, whereby a pair is seperated by ' - '. In the case order questions, at first there's te position, then a closing bracket and then the word, e.g. '1) Tree'. In the case of category questions, at first there's the category followed by three bars and the the semicolon-seperated word, e.g. 'Trees|||Maple;Chestnut;Palm'."
           csv_template_load: "Load CSV-template"
           aiken_info: "Any question in written in Aiken must specify correct answers"
           gift_info: "Currently True / False, Multiple Choice, Short Answer, Essay, Matching and Numerical questions are supported for the Gift format"
-          ilias_info: "Currently Multiple Choice, Single Choice, Text, Textsubset and Numeric questions are supported for the Ilias format."
+          ilias_info: "Currently Multiple Choice, Single Choice, Text, Textsubset, Order, Assign and Numeric questions are supported for the Ilias format."
           further_information: "For further information on how imported files are interpreted click here"
           upload_questions_legend: "Please choose a file and format to import questions into PINGO."
         share_button: 

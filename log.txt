@@ -1,2 +1,5 @@
-D, [2015-04-25T16:31:25.827131 #389] DEBUG -- : Log file created
-D, [2015-04-25T16:34:15.610292 #389] DEBUG -- : Log file created
+D, [2015-06-10T16:00:30.934205 #3171] DEBUG -- : Log file created
+D, [2015-06-10T16:00:44.476884 #3171] DEBUG -- : LOLZ <prompt>testOrder</prompt>
+D, [2015-06-10T16:00:44.478470 #3171] DEBUG -- : LOLZ <simpleChoice identifier='1'>A</simpleChoice>
+D, [2015-06-10T16:00:44.479457 #3171] DEBUG -- : LOLZ <simpleChoice identifier='2'>B</simpleChoice>
+D, [2015-06-10T16:00:44.479971 #3171] DEBUG -- : LOLZ <simpleChoice identifier='3'>C</simpleChoice>

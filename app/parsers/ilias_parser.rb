@@ -1,5 +1,8 @@
 require "rexml/document"
 class IliasParser
+  require 'Logger'
+  @@log = Logger.new('log.txt')
+  @@log.debug "Log file created" 
   include REXML
 
   def export(questions)
@@ -7,6 +10,12 @@ class IliasParser
 
     # Über Fragen iterieren
     questions.each do |question|
+
+      #qti doesn't support category questions
+      if question.type == "category"
+        next
+      end
+
       question_node = root.add_element "item"
 
       # Elemente der Frage hinzufügen und teilweise für später merken
@@ -24,6 +33,8 @@ class IliasParser
         ilias_question_type = "TEXT QUESTION"
       elsif question.type == "match"
         ilias_question_type = "MATCHING QUESTION"
+      elsif question.type == "order"
+        ilias_question_type = "ORDER QUESTION"
       end
 
       # Metadaten einfügen
@@ -109,9 +120,87 @@ class IliasParser
         setvar_node = respcondition_node.add_element "setvar"
         setvar_node.text = "3"
         setvar_node.attributes["action"] = "Add"
-      elsif question.type == "match"
-        question.answer_pairs.where(correct: true).each do |pair|
-        end
+      # following code concerning match questions is based on qti 2.0 schemata
+      # see http://www.imsglobal.org/question/qti_v2p0/examples/items/match.xml
+      elsif question.type == "match" 
+        capital_alphabet = %W(A B C D E F G H I J K L M N O P Q R S T U V W X Y Z)
+        small_alphabet = %W(a b c d e f g h i j k l m n o p q r s t u v w x y z)
+        responseDeclaration_node = question_node.add_element "responseDeclaration"
+        responseDeclaration_node.attributes["identifier"] = "RESPONSE"
+        responseDeclaration_node.attributes["identifier"] = "multiple"
+        responseDeclaration_node.attributes["baseType"] = "directedPair"
+          correctResponse_node = responseDeclaration_node.add_element "correctResponse"
+          mapping_node = responseDeclaration_node.add_element "mapping"
+          mapping_node.attributes["defaultValue"] = "0"
+          alphabetIndex = 0
+          question.answer_pairs.where(correct: true).each do |pair|
+            value_node = correctResponse_node.add_element "value"
+            value_node.text = capital_alphabet[alphabetIndex] + " " + small_alphabet[alphabetIndex]
+            mapEntry_node = mapping_node.add_element "mapEntry"
+            mapEntry_node.attributes["mapKey"] = capital_alphabet[alphabetIndex] + " " + small_alphabet[alphabetIndex]
+            mapEntry_node.attributes["mappedValue"] = "1"
+            alphabetIndex += 1
+          end
+        outcomeDeclaration_node = question_node.add_element "outcomeDeclaration"
+        outcomeDeclaration_node.attributes["identifier"] = "SCORE"
+        outcomeDeclaration_node.attributes["cardinality"] = "single"
+        outcomeDeclaration_node.attributes["baseType"] = "float"
+        itemBody_node = question_node.add_element "itemBody"
+          matchInteraction_node = itemBody_node.add_element "matchInteraction"
+          matchInteraction_node.attributes["responseIdentifier"] = "RESPONSE"
+          matchInteraction_node.attributes["shuffle"] = "true"
+          matchInteraction_node.attributes["maxAssociations"] = question.answer_pairs.where(correct: true).length.to_s
+            prompt_node = matchInteraction_node.add_element "prompt"
+            prompt_node.text = question.name
+            simpleMatchSet_node = matchInteraction_node.add_element "simpleMatchSet"
+            alphabetIndex = 0
+            question.answer_pairs.where(correct: true).each do |pair|
+              simpleAssociableChoice_node = simpleMatchSet_node.add_element "simpleAssociableChoice"
+              simpleAssociableChoice_node.attributes["identifier"] = capital_alphabet[alphabetIndex] + ""
+              simpleAssociableChoice_node.attributes["matchMax"] = "1"
+              simpleAssociableChoice_node.text = pair.answer1
+              alphabetIndex += 1
+            end
+            simpleMatchSet_node = matchInteraction_node.add_element "simpleMatchSet"
+            alphabetIndex = 0
+            question.answer_pairs.where(correct: true).each do |pair|
+              simpleAssociableChoice_node = simpleMatchSet_node.add_element "simpleAssociableChoice"
+              simpleAssociableChoice_node.attributes["identifier"] = small_alphabet[alphabetIndex] + ""
+              simpleAssociableChoice_node.attributes["matchMax"] = "1"
+              simpleAssociableChoice_node.text = pair.answer2
+              alphabetIndex += 1
+            end
+        responseProcessing_node = question_node.add_element "responseProcessing"
+        responseProcessing_node.attributes["template"] = "http://www.imsglobal.org/question/qti_v2p0/rptemplates/map_response"
+      # following code concerning order questions is based on qti 2.0 schemata
+      # see http://www.imsglobal.org/question/qti_v2p0/examples/items/order.xml
+      elsif question.type = "order"  
+        responseDeclaration_node = question_node.add_element "responseDeclaration"
+        responseDeclaration_node.attributes["identifier"] = "RESPONSE"
+        responseDeclaration_node.attributes["cardinality"] = "ordered"
+        responseDeclaration_node.attributes["baseType"] = "identifier"
+          correctResponse_node = responseDeclaration_node.add_element "correctResponse"
+          for position in 1..question.order_options.length
+            value_node = correctResponse_node.add_element "value"
+            value_node.text = position.to_s
+          end
+          outcomeDeclaration_node = responseDeclaration_node.add_element "outcomeDeclaration"
+          outcomeDeclaration_node.attributes["identifier"] = "SCORE"
+          outcomeDeclaration_node.attributes["cardinality"] = "single"
+          outcomeDeclaration_node.attributes["baseType"] = "integer"
+        itemBody_node = question_node.add_element "itemBody"
+          orderInteraction_node = itemBody_node.add_element "orderInteraction"
+          orderInteraction_node.attributes["responseIdentifier"] = "RESPONSE"
+          orderInteraction_node.attributes["shuffle"] = "true"
+            prompt_node = orderInteraction_node.add_element "prompt"
+            prompt_node.text = question.name
+            for position in 1..question.order_options.length
+              simpleChoice_node = orderInteraction_node.add_element "simpleChoice"
+              simpleChoice_node.text = question.order_options.where(position: position).first.name
+              simpleChoice_node.attributes["identifier"] = position.to_s
+            end
+        responseProcessing_node = question_node.add_element "responseProcessing"
+        responseProcessing_node.attributes["template"] = "http://www.imsglobal.org/question/qti_v2p0/rptemplates/match_correct"
       end
 
 
@@ -152,13 +241,15 @@ class IliasParser
           q = Question.new(type:"single").service
         elsif question_type == 'MULTIPLE CHOICE QUESTION'
           q = Question.new(type:"multi").service
-        elsif question_type == 'MATCHING QUESTION'
-          q = Question.new(type:"match").service
         elsif question_type == 'NUMERIC QUESTION'
           q = Question.new(type:"number").service
         elsif question_type.in? ['TEXT QUESTION', 'TEXTSUBSET QUESTION']
           q = Question.new(type:"text").service
           q.add_setting "answers", TextSurvey::MULTI_ANSWERS
+        elsif question_type == 'MATCHING QUESTION'
+          q = Question.new(type:"match").service
+        elsif question_type == 'ORDER QUESTION'
+          q = Question.new(type:"order").service
         else
           errors << {"type" => "unknown_type", "text" => element.elements["presentation/flow/material/mattext"].text.gsub(/<\S*>/,"")}
           next
@@ -192,8 +283,33 @@ class IliasParser
             end
           end
         elsif question_type == 'MATCHING QUESTION'
-          element.elements.each do |elem|
-            #TODO implement
+          element.elements.each("itemBody/matchInteraction/prompt") do |elem|
+            q.name = elem.text
+            break
+          end
+          element.elements.each("itemBody/matchInteraction/simpleMatchSet/simpleAssociableChoice") do |elem|
+            if(/[[:upper:]]/.match(elem.attributes["identifier"]))
+              element.elements.each("itemBody/matchInteraction/simpleMatchSet/simpleAssociableChoice") do |innerElem|
+                if(innerElem.attributes["identifier"]!=elem.attributes["identifier"].downcase)
+                  next
+                else
+                  q.answer_pairs << AnswerPair.new(answer1: elem.text, answer2: innerElem.text)
+                end
+                break
+              end
+            else
+              next
+            end
+          end
+        elsif question_type == 'ORDER QUESTION'
+          element.elements.each("itemBody/orderInteraction/prompt") do |elem|
+            @@log.debug "LOLZ " + elem.to_s 
+            q.name = elem.text
+            break
+          end
+          element.elements.each("itemBody/orderInteraction/simpleChoice") do |elem|
+            @@log.debug "LOLZ " + elem.to_s 
+            q.order_options << OrderOption.new(name: elem.text, position: Integer(elem.attributes["identifier"]))
           end
         end
 

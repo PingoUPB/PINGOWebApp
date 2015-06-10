@@ -270,7 +270,7 @@ class SurveysController < ApplicationController
           elsif @survey.has_order_options?
             if @survey.type == "order"
               unless params[:option].nil?
-                voted_for = ''#'<br><ul style="list-style-type: none;">'+params[:option].map { |o| '<li style="word-wrap: break-word;">'+o.split(" - ")[1]+') '+ o.split(" - ")[0] +'</li>'}.join + '</ul>'
+                voted_for = '<br><ul style="list-style-type: none;">'+params[:option].map { |o| '<li style="word-wrap: break-word;">'+o.split(" - ")[1]+') '+ o.split(" - ")[0] +'</li>'}.join + '</ul>'
               else
                 voted_for = t("matrix_keys.no_answer")
               end
@@ -278,7 +278,15 @@ class SurveysController < ApplicationController
           elsif @survey.has_categories?
             if @survey.type == "category"
               unless params[:option].nil?
-                voted_for = ''#<br><ul style="list-style-type: none;">'+params[:option].map { |o| '<li style="word-wrap: break-word;">'+o.split(" - ")[0]+':<br /><ul>'+ o.split(";").each { |word| '<li style="word-wrap: break-word;">' + word + '</li>'}.join +'</ul></li>'}.join + '</ul>'
+                voted_for = '<br><ul style="list-style-type: none;">'
+                params[:option].map do |o| 
+                  voted_for += '<li style="word-wrap: break-word;">'+o.split(" - ")[0]+':<br /><ul>'
+                  o.split(";").each do |word| 
+                    voted_for += '<li style="word-wrap: break-word;">' + word + '</li>'
+                  end
+                  voted_for += '</ul></li>'
+                end 
+                voted_for += '</ul>'
               else
                 voted_for = t("matrix_keys.no_answer")
               end

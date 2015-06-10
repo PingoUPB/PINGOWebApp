@@ -5,7 +5,7 @@ class CategorySurvey < GenericSurvey
   end
 
   def prompt
-    I18n.t "surveys.participate.choose-order"
+    I18n.t "surveys.participate.categorize-words"
   end
   
   def participate_partial

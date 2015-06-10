@@ -7,8 +7,10 @@ class MoodleXmlParser
     # Über Fragen iterieren
     questions.each do |question|
 
+      # moodle xml doesn't support order- nor category questions, so we skip them
       if question.type == "order"
-        # moodle xml doesn't support order-questions, so we skip them
+        next
+      elsif question.type == "category"
         next
       end
       # Grundbaum der Frage aufbauen
@@ -94,11 +96,6 @@ class MoodleXmlParser
     doc.elements.each("quiz/question") do |element|
       question_type = element.attributes["type"]
       q = Question.new
-
-      # Category-Elemente überspringen
-      if question_type == 'category'
-        next
-      end
 
       # Zunächst den Questiontype feststellen
       if question_type == 'multichoice' || question_type == 'truefalse'

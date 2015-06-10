@@ -30,6 +30,10 @@ class CsvParser
           question.order_options.each do |option|
             current << option.position.to_s + ") " + option.name
           end
+        elsif question.type == 'category'
+          question.categories.each do |category|
+            current << category.name + "|||" + category.sub_words
+          end
         end
         unless correct_options.empty?
           correct_options = correct_options.join ";"
@@ -78,6 +82,15 @@ class CsvParser
             elsif question[0] == "order"
               question.drop(3).each do |option|
                 q.order_options << OrderOption.new(name: option.split(') ')[1], position: option.split(') ')[0])
+              end
+            elsif question[0] == "category"
+              question.drop(3).each do |categoryAndSubWords|
+                currentCategory = categoryAndSubWords.split("|||")[0]
+                currentSubWords = categoryAndSubWords.split("|||")[1]
+                q.categories << Category.new(name: currentCategory, sub_words: currentSubWords)
+                currentSubWords.split(";").each do |sub_word|
+                  q.sub_words << SubWord.new(name: sub_word, category: currentCategory)
+                end
               end
             else
               question.drop(3).each do |option| # Die ersten drei Elemente beinhalten keine Antworten

@@ -36,6 +36,7 @@ en:
             choose-match: "Please match the fields by successively clicking one on the left and one on the right side"
             chosen-match: "You've matched"
             choose-order: "Change the order of the fields via drag and drop."
+            categorize-words: "Assign the words on the right to the categories on the left via drag and drop."
         show:
             survey: Survey
             from: from
@@ -46,6 +47,7 @@ en:
             is_text: This is a text question
             is_match: This is a match question
             is_order: This is an order question.
+            is_category: This is a category question.
             votes_participants: participants
             is_multi: This is a multiple-choice survey.
             running_notice: 'This survey is <span class="label label-success">running</span>. People can access this survey at <code>%{url}</code>'
@@ -72,6 +74,7 @@ en:
             histogram: "histogram"
             repeated: "This is a repeated survey."
             mark_corrects: mark correct answers
+            correct_order_and_mark: Order correctly and mark
         text_table_results:
             term: "answer"
             occurrences: "occurrences"
