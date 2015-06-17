@@ -21,14 +21,14 @@
             <% percentage = number_to_percentage(sub_word.get_votes_for(category.name).to_f / survey.total_votes.to_f * 100.to_f, :precision => 0) %>
           <% end %>
           <% if category.name == currently_correct_category %>
-            <td class="result-table-td toCorrectSwitchable">
+            <td class="result-table-td toCorrectSwitchable" style="height: 50px;">
               <div>
                 <div style="height:<%= percentage %>;" />
                 <p><%= percentage %></p>
               </div>
             </td>
           <% else %>
-            <td class="result-table-td">
+            <td class="result-table-td" style="height: 50px;">
               <div>  
                 <div style="height:<%= percentage %>;" />
                 <p><%= percentage %></p>

@@ -196,6 +196,38 @@ fieldset[data-role="controlgroup"] label {
 		</script>
 	<% end %>
 
+	<% if @survey.type == "category" %>
+		<script>
+			function addInputs() {
+			    var listOfCategories = document.getElementById("listOfCategories").children;
+			    for(var index = 0; index<listOfCategories.length;index++) {
+			      	var name = listOfCategories[index].getElementsByClassName("categoryName")[0].innerHTML;
+			      	var subWordsArray = listOfCategories[index].getElementsByClassName("categoryDiv")[0].children;
+			      	var subWordsString = " - ";
+			      	for(var swIndex = 0; swIndex<subWordsArray.length; swIndex++) {
+			      		subWordsString = subWordsString.concat(subWordsArray[swIndex].innerHTML);
+			      		if(swIndex!=subWordsArray.length-1) {
+			      			subWordsString = subWordsString.concat(";");
+			      		}
+			      	}
+			    	var input = document.createElement("input");
+			    	input.setAttribute("type", "hidden");
+			    	input.setAttribute("name", "option[]"); 
+			    	input.setAttribute("value", name + subWordsString );         
+			    	document.getElementById("categoryInputs").appendChild(input); 
+			    }
+	  		}
+
+			$(function() {
+			    // This function allows us to add the inputs just before the submit
+			    $('#participate_order_form').submit(function() {
+			      addInputs();
+			      return true;
+			    });
+		  	});
+		</script>
+	<% end %>
+
 	<% if @survey && @survey.mathjax? %>
 	 <script type="text/x-mathjax-config">
 	    MathJax.Hub.Config({

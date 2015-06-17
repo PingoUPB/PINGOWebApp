@@ -1,47 +1,56 @@
-<body>
-  <table id="survey-table">
-	  <% categories = survey.categories %>
-	  <% sub_words = survey.sub_words %>
-	  <% categories.shuffle! %>
-    <% sub_words.shuffle! %>
-	  <tr>
-		  <td>
-			  <ul>
-				  <% for j in 0..(categories.length - 1) %>
-					  <li><%= categories[j].name %>:</li>
-            <li>
-              <div id="category<%= categories[j].name %>" class="categoryDiv"></div>
-            </li>
-				  <% end %>
-			  </ul>
-  		</td>
-  		<td>
-			  <ul id="sortable_list">
-				  <% for j in 0..(sub_words.length - 1) %>
-					  <li class="move_handler"><%= sub_words[j].name %></li>
-				  <% end %>
-			  </ul>
-  		</td>
-  	</tr>
-  </table>
-  <br />
+<table id="survey-table">
+  <% categories = survey.categories %>
+  <% sub_words = survey.sub_words %>
+  <% categories.shuffle! %>
+  <% sub_words.shuffle! %>
+  <tr>
+	  <td>
+		  <ul id="listOfCategories" class="selectable">
+			  <% for j in 0..(categories.length - 1) %>
+				  <li>
+            <span class="categoryName"><%= categories[j].name %></span>:<br />
+            <div id="category<%= categories[j].name %>" class="categoryDiv"></div>
+          </li>
+			  <% end %>
+		  </ul>
+ 		</td>
+ 		<td>
+		  <ul id="sortable_list" class="selectable">
+			  <% for j in 0..(sub_words.length - 1) %>
+				  <li class="move_handler"><%= sub_words[j].name %></li>
+			  <% end %>
+		  </ul>
+ 		</td>
+ 	</tr>
+</table>
+<div id="categoryInputs" />
+<br />
 
-  <!-- TODO: Put the following two scripts into a content_for -->
-  <script src="/scripts/Sortable.js"></script>
-  <script src="/scripts/Sortable.min.js"></script>
+<!-- TODO: Put the following two scripts into a content_for -->
+<script src="/scripts/Sortable.js"></script>
+<script src="/scripts/Sortable.min.js"></script>
 
-  <script>
-    Sortable.create(sortable_list, { ghostClass: "ghost",group: "main"}); 
-    var categories = document.getElementsByClassName("categoryDiv");
-    for(i=0;i < categories.length; i++) {
-      currentCategory = document.getElementById(categories[i].id);
-      Sortable.create(currentCategory, { ghostClass: "ghost",
-        group: "main",
-        onAdd: function (evt) {
-          currentCategory.style.height = 10; //TODO: increase div height onAdd and decrease it on take away
-        }
-
-      }); 
-    } 
-  </script>
-</body>
+<script>
+  Sortable.create(sortable_list, { ghostClass: "ghost",group: "main"}); 
+  var categories = document.getElementsByClassName("categoryDiv");
+  for(i=0;i < categories.length; i++) {
+    currentCategory = document.getElementById(categories[i].id);
+    Sortable.create(currentCategory, { ghostClass: "ghost",
+      group: "main",
+      onAdd: function (evt) {
+        var currentCategoryDiv = evt.item.parentNode;
+        var currentHeightInt_div = parseInt(currentCategoryDiv.clientHeight);
+        var currentHeightInt_item = parseInt(evt.item.clientHeight);
+        currentHeightInt_div = currentHeightInt_div + currentHeightInt_item + 10;
+        currentCategoryDiv.style.height = currentHeightInt_div.toString()+"px";
+      },
+      onRemove: function (evt) {
+        var currentCategoryDiv = evt.from;
+        var currentHeightInt_div = parseInt(currentCategoryDiv.clientHeight);
+        var currentHeightInt_item = parseInt(evt.item.clientHeight);
+        currentHeightInt_div = currentHeightInt_div - currentHeightInt_item - 10;
+        currentCategoryDiv.style.height = currentHeightInt_div.toString()+"px";
+      }
+    }); 
+  }
+</script>

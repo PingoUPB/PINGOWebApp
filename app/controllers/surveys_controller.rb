@@ -281,7 +281,7 @@ class SurveysController < ApplicationController
                 voted_for = '<br><ul style="list-style-type: none;">'
                 params[:option].map do |o| 
                   voted_for += '<li style="word-wrap: break-word;">'+o.split(" - ")[0]+':<br /><ul>'
-                  o.split(";").each do |word| 
+                  o.split(" - ")[1].split(";").each do |word| 
                     voted_for += '<li style="word-wrap: break-word;">' + word + '</li>'
                   end
                   voted_for += '</ul></li>'
