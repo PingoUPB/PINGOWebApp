@@ -14,6 +14,12 @@
       <% survey.order_options.each do |option| %>
         <tr><td style="text-align: center; word-wrap: break-word; padding: 10px; font-weight: bold; vertical-align:middle; width: <%= columnWidthPercentage %>;"><%= option.name %></td>
         <% currentPosition = 1 %>
+        <% if option.votes == "" %>
+          <% survey.order_options.each do |opt| %>
+            <% option.votes = option.votes + "0," %>
+          <% end %>
+          <% option.votes = option.votes[0..-2] %>
+        <% end %>
         <% option.votes.split(",").each do |votesForPosition| %>
           <% votesForPositionInteger = Integer(votesForPosition) %>
           <% percentage = "0%" %>

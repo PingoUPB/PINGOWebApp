@@ -21,6 +21,10 @@ class GenericQuestion < Delegator
     false
   end
 
+  def has_options?
+    false
+  end
+
   def has_answer_pairs?
     false
   end

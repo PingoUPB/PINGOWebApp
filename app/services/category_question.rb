@@ -5,10 +5,6 @@ class CategoryQuestion < GenericQuestion
     self.question.type = "category" unless self.question.persisted?
   end
 
-  def has_options?
-    false
-  end
-
   def has_categories?
     true
   end

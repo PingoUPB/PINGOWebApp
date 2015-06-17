@@ -214,7 +214,7 @@ class SurveysController < ApplicationController
       @survey.categories.new(name: category.name, sub_words: category.sub_words)
     end
     original_survey.sub_words.map do |sub_word|
-      @survey.categories.new(name: sub_word.name, category: sub_word.category)
+      @survey.sub_words.new(name: sub_word.name, category: sub_word.category)
     end
     @survey.type = original_survey.type
     @survey.settings = original_survey.settings

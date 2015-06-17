@@ -5,10 +5,6 @@ class MatchQuestion < GenericQuestion
     self.question.type = "match" unless self.question.persisted?
   end
 
-  def has_options?
-    false
-  end
-
   def has_answer_pairs?
     true
   end

@@ -145,7 +145,6 @@ class Survey
   def mathjax?
     self.event.mathjax?
   end
-  
 
   private
   def delete_cache

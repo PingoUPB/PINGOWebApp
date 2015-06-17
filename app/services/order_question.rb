@@ -5,10 +5,6 @@ class OrderQuestion < GenericQuestion
     self.question.type = "order" unless self.question.persisted?
   end
 
-  def has_options?
-    false
-  end
-
   def has_order_options?
     true
   end

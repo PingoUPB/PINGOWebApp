@@ -9,10 +9,6 @@ class TextQuestion < GenericQuestion
     TextSurvey.new(self.question.to_survey)
   end
   
-  def has_options?
-    false
-  end
-  
   def form_partial
     "text_form"
   end
