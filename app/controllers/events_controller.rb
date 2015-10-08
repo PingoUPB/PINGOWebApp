@@ -225,7 +225,7 @@ class EventsController < ApplicationController
     check_access
     return if performed?
 
-    csv_data = CSV.generate col_sep: "\t"  do |csv|
+    csv_data = CSV.generate col_sep: "\t", quote_char: '"', force_quotes: true  do |csv|
       # header row
       csv << ['Survey ID', 'Question', 'Question Type', 'Question Options', 'Voter ID', 'Survey Start', 'Survey End', 'Answer']
 
