@@ -99,7 +99,7 @@ class ChoiceSurvey < GenericSurvey
 
   # returns options concatenated as string
   def options_s
-    self.options.map(&:name).join(", ")
+    self.options.map{ |option| "'#{option.name}'" }.join(", ")
   end
 
   # VIEW OPTIONS
