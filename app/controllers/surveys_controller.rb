@@ -6,11 +6,18 @@ class SurveysController < ApplicationController
   # GET /events/:event_id/surveys
   # GET /events/:event_id/surveys.json
   def index
-    event = Event.find_by_id_or_token(params[:event_id])
+    @event = Event.find_by_id_or_token(params[:event_id])
+    check_access
+    return if performed?
+    
+    @surveys = @event.surveys.display_fields.desc(:created_at)
 
     respond_to do |format|
-      format.html { render partial: "events/surveys_table", locals: {event: event} }
-      format.json { render json: @surveys }
+      format.html { render partial: "events/surveys_table", locals: {event: @event} }
+      format.json { send_data @surveys.to_json, 
+                              :type => 'json; charset=utf-8; header=present', 
+                              :filename => 'PINGO_surveys_'+@event.token+'_'+Time.current.to_s.tr(" ", "_")+'.json' 
+                  }
     end
   end
 

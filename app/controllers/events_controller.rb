@@ -257,17 +257,6 @@ class EventsController < ApplicationController
     send_data csv_data, :type => 'text/csv; charset=utf-8; header=present', :filename => 'PINGO_surveys_'+@event.token+'_'+Time.current.to_s.tr(" ", "_")+'.csv'
   end
 
-    # GET /events/:id/export_json
-  def export_json
-    @event ||= Event.find_by_id_or_token(params[:id])
-
-    check_access
-    return if performed?
-
-    #TODO: JSON-export
-
-  end
-
   protected
   def event_params
     params.require(:event).permit(:name, :description, :mathjax, :collaborators_form, :custom_locale)

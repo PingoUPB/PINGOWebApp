@@ -89,7 +89,7 @@
 			<%= link_to event_path(@event)+"/export", class: 'btn pull-right' do %>
 			  <i class="icon-ok icon-file"> </i> <%= t('events.show.export_results') %>
 			<% end %>
-			<%= link_to event_path(@event)+"/export_json", class: 'btn pull-right' do %>
+			<%= link_to event_path(@event)+"/surveys.json", class: 'btn pull-right' do %>
 			  <i class="icon-ok icon-file"> </i> <%= t('events.show.export_results_json') %>
 			<% end %>
 		<% else %>
