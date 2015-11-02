@@ -17,6 +17,7 @@ de:
             compare_votings: Abstimmverhalten vergleichen
             show_questions: Frage aus Katalog starten
             export_results: Antworten exportieren
+            export_results_json: JSON exportieren
         questions_table:
             all_tags: Alle Tags
         index:

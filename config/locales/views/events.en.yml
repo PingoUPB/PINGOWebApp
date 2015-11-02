@@ -16,6 +16,8 @@ en:
             connected: currently connected
             compare_votings: compare voting behaviour
             show_questions: Start question from list
+            export_results: Export results
+            export_results_json: Export JSON
         questions_table:
             all_tags: All Tags
         index:
