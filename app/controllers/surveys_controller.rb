@@ -7,7 +7,8 @@ class SurveysController < ApplicationController
   # GET /events/:event_id/surveys.json
   def index
     @event = Event.find_by_id_or_token(params[:event_id])
-    check_access
+    render :text => t("messages.no_access_to_session") and return  if !@event.nil? && !current_user.admin && @event.user != current_user
+    
     return if performed?
     
     @surveys = @event.surveys.display_fields.desc(:created_at)

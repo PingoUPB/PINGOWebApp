@@ -86,12 +86,14 @@
 		<% unless @event.surveys.empty? %>
 			<%= render "events/surveys_table", event: @event %>
 
-			<%= link_to event_path(@event)+"/export", class: 'btn pull-right' do %>
-			  <i class="icon-ok icon-file"> </i> <%= t('events.show.export_results') %>
+			<%= link_to export_event_path(@event), class: 'btn pull-right' do %>
+			  <%= icon_tag("file") %> <%= t('events.show.export_results') %>
 			<% end %>
-			<%= link_to event_path(@event)+"/surveys.json", class: 'btn pull-right' do %>
-			  <i class="icon-ok icon-file"> </i> <%= t('events.show.export_results_json') %>
+			
+			<%= link_to event_surveys_path(@event, format: :json), class: 'btn pull-right' do %>
+			  <%= icon_tag("download-alt") %> <%= t('events.show.export_results_json') %>
 			<% end %>
+			
 		<% else %>
 			<p id="event-survey-no-surveys"><%= t ".no_surveys" %><br/>
 			</p>
