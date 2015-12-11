@@ -9,6 +9,10 @@ see <http://pingo.upb.de/humans.txt> for a contributor list.
 
 This project was made for a university project with the Chair for Information management and E-Finance of the University of Paderborn. / <http://www.upb.de/winfo2>
 
+Notice - Dec 11, 2015
+------
+We are currently preparing the Opensource release of version 3.1, scheduled for this month, before christmas. Release notes and upgrade guides will follow shortly.
+
 Requirements
 ------
 
