@@ -1,5 +1,12 @@
 en:
   mongoid:
+    models:
+      question: Question
     attributes:
       question:
-        name: question
+        question_options: "Answer possibilities"
+        name: Question
+  formtastic:
+    labels:
+      question:
+        name: Question

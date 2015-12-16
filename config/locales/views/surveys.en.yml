@@ -1,4 +1,3 @@
-# nothing
 en:
     surveys:
         exit_question: Exit question
@@ -9,7 +8,14 @@ en:
             correct_answer: Correct answer
             edit_survey: Edit survey
             add_option: Add option
+            add_answer_pair: Add answer pair
+            add_category: Add category
+            add_order_option: Add option to bring in order
+            add_sub_word: Add sub word
             options_for_survey: Answer options for this survey
+            answer_pairs_for_match_survey: Answer pairs for this survey
+            order_options_for_order_survey: Options to bring in order for this survey
+            categories_and_sub_words_for_category_survey: Categories and sub words for this survey
         changed:
           header: Comparison of voting behaviour
           wait: "One moment please, gathering data"
@@ -27,6 +33,10 @@ en:
             choose-text: "Please enter your answer"
             rate_lecture: "Please rate today's presentation"
             choose-number: "Please enter your (numerical) answer"
+            choose-match: "Please match the fields by successively clicking one on the left and one on the right side"
+            chosen-match: "You've matched"
+            choose-order: "Change the order of the fields via drag and drop."
+            categorize-words: "Assign the words on the right to the categories on the left via drag and drop."
         show:
             survey: Survey
             from: from
@@ -35,12 +45,19 @@ en:
             session_no: session no.
             running: running?
             is_text: This is a text question
+            is_match: This is a match question
+            is_order: This is an order question.
+            is_category: This is a category question.
             votes_participants: participants
             is_multi: This is a multiple-choice survey.
             running_notice: 'This survey is <span class="label label-success">running</span>. People can access this survey at <code>%{url}</code>'
             end: end of survey
             time_left: time left
             options: options
+            answer_pairs: answer pairs
+            order_options: Options to bring in order
+            categories: Categories and their sub words
+            correct_answer_pairs: correct answer pairs
             stop1: stop
             start1: start now
             continue1: continue
@@ -56,6 +73,8 @@ en:
             chart: "chart"
             histogram: "histogram"
             repeated: "This is a repeated survey."
+            mark_corrects: mark correct answers
+            correct_order_and_mark: Order correctly and mark
         text_table_results:
             term: "answer"
             occurrences: "occurrences"
@@ -64,4 +83,7 @@ en:
             add_field_notice: "In this survey, you can enter as many answers as you wish."
         number_input_field:
             notice: "Please enter the number without a thousands delimiter, e.g. 42.7"
-
+        match_input_field_1: "This belongs..."
+        match_input_field_2: "...to that."
+        category_name: "Category name..."
+        sub_word_name: "... sub word"

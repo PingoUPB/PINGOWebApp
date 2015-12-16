@@ -1,9 +1,19 @@
 class AikenParser
 
   def export(questions)
+
     result = ""
     # Über alle Fragen iterieren
     questions.each_with_index do |question, index|
+      # aiken doesn't support matching, order nor category questions, so skip them
+      if question.has_answer_pairs? 
+        next
+      elsif question.has_order_options?
+        next
+      elsif question.has_categories?
+        next
+      end
+
       result << question.name + "\r\n"
       option_index = "A"
 

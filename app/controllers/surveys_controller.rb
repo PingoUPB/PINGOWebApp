@@ -52,6 +52,9 @@ class SurveysController < ApplicationController
   def new
     @survey = Survey.new
     @survey.options.build
+    @survey.answer_pairs.build
+    @survey.categories.build
+    @survey.sub_words.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -209,6 +212,18 @@ class SurveysController < ApplicationController
     original_survey.options.map do |option|
       @survey.options.new(name: option.name, correct: option.correct)
     end
+    original_survey.answer_pairs.map do |pair|
+      @survey.answer_pairs.new(answer1: pair.answer1, answer2: pair.answer2, correct: pair.correct)
+    end
+    original_survey.order_options.map do |option|
+      @survey.order_options.new(name: option.name, position: option.position)
+    end
+    original_survey.categories.map do |category|
+      @survey.categories.new(name: category.name, sub_words: category.sub_words)
+    end
+    original_survey.sub_words.map do |sub_word|
+      @survey.sub_words.new(name: sub_word.name, category: sub_word.category)
+    end
     @survey.type = original_survey.type
     @survey.settings = original_survey.settings
     @survey.original_survey = original_survey
@@ -251,6 +266,38 @@ class SurveysController < ApplicationController
               end
             else
               voted_for = @survey.options.only(:name).find(params[:option]).name
+            end
+          elsif @survey.has_answer_pairs?
+            if @survey.type == "match"
+              unless params[:option].nil?
+                voted_for = "<br><ul>"+params[:option].map { |o| "<li style='word-wrap: break-word;'>"+o+"</li>"}.join + "</ul>"
+              else
+                voted_for = t("matrix_keys.no_answer")
+              end
+            end
+          elsif @survey.has_order_options?
+            if @survey.type == "order"
+              unless params[:option].nil?
+                voted_for = '<br><ul style="list-style-type: none;">'+params[:option].map { |o| '<li style="word-wrap: break-word;">'+o.split(" - ")[1]+') '+ o.split(" - ")[0] +'</li>'}.join + '</ul>'
+              else
+                voted_for = t("matrix_keys.no_answer")
+              end
+            end
+          elsif @survey.has_categories?
+            if @survey.type == "category"
+              unless params[:option].nil?
+                voted_for = '<br><ul style="list-style-type: none;">'
+                params[:option].map do |o| 
+                  voted_for += '<li style="word-wrap: break-word;">'+o.split(" - ")[0]+':<br /><ul>'
+                  o.split(" - ")[1].split(";").each do |word| 
+                    voted_for += '<li style="word-wrap: break-word;">' + word + '</li>'
+                  end
+                  voted_for += '</ul></li>'
+                end 
+                voted_for += '</ul>'
+              else
+                voted_for = t("matrix_keys.no_answer")
+              end
             end
           else
             if params[:option].respond_to? :each
@@ -396,7 +443,9 @@ class SurveysController < ApplicationController
   end
 
   def changed
-    @survey = Survey.only(:original_survey_id, :type, :options, :voters_hash, :event_id).find(params[:id]).service
+    @survey = Survey.only(:original_survey_id, :type, :options, :answer_pairs, 
+      :order_options, :relative_option_order_object, :voters_hash, :categories, 
+      :sub_words, :event_id).find(params[:id]).service
     check_access
     return if performed?
 
@@ -433,7 +482,9 @@ class SurveysController < ApplicationController
   end
 
   def changed_aggregated
-    @survey = Survey.only(:original_survey_id, :type, :options, :voters_hash, :event_id).find(params[:id]).service
+    @survey = Survey.only(:original_survey_id, :type, :options, :answer_pairs, 
+      :order_options, :relative_option_order_object, :voters_hash, :categories,
+      :sub_words, :event_id).find(params[:id]).service
     check_access
     return if performed?
 
@@ -460,7 +511,9 @@ class SurveysController < ApplicationController
   end
 
   def results
-    @survey = Survey.only(:type, :options, :voters_hash, :event_id, :voters).find(params[:id]).service
+    @survey = Survey.only(:type, :options, :answer_pairs, :order_options, 
+      :relative_option_order_object, :voters_hash, :categories, 
+      :sub_words, :event_id, :voters).find(params[:id]).service
     check_access
     return if performed?
 
@@ -500,7 +553,13 @@ class SurveysController < ApplicationController
 
   protected
   def survey_params
-    params.require(:survey).permit(:name, :description, options_attributes: [:name, :correct, :id])
+    params.require(:survey).permit(:name, :description, 
+      options_attributes: [:name, :correct, :id], 
+      answer_pairs_attributes: [:answer1, :answer2, :correct, :id],
+      order_options_attributes: [:name, :position, :id, :_destroy],
+      relative_option_order_object_attributes: [:content_hash, :id, :_destroy],
+      categories_attributes: [:name, :sub_words, :id, :_destroy],
+      sub_words_attributes: [:name, :category, :id, :_destroy])
   end
 
   def check_access

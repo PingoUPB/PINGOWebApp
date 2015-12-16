@@ -13,7 +13,13 @@
 <% elsif @question.type == "text" %>
 	Text
 <% elsif @question.type == "number" %>
-	<%= t("type_number") %>
+	<%= t("questions.show.type_number") %>
+<% elsif @question.type == "match" %>
+  <%= t("questions.show.type_match") %>
+<% elsif @question.type == "order" %>
+  <%= t("questions.show.type_order") %>
+<% elsif @question.type == "category" %>
+  <%= t("questions.show.type_category") %>  
 <% end %>
 <br>
 <p><strong>Tags:</strong> <%= @question.tags_array.join(", ") %> </p>
@@ -26,7 +32,35 @@
   </ul>
 <% end %>
 
+<% if @question.has_answer_pairs? %>
+  <strong><%= t("surveys.show.answer_pairs") %></strong>
+  <ul id="answer-pair-list">
+  <%= render partial: "answer_pair", collection: @question.answer_pairs.where(correct: true) %>
+  </ul>
+<% end %>
 
+<% if @question.has_order_options? %>
+  <strong><%= t("surveys.show.order_options") %></strong>
+  <ul id="answer-pair-list">
+  <%= render partial: "order_option", collection: @question.order_options %>
+  </ul>
+<% end %>
+
+<% if @question.has_categories? %>
+  <strong><%= t("surveys.show.categories") %></strong>
+  <ul id="answer-pair-list">
+    <% @question.categories.each do |category| %>
+      <li>
+        <%= category.name %>:
+        <ul> 
+          <% category.sub_words.split(';').each do |sub_word| %>
+            <li style="word-wrap: break-word;"><%= sub_word %></li>
+          <% end %>
+        </ul>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
 
 <% if @question.can_be_accessed_by?(current_user) %>
 	<%= link_to t("edit"), edit_question_path(@question), class: "btn btn-small" %> 

@@ -99,10 +99,16 @@ class QuestionsController < ApplicationController
     @question_multi = MultipleChoiceQuestion.new.tap { |q| q.question_options.build }
     @question_text = TextQuestion.new
     @question_number = NumberQuestion.new  #refactor this maybe?
+    @question_match = MatchQuestion.new.tap { |q| q.answer_pairs.build }
+    @question_order = OrderQuestion.new.tap { |q| q.order_options.build }
+    @question_category = CategoryQuestion.new.tap do |q| 
+      q.categories.build 
+      q.sub_words.build
+    end
   end
 
   def edit
-
+    
   end
 
   def update
@@ -122,6 +128,7 @@ class QuestionsController < ApplicationController
         format.json { render json: @question.errors, status: :unprocessable_entity }
       end
     end
+
   end
 
   def transform
@@ -143,6 +150,28 @@ class QuestionsController < ApplicationController
 
     if params[:options] && @question.has_settings?
       @question.add_setting("answers", params[:options])
+    end
+
+    if @question.has_order_options?
+      votesString = ""
+      for index in 1..@question.order_options.length
+        if index == @question.order_options.length
+          votesString += "0"
+        else
+          votesString += "0,"
+        end
+      end
+      @question.order_options.each do |option|
+        option.votes = votesString
+      end
+      @question.relative_option_order_object = Hash.new
+    end
+
+    # shitty work-around: Don't know why, but the first answer_pair doesn't seem to get into
+    # the params[:question][:answer_pairs_attributes] but in the params[:question][:answer_pair].
+    # So we have to get it out of there and into the right place.
+    if params[:question][:answer_pair] && @question.has_answer_pairs?
+      @question.answer_pairs << AnswerPair.new(:answer1 => params[:question][:answer_pair][:answer1].to_s, :answer2 => params[:question][:answer_pair][:answer2].to_s, :correct => true)
     end
 
     respond_to do |format|
@@ -172,6 +201,22 @@ class QuestionsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to questions_path }
       format.json { head :ok }
+    end
+  end
+
+  def clone
+    original_question = Question.find(params[:id])
+    @question_duplicate = Question.new_from_existing(original_question)
+    @question_duplicate.user = current_user
+
+    respond_to do |format|
+      if @question_duplicate.save
+        format.html { redirect_to (questions_path), notice: t("messages.question_successfully_duplicated") }
+        format.json { render json: @question_duplicate, status: :created, location: @question_duplicate }
+      else
+        format.html { render action: "show" }
+        format.json { render json: @question_duplicate.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -251,7 +296,7 @@ class QuestionsController < ApplicationController
       when "moodle_xml"
         return "xml", MoodleXmlParser.new
       when "gift"
-        return "gift", GiftImporter.new
+        return "txt", GiftTxtParser.new
       when "ilias"
         return "xml", IliasParser.new
       else
@@ -268,6 +313,12 @@ class QuestionsController < ApplicationController
       params[:question][:tags] = params["text_question"][:tags]
     elsif params["number_question"] && params["number_question"][:tags]
       params[:question][:tags] = params["number_question"][:tags]
+    elsif params["match_question"] && params["match_question"][:tags]
+      params[:question][:tags] = params["match_question"][:tags]
+    elsif params["order_question"] && params["order_question"][:tags]
+      params[:question][:tags] = params["order_question"][:tags]
+    elsif params["category_question"] && params["category_question"][:tags]
+      params[:question][:tags] = params["category_question"][:tags]  
     end
   end
 
@@ -279,9 +330,17 @@ class QuestionsController < ApplicationController
       redirect_to questions_path, status: :forbidden and return false
     end
     true
-  end
+  end 
 
   def question_params
-    params.require(:question).permit(:name, :type, :description, :tags, :public, :collaborators_form, question_options_attributes: [:name, :correct, :id, :_destroy])
+    params.require(:question).permit(:name, :type, :description, :tags, 
+      :public, :collaborators_form, 
+      question_options_attributes: [:name, :correct, :id, :_destroy], 
+      answer_pairs_attributes: [:answer1, :answer2, :correct, :id, :_destroy], 
+      order_options_attributes: [:name, :position, :id, :_destroy],
+      relative_option_order_object_attributes: [:content_hash, :id, :_destroy],
+      categories_attributes: [:name, :sub_words, :id, :_destroy],
+      sub_words_attributes: [:name, :category, :id, :_destroy])
   end
+
 end

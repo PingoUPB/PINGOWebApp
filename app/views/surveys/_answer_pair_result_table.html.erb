@@ -1,0 +1,44 @@
+<body>
+  <table id="result-table" height="300" class="result-table table table-bordered">
+    <thead>
+      <tr>
+          <% answer2s = survey.get_all_answer2 %>
+          <% columnWidthPercentage = number_to_percentage(1.to_f / (1 + answer2s.length).to_f * 100.to_f, :precision => 0) %>
+          <th style="width: <%= columnWidthPercentage %>;">&nbsp;</th>
+          <% answer2s.shuffle! %>
+          <% answer2s.each do |answer2| %>
+            <th scope="col" style="width: <%= columnWidthPercentage %>;"><%= answer2 %></th>
+          <% end %>
+      </tr> 
+    </thead>
+    <tbody>
+      <% survey.answer_pairs.where(correct: true).each do |pair1| %>
+        <tr><td style="text-align: center; word-wrap: break-word; padding: 10px; font-weight: bold; vertical-align:middle; width: <%= columnWidthPercentage %>;"><%= pair1.answer1 %></td>
+        <% answer2s.each do |answer2| %>
+          <% percentage = "0%" %>
+          <% current_answer_pair = survey.answer_pairs.where(answer1: pair1.answer1, answer2: answer2).first %>
+          <% if survey.total_votes > 0 %>
+            <% percentage = number_to_percentage(current_answer_pair.votes.to_f / survey.total_votes.to_f * 100.to_f, :precision => 0) %>
+          <% end %>
+          <% rowHeightPercentage = number_to_percentage(1.to_f / (1 + answer2s.length).to_f * 100.to_f, :precision => 0) %>
+          <% if current_answer_pair.correct? %>
+            <td class="result-table-td toCorrectSwitchable" style="height: <%= rowHeightPercentage %>;">
+              <div>
+                <div style="height:<%= percentage %>;" />
+                <p><%= percentage %></p>
+              </div>
+            </td>
+          <% else %>
+            <td class="result-table-td" style="height: <%= rowHeightPercentage %>;">
+              <div>  
+                <div style="height:<%= percentage %>;" />
+                <p><%= percentage %></p>
+              </div>
+            </td>
+          <% end %>
+        <% end %>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</body>

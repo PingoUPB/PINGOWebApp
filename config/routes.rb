@@ -52,6 +52,7 @@ Eclickr::Application.routes.draw do
   resources :questions do
     member do
       post 'add_to_own'
+      get 'clone'
     end
     resources :question_comments, only: [:create, :destroy, :index]
     collection do

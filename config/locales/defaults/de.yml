@@ -24,6 +24,7 @@ de:
     remove: "Entfernen"
     start: "Starten"
     name: "Name"
+    position: "Position"
     description: "Beschreibung"
     there_were_errors_saving: "Beim Speichern sind Fehler aufgetreten"
     forgot_password: "Passwort vergessen?"
@@ -37,6 +38,9 @@ de:
     password_confirmation: "Bestätigen Sie Ihr Kennwort"
     update: "Aktualisieren"
     results: "Ergebnisse"
+    absolute_results: "Absolute Ergebnisse"
+    relative_results: "Relative Ergebnisse"
+    x_before_y: "X vor Y"
     optional: "optional"
     positive: "positiv"
     neutral: "neutral"
@@ -51,6 +55,7 @@ de:
     comments: Kommentare
     survey: Umfrage
     share: "Freigeben"
+    duplicate: "Duplizieren"
 
     matrix_keys:
       no_participation: n. Teiln.
@@ -80,6 +85,9 @@ de:
       choice: "Auswahlfrage"
       single: "Single Choice"
       multi: "Multiple Choice"
+      match: "Zuordnen"
+      order: "Reihenfolge"
+      category: "Kategorie"
       truefalse: "Wahr/Falsch-Frage"
       yesno: "Ja/Nein-Frage"
       agree: "Zustimmen/Nicht zustimmen-Frage"
@@ -111,7 +119,8 @@ de:
         no_access_to_session: "Sie sind nicht dazu berechtigt, auf diese Session zuzugreifen."
         question_successfully_created: "Frage erfolgreich erstellt."
         question_successfully_updated: "Frage erfolgreich geändert."
-        question_successfully_added: "Frage erfolgreich hinzugefügt"
+        question_successfully_added: "Frage(n) erfolgreich hinzugefügt"
+        question_successfully_duplicated: "Frage erfolgreich dupliziert."
         no_access_to_question: "Sie sind nicht dazu berechtigt, auf diese Frage zuzugreifen."
         no_access_to_survey: "Sie sind nicht dazu berechtigt, auf diese Session / Umfrage zuzugreifen."
         invite_success: "Einladung versendet. Danke für's Weiterempfehlen!"

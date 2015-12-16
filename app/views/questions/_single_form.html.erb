@@ -24,7 +24,7 @@
   <div class="span7">
     <div id="option_controls">
       <%= form.semantic_fields_for :question_options do |option| %>
-      <%= render "single_question_option_fields", f: option %>
+        <%= render "single_question_option_fields", f: option %>
       <% end %>
       <div class="links">
         <%= link_to_add_association icon_tag("plus")+t("surveys.edit.add_option"), form, :question_options, partial:"single_question_option_fields", id: "add_single_option" %>

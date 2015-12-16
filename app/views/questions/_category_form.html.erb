@@ -1,0 +1,108 @@
+<%= semantic_form_for question, namespace: "category", html: { class: "form-inline", id: "new_category_question" }  do |form| %>
+  <%= error_msg_for question %>
+  <div class="well">
+    <div>
+      <%= form.input :name, input_html: {class: "input-xxlarge", placeholder: ""} %>
+    </div>
+      <%= form.hidden_field :type, value: "category" %>
+      <%= hidden_field_tag :redirect_to_session, params[:redirect_to_session] %>
+    <div>
+      <%= form.input :tags, input_html: { class:  "input-xxlarge" , placeholder: "Tags" }, required: false %>
+      <% if current_user.question_tags && !current_user.question_tags.blank? %>
+      <%= select_tag "tags", options_for_select([[t("questions.add_from_your_tags"), '']] + current_user.question_tags.sort.map{ |t| [t, t]}), id: "category_select_tag" %>
+      <br>&nbsp;
+      <% end %>
+    </div>
+    <div>
+      <label for="public" class="checkbox inline"><%= form.check_box :public, :class => "checkbox inline" %><%= t("public") %></label>
+    </div>
+  </div>
+
+  <h3><%= t("surveys.edit.categories_and_sub_words_for_category_survey") %></h3>
+  <div id="options" class="row-fluid">
+    <div class="span10">
+      <% question.categories.each do |cat| %>
+        <%= form.semantic_fields_for :categories, cat, class: "form-inline" do |category| %>
+          <%= render "category_question_category_fields", f: category, question: question, form: form, cat: cat %>
+        <% end %>
+      <% end %>
+      <div class="links">
+        <%= link_to_add_association icon_tag("plus")+t("surveys.edit.add_category"), form, :categories, partial:"category_question_category_fields_without_locals", render_options: { locals: {form: form}} %>
+      </div>
+      <br>
+    </div>
+    <div id="hidden_sub_words_for_destroy" class="offset4"></div>
+  </div>
+  <%= form.hidden_field :collaborators_form, class:"collaborators-form" %>
+  <%= form.submit class: "btn btn-primary", id: "single_question_submit" %>
+  <span style="margin-left:20px;">
+    <% if params[:redirect_to_session] %>  
+      <label for="also_start_question" class="checkbox"><%= check_box_tag "also_start_question", "false", false %> <%= t "questions.start_in_session" %>
+      </label><br>
+      </span> 
+    <% end %>
+  </span>
+<% end %>
+<% content_for :javascript do %>
+  <script>
+    $(document).ready(function() {
+      $("#category_question_tags").tagsManager({ // http://welldonethings.com/tags/manager
+        prefilled: "<%= question.tags %>",
+        hiddenTagListName: "category_question[tags]",
+		    preventSubmitOnEnter: true
+      });
+      $("#category_select_tag").change(function(){
+		    $("#category_question_tags").tagsManager("pushTag", $("#category_select_tag").val());
+		    $("#category_select_tag option:first").attr('selected',true);
+      });
+
+      $(function() {
+        // This function allows us to change the inputs just before the submit
+        $('#new_category_question').submit(function() {
+          add_categories_to_sub_words_and_vice_versa();
+          return true;
+        });
+      });
+
+      
+      function add_categories_to_sub_words_and_vice_versa() {        
+        $("#new_category_question").find(".controls").each(function(){
+          category_name = $(this).find(".category_name_field").attr("value");
+          if((typeof category_name)=="string") {
+            $(this).find(".hidden_category_name_field").each(function(index, element){
+              $(element).attr("value", category_name);
+            });
+            sub_words = ""
+            $(this).find(".sub_word_name_field").each(function(index, element){
+              if(sub_words=="") {
+                sub_words = $(element).attr("value");
+              } else {
+                sub_words += ";" + $(element).attr("value");
+              }
+            });
+            $(this).find(".hidden_sub_words_field").each(function(index, element){
+              $(element).attr("value", sub_words);
+            });
+          }
+        });
+      }
+
+    });
+
+    function introduce_destroy_and_remove_parent_li() {
+      var target = event.target || event.srcElement;
+      var hiddenNameField = target.parentNode.parentNode.getElementsByClassName("sub_word_name_field")[0];
+      hiddenNameField.setAttribute('type', 'hidden');
+      var hiddenDestroyField = target.parentNode.parentNode.getElementsByClassName("hidden_destroy_field")[0];
+      hiddenDestroyField.setAttribute('value', '1');
+      var hiddenCategoryField = target.parentNode.parentNode.getElementsByClassName("hidden_category_name_field")[0];
+      hiddenCategoryField.setAttribute('value', 'doesntMatter');
+      var hiddenDiv = document.getElementById("hidden_sub_words_for_destroy");
+      hiddenDiv.appendChild(hiddenDestroyField);
+      hiddenDiv.appendChild(hiddenNameField);
+      hiddenDiv.appendChild(hiddenCategoryField);
+      target.parentNode.parentNode.parentNode.removeChild(target.parentNode.parentNode);
+    }
+
+  </script>
+<% end %>

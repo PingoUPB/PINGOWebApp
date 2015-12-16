@@ -1,0 +1,10 @@
+D, [2015-12-16T16:35:48.793502 #2532] DEBUG -- : Log file created
+D, [2015-12-16T16:46:20.723490 #2532] DEBUG -- : Log file created
+D, [2015-12-16T16:46:20.724554 #2532] DEBUG -- : ["category", "Ordnen Sie sinnvoll zu", "", ""]
+D, [2015-12-16T16:46:20.739880 #2532] DEBUG -- : ["category", "testCategory", "", ""]
+D, [2015-12-16T16:46:20.740327 #2532] DEBUG -- : ["order", "testOrder", "", ""]
+D, [2015-12-16T16:46:20.843328 #2532] DEBUG -- : ["number", "testNumeric", "", ""]
+D, [2015-12-16T16:46:20.843559 #2532] DEBUG -- : ["text", "testText", "", ""]
+D, [2015-12-16T16:46:20.843781 #2532] DEBUG -- : ["match", "testMatch", "lol;test;lala", ""]
+D, [2015-12-16T16:46:20.870111 #2532] DEBUG -- : ["multi", "testMulti", "", ""]
+D, [2015-12-16T16:46:20.887744 #2532] DEBUG -- : ["single", "testSingle", "", ""]

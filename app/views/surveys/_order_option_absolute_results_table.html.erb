@@ -1,0 +1,50 @@
+  <table id="result-table" height="300" class="result-table table table-bordered">
+    <thead>
+      <tr>
+          <% numberOfOptions = survey.order_options.length %>
+          <% columnWidthPercentage = number_to_percentage(1.to_f / (1 + numberOfOptions).to_f * 100.to_f, :precision => 0) %>
+          <th style="width: <%= columnWidthPercentage %>;">Position</th>
+          <% for index in 1..numberOfOptions %>
+            <th scope="col" style="width: <%= columnWidthPercentage %>;"><%= index %></th>
+          <% end %>
+      </tr> 
+    </thead>
+    <tbody>
+      <% survey.order_options.shuffle! %>
+      <% survey.order_options.each do |option| %>
+        <tr><td style="text-align: center; word-wrap: break-word; padding: 10px; font-weight: bold; vertical-align:middle; width: <%= columnWidthPercentage %>;"><%= option.name %></td>
+        <% currentPosition = 1 %>
+        <% if option.votes == "" %>
+          <% survey.order_options.each do |opt| %>
+            <% option.votes = option.votes + "0," %>
+          <% end %>
+          <% option.votes = option.votes[0..-2] %>
+        <% end %>
+        <% option.votes.split(",").each do |votesForPosition| %>
+          <% votesForPositionInteger = Integer(votesForPosition) %>
+          <% percentage = "0%" %>
+          <% if survey.total_votes > 0 %>
+            <% percentage = number_to_percentage(votesForPositionInteger.to_f / survey.total_votes.to_f * 100.to_f, :precision => 0) %>
+          <% end %>
+          <% rowHeightPercentage = number_to_percentage(1.to_f / (1 + survey.order_options.length).to_f * 100.to_f, :precision => 0) %>
+          <% if option.position == currentPosition %>
+            <td class="result-table-td toCorrectSwitchable" style="height: <%= rowHeightPercentage %>;">
+              <div>
+                <div style="height:<%= percentage %>;" />
+                <p><%= percentage %></p>
+              </div>
+            </td>
+          <% else %>
+            <td class="result-table-td" style="height: <%= rowHeightPercentage %>;">
+              <div>  
+                <div style="height:<%= percentage %>;" />
+                <p><%= percentage %></p>
+              </div>
+            </td>
+          <% end %>
+          <% currentPosition += 1 %>
+        <% end %>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>

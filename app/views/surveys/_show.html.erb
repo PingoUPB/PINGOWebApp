@@ -21,6 +21,15 @@
 	<% if survey.type == "text" %>
 		<p><%= t ".is_text" %></p>
 	<% end %>
+	<% if survey.type == "match" %>
+	    <p><%= t ".is_match" %></p>
+	<% end %>
+	<% if survey.type == "order" %>
+	    <p><%= t ".is_order" %></p>
+	<% end %>
+	<% if survey.type == "category" %>
+	    <p><%= t ".is_category" %></p>
+	<% end %>
 	
 	<% if survey.running?(true) %>
 		<p id="running-notice">
@@ -54,11 +63,6 @@
 		<% end %>
 	</div>
 
-<!-- 
-<p>
-<small><%= link_to t("edit"), edit_event_survey_path(survey.event, survey) %></small>
-</p> 
-//-->
 <% if survey.has_options? and survey.options.count > 0 %>
 	<section class="option-results">
 		<p><strong><%= t ".options" %>:</strong></p>
@@ -72,42 +76,87 @@
 
 			<div class="canvas_downloadable clearfix">
 				<canvas id="chart" height="300" class="chart-container__chart"></canvas>
-				<a href="#chart" class="btn canvas_download-button" id="save_chart_btn" download="pingo_chart.png"><%= icon_tag("download-alt") %></a>
+				<a href="#chart" class="btn canvas_download-button" id="save_chart_btn" download="pingo_chart.png" target="_blank"><%= icon_tag("download-alt") %></a>
 
 				<% if survey.options.any?(&:correct) %>
-				<a class="btn pull-right canvas__show-highlight" id="show-highlights" data-toggle="button">Korrekte markieren</a>
+				<a class="btn pull-right canvas__show-highlight" id="show-highlights" data-toggle="button"><%= t("surveys.show.mark_corrects") %></a>
 				<% end %>
 
-    <% if survey.original_survey %>
-				<ul class="chart-container__legend legend">
-					<li class="legend__item legend__item--first"><%= t("surveys.show.chart_first") %></li>
-					<li class="legend__item legend__item--repeated"><%= t("surveys.show.chart_repeated") %></li>
-				</ul>
+    			<% if survey.original_survey %>
+					<ul class="chart-container__legend legend">
+						<li class="legend__item legend__item--first"><%= t("surveys.show.chart_first") %></li>
+						<li class="legend__item legend__item--repeated"><%= t("surveys.show.chart_repeated") %></li>
+					</ul>
+				<% end %>
 			</div>
-		<% end %>
 		</div>	
 	</section>
 
+
+<% elsif survey.has_answer_pairs? %> 
+    <section class="option-results">
+		<div class="chart-container hide-button">
+			<h4 class="chart-container__heading"><%= t("results") %></h4>
+			<div class="canvas_downloadable clearfix">
+				<%= render partial: "answer_pair_result_table", locals: {survey: survey} %>
+				<a href="#chart" class="btn canvas_download-button" id="save_table_btn" download="pingo_table.html" target="_blank"><%= icon_tag("download-alt") %></a>
+				<a class="btn pull-right canvas__show-highlight" id="showCorrectsBtn" data-toggle="button"><%= t("surveys.show.mark_corrects") %></a>
+			</div>
+		</div>
+	</section> 
+
+<% elsif survey.has_order_options? %> 
+    <section class="option-results">
+		<div class="chart-container hide-button">
+			<h4 class="chart-container__heading"><%= t("absolute_results") %></h4>
+			<div class="canvas_downloadable clearfix">
+				<%= render partial: "order_option_absolute_results_table", locals: {survey: survey} %>
+				<a href="#chart" class="btn canvas_download-button" id="save_table_btn" download="pingo_table.html" target="_blank"><%= icon_tag("download-alt") %></a>
+			</div>
+			<a class="btn pull-right" id="showCorrectsOrderBtn" data-toggle="button"><%= t("surveys.show.correct_order_and_mark") %></a>
+			<h4 class="chart-container__heading"><%= t("relative_results") %></h4>
+			<div class="canvas_downloadable clearfix">
+				<div id="XBeforeYTableDefault"><%= render partial: "order_option_relative_results_table", locals: {survey: survey} %></div>
+				<div id="XBeforeYTableOrdered"><%= render partial: "order_option_ordered_relative_results_table", locals: {survey: survey} %></div>
+				<a href="#chart" class="btn canvas_download-button" id="save_relative_table_btn" download="pingo_relative_table.html" target="_blank"><%= icon_tag("download-alt") %></a>
+			</div>
+		</div>
+	</section> 
+
+<% elsif survey.has_categories? %> 
+     <section class="option-results">
+		<div class="chart-container hide-button">
+			<h4 class="chart-container__heading"><%= t("results") %></h4>
+			<div class="canvas_downloadable clearfix">
+				<%= render partial: "category_results_table", locals: {survey: survey} %>
+				<a href="#chart" class="btn canvas_download-button" id="save_table_btn" download="pingo_table.html" target="_blank"><%= icon_tag("download-alt") %></a>
+				<a class="btn pull-right canvas__show-highlight" id="showCorrectsBtn" data-toggle="button"><%= t("surveys.show.mark_corrects") %></a>
+			</div>
+		</div>
+	</section> 
+
 <% elsif survey.type == "text" %>
- <% if !survey.running? && survey.total_votes > 0 %>
-   	<div class="btn-group">
-   <button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><%= t(".switch_view") %> <span class="caret"></span></button>
-     <ul class="dropdown-menu close-on-click" role="menu">
-       <li><%= link_to t(".tag_cloud"), results_event_survey_path(@survey.event, @survey, view_type: "tag_cloud"), remote: true %></li>
-       <li><%= link_to t(".table"), results_event_survey_path(@survey.event, @survey, view_type: "text"), remote: true %></li>
-   </ul>
-</div>
-   <div id="detailed_results" class="row">
-  <% if survey.total_votes > 6 %>
-	<%= render "text_tag_cloud_result", survey: @survey %>
-  <% else %>
-	<%= render "text_table_results", survey: @survey %>
-  <% end %>
-    </div>
+	<% if !survey.running? && survey.total_votes > 0 %>
+   		<div class="btn-group">
+    		<button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><%= t(".switch_view") %>
+    			<span class="caret"></span>
+    		</button>
+        	<ul class="dropdown-menu close-on-click" role="menu">
+        		<li><%= link_to t(".tag_cloud"), results_event_survey_path(@survey.event, @survey, view_type: "tag_cloud"), remote: true %></li>
+          		<li><%= link_to t(".table"), results_event_survey_path(@survey.event, @survey, view_type: "text"), remote: true %></li>
+        	</ul>
+      	</div>
+   		<div id="detailed_results" class="row">
+  			<% if survey.total_votes > 6 %>
+				<%= render "text_tag_cloud_result", survey: @survey %>
+  			<% else %>
+				<%= render "text_table_results", survey: @survey %>
+  			<% end %>
+   		</div>
 	
- <% else %>
-	<div style="clear:left;"><%= image_tag "tag_cloud_placeholder.png" %></div>
-  <% end %>
+ 	<% else %>
+		<div style="clear:left;"><%= image_tag "tag_cloud_placeholder.png" %></div>
+ 	<% end %>
 
 
 
@@ -164,8 +213,10 @@
 			<%= select_tag "duration", options_for_select(duration_choices(false), 120), id: "repeatDuration" %>
 		</form>
 		
-			<script>
-			$(document).ready(function() {  			
+		<script>
+			$(document).ready(function() {
+				if($("#XBeforeYTableOrdered").length) {$("#XBeforeYTableOrdered").hide()}
+
 		  		$(document).on("change", "#repeatDuration", function() {
 		  			$("#hidden_stoptime").val($('#repeatDuration option:selected').val());
 		  		}); 
@@ -176,10 +227,50 @@
 		  				return true;
 		  			}
 		  		});
+		  	
+				$(document).on("click", "#save_table_btn", function(e) {
+					if($("#result-table").length > 0) {
+						var base_str = 'data:text/html,' + '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">'
+						+ '<p><b><%= survey.name || t(".survey") %></b></p><br />'
+						+ '<div class="canvas_downloadable clearfix">' +
+						'<table id="result-table" height="300" class="table table-bordered">' +
+						$("#result-table").html() + '</table></div>';
+						$(this).attr("href", base_str);
+		  				return true;
+					}
+				});
+
+				$(document).on("click", "#save_relative_table_btn", function(e) {
+					if($("#relative-result-table").length > 0) {
+						var base_str = 'data:text/html,' + '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">'
+						+ '<p><b><%= survey.name || t(".survey") %></b></p><br />'
+						+ '<div class="canvas_downloadable clearfix">' +
+						'<table id="relative-result-table" height="300" class="table table-bordered">' +
+						$("#relative-result-table").html() + '</table></div>';
+						$(this).attr("href", base_str);
+		  				return true;
+					}
+				});
+
 				if(window.PINGO.isMSIE()){
 			  		$(".canvas_downloadable").removeClass("canvas_downloadable");
 			  	}
+
+			  	$("#showCorrectsBtn").click(function() {
+			  		$(".toCorrectSwitchable").toggleClass("greenBorder");
+			  	});
+
+			  	$("#showCorrectsOrderBtn").click(function() {
+			  		$(".toCorrectSwitchable").toggleClass("greenBorder");
+			  		if($("#XBeforeYTableDefault").is(":visible")) {
+			  			$("#XBeforeYTableDefault").hide();
+			  			$("#XBeforeYTableOrdered").show();
+			  		} else {
+			  			$("#XBeforeYTableOrdered").hide();
+			  			$("#XBeforeYTableDefault").show();
+			  		}
+			  	});
 		  	});
-		 	</script>
+		</script>
 	<% end %>
 </div>

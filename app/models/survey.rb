@@ -12,6 +12,21 @@ class Survey
   
   embeds_many :options
   accepts_nested_attributes_for :options, :allow_destroy => true
+
+  embeds_many :answer_pairs
+  accepts_nested_attributes_for :answer_pairs, :allow_destroy => true
+
+  embeds_many :order_options
+  accepts_nested_attributes_for :order_options, :allow_destroy => true
+
+  embeds_one :relative_option_order_object
+  accepts_nested_attributes_for :relative_option_order_object, :allow_destroy => true
+
+  embeds_many :categories
+  accepts_nested_attributes_for :categories, :allow_destroy => true
+
+  embeds_many :sub_words
+  accepts_nested_attributes_for :sub_words, :allow_destroy => true
     
   field :name, type: String
   field :description, type: String
@@ -36,8 +51,13 @@ class Survey
   belongs_to :question
   
   scope :current, where(:starts.gte => DateTime.now).and(:ends.lt => DateTime.now)
-  scope :display_fields, only(:description, :ends, :name, :options, :starts, :event_id, :quick, :created_at, :multi, :type, :settings, :voters, :voters_hash, :original_survey_id, :exit_q, :question_id)
-  scope :participate_fields, only(:description, :ends, :name, :options, :starts, :event_id, :quick, :multi, :type, :exit_q, :settings)
+  scope :display_fields, only(:description, :ends, :name, :options, :answer_pairs, 
+    :order_options, :relative_option_order_object, :starts, :event_id, :quick, 
+    :created_at, :multi, :type, :settings, :voters, :voters_hash, :original_survey_id, 
+    :exit_q, :question_id, :categories, :sub_words)
+  scope :participate_fields, only(:description, :ends, :name, :options, :answer_pairs, 
+    :order_options, :relative_option_order_object, :starts, :event_id, :quick, :multi, 
+    :type, :exit_q, :settings, :categories, :sub_words)
   scope :worker_fields, only(:voters, :multi, :type, :starts, :ends)
   
   validates :event, presence: true
@@ -55,6 +75,12 @@ class Survey
       NumberSurvey.new(self)
     when "exit_q"
       ExitSurvey.new(self)
+    when "match"
+      MatchSurvey.new(self)
+    when "order"
+      OrderSurvey.new(self)
+    when "category"
+      CategorySurvey.new(self)  
     else
       self
     end
@@ -119,7 +145,6 @@ class Survey
   def mathjax?
     self.event.mathjax?
   end
-  
 
   private
   def delete_cache

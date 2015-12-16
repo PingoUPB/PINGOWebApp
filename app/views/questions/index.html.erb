@@ -53,11 +53,17 @@
  <li class="<%= "active" unless params[:q_type] %>">
 	<%= link_to icon_tag("asterisk") + t(".all_tags"), questions_path(tag: params[:tag], public: params[:public], shared: params[:shared])  %> </li>
  <li class="<%= "active" if params[:q_type] == "choice" %>">
-   <%= link_to icon_tag("align-left") + t("type.choice"), questions_path(tag: params[:tag], q_type: "choice", public: params[:public], shared: params[:shared]), id: "questionsSidebarChoiceLink" %>
+   <%= link_to icon_tag("check") + t("type.choice"), questions_path(tag: params[:tag], q_type: "choice", public: params[:public], shared: params[:shared]), id: "questionsSidebarChoiceLink" %>
  <li class="<%= "active" if params[:q_type] == "text" %>">
-	<%= link_to icon_tag("th") + t("type.text"), questions_path(tag: params[:tag], q_type: "text", public: params[:public], shared: params[:shared])  %> </li>
+	<%= link_to icon_tag("align-left") + t("type.text"), questions_path(tag: params[:tag], q_type: "text", public: params[:public], shared: params[:shared])  %> </li>
  <li class="<%= "active" if params[:q_type] == "number" %>">
-<%= link_to icon_tag("th") + t("type.number"), questions_path(tag: params[:tag], q_type: "number", public: params[:public], shared: params[:shared])  %> </li>
+  <%= link_to icon_tag("th") + t("type.number"), questions_path(tag: params[:tag], q_type: "number", public: params[:public], shared: params[:shared])  %> </li>
+ <li class="<%= "active" if params[:q_type] == "match" %>">
+  <%= link_to icon_tag("random") + t("type.match"), questions_path(tag: params[:tag], q_type: "match", public: params[:public], shared: params[:shared])  %> </li>
+ <li class="<%= "active" if params[:q_type] == "order" %>">
+  <%= link_to icon_tag("list") + t("type.order"), questions_path(tag: params[:tag], q_type: "order", public: params[:public], shared: params[:shared]) %></li>
+ <li class="<%= "active" if params[:q_type] == "category" %>">
+  <%= link_to icon_tag("th-large") + t("type.category"), questions_path(tag: params[:tag], q_type: "category", public: params[:public], shared: params[:shared]) %></li>
 	
  <li class="divider"></li>
 
@@ -78,40 +84,41 @@
   <% unless @questions.empty? %>
   <table class="table table-condensed table-striped">
     <thead>
-    <tr>
-      <th style="max-width:20px;"><input type="checkbox" id="mark-all" /></th>
-	  <th style="max-width:20px;">&nbsp;</td>
-      <th scope="col" style="width:80%"><%= t "name" %></th>
-      <th>&nbsp;</th>
-    </tr>
+      <tr>
+        <th style="max-width:20px;"><input type="checkbox" id="mark-all" /></th>
+        <th style="max-width:20px;">&nbsp;</tH>
+        <th scope="col" style="width:80%"><%= t "name" %></th>
+        <th>&nbsp;</th>
+      </tr>
     </thead>
     <tbody>
     <% @questions.each do |question| %>
       <tr id="row<%= question.id %>" class="questions-table__row">
         <td style="max-width:20px;"><%= check_box_tag("question_ids[]", question.id, false, class: "questions-table__checkbox") %></td>
         <td class="check-on-click" style="max-width:20px;">
-        <%= 
-          if (question.public) 
-            icon_tag("globe") 
-          elsif (question.collaborators.size > 0) 
-            icon_tag("share") 
-          end 
-        %>
-    </td>
-		<td class="check-on-click" style="width:80%"><%= link_to (question.name||""), question_path(question), class: "questionLink" %> </td>
+          <%= 
+            if (question.public) 
+              icon_tag("globe") 
+            elsif (question.collaborators.size > 0) 
+              icon_tag("share") 
+            end 
+          %>
+        </td>
+		    <td class="check-on-click" style="width:80%"><%= link_to (question.name||""), question_path(question), class: "questionLink" %> </td>
         <% if params[:public] %>
-			<% if question.user == current_user %>
-				<td class="check-on-click"> <%= link_to icon_tag("pencil"), edit_question_path(question), title: t("edit") %> </td>
-		         <td> <%= link_to icon_tag("minus-sign"), question, 
-		          title: t(".delete_question"), confirm: t(".delete_sure"), method: :delete %></td>
-			<% else %>
-				<td><%= link_to icon_tag("plus-sign"), add_to_own_question_path(question, format: :json), remote: true, method: :post, class: "add_to_own_link", title: t("questions.show.add_to_own") %></td>
-	         	<td>&nbsp;</td>
-			<% end %>
+    			<% if question.user == current_user %>
+    				<td class="check-on-click"> <%= link_to icon_tag("pencil"), edit_question_path(question), title: t("edit") %> </td>
+            <td><%= link_to icon_tag("plus-sign"), {:action => 'clone', :id => question.id}, title: t("duplicate") %></td>
+    		    <td> <%= link_to icon_tag("minus-sign"), question, title: t(".delete_question"), confirm: t(".delete_sure"), method: :delete %></td>
+    			<% else %>
+    				<td><%= link_to icon_tag("plus-sign"), add_to_own_question_path(question, format: :json), remote: true, method: :post, class: "add_to_own_link", title: t("questions.show.add_to_own") %></td>
+    	      <td>&nbsp;</td>
+    			<% end %>
         <% else %>
-			<td> <%= link_to icon_tag("pencil"), edit_question_path(question), title: t("edit"), class: "question_edit_link" %> </td>
-        	<td> <%= link_to icon_tag("minus-sign"), question, 
-          title: t(".delete_question"), confirm: t(".delete_sure"), method: :delete %></td>
+    			<td><%= link_to icon_tag("pencil"), edit_question_path(question), title: t("edit"), class: "question_edit_link" %> </td>
+          <td><%= link_to icon_tag("plus-sign"), {:action => 'clone', :id => question.id}, title: t("duplicate") %></td>
+          <td> <%= link_to icon_tag("minus-sign"), question, 
+              title: t(".delete_question"), confirm: t(".delete_sure"), method: :delete %></td>
         <% end %>
       </tr>
     <% end %>
@@ -121,7 +128,6 @@
         <%=	 hidden_field_tag "share_user_id" %>
         <%= render :partial => 'export_button' %>
         <%= render :partial => 'share_button', locals: {no_modal: false} %>
-  
 	<% else %>
 	<div class="well">	
 		<p><strong><%= t(".no_questions_yet") %></strong></p>

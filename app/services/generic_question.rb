@@ -21,6 +21,22 @@ class GenericQuestion < Delegator
     false
   end
 
+  def has_options?
+    false
+  end
+
+  def has_answer_pairs?
+    false
+  end
+
+  def has_order_options?
+    false
+  end
+
+  def has_categories?
+    false
+  end
+
   def add_setting(key, value)
     @question.settings ||= {}
     @question.settings[key.to_s] = value.to_s

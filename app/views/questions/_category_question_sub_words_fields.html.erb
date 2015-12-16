@@ -1,0 +1,9 @@
+<li>
+	<span onclick="introduce_destroy_and_remove_parent_li()", class="pointer">
+		<%= icon_tag("minus-sign") %>
+	</span>
+	<%= f.text_field :name, placeholder: t("surveys.sub_word_name"), class: "sub_word_name_field" %>
+	<%= f.hidden_field :category, value: "", class: "hidden_category_name_field" %>
+	<%= f.hidden_field :_destroy, value: "", class: "hidden_destroy_field" %>
+</li>
+

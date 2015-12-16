@@ -1,0 +1,17 @@
+<ul id="sortable-list" class="selectable">
+  <% survey.order_options.shuffle! %>
+  <% survey.order_options.each do |option| %>
+    <li class="move_handler"><%= option.name %></li>
+  <% end %>
+</ul>
+<div id="hiddenInputs" />
+<br />
+
+<!-- TODO: Put the following two scripts into a content_for -->
+<script src="/scripts/Sortable.js"></script>
+<script src="/scripts/Sortable.min.js"></script>
+
+<script>
+  var sortable_list = document.getElementById('sortable-list');
+  var sortable = Sortable.create(sortable_list, { ghostClass: "ghost"}); 
+</script>

@@ -1,12 +1,31 @@
 require "csv"
+require 'logger'
+@@log = Logger.new('log.txt')
+@@log.debug "Log file created"
 class CsvParser
 
   def export(questions)
     csv_string = CSV.generate(quote_char: '"') do |csv|
       # CSV-Header einfügen
-      csv << ["Type", "Question", "Answer 1", "Answer 2", "Answer 3", "Answer 4", "Answer 5", "Answer 6", "Answer 7", "Answer 8", "Answer 9", "Correct"]
+      csv << ["Type", "Question", "Tags", "Correct", "Answers"]
       questions.each do |question|
-        current = [question.type, question.name]
+        current = [question.type, question.name, ""]
+
+        # Hinzufügen von tags, falls vorhanden
+        unless question.tags.nil? || question.tags.empty?
+          question.tags.split(",").each do |tag|
+            if current[2]==""
+              current[2] = tag
+            else
+              current[2] = current[2] + ";" + tag
+            end
+          end
+        end
+
+        current << ""
+
+        @@log.debug current.to_s
+
         correct_options = []
         option_number = 1
         if question.type == "single" || question.type == "multi"
@@ -22,12 +41,22 @@ class CsvParser
           elsif answer_type == TextSurvey::THREE_ANSWERS
             correct_options << '3'
           end
+        elsif question.type == 'match'
+          question.answer_pairs.where(correct: true).each do |pair|
+            current << pair.answer1 + ' - ' + pair.answer2
+          end
+        elsif question.type == 'order'
+          question.order_options.each do |option|
+            current << option.position.to_s + ") " + option.name
+          end
+        elsif question.type == 'category'
+          question.categories.each do |category|
+            current << category.name + "|||" + category.sub_words
+          end
         end
         unless correct_options.empty?
           correct_options = correct_options.join ";"
-          current[11] = correct_options # Korrekte Antworten anhängen
-        else
-          current[11] = ""
+          current[3] = correct_options # Korrekte Antworten anhängen
         end
         csv << current
       end
@@ -58,16 +87,53 @@ class CsvParser
             #Frage erstellen
             q = Question.new(type:question[0], name:question[1]).service
 
-            # Korrekte Antwortmöglichkeiten extrahieren
-            if question[0] == "single" || question[0] == "text"
-              answers = [question[11]]
-            elsif question[0] == "multi"
-              answers =  question[11].split(";")
+            # Hinzufügen von tags, die nur für diese Frage gelten sollen
+            unless question[2].nil? || question[2].empty?
+              question[2].split(";").each do |tag|
+                unless q.tags.nil? || q.tags.empty?
+                  q.tags = q.tags + "," + tag
+                else
+                  q.tags = tag
+                end
+              end
             end
 
-            question.drop(2).take(question.size-3).each do |option| # Letztes und die beiden ersten Elemente beinhalten keine Antworten
-              unless option.nil? || option == ""
-                q.question_options << QuestionOption.new(name: option) # QuestionOptions sind in der Frage eingebettet und werden mitgesichert
+            # Hinzufügen von tags, die für alle importierten Fragen gelten sollen
+            unless q.tags.nil? || q.tags.empty?
+              q.tags = q.tags + "," + tags
+            else
+              q.tags = tags
+            end
+
+            # Korrekte Antwortmöglichkeiten extrahieren
+            if question[0] == "single" || question[0] == "text"
+              answers = [question[3]]
+            elsif question[0] == "multi" || question[0] == "match"
+              answers =  question[3].split(";")
+            end
+
+            if question[0] == "match"
+              question.drop(4).each do |pair| # Die ersten vier Elemente beinhalten keine Antworten
+                q.answer_pairs << AnswerPair.new(answer1: pair.split(' - ')[0], answer2: pair.split(' - ')[1])
+              end
+            elsif question[0] == "order"
+              question.drop(4).each do |option|
+                q.order_options << OrderOption.new(name: option.split(') ')[1], position: option.split(') ')[0])
+              end
+            elsif question[0] == "category"
+              question.drop(4).each do |categoryAndSubWords|
+                currentCategory = categoryAndSubWords.split("|||")[0]
+                currentSubWords = categoryAndSubWords.split("|||")[1]
+                q.categories << Category.new(name: currentCategory, sub_words: currentSubWords)
+                currentSubWords.split(";").each do |sub_word|
+                  q.sub_words << SubWord.new(name: sub_word, category: currentCategory)
+                end
+              end
+            else
+              question.drop(4).each do |option| # Die ersten vier Elemente beinhalten keine Antworten
+                unless option.nil? || option == ""
+                  q.question_options << QuestionOption.new(name: option) # QuestionOptions sind in der Frage eingebettet und werden mitgesichert
+                end
               end
             end
 
@@ -89,7 +155,6 @@ class CsvParser
             end
 
             q.user = user
-            q.tags = tags
             unless q.save # true/false je nachdem ob erfolgreich gesichert wurde
               errors << {"type" => "unknown_error", "text" => q.name}
             else
