@@ -1,8 +1,5 @@
 require "rexml/document"
 class IliasParser
-  require 'Logger'
-  @@log = Logger.new('log.txt')
-  @@log.debug "Log file created" 
   include REXML
 
   def export(questions)
@@ -18,8 +15,17 @@ class IliasParser
 
       question_node = root.add_element "item"
 
+      # tags im qticomment anlegen, falls sie existieren
+      unless question.tags.nil? || question.tags.empty?
+        @@log.debug question.tags.to_s
+        tags_node = question_node.add_element "qticomment"
+        question.tags.split(',').each do |tag|
+          tag_node = tags_node.add_element "tag"
+          (tag_node.add_element "text").text = tag
+        end
+      end
+
       # Elemente der Frage hinzufügen und teilweise für später merken
-      question_node.add_element "qticomment"
       qtimetadata_node = (question_node.add_element "itemmetadata").add_element "qtimetadata"
 
       # Den Ilias-Typ bestimmen
@@ -255,6 +261,19 @@ class IliasParser
           next
         end
 
+        # Tags dieser spezifischen Frage auslesen und setzen
+        tags_string = ""
+        element.elements.each("qticomment/tag") do |tag_element|
+          if tags_string == ""
+            tags_string = tag_element.elements["text"].text
+          else
+            tags_string << "," + tag_element.elements["text"].text
+          end
+        end
+        unless tags_string == ""
+          q.tags = tags_string
+        end
+
         # Fragetext setzen
         q.name = element.elements["presentation/flow/material/mattext"].text.gsub(/<\S*>/,"")
 
@@ -303,18 +322,22 @@ class IliasParser
           end
         elsif question_type == 'ORDER QUESTION'
           element.elements.each("itemBody/orderInteraction/prompt") do |elem|
-            @@log.debug "LOLZ " + elem.to_s 
             q.name = elem.text
             break
           end
           element.elements.each("itemBody/orderInteraction/simpleChoice") do |elem|
-            @@log.debug "LOLZ " + elem.to_s 
             q.order_options << OrderOption.new(name: elem.text, position: Integer(elem.attributes["identifier"]))
           end
         end
 
         q.user = user
-        q.tags = tags
+
+        # Hinzufügen von tags, die für alle importierten Fragen gelten sollen
+        unless q.tags.nil? || q.tags.empty?
+          q.tags = q.tags + "," + tags
+        else
+          q.tags = tags
+        end
         unless q.save
           errors << {"type" => "unknown_error", "text" => q.name}
         else

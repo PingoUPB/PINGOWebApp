@@ -1,5 +1,5 @@
 require "rexml/document"
-class MoodleXmlParser
+class MoodleXmlParser 
   include REXML
   def export(questions)
     root = Element.new "quiz"
@@ -20,6 +20,15 @@ class MoodleXmlParser
       question_text_node = question_node.add_element "questiontext"
       question_text_node.attributes["format"] = "html"
       (question_text_node.add_element "text").text = question.name
+
+      # tags anlegen, falls sie existieren
+      unless question.tags.nil? || question.tags.empty?
+        tags_node = question_node.add_element "tags"
+        question.tags.split(',').each do |tag|
+          tag_node = tags_node.add_element "tag"
+          (tag_node.add_element "text").text = tag
+        end
+      end
 
       # Question Options hinzufügen für single- und multi-choice fragen
       if question.type == "multi" || question.type == "single"
@@ -123,6 +132,19 @@ class MoodleXmlParser
       # Fragetext setzen
       q.name = element.elements["questiontext/text"].text
 
+      # Tags dieser spezifischen Frage auslesen und setzen
+      tags_string = ""
+      element.elements.each("tags/tag") do |tag_element|
+        if tags_string == ""
+          tags_string = tag_element.elements["text"].text
+        else
+          tags_string << "," + tag_element.elements["text"].text
+        end
+      end
+      unless tags_string == ""
+        q.tags = tags_string
+      end
+
       # Über Antwortmöglichkeiten iterieren, bei Number-Fragen oder Freitext-Fragen werden die korrekten Antworten ignoriert
       if question_type == "numerical" || question_type == "essay" || question_type == "shortanswer"
       elsif question_type == "match"
@@ -144,7 +166,14 @@ class MoodleXmlParser
         q.add_setting "answers", TextSurvey::ONE_ANSWER
       end
       q.user = user
-      q.tags = tags
+
+      # Hinzufügen von tags, die für alle importierten Fragen gelten sollen
+      unless q.tags.nil? || q.tags.empty?
+        q.tags = q.tags + "," + tags
+      else
+        q.tags = tags
+      end
+
       unless q.save
         errors << {"type" => "unknown_error", "text" => q.name}
       else

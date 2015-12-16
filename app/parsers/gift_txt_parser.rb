@@ -1,5 +1,5 @@
 class GiftTxtParser
-
+  
   def export(questions)
     txt_content = ""
     questions.each do |question|
@@ -9,7 +9,16 @@ class GiftTxtParser
       elsif question.has_categories?
         next
       end
+
+      # tags unter $CATEGORY vermerken
+      unless question.tags.nil? || question.tags.empty?
+        txt_content << "$CATEGORY: " + question.tags + "\r\n\n"
+      else
+        txt_content << "$CATEGORY: " + "\r\n\n"
+      end
+
       txt_content << question.name
+
       if(question.has_options?)
         txt_content << "{\r\n"
         question.question_options.each do |option|
@@ -52,85 +61,99 @@ class GiftTxtParser
       gift_string.gsub! /\t/, ''
       gift_string = Converter.new.convert_to_utf8 gift_string
 
-      questions = extractQuestions(gift_string)
-      questions.each do |question|
+      categoriesWithLines = extractCategoriesWithLines(gift_string)
 
-        currentTitleArray = extractTitle(question)
+      for key in categoriesWithLines.keys 
+        current_category = key
+        current_questions_lines = categoriesWithLines[key]
 
-        currentTitle = currentTitleArray[0]
-        if currentTitle == "[[questionMalFormatted]]"
-          next
-        end
-        question = currentTitleArray[1]
+        questions = extractQuestions(current_questions_lines)
+        questions.each do |question|
 
-        q = Question.new
-        questionTextAndAnswers = separateTextAndAnswers(question)
+          currentTitleArray = extractTitle(question)
 
-        # ignore descriptions
-        if(questionTextAndAnswers[0] == "[[isDescription]]")
-          errors << {"type" => "is_description", "text" => questionTextAndAnswers[1]}
-          next
-        end
+          currentTitle = currentTitleArray[0]
+          if currentTitle == "[[questionMalFormatted]]"
+            next
+          end
+          question = currentTitleArray[1]
 
-        if isNumericalQuestion(questionTextAndAnswers[1])
-          q = Question.new(type:"number").service
-        elsif isTrueFalseQuestion(questionTextAndAnswers[1])
-          q = Question.new(type:"single").service
-          # Bei True/False-Fragen müssen die zwei Antwortoptionen explizit eingetragen werden.
-          if statementIsTrue(questionTextAndAnswers[1])
-            q.question_options << QuestionOption.new(name: 'Wahr / true', correct: true)
-            q.question_options << QuestionOption.new(name: 'Falsch / false', correct: false)
+          q = Question.new
+          questionTextAndAnswers = separateTextAndAnswers(question)
+
+          # ignore descriptions
+          if(questionTextAndAnswers[0] == "[[isDescription]]")
+            errors << {"type" => "is_description", "text" => questionTextAndAnswers[1]}
+            next
+          end
+
+          if isNumericalQuestion(questionTextAndAnswers[1])
+            q = Question.new(type:"number").service
+          elsif isTrueFalseQuestion(questionTextAndAnswers[1])
+            q = Question.new(type:"single").service
+            # Bei True/False-Fragen müssen die zwei Antwortoptionen explizit eingetragen werden.
+            if statementIsTrue(questionTextAndAnswers[1])
+              q.question_options << QuestionOption.new(name: 'Wahr / true', correct: true)
+              q.question_options << QuestionOption.new(name: 'Falsch / false', correct: false)
+            else
+              q.question_options << QuestionOption.new(name: 'Wahr / true', correct: false)
+              q.question_options << QuestionOption.new(name: 'Falsch / false', correct: true)
+            end
+          elsif isMatchingQuestion(questionTextAndAnswers[1])
+            q = Question.new(type:"match").service
+            answerPairs = extractAnswerPairs(questionTextAndAnswers[1])
+            for pair in answerPairs
+              q.answer_pairs << AnswerPair.new(answer1: pair[0].strip, 
+                answer2: pair[1].strip, 
+                correct: true)
+            end
+          elsif questionTextAndAnswers[1] == ""
+            q = Question.new(type:"text").service
+            q.add_setting "answers", TextSurvey::ONE_ANSWER
+          elsif isShortAnswerQuestion(questionTextAndAnswers[1])
+            q = Question.new(type:"text").service
+            q.add_setting "answers", TextSurvey::ONE_ANSWER
+          elsif onlyWrongWeightBasedAnswers(questionTextAndAnswers[1])
+            errors << {"type" => "only_wrong_weight_based_answers", "text" => questionTextAndAnswers[0]}
+            next
+          elsif isSingleChoiceQuestion(questionTextAndAnswers[1])
+            q = Question.new(type:"single").service
+            answers = extractAnswers(questionTextAndAnswers[1].strip)
+            for answer in answers
+              q.question_options << QuestionOption.new(name: answer[0].strip, correct: answer[1])
+            end
+          elsif isMultipleChoiceQuestion(questionTextAndAnswers[1])
+            q = Question.new(type:"multi").service
+            answers = extractAnswers(questionTextAndAnswers[1].strip)
+            for answer in answers
+              q.question_options << QuestionOption.new(name: answer[0].strip, correct: answer[1])
+            end
           else
-            q.question_options << QuestionOption.new(name: 'Wahr / true', correct: false)
-            q.question_options << QuestionOption.new(name: 'Falsch / false', correct: true)
+            #Wenn der Fragetyp unbekannt ist wird die Frage nicht importiert sondern gemerkt
+            errors << {"type" => "unknown_type", "text" => question.text}
+            next
           end
-        elsif isMatchingQuestion(questionTextAndAnswers[1])
-          q = Question.new(type:"match").service
-          answerPairs = extractAnswerPairs(questionTextAndAnswers[1])
-          for pair in answerPairs
-            q.answer_pairs << AnswerPair.new(answer1: pair[0].strip, 
-              answer2: pair[1].strip, 
-              correct: true)
+          if(currentTitle == "")
+            q.name = questionTextAndAnswers[0]
+          else
+            q.name = currentTitle + " - " + questionTextAndAnswers[0]
           end
-        elsif questionTextAndAnswers[1] == ""
-          q = Question.new(type:"text").service
-          q.add_setting "answers", TextSurvey::ONE_ANSWER
-        elsif isShortAnswerQuestion(questionTextAndAnswers[1])
-          q = Question.new(type:"text").service
-          q.add_setting "answers", TextSurvey::ONE_ANSWER
-        elsif onlyWrongWeightBasedAnswers(questionTextAndAnswers[1])
-          errors << {"type" => "only_wrong_weight_based_answers", "text" => questionTextAndAnswers[0]}
-          next
-        elsif isSingleChoiceQuestion(questionTextAndAnswers[1])
-          q = Question.new(type:"single").service
-          answers = extractAnswers(questionTextAndAnswers[1].strip)
-          for answer in answers
-            q.question_options << QuestionOption.new(name: answer[0].strip, correct: answer[1])
+          q.user = user
+
+          if current_category == "__NO_CATEGORY__"
+            q.tags = tags
+          else
+            q.tags = tags + "," + current_category
           end
-        elsif isMultipleChoiceQuestion(questionTextAndAnswers[1])
-          q = Question.new(type:"multi").service
-          answers = extractAnswers(questionTextAndAnswers[1].strip)
-          for answer in answers
-            q.question_options << QuestionOption.new(name: answer[0].strip, correct: answer[1])
+          unless q.save
+            errors << {"type" => "unknown_error", "text" => q.name}
+          else
+            successes << {"text" => q.name}
           end
-        else
-          #Wenn der Fragetyp unbekannt ist wird die Frage nicht importiert sondern gemerkt
-          errors << {"type" => "unknown_type", "text" => question.text}
-          next
-        end
-        if(currentTitle == "")
-          q.name = questionTextAndAnswers[0]
-        else
-          q.name = currentTitle + " - " + questionTextAndAnswers[0]
-        end
-        q.user = user
-        q.tags = tags
-        unless q.save
-          errors << {"type" => "unknown_error", "text" => q.name}
-        else
-          successes << {"text" => q.name}
         end
       end
+
+        
     rescue Exception
       # Fallback für alle nicht behandelten Fehler
       errors << {"type" => "file_error", "text" => "all"}
@@ -230,7 +253,7 @@ class GiftTxtParser
   end
 
   # multipleChoiceQuestions have more than one correct answers
-  def isMultipleChoiceQuestion(questionAsString)
+  def isMultipleChoiceQuestion(answerAsString)
     firstIndex = getIndexOfFirstUnescapedCharacter("=", answerAsString, 0)
     secondIndex = getIndexOfFirstUnescapedCharacter("=", answerAsString, firstIndex+1)
     if(secondIndex == -1)
@@ -295,23 +318,42 @@ class GiftTxtParser
     return answers
   end
 
-  # Extracts the questions in the given string in an array
-  def extractQuestions(utf8string) 
-    questions = Array.new
-    questionIndex = 0
+  # Extracts the categories in the given string into a hash
+  def extractCategoriesWithLines(utf8string)
+    categoriesWithLines = Hash.new
+    current_category = "__NO_CATEGORY__"
+    categoriesWithLines[current_category] = Array.new
 
     linesAsStrings = utf8string.split(/\r?\n/)
     linesAsStrings.each do |line|
+      line.strip!
+      if(line.start_with?("$CATEGORY:"))
+        if line.length > 11
+          current_category = line[11..line.length]
+          current_category.strip!
+          categoriesWithLines[current_category] = Array.new
+        else
+          current_category = "__NO_CATEGORY__"
+        end
+      else
+        categoriesWithLines[current_category] << line
+      end
+    end
+
+    return categoriesWithLines
+  end
+
+  # Extracts the questions in the given lines int an array
+  def extractQuestions(lines) 
+    questions = Array.new
+    questionIndex = 0
+
+    lines.each do |line|
 
       line.strip!
 
       #ignore comments
       if(line.start_with?("//"))
-        next
-      end
-
-      # ignore categories
-      if(line.start_with?("$CATEGORY"))
         next
       end
 
