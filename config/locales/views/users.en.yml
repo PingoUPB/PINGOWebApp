@@ -2,7 +2,7 @@ en:
     registration:
         first_name: "First name"
         last_name: "Last name"
-        faculty: "Faculty"
+        faculty: "Faculty / Department"
         chair: "Chair"
         organization: "University / organization"
         user_comment: "For which lectures do you intend using PINGO?"
@@ -21,6 +21,8 @@ en:
         wants_sound_info: "Play a sound when the last ten seconds of the countdown begin."
         newsletter: "Subscribe to our newsletter"
         newsletter_info: "Receive a newsletter with info about new features, tips and more."
+        allow_external_analytics: "Allow anonymous collection of usage data"
+        allow_external_analytics_info: "Usage data, e. g. via Google Analytics, allows us to better develop PINGO and fix errors. Unchecking this option also disables Google Analytics for your audience if they access your surveys via a direct URL or the QR code."
         general_settings: "General settings"
         personal_data: "Personal data"
         apps: "App access"

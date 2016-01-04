@@ -7,7 +7,7 @@ require 'new_relic/recipes'
 require "bundler/capistrano"
 
 
-server "app-a-de.c-139.maxcluster.net", :app, :web, primary: true
+server "", :app, :web, primary: true
 
 set :application, "eclickr"
 set :rails_env, "production"

@@ -7,7 +7,7 @@ class SurveysController < ApplicationController
   # GET /events/:event_id/surveys.json
   def index
     @event = Event.find_by_id_or_token(params[:event_id])
-    render :text => t("messages.no_access_to_session") and return  if !@event.nil? && !current_user.admin && @event.user != current_user
+    render text: t("messages.no_access_to_session"), status: :forbidden and return  if !@event.nil? && !current_user.admin && @event.user != current_user && !@event.collaborators.include?(current_user)
     
     return if performed?
     
@@ -34,13 +34,15 @@ class SurveysController < ApplicationController
       format.html {
         if params[:remote_view] == "true"
          render "surveys/show_remote", layout: false
+        elsif params[:ppt_view] == "true"
+          render "surveys/show_ppt", layout: false
         else
           @event = @survey.event
           @surveys = @event.surveys.display_fields.desc(:created_at) #map(:service)
           @load_survey = @survey
 
-        render "events/show"
-      end
+          render "events/show"
+        end
       }
       format.js
       format.json { render json: @survey }
@@ -126,9 +128,11 @@ class SurveysController < ApplicationController
   def participate
     @event = Rails.cache.read("Events/"+params[:id])
     unless @event
-      pprint "getting event from DB (no cache)"
-      @event = Event.find_by_token(params[:id])
-      Rails.cache.write("Events/"+params[:id], @event, :expires_in => 5.seconds)
+      begin
+        pprint "getting event from DB (no cache)"
+        @event = Event.find_by_id_or_token(params[:id])
+        Rails.cache.write("Events/"+params[:id], @event, :expires_in => 5.seconds)
+      rescue ; end    #rescue errors like BSON::InvalidObjectId (if people enter neither a token nor a proper Mongo ID)
     end
 
     respond_to do |format|
@@ -236,7 +240,7 @@ class SurveysController < ApplicationController
 
     @vid = get_or_create_voter_id
     @survey = Survey.find(params[:id]).service
-
+    @user_just_voted = false
     redirect_to "/"+@survey.event.to_param, alert: t("messages.no_option_error") and return if (params[:option].blank? && !@survey.multi)
 
     if @survey.vote(@vid, params[:option])
@@ -259,6 +263,7 @@ class SurveysController < ApplicationController
               voted_for = params[:option]
             end
           end
+          @user_just_voted = true
           redirect_to "/"+@survey.event.to_param, notice: (t("messages.voting_ok") + " " + t("messages.voted_for", option: voted_for)).html_safe
         }
         format.json { head :ok }
@@ -320,7 +325,12 @@ class SurveysController < ApplicationController
 
     @survey = @survey.service
 
-    if @survey.has_options?
+    if params[:survey_name]
+      @survey.name = params[:survey_name]
+      params[:predef_options].each do |option|
+        @survey.options.new(name: option)
+      end
+    elsif @survey.has_options?
 
       options = (is_numeric?(params[:options]) ? params[:options].to_i : 4)
       options = 26 if options > 26

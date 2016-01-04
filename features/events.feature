@@ -32,7 +32,7 @@ Feature: Create und manage events
   @javascript
   Scenario: Sharing works and a shared event can be viewe
     Given the user with email "test_share2@example.com" exists
-    And I am logged in as the user with email "test_share1@example.com"
+    And I am logged in as the user with email "test_share_sharer@example.com"
     And there exists an event with the name "unshared event"
     And there exists an event with the name "shared event"
     And I go to the event's page

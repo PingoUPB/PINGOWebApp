@@ -1,0 +1,44 @@
+.main-footer {
+	padding: 15px 0;
+	background-color: @gray-dark;
+	color: #fff;
+    margin-top: 30px;
+
+	a, .text-muted {
+		color: lighten(@gray-light, 15%);
+	}
+
+	a:hover {
+		color: #fff;
+	}
+
+	strong {
+		margin-bottom: 8px;
+		display: block;
+	}
+
+	li {
+		padding: 2px 0;
+	}
+}
+
+@media screen and (min-width:768px) {
+	html, body {
+		height: 100%;
+	}
+
+	#wrap {
+		min-height: 100%;
+		height: auto !important;
+		height: 100%;
+		padding-bottom: 217px;
+		box-sizing: border-box;
+	}
+
+	.main-footer {
+		margin-top: -217px;
+		height: 217px;
+	}
+}
+
+

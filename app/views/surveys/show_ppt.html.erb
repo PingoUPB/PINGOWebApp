@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale  %>">
+
+<head>
+    <title><%= content_for?(:title) ? content_for(:title) + " — " : "" %>PINGO</title>
+  <%= stylesheet_link_tag "application" %>
+  <%= stylesheet_link_tag "lecturer" %>
+<style>
+	#actions {display: none;}
+	body {padding-top: 2px; padding-left: 2px;}
+</style>
+
+<%= javascript_include_tag "application" %>
+
+<body>
+<% if @survey.running?(true)  %>
+	<%= render partial: "survey_running", locals: {survey: @survey} %>
+<% else %>
+	<%= render partial: "show", locals: {survey: @survey} %>
+<% end %>
+</body>
+
+<script>
+setVoterCount(<%= @survey.total_votes %>, "<%= @survey.id.to_s %>");
+
+<% if @survey.running?(true) && @survey.ends %>
+
+	// TODO fixme refactor
+
+	startCountdown(<%= @survey.time_left(true)-1000 %>);
+
+	<% unless ENV["USE_JUGGERNAUT"] == "false" %>
+		// Juggernaut Push init
+	  	jug = new Juggernaut({
+		      secure: false, // ('https:' == document.location.protocol)
+		      host: "<%= ENV["JUGGERNAUT_HOST"] %>",
+		      port: <%= ENV["JUGGERNAUT_PORT"] %>
+	  	});
+
+	  	jug.on("connect", function(){
+			connected = true;
+	  	});
+		jug.on("disconnect", function(){
+	  		connected = false;
+	  	});
+
+		// subscribe callback, that's the push stuff
+	  	jug.subscribe("s<%= @survey.id.to_s %>", function(data){
+			if(data.type == "countdown"){
+				if(iterationOk(data.iteration)){
+					setCountdown(data.payload);
+
+
+
+				}
+			}
+	  	});
+		jug.subscribe("v<%= @survey.id.to_s %>", function(data){
+			if (data.type == "voter_count"){
+				if(timestampOk(data.timestamp)){
+					setVoterCount(data.payload, "<%= @survey.id.to_s %>");
+				}
+			}
+	  	});
+	<% end %>
+<% end %>
+
+</script>
+
+<%= javascript_include_tag "lecturer" %>
+
+
+
+</html>

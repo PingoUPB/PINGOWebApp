@@ -1,47 +1,64 @@
-<h2><%= t "navigation.sign_up" %></h2> </br>
+<div class="row">
+	<div class="col-md-6">
+		<h2><%= t "navigation.sign_up" %></h2>
 
-<%= form_for(resource, :as => resource_name, :url => registration_url(resource_name, protocol: ((Rails.env.production?||Rails.env.staging?) ? "https" : "http"))) do |f| %>
-  <%= devise_error_messages! %>
+		<%= form_for(resource, :as => resource_name, :url => registration_url(resource_name, protocol: ((Rails.env.production?||Rails.env.staging?) ? "https" : "http"))) do |f| %>
 
-  <div><%= f.label :first_name, t("registration.first_name") %>
-  <%= f.text_field :first_name %></div>
+			<%= devise_error_messages! %>
+		<div class="row">
+			<div class="form-group col-md-6">
+				<%= f.label :first_name, t("registration.first_name") %>
+				<%= f.text_field :first_name, class:"form-control" %>
+			</div>
+			<div class="form-group col-md-6">
+				<%= f.label :last_name, t("registration.last_name") %>
+				<%= f.text_field :last_name, class:"form-control"  %>
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-md-6">
+				<%= f.label :organization, t("registration.organization") %>
+				<% if upb_network? %>
+				<!-- prefill UPB if users sign up from an UPB ip -->
+				<%= f.text_field :organization, value: t("upb"), class:"form-control"  %>
+				<% else %>
+				<%= f.text_field :organization, class:"form-control"  %>
+				<% end %>
+			</div>
+			<div class="form-group col-md-6">
+				<%= f.label :faculty, t("registration.faculty") %>
+				<%= f.text_field :faculty, class:"form-control"  %>
+			</div>
+		</div>
+		<div class="form-group">
+			<%= f.label :email, "E-Mail" %>
+			<%= f.email_field :email, class:"form-control"  %>
+		</div>
+		<div class="row">
+			<div class="form-group col-md-6">
+				<%= f.label :password, t("password") %>
+				<%= f.password_field :password, class:"form-control"  %>
+			</div>
+			<div class="form-group col-md-6">
+				<%= f.label :password_confirmation, t("password_confirmation") %>
+				<%= f.password_field :password_confirmation, class:"form-control"  %>
+			</div>
+		</div>
+		<div class="form-group">
+			<%= f.label :user_comment, "#{t("registration.user_comment")} (#{t("optional")})" %>
+			<%= f.text_area :user_comment, class:"form-control" , :rows => 3 %>
+		</div>
+		<div class="form-group">
+			<div class="checkbox">
+				<label>
+					<%= f.check_box :newsletter %> <%= t("registration.newsletter") %>
+				</label>
+			</div>
+		</div>
 
-  <div><%= f.label :last_name, t("registration.last_name") %>
-  <%= f.text_field :last_name %></div>
+		<div class="form-group"><%= f.submit t("navigation.sign_up"), :class => "btn btn-primary" %></div>
+		<% end %>
 
-  <div><%= f.label :organization, t("registration.organization") %>
-  <% if upb_network? %>
-    <!-- prefill UPB if users sign up from an UPB ip -->
-    <%= f.text_field :organization, value: t("upb") %>
-  <% else %>
-    <%= f.text_field :organization %>
-  <% end %>
-  </div>
-
-  <div><%= f.label :faculty, t("registration.faculty") %>
-  <%= f.text_field :faculty %></div>
-
-  <div><%= f.label :chair, t("registration.chair") %>
-  <%= f.text_field :chair %></div>
-
-  <div><%= f.label :email, "E-Mail" %>
-  <%= f.email_field :email %></div>
-
-  <div><%= f.label :password, t("password") %>
-  <%= f.password_field :password %></div>
-
-  <div><%= f.label :password_confirmation, t("password_confirmation") %>
-  <%= f.password_field :password_confirmation %></div>
-
-   <div><%= f.label :user_comment, "#{t("registration.user_comment")} (#{t("optional")})" %>
-  <%= f.text_area :user_comment, class: "input-xlarge autogrow", :rows => 3 %></div>
-
-  <div><label for="user_newsletter" class="checkbox">
-  	<%= f.check_box :newsletter, class: "checkbox form-inline" %> <%= t("registration.newsletter") %>
-    </label>
-  </div>
-	<br>
-  <div><%= f.submit t("navigation.sign_up"), :class => "btn" %></div>
-<% end %>
-
-<%= render :partial => "devise/shared/links" %>
+		<%= render :partial => "devise/shared/links" %>
+	</div>
+</div>

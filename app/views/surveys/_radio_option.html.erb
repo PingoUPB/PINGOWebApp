@@ -1,7 +1,7 @@
-<label for="option_<%= radio_option.id %>" class="radio well">
+<label for="option_<%= radio_option.id %>" class="center-block well">
 	<%= radio_button_tag 'option', radio_option.id %>
 	<%= radio_option.name %>
-<% unless radio_option.description.blank? %>	
+<% unless radio_option.description.blank? %>
 	<br/><small><%= radio_option.description %></small>
 <% end %>
 </label>

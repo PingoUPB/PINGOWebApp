@@ -1,50 +1,65 @@
-<%= semantic_form_for question, namespace: "number", html: { class: "form-inline", id: "new_number_question" }  do |form| %>
-
+<%= semantic_form_for question, namespace: "number", html: { id: "new_number_question" }  do |form| %>
 <%= error_msg_for question %>
+<div class="well">
+	<div class="form-group">
+		<%= form.input :name, input_html: {class: "form-control"} %>
+	</div>
 
-  <div class="well">
-    <div>
+	<%= form.hidden_field :type, value: "number" %>
+	<%= hidden_field_tag :redirect_to_session, params[:redirect_to_session] %>
 
-   <%= form.input :name, input_html: {class: "input-xxlarge"} %>
+	<div class="row">
+		<div class="form-group col-md-8 tag-input">
+			<%= form.input :tags, input_html: { placeholder: "Tags" }, required: false %>
+		</div>
 
-   </div>
-      <%= form.hidden_field :type, value: "number" %>
-    <%= hidden_field_tag :redirect_to_session, params[:redirect_to_session] %>      
-    <div>
-
-      <%= form.input :tags, input_html: { class: "input-xxlarge" , placeholder: "Tags" }, required: false %>
-  <% if current_user.question_tags && !current_user.question_tags.blank? %>
-  <%= select_tag "tags", options_for_select([[t("questions.add_from_your_tags"), '']] + current_user.question_tags.sort.map{ |t| [t, t]}), id: "number_select_tag" %>
-  <br>&nbsp;
-  <% end %>
-  </div>
-  <div>
-       <label for="public" class="checkbox inline"><%= form.check_box :public, :class => "checkbox inline" %><%= t("public") %></label>
-   </div>
- </div>
+		<div class="form-group col-md-4">
+			<% if current_user.question_tags && !current_user.question_tags.blank? %>
+				<label><%= t("questions.add_from_your_tags") %></label>
+				<%= select_tag "tags", options_for_select([[t("questions.add_from_your_tags"), '']] + current_user.question_tags.sort.map{ |t| [t, t]}), id: "number_select_tag", class: "form-control" %>
+			<% end %>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="checkbox">
+			<label><%= form.check_box :public, :class => "checkbox inline" %><%= t("public") %></label>
+		</div>
+	</div>
+</div>
 
 <%= form.hidden_field :collaborators_form, class:"collaborators-form" %>
-<%= form.submit class: "btn btn-primary", id: "single_question_submit" %><span style="margin-left:20px;">
-<% if params[:redirect_to_session] %>  
-  <label for"also_start_question" class="checkbox"><%= check_box_tag "also_start_question", "true", true %> <%= t "questions.start_in_session" %>
-</label><br>
-</span> 
+
+<div class="row row-margin">
+	<div class="col-md-6">
+		<%= form.submit class: "btn btn-primary btn-block", id: "single_question_submit" %>
+	</div>
+	<div class="col-md-6">
+		<% unless params[:redirect_to_session].blank? %>
+			<div class="checkbox">
+				<label class="checkbox"><%= check_box_tag "also_start_question", "true", true %> <%= t "questions.start_in_session" %>
+				</label>
+			</div>
+		<% end %>
+	</div>
+</div>
 <% end %>
-
- <% end %>
 <% content_for :javascript do %>
-  <script>
-    $(document).ready(function() {
-
-    $("#number_question_tags").tagsManager({ // http://welldonethings.com/tags/manager
-        prefilled: "<%= question.tags %>",
-    hiddenTagListName: "number_question[tags]",
-    preventSubmitOnEnter: true
-      });
-    $("#number_select_tag").change(function(){
-    $("#number_question_tags").tagsManager("pushTag", $("#number_select_tag").val());
-    $("#number_select_tag option:first").attr('selected',true);
-    });
-    });
-  </script>
+<script>
+	$(document).ready(function() {
+		$("#number_question_tags").tagsManager({ // http://welldonethings.com/tags/manager
+				prefilled: "<%= question.tags %>",
+		hiddenTagListName: "number_question[tags]",
+		preventSubmitOnEnter: true
+			});
+		$("#number_select_tag").change(function(){
+			$("#number_question_tags").tagsManager("pushTag", $("#number_select_tag").val());
+			$("#number_select_tag option:first").attr('selected',true);
+		});
+		$("#number_question_tags").blur(function(){
+			if($(this).val() !== ""){
+				$("#number_question_tags").tagsManager("pushTag", $(this).val());
+			}
+		});
+	});
+</script>
 <% end %>

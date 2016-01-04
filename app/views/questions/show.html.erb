@@ -1,59 +1,57 @@
 <h2><%= @question.name %></h2>
+
 <% if @question.user != current_user && @question.collaborators.include?(current_user) %>
-  <p class="muted">
-    <span class="half-opacity"><%= icon_tag("share")%></span> 
-    <%= t(".shared_question", by:@question.user.name) %>
-  </p>
+	<p class="text-muted">
+		<span class="half-opacity"><%= icon_tag("share")%></span>
+		<%= t(".shared_question", by:@question.user.name) %>
+	</p>
 <% end %>
+
 <strong> <%= t("type_as_word") %>: </strong>
 <% if @question.type == "single" %>
-	Single Choice
+Single Choice
 <% elsif @question.type == "multi" %>
-	Multiple Choice
+Multiple Choice
 <% elsif @question.type == "text" %>
-	Text
+Text
 <% elsif @question.type == "number" %>
-	<%= t("type_number") %>
+<%= t("type.number") %>
 <% end %>
 <br>
 <p><strong>Tags:</strong> <%= @question.tags_array.join(", ") %> </p>
-
-
 <% if @question.has_options? %>
-  <strong><%= t("surveys.show.options") %></strong>
-  <ul id="question-options-list">
+<strong><%= t("surveys.show.options") %></strong>
+<ul id="question-options-list">
 	<%= render partial: "question_option", collection: @question.question_options %>
-  </ul>
+</ul>
 <% end %>
-
-
+<% if @question.can_be_accessed_by?(current_user) %>
+	<%= link_to t("edit"), edit_question_path(@question), class: "btn btn-small btn-default" %>
+	<%= link_to t("delete"), @question, confirm: t("questions.index.delete_sure"), method: :delete, class: "btn btn-default btn-small" %>
+<% end %>
+<% if @question.public == true && @question.user != current_user %>
+	<%= form_tag(add_to_own_question_path(@question), class: "form-inline", style: "margin-top: 5px;") %>
+	<%= button_tag icon_tag("plus-sign", white: true) + t(".add_to_own"), :disable_with => t("wait"), :class => "btn btn-success", type: "submit" %>
+</form>
+<% end %>
+<hr>
+<p>  <%= link_to t("back"), :back, class: "btn btn-sm btn-default" %></p>
 
 <% if @question.can_be_accessed_by?(current_user) %>
-	<%= link_to t("edit"), edit_question_path(@question), class: "btn btn-small" %> 
-	<%= link_to t("delete"), @question, confirm: t("questions.index.delete_sure"), method: :delete, class: "btn btn-small" %>
+	<div class="well">
+		<%= render partial: "comments", locals: {question: @question} %>
+	</div>
 <% end %>
-<% if @question.public == true %>
-	<%= form_tag(add_to_own_question_path(@question), class: "form-inline", style: "float:left; margin-right: 10px") %>
- 		<%= button_tag icon_tag("plus-sign", white: true) + t(".add_to_own"), :disable_with => t("wait"), :class => "btn btn-success", type: "submit" %>
-<% end %>
-<br/>
-<br/>
-<%= link_to t("back"), :back %>
 
-<% if @question.can_be_accessed_by?(current_user) %>
-  <div class="well" style="margin-top: 15px;">
-	<%= render partial: "comments", locals: {question: @question} %>
-  </div>
-<% end %>
 
 <% content_for :javascript do %>
- <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-     tex2jax: {
-       inlineMath: [ ['$','$'] ],
-       processEscapes: true
-     }
-    });
- </script>
- <%= mathjax_tag %>
+<script type="text/x-mathjax-config">
+		MathJax.Hub.Config({
+		tex2jax: {
+			inlineMath: [ ['$','$'] ],
+			processEscapes: true
+		}
+		});
+</script>
+<%= mathjax_tag %>
 <% end %>

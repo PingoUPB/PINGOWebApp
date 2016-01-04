@@ -1,8 +1,12 @@
-<h1><%= t ".headline" %></h1>
+<div class="row">
+  <div class="col-md-6">
+    <h1><%= t ".headline" %></h1>
 
-<%= render 'form' %>
+    <%= render 'form' %>
 
-<%= link_to t("back"), events_path %>
+    <%= link_to t("back"), events_path %>
+  </div>
+</div>
 
 <% if params[:tour] == "true" %>
  <%= render "tours/enable_tour" %>

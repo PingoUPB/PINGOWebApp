@@ -1,19 +1,26 @@
 <%= form_for resource, as: resource_name, url: session_url(resource_name, protocol: ((Rails.env.production?||Rails.env.staging?) ? "https" : "http")), html: {class: 'new_session'} do |f| %>
-          <fieldset>
-                <div class="control-group">
-                <%= f.email_field :email, :required => false, :autofocus => true, :placeholder => t("email") %></div>
 
-                <div class="control-group">
-                <%= f.password_field :password, :required => false, :placeholder => t("password") %></div>
+<div class="row">
+	<div class="col-md-6">
+		<div class="form-group">
+			<%= f.email_field :email, :required => false, :autofocus => true, :placeholder => t("email"), class:"form-control" %>
+		</div>
 
-                <% if devise_mapping.rememberable? -%>
-                  <div class="control-group">
-                    <label for="user_remember_me", class="checkbox">
-                      <%= f.check_box :remember_me %>
-                      <%= t "remember_me" %>
-                    </label>
-                  </div>
-                <% end -%>
-          </fieldset>
-        <div><%= f.submit t("navigation.login"), :class => 'btn btn-primary' %></div>
-  <% end %>
+		<div class="form-group">
+			<%= f.password_field :password, :required => false, :placeholder => t("password"), class:"form-control" %>
+		</div>
+		<% if devise_mapping.rememberable? -%>
+		<div class="checkbox">
+			<label>
+				<%= f.check_box :remember_me %>
+				<%= t "remember_me" %>
+			</label>
+		</div>
+		<% end -%>
+		<div class="form-group">
+			<%= f.submit t("navigation.login"), :class => 'btn btn-primary' %>
+		</div>
+		</div>
+</div>
+
+<% end %>

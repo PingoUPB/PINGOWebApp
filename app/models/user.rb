@@ -21,6 +21,8 @@ class User
 
   field :wants_sound, type: Boolean, default: false
   
+  field :allow_external_analytics, type: Boolean, default: true
+  
   field :newsletter, type: Boolean, default: false
 
   field :admin, type: Boolean, default: false
@@ -42,15 +44,16 @@ class User
   field :authentication_token, type: String
   
   field :quick_start_settings, type: Hash, default: Hash.new
+
+  field :ppt_settings, type: Hash, default: Hash.new
   
   validates :first_name, presence: true
   validates :last_name, presence: true
-  validates :chair, presence: true
   validates :faculty, presence: true
   validates :organization, presence: true
   validates_uniqueness_of :name, :email, case_sensitive: false
   
-  attr_accessible :first_name, :last_name, :faculty, :chair, :organization, :user_comment, :email, :password, :password_confirmation, :remember_me, :wants_sound, :newsletter
+  attr_accessible :first_name, :last_name, :faculty, :chair, :organization, :user_comment, :email, :password, :password_confirmation, :remember_me, :wants_sound, :newsletter, :allow_external_analytics, :ppt_settings
   
   has_many :events, dependent: :destroy
   has_many :questions, dependent: :destroy

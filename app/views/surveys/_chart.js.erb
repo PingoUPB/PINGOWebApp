@@ -121,15 +121,19 @@ var opts = {
 
 
 var setChartSize = function(){
-  $('<%= selector %>').prop({
-  	"width": $('<%= selector %>').parent("div").width(),
-  	"height": 300
-  });
+  if( $('<%= selector %>').length ) {
+    $('<%= selector %>').prop({
+    	"width": $('<%= selector %>').parent("div").width(),
+    	"height": 300
+    });
+  }
 };
 var drawChart = function(){
-  setChartSize();
-  var ctx = $('<%= selector %>').get(0).getContext("2d");
-  new Chart(ctx).Bar(data,opts);
+  if( $('<%= selector %>').length ) {
+    setChartSize();
+    var ctx = $('<%= selector %>').get(0).getContext("2d");
+    new Chart(ctx).Bar(data,opts);
+  }
 };
 
 drawChart();

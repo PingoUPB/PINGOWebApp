@@ -15,8 +15,8 @@ en:
             view_survey: View survey
             connected: currently connected
             compare_votings: compare voting behaviour
-            show_questions: Start question from list
-            export_results: Export results
+            show_questions: Start question from catalogue
+            export_results: Export Results
             export_results_json: Export JSON
         questions_table:
             all_tags: All Tags

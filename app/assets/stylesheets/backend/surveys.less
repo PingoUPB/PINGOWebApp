@@ -2,44 +2,6 @@
 	font-style: italic;
 	font-size: 80%;
 }
-#survey-options-list li {
-	margin-bottom:10px;
-}
-#overmsg {
-	display:none;
-	background-color: #FCC;
-	  border: solid 1px #C66;
-	  	-moz-border-radius: 5px;
-		border-radius: 5px;
-		-moz-box-shadow: 5px 5px 2px #C66;
-		-webkit-box-shadow: 5px 5px 2px #C66;
-		box-shadow: 5px 5px 2px #C66;
-	margin-bottom:10px;
-}
-#not_running {
-	background-color: #EEE;
-	border: 1px solid #CCC;
-	width:90%; 
-	text-align:center;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	-moz-box-shadow: 5px 5px 2px #CCC;
-	-webkit-box-shadow: 5px 5px 2px #CCC;
-	box-shadow: 5px 5px 2px #CCC;
-}
-#survey-content legend {
-	line-height: 1.2em;
-	font-size: 1em;
-	padding-bottom: 0.5em;
-	font-weight: bold;
-}
-.pointer {
-  cursor: pointer;
-}
-
-.event-desc {
-	text-align: center;
-}
 
 /* ========================================
     ABSOLUTE LAYOUT
@@ -77,7 +39,7 @@
 }
 
 .survey-realtime__item--countdown {
-	border-left: 1px solid #e5e5e5;
+	border-left: 1px solid @gray-lighter;
 	padding-left: 1em;
 	margin-left: 1em;
 }
@@ -118,10 +80,10 @@
 
 .legend {
 	list-style: none;
-	width: 200px;
+	width: 210px;
 	margin: 0 auto;
 	padding: 0.5em;
-	border: 1px solid #e5e5e5;
+	border: 1px solid @gray-lighter;
 	border-radius: 2em;
 	text-align: center;
 	padding-left: 1em;
@@ -140,7 +102,7 @@
 		width: 1em;
 		height: 1em;
 		border-radius: 0.5em;
-		background: #e5e5e5;
+		background: @gray-lighter;
 		left: -1.5em;
 		top: 0.0625em;
 	}
@@ -175,13 +137,13 @@
 		right: 0;
 	}
 
-	&:hover { 
+	&:hover {
 		.canvas_download-button {
 			display: inline-block;
 		}
 
 		.canvas__show-highlight {
-			visibility: visible;		
+			visibility: visible;
 		}
 	}
 }

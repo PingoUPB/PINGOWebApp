@@ -1,32 +1,32 @@
 <h1><%= t '.header' %></h1>
 <%= form_tag deliver_invitation_path, method: :post %>
-	<%= email_field :recipient, :mail, placeholder: t('.placeholder'), required: "required" %><br>
+<div class="form-group">
+	<%= email_field :recipient, :mail, placeholder: t('.placeholder'), required: "required", class:"form-control" %>
+</div>
+<div class="form-group">
 	<%= button_tag t('.invite'), class: "btn btn-primary" %>
+</div>
 </form>
-
 <div class="well">
-    <% if I18n.locale == :de %>
-        <p>Die gesendete Mail enthält
-            <ul>
-                <li>einen Link zur Anmeldung,</li>
-                <li>eine kurze Info über PINGO mit Link zur Projektseite,</li>
-                <li>und Links zu den Video-Tutorials und zum Handbuch.</li>
-            </ul>
-        </p>
-        <p>Der Empfänger wird außerdem informiert, dass die Einladung von Ihnen stammt.</p>
-        <p><small><strong>Hinweis: </strong>Die Mailadresse des Empfängers wird nicht gespeichert und nur einmalig zum Senden der Einladung verwendet.</small></p>
-
-    <% elsif I18n.locale == :en %>
-
-          <p>The sent invitation contains:
-          <ul>
-            <li>a sign up link,</li>
-            <li>a brief introduction to PINGO, with a link to the PINGO project site,</li>
-            <li>links to video tutorials.</li>
-          </ul>
-          </p>
-          <p>The recipient will be informed that you are the author of the invitation.</p>
-          <p><small><strong>Note: </strong>The recipient's mail address will not be saved and used only once for this invitation.</small></p>
-
-    <% end %>
+<% if I18n.locale == :de %>
+<p>Die gesendete Mail enthält
+	<ul>
+		<li>einen Link zur Anmeldung,</li>
+		<li>eine kurze Info über PINGO mit Link zur Projektseite,</li>
+		<li>und Links zu den Video-Tutorials und zum Handbuch.</li>
+	</ul>
+</p>
+<p>Der Empfänger wird außerdem informiert, dass die Einladung von Ihnen stammt.</p>
+<p><small><strong>Hinweis: </strong>Die Mailadresse des Empfängers wird nicht gespeichert und nur einmalig zum Senden der Einladung verwendet.</small></p>
+<% elsif I18n.locale == :en %>
+<p>The sent invitation contains:
+	<ul>
+		<li>a sign up link,</li>
+		<li>a brief introduction to PINGO, with a link to the PINGO project site,</li>
+		<li>links to video tutorials.</li>
+	</ul>
+</p>
+<p>The recipient will be informed that you are the author of the invitation.</p>
+<p><small><strong>Note: </strong>The recipient's mail address will not be saved and used only once for this invitation.</small></p>
+<% end %>
 </div>

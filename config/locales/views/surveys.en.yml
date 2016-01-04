@@ -35,12 +35,8 @@ en:
             session_no: session no.
             running: running?
             is_text: This is a text question
-            votes_participants: participants
             is_multi: This is a multiple-choice survey.
-            running_notice: 'This survey is <span class="label label-success">running</span>. People can access this survey at <code>%{url}</code>'
-            end: end of survey
-            time_left: time left
-            options: options
+            options: Options
             stop1: stop
             start1: start now
             continue1: continue
@@ -56,12 +52,18 @@ en:
             chart: "chart"
             histogram: "histogram"
             repeated: "This is a repeated survey."
+            mark_correct: "Highlight correct answers"
+        survey_running:
+            running_notice: 'This survey is <span class="label label-success">running</span>. People can access this survey at <code>%{url}</code>'
+            end: end of survey
+            time_left: time left
+            votes_participants: participants
         text_table_results:
             term: "answer"
             occurrences: "occurrences"
         text_input_field:
             add_a_field: "add a field"
-            add_field_notice: "In this survey, you can enter as many answers as you wish."
+            add_field_notice: "In this survey, you can enter multiple answers."
         number_input_field:
             notice: "Please enter the number without a thousands delimiter, e.g. 42.7"
 

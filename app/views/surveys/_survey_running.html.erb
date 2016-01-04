@@ -1,0 +1,36 @@
+<% if survey.running?(true) %>
+	<% if params[:ppt_view] != "true" %>
+		<p id="running-notice">
+		<small><%= t(".running_notice", :url => ENV["URL_PREFIX"]+"/"+survey.event.token.to_s).html_safe %><br/>
+			<% if survey.ends %>
+				 <%= t ".end" %>: <%= I18n.localize(survey.ends.in_time_zone) %>.
+			<% end %>
+		</small></p>
+	<% end %>
+	<% if survey.ends %>
+		<% if current_user.wants_sound %>
+			<audio id="sound" preload="auto" style="display:none">
+					<source src="/bell_sound.mp3" type="audio/mpeg" />
+					<source src="/bell_sound.OGG" type="audio/ogg" />
+			</audio>
+		<% end %>
+	<% end %>
+<% end %>
+<div class="survey-realtime">
+	<span class="survey-realtime__item">
+		<%= t ".votes_participants" %>:
+		<span id="voter-count"><%= @survey.total_votes %></span>
+	</span>
+	<% if survey.running?(true) && survey.ends %>
+    	<% if params[:ppt_view] == 'true' %>
+    		<br><br>
+    	<% end %>
+	<span class="survey-realtime__item <% if params[:ppt_view] != 'true' %>survey-realtime__item--countdown<% end %>" id="countdown-container" style="display:none;">
+		<%= t ".time_left" %>:
+		<span id="countdown">
+			XX:XX
+		</span>
+	</span>
+	<% end %>
+</div>
+

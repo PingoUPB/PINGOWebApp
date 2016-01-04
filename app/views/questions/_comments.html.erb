@@ -1,25 +1,36 @@
-<h3><%= t("comments") %></h3>
-
-<%= form_for [question, question.question_comments.build], remote: (request.xhr?) do |f| %>
-    <%= f.hidden_field :survey_id, value: params[:survey_id] if params[:survey_id] %>
-    <p><%= f.text_area :text, rows: 3, placeholder: t(".placeholder"), class: 'textarea span5', required: 'required' %></p>
-    <p><%= f.submit t("create"), class: "btn btn-primary" %></p>
-<% end %>
+<h3 class="no-margin-top"><%= t("comments") %></h3>
+<hr noshade>
 
 <% if question.question_comments.present? %>
-  <ul id="comments_list">
-  <% question.question_comments.desc(:created_at).each do |comment| %>
-        <% next unless comment.persisted? %>
-    <li><%= simple_format comment.text %>
-    	<time datetime="<%= comment.created_at.iso8601 %>"><%= l comment.created_at %></time>
-        <% if comment.survey.present? %>
-            <br>
-            <small><%= link_to icon_tag(:signal) + t(".show_session"), event_survey_path(comment.survey.event, comment.survey) %>
-              <time>(<%= l comment.survey.created_at, format: :short %>) </time>
-            </small>
-        <% end %>
-      <hr noshade>
-    </li>
-  <% end %>  
+<ul id="comments_list" class="list-unstyled">
+	<% question.question_comments.desc(:created_at).each do |comment| %>
+	<% next unless comment.persisted? %>
+	<li>
+		<div>
+			<%= simple_format comment.text %>
+		</div>
+		<time datetime="<%= comment.created_at.iso8601 %>"><%= l comment.created_at %></time>
+		<% if comment.survey.present? %>
+		<small>
+			<%= link_to icon_tag(:signal) + t(".show_session"), event_survey_path(comment.survey.event, comment.survey) %>
+			<time>(<%= l comment.survey.created_at, format: :short %>) </time>
+		</small>
+		<% end %>
+		<hr noshade>
+	</li>
+	<% end %>
 </ul>
+<% end %>
+
+
+<%= form_for [question, question.question_comments.build], remote: (request.xhr?) do |f| %>
+<%= f.hidden_field :survey_id, value: params[:survey_id] if params[:survey_id] %>
+
+<div class="form-group">
+	<%= f.text_area :text, rows: 3, placeholder: t(".placeholder"), class: 'textarea form-control', required: 'required' %>
+</div>
+<div class="form-group">
+	<%= f.submit t("create"), class: "btn btn-primary" %>
+</div>
+
 <% end %>

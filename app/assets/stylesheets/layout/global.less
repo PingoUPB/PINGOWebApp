@@ -1,0 +1,155 @@
+/* ==== HELPERS === */
+
+.w50 {
+    width: 50%;
+}
+
+.w66 {
+    width: 66%;
+}
+
+.row-margin {
+    margin-bottom: 15px;
+}
+
+.no-margin-top {
+    margin-top: 0;
+}
+
+
+
+
+/* === GLOBAL STYLES === */
+body {
+   padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+.nested-fields {
+    border: 1px solid @gray-light;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+code {
+    font-family: Courier, Courier New, monospace;
+    background-color: @gray-lighter;
+}
+
+p.remember label.checkbox {
+    float:right;
+    padding-top:11px;
+}
+
+.icon-pingo {
+    background-image: image-url("pingo-icon.png");
+    background-position: center center;
+}
+
+.icon-qr {
+    background-image: image-url("qr-icon.png");
+    background-position: center center;
+}
+
+time {
+    font-size: 0.85em;
+    opacity: .5;
+}
+
+.row--margin {
+    padding: 1em 0;
+}
+
+.no-bullets {
+    padding: 0;
+    list-style: none;
+    margin: 1em 0;
+}
+
+.lead {
+    i {
+        position: relative;
+        top: 0.25em;
+    }
+}
+
+.small {
+    font-size: 12px;
+}
+
+.disabled {
+    pointer-events: none;
+}
+
+.margin-inverted {
+    margin-bottom: 0;
+    margin-top: 1.5em;
+}
+
+@media (max-width: 767px) {
+    input[type="submit"].btn-block-resp {
+        display: block;
+        width: 100%;
+    }
+}
+
+.half-opacity {
+  -moz-opacity:.50;
+  -ms-filter:"alpha(opacity=50)";
+  filter:alpha(opacity=50);
+  -wekit-opacity:.50;
+  opacity:.50;
+}
+
+.island {
+    padding: 1em;
+}
+
+.nav-stacked {
+    .divider {
+        border-top: 1px solid @gray-lighter;
+        margin-bottom: 15px;
+        margin-top:10px;
+    }
+}
+
+.nav-header {
+    text-transform: uppercase;
+    color: @gray-light;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.env-badge {
+    position: absolute;
+    left: 15px;
+    color: #fff;
+    top: 15px;
+    opacity: .5;
+    cursor: pointer;
+}
+
+.badge {
+    line-height: 1.5;
+    border-radius: 15px;
+    padding-bottom: 1px;
+}
+
+.badge-info {
+    background-color:@brand-info;
+}
+
+.label {
+    padding: .2em .6em .1em;
+}
+
+.soft-hide {
+    display: none;
+}
+

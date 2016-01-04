@@ -1,89 +1,121 @@
 <% if user_signed_in? %>
 <li class="dropdown">
-  <%= link_to icon_tag("plus") + t("navigation.quick_start"), new_event_path, id: "menuQuickstartLink", class: "dropdown-toggle", data: {icon: "icon-plus", toggle: "dropdown", target: "#"} %>
-  <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
-   <%= form_tag("/quick_start")%>
-      <%= render partial: "shared/quick_start_form" %>
-   </form>
-  </div>
+	<%= link_to icon_tag("flash") + t("navigation.quick_start"), new_event_path, id: "menuQuickstartLink", class: "dropdown-toggle", data: {icon: "icon-plus", toggle: "dropdown", target: "#"} %>
+	<div class="dropdown-menu" style="width: 240px; padding-left: 15px; padding-right: 15px;">
+		<%= form_tag("/quick_start")%>
+		<%= render partial: "shared/quick_start_form" %>
+	</form>
+</div>
 </li>
-
-  <%= content_tag :li, class: (current_page?(new_event_path) ? "active" : "")  do -%>
-	 <%= link_to t("navigation.new_survey"), new_event_path, id: "menuNewEventLink" %>
-  <% end -%>
-  
-  <%= content_tag :li, class: (current_page?(events_path) ? "active" : "")  do -%>
-  	<%= link_to(icon_tag("tasks") +  t("navigation.your_events"), events_path, id: "menuEventsLink") %>
-  <% end -%>
-
-  <%= content_tag :li, class: (current_page?(questions_path) ? "active" : "")  do -%>
-  	<%= link_to(icon_tag("question-sign") +  t("navigation.your_questions"), questions_path, id: "menuQuestionsLink") %>
-  <% end -%>
-
-  
-  <%= content_tag :li, class: (current_page?(edit_user_registration_path) ? "active" : "")  do -%>
-  	<%= link_to(icon_tag("wrench") + t("navigation.edit_account"), edit_user_registration_url(protocol: ((Rails.env.production?||Rails.env.staging?) ? "https" : "http")), id: "menuSettingsLink") %>
-  <% end -%>
-
-  <li>
-  <%= link_to(icon_tag("off") + t("navigation.logout"), destroy_user_session_url(protocol: ((Rails.env.production?||Rails.env.staging?) ? "https" : "http")), method: :delete) %>        
-  </li>
-  <% if current_user.admin %>
-    <li class="divider-vertical"></li>
-  	<li>
-  	<%= link_to('Admin', admin_users_path(protocol: ((Rails.env.production?||Rails.env.staging?) ? "https" : "http")), style: 'color:grey') %>        	
-  	</li>
-  <% end %>
-
-
-<% else %>
-
-  <li>
-  <%= link_to(icon_tag("user") + t("navigation.login"), "#loginModal", id: "login", data: {toggle: "modal"})  %> 
-  </li>
-  <!-- 
-  <li>
-  <%= link_to(t("navigation.sign_up"), new_user_registration_path)  %>
-  </li>
-  //-->
-
-
-<% end %>
-
-<li class="divider-vertical"></li>
-<li class="dropdown">
-	<a id="help" href="#" class="dropdown-toggle" data-toggle="dropdown">
-		<%= icon_tag("info-sign") %>
-		<%= t "navigation.about" %> &nbsp;
+<li class="dropdown" id="menuEventsLink">
+	<a id="sessions" href="#" class="dropdown-toggle" data-toggle="dropdown">
+		<%= icon_tag("stats") +  t("navigation.survey_execution") %>
 		<b class="caret"></b>
 	</a>
-	<ul class="dropdown-menu" role="menu" aria-labelledby="help">
-    <%= content_tag :li  do -%>
-      <%= link_to icon_tag("pingo") + t("navigation.project_website"), "http://www.uni-paderborn.de/pingo", :target => "_blank", :hreflang => "de" %>
-    <% end -%>
-		<%= content_tag :li  do -%>
-		  <%= link_to icon_tag("film") + t("navigation.intro_video"), "#pingo_video", data: {toggle: "modal"} %>
+	<ul class="dropdown-menu" role="menu">
+		<% if current_user.events.any? %>
+			<% current_user.events.desc(:updated_at).limit(3).each do |event| %>
+				<li><%= link_to "<span class=\"text-muted\">##{display_event_token(event)}</span> – ".html_safe + event.name, event %></li>
+			<% end %>
+			<li role="presentation" class="divider"></li>
+		<% end %>
+
+		<%= content_tag :li, class: (current_page?(events_path) ? "active" : "")  do -%>
+			<%= link_to t("navigation.your_events"), events_path %>
 		<% end -%>
-		<% if user_signed_in? %>
-			<%= content_tag :li  do -%>
-			  <%= link_to icon_tag("road") + t("navigation.take_tour"), root_path(tour: "true") %>
-			<% end -%>
-	  	<% end %>
-	  	<%= content_tag :li  do -%>
-		  <%= link_to icon_tag("bullhorn") + "Blog", "http://blogs.uni-paderborn.de/pingo/", target: "_blank", hreflang: "de" %>
-	  	<% end -%>
-		<%= content_tag :li  do -%>
-		  <%= link_to icon_tag("file") + t("navigation.getting_started"), "/tutorial/tutorial.html", target: "_blank", hreflang: "de" %>
+
+		<%= content_tag :li, class: (current_page?(new_event_path) ? "active" : "")  do -%>
+			<%= link_to t("navigation.new_survey"), new_event_path, id: "menuNewEventLink" %>
 		<% end -%>
-	  	<% if I18n.locale == :de %>
-			<%= content_tag :li  do -%>
-			  <%= link_to icon_tag("file") + "Didaktische Hinweise", "https://wiwi.uni-paderborn.de/fileadmin/lehrstuehle/department-3/wiwi-dep-3-ls-4/PINGO_Didaktische_Handreichung_Einsatzmoeglichkeiten_final.pdf", target: "_blank", hreflang: "de", title: "Handreichung zu didaktischen Einsatzmoeglichkeiten" %>
-			<% end -%>
-	  	<% end %>
-	  	<% if user_signed_in? %>
-		  <%= content_tag :li  do -%>
-		    <%= link_to icon_tag("bookmark") + t("navigation.invite"), invitation_path, rel: "nofollow" %>
-		  <% end -%>
-	  	<% end %>
 	</ul>
 </li>
+
+<li class="dropdown" id="menuQuestionsLink">
+	<a id="questions" href="#" class="dropdown-toggle" data-toggle="dropdown">
+		<%= icon_tag("pencil") + t("navigation.survey_design") %>
+		<b class="caret"></b>
+	</a>
+	<ul class="dropdown-menu" role="menu">
+		<%= content_tag :li, class: (current_page?(questions_path) ? "active" : "")  do -%>
+			<%= link_to(t("navigation.questions_catalogue"), questions_path) %>
+		<% end -%>
+
+		<li role="presentation" class="divider"></li>
+
+		<%= content_tag :li, class: (current_page?(new_question_path) ? "active" : "")  do -%>
+			<%= link_to(t("navigation.new_question"), new_question_path, id: "menuQuestionsLink") %>
+		<% end -%>
+		<%= content_tag :li, class: (current_page?(import_questions_path) ? "active" : "")  do -%>
+			<%= link_to(t("navigation.import_questions"), import_questions_path, id: "menuQuestionsLink") %>
+		<% end -%>
+	</ul>
+</li>
+
+<% if current_user.admin %>
+<li>
+	<%= link_to('Admin', admin_users_path(protocol: ((Rails.env.production?||Rails.env.staging?) ? "https" : "http")), ) %>
+</li>
+<% end %>
+
+<li class="dropdown user-navigation" id="menuSettingsLink">
+	<a id="user" href="#" class="dropdown-toggle" data-toggle="dropdown">
+		<%= icon_tag("user") + current_user.name %>
+		<b class="caret"></b>
+	</a>
+	<ul class="dropdown-menu" role="menu">
+		<%= content_tag :li, class: (current_page?(edit_user_registration_path) ? "active" : "")  do -%>
+			<%= link_to(icon_tag("cog") + t("navigation.edit_account"), edit_user_registration_url(protocol: ((Rails.env.production?||Rails.env.staging?) ? "https" : "http"))) %>
+		<% end -%>
+		<li role="presentation" class="divider"></li>
+		<li>
+			<%= link_to(icon_tag("lock") + t("navigation.logout"), destroy_user_session_url(protocol: ((Rails.env.production?||Rails.env.staging?) ? "https" : "http")), method: :delete) %>
+		</li>
+	</ul>
+</li>
+
+<% else %>
+<li>
+<%= link_to(icon_tag("user") + t("navigation.login"), "#loginModal", id: "login", data: {toggle: "modal"})  %>
+</li>
+<!--
+<li>
+<%= link_to(t("navigation.sign_up"), new_user_registration_path)  %>
+</li>
+//-->
+<% end %>
+<!--<li class="dropdown">
+	<a id="help" href="#" class="dropdown-toggle" data-toggle="dropdown">
+			<%= icon_tag("info-sign") %>
+			<%= t "navigation.about" %> &nbsp;
+			<b class="caret"></b>
+	</a>
+	<ul class="dropdown-menu" role="menu" aria-labelledby="help">
+			<li>
+					<%= link_to icon_tag("pingo") + t("navigation.project_website"), "http://www.uni-paderborn.de/pingo", :target => "_blank", :hreflang => "de" %>
+			</li>
+			<li>
+					<%= link_to icon_tag("film") + t("navigation.intro_video"), "#pingo_video", data: {toggle: "modal"} %>
+			</li>
+			<% if user_signed_in? %>
+			<li>
+					<%= link_to icon_tag("road") + t("navigation.take_tour"), root_path(tour: "true") %>
+			</li>
+			<% end %>
+			<li>
+					<%= link_to icon_tag("bullhorn") + "Blog", "http://blogs.uni-paderborn.de/pingo/", target: "_blank", hreflang: "de" %>
+			</li>
+			<li>
+					<%= link_to icon_tag("file") + t("navigation.getting_started"), "/tutorial/tutorial.html", target: "_blank", hreflang: "de" %>
+			</li>
+			<% if I18n.locale == :de %>
+			<li>
+					<%= link_to icon_tag("file") + "Didaktische Hinweise", "https://wiwi.uni-paderborn.de/fileadmin/lehrstuehle/department-3/wiwi-dep-3-ls-4/PINGO_Didaktische_Handreichung_Einsatzmoeglichkeiten_final.pdf", target: "_blank", hreflang: "de", title: "Handreichung zu didaktischen Einsatzmoeglichkeiten" %>
+			</li>
+			<% end %>
+			<% if user_signed_in? %>
+			<li>
+					<%= link_to icon_tag("bookmark") + t("navigation.invite"), invitation_path, rel: "nofollow" %>
+			</li>
+			<% end %>
+	</ul>
+</li>-->

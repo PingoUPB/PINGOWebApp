@@ -100,7 +100,7 @@ Feature: Pre-define questions
     And there exists an event with the name "some event"
     When I go to the events page
     And I follow "show"
-    And I follow "Start question from list"
+    And I follow "Start question from catalogue"
     And I add the first question in the list
     And I go to the event's page
     Then I should see "my test question"

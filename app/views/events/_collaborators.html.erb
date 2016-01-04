@@ -1,5 +1,5 @@
 <label for="mail_for_collaborators">
-	<span rel="popover" data-placement="left" data-content="<%= strip_tags(t(".collaborators_tooltip")) %>" title="<%= strip_tags(t(".collaborators_headline")) %>">
+	<span data-toggle="popover" data-placement="left" data-content="<%= strip_tags(t(".collaborators_tooltip")) %>" title="<%= strip_tags(t(".collaborators_headline")) %>">
 		<%= icon_tag(:share) %> <%= t ".collaborators_headline" %>
 	</span>
 </label>
@@ -15,17 +15,20 @@
 <% end %>
 </ul>
 
-<div class="input-append">
-  <input 
-  	placeholder="<%= strip_tags(t(".collaborators_placeholder")) %>"  
-  	autocomplete="off" 
-  	type="text" 
-  	data-provide="typeahead" 
-  	name="email" 
-  	id="mail_for_collaborators" 
+<div class="input-group">
+  <input
+  	placeholder="<%= strip_tags(t(".collaborators_placeholder")) %>"
+  	autocomplete="off"
+  	class="form-control"
+  	type="text"
+  	data-provide="typeahead"
+  	name="email"
+  	id="mail_for_collaborators"
   	data-source='<%= current_user.contacts.map {|u| "#{u.name} (#{u.email})"}.to_json %>'
-  > 
-  <a class="btn" id="collaborator-search"><%= t(".share") %></a>
+  >
+  <span class="input-group-btn">
+    <a class="btn btn-default" id="collaborator-search"><%= t(".share") %></a>
+  </span>
 </div>
 
 <p class="alert alert-danger small" id="collaborators_feedback" style="display: none"></p>

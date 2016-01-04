@@ -1,29 +1,33 @@
-<div class="modal hide fade" id="qrModal" role="dialog" aria-hidden="true">
-      <div class="modal-header">
-        <button class="close" data-dismiss="modal">×</button>
-        <h3>QR Code #<%= event.token %></h3>
-      </div>
-        <div class="modal-body">
-			<p style="text-align:center;"><%= image_tag "https://chart.googleapis.com/chart?cht=qr&choe=ISO-8859-1&chs=520x520&chl=#{participate_url(event.token)}", size: "200x200", alt: "QR Code", id: "eventQrImg" %><br>
-			</p>
-      </div>
-      <div class="modal-footer">
-		<span style="float:left;">
-			<button class="btn" id="zoomQrLink"><%= icon_tag "zoom-in" %></button>
-            <strong>pingo.upb.de &rarr; <%= event.token %></strong>
-		</span>
-		
-		<button class="btn" data-dismiss="modal"><%= t("close") %></button>
-      </div>
+<div class="modal fade" id="qrModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">QR Code #<%= event.token %></h4>
+            </div>
+            <div class="modal-body">
+                <p style="text-align:center;"><%= image_tag "https://chart.googleapis.com/chart?cht=qr&choe=ISO-8859-1&chs=520x520&chl=#{participate_url(event.token)}", size: "200x200", alt: "QR Code", id: "eventQrImg" %><br>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <div class="pull-left">
+                    <button class="btn" id="zoomQrLink"><%= icon_tag "zoom-in" %></button>
+					<strong>pingo.upb.de &rarr; <%= display_event_token(event) %></strong>
+                </div>
+
+                <button class="btn btn-default" data-dismiss="modal"><%= t("close") %></button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <% content_for :javascript do %>
-	<script>
-		$(document).ready(function(){
-			$("#zoomQrLink").click(function(){
-				$("#eventQrImg").attr("height", "520").attr("width", "520").css("margin-top", "-50px").css("margin-bottom", "-50px");
-				$(this).remove();
-			});
-		});
-	</script>
+    <script>
+        $(document).ready(function(){
+            $("#zoomQrLink").click(function(){
+                $("#eventQrImg").attr("height", "520").attr("width", "520").css("margin-top", "0").css("margin-bottom", "0");
+                $(this).remove();
+            });
+        });
+    </script>
 <% end %>

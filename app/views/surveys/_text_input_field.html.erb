@@ -1,32 +1,39 @@
 <% if defined?(survey) && survey.respond_to?(:max_answers) %>
     <% survey.max_answers.times do |i| %>
         <% is_first = (i==0) %>
-        <div style="display:block;" class="text-input-field-container input-append" data-count="<%= i.to_s %>">
-            <%= text_field_tag "option[]", "", required: is_first, class: "span3 text-input-field", style: "margin-left: 0 !important;" %>
+        <div <%= unless is_first then 'style="display: none"'.html_safe end %> class="text-input-field-container row-margin <%= if is_first then 'form-group' else 'input-group' end %>" data-count="<%= i.to_s %>">
+            <%= text_field_tag "option[]", "", required: is_first, class: "form-control text-input-field", style: "margin-left: 0 !important;" %>
             <% if survey.multi? %>
                 <% unless is_first %>
-                    <button type="button" class="btn hide text-input-remove-button" data-count="<%= i.to_s %>"><%= icon_tag :minus %></button>
+                     <span class="input-group-btn">
+                        <button type="button" class="btn btn-danger text-input-remove-button" data-count="<%= i.to_s %>"><%= icon_tag :minus %></button>
+                     </span>
                 <% end %>
             <% end %>
-            <br>
         </div>
     <% end %>
     <% if survey.multi? %>
-        <button type="button" class="btn hide text-input-add-button"><%= icon_tag :plus%> <%= t ".add_a_field" %></button>
-        <small id="add_field_notice" style="margin-left: 10px;">(<%= t ".add_field_notice" %>)</small>
-        <br>&nbsp;
+        <p><button type="button" class="btn btn-success text-input-add-button"><%= icon_tag :plus%> <%= t ".add_a_field" %></button></p>
+        <p class="text-muted">
+            <%= t ".add_field_notice" %>
+        </p>
+
         <% content_for :javascript do %>
             <script>
-                 $(".text-input-add-button").show().click(function(e){
-                     $(".text-input-field-container:hidden").first().show();
-                     if($(".text-input-field-container:hidden").length == 0){
-                         $(".text-input-add-button").hide();
-                     }
+                 $(document).ready(function (){
+                     $(".text-input-add-button").show().click(function(e){
+                         $(".text-input-field-container:hidden").first().show();
+                         if($(".text-input-field-container:hidden").length == 0){
+                             $(".text-input-add-button").hide();
+                         }
+                     });
+                     $(".text-input-remove-button").show().click(function(e){
+                        $(".text-input-field-container[data-count='" + $(this).data("count") + "']").hide().find("input").val("");
+                        if($(".text-input-field-container:hidden").length > 0){
+                             $(".text-input-add-button").show();
+                         }
+                     });
                  });
-                 $(".text-input-remove-button").show().click(function(e){
-                    $(".text-input-field-container[data-count='" + $(this).data("count") + "']").hide().find("input").val("");
-                 });
-                 $(".text-input-field-container").not("[data-count='0']").hide();
             </script>
         <% end %>
     <% end %>

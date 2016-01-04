@@ -21,8 +21,8 @@ if(History){
 	History.pushState(null, "<%= @survey.name||"Umfrage" %> [<%= @survey.event.token %>] - PINGO", "<%= event_survey_path(@survey.event, @survey)%>");
 
 	// Inform Google Analytics of the change
-	if(typeof window._gaq !== 'undefined'){
-		window._gaq.push(['_trackPageview', "<%= event_survey_path(@survey.event, @survey)%>"]);
+	if(typeof ga !== 'undefined'){
+    ga("send", "pageview", "<%= event_survey_path(@survey.event, @survey)%>");
 	}
 }
 

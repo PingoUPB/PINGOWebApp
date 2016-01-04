@@ -54,12 +54,17 @@ function updateCountdown() {
       $( "#countdown" ).css('color', 'red');
       $( "#countdown" ).animate({fontSize: "2.5em"}, 200);
     }
+    if(countdown === 1){
+      if(window.parent.postMessage !== undefined){
+        window.parent.postMessage("stopped", "*");
+      }
+    }
     if(show_view && sound_enabled && countdown == 10){
-      document.getElementById("sound").play(); 
+      document.getElementById("sound").play();
     }
     var seconds = countdown % 60;
     $( "#countdown" ).text( Math.floor(countdown / 60) + ':' + (seconds < 10 ? '0' + seconds : seconds) );
-  } 
+  }
   else {
     $( "#countdown" ).text( "0:00" );
     disableUI();

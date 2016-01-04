@@ -1,29 +1,35 @@
-<p class="multi">
+<div class="checkbox">
   <label for="q_type_single" class="radio">
     <%= radio_button_tag 'q_type', 'single', (quick_start_settings["q_type"]||"single") == "single", class: "type-radio", data: {"survey-type" => "choice"} %> <%= t "type.single" %></label>
+</div>
+<div class="checkbox">
   <label for="q_type_multi" class="radio">
     <%= radio_button_tag "q_type", 'multi', quick_start_settings["q_type"] == "multi", class: "type-radio", data: {"survey-type" => "choice"} %> <%= t "type.multi" %>
   </label>
+</div>
+<div class="checkbox">
   <label for="q_type_text" class="radio">
     <%= radio_button_tag "q_type", 'text', quick_start_settings["q_type"] == "text", class: "type-radio", data: {"survey-type" => "text"} %> Text/TagCloud
   </label>
+</div>
+<div class="checkbox">
   <label for="q_type_number" class="radio">
-    <%= radio_button_tag "q_type", 'number', quick_start_settings["q_type"] == "number", class: "type-radio", data: {"survey-type" => "number"} %> <%= t("type.number") %> <span class="label">BETA</span>
+    <%= radio_button_tag "q_type", 'number', quick_start_settings["q_type"] == "number", class: "type-radio", data: {"survey-type" => "number"} %> <%= t("type.number") %> <span class="label label-info">BETA</span>
   </label>
-</p>
+</div>
 
-<p class="options_container">
-<label for="options"><%= t "quick_start.how_many_options_short" %></label>
-<%= select_tag "options", options_for_select(answer_choices, quick_start_settings["options"]), tabindex: 4, class: "span2 answer-options-select" %>
-</p>
-<p>
-<label for="duration"><%= t "quick_start.how_long_short" %></label>
- <%= select_tag "duration", options_for_select(duration_choices, quick_start_settings["duration"]), tabindex: 5, class: "span2" %>
-</p>
+<div class="options_container form-group">
+  <label for="options"><%= t "quick_start.how_many_options_short" %></label>
+  <%= select_tag "options", options_for_select(answer_choices, quick_start_settings["options"]), tabindex: 4, class: "form-control answer-options-select" %>
+</div>
+<div class="form-group">
+  <label for="duration"><%= t "quick_start.how_long_short" %></label>
+  <%= select_tag "duration", options_for_select(duration_choices, quick_start_settings["duration"]), tabindex: 5, class: "form-control" %>
+</div>
 
-	      
-<p class="remember">
+
+<div class="remember form-group">
     <input class="btn btn-primary" id="new-event-survey_submit" value="<%= t "start" %>" tabindex="8" type="submit" class="inline">
-    <label for="remember" class="checkbox"><input class="checkbox inline" id="remember" name="remember_settings" value="1" tabindex="7" type="checkbox">
+    <label for="remember" class="checkbox pull-right"><input class="checkbox inline" id="remember" name="remember_settings" value="1" tabindex="7" type="checkbox">
     <%= t "quick_start.remember_settings" %></label>
-</p>
+</div>

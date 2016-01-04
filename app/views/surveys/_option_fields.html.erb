@@ -1,13 +1,11 @@
-<div class="control-group">
-	<div class="controls">
-	<%= f.text_field :name, :placeholder => t("name") %>
+<div class="form-inline nested-fields row-margin">
+	<%= f.text_field :name, :placeholder => t("name"), class: "form-control" %>
 	<!-- <%= f.input :description, :label => "info text" %> -->
 	<% if @survey.type == "multi" %>
-		<label for="correct" class="checkbox inline"><%= f.check_box :correct, :class => "checkbox inline" %>(<%= t("surveys.edit.correct_answer") %>?)</label>
-	<% else %>		
-		<label for="correct" class="radio inline"><%= f.radio_button :correct, true, :class => "radio_correct_true radio inline" %>(<%= t("surveys.edit.correct_answer") %>?)</label>
+		<label><%= f.check_box :correct, :class => "" %> (<%= t("surveys.edit.correct_answer") %>?)</label>
+	<% else %>
+		<label><%= f.radio_button :correct, true, :class => "radio_correct_true" %> (<%= t("surveys.edit.correct_answer") %>?)</label>
 		<%= f.radio_button :correct, false, :class => "radio_correct_false", :style => "display:none" %>
 	<% end %>
 	<!-- <li><%= link_to_remove_association "remove option", f %></li> -->
-	</div>
 </div>

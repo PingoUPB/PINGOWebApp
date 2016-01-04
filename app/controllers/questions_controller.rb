@@ -5,7 +5,7 @@ class QuestionsController < ApplicationController
   def index
     if params[:public]
       @questions = Question.where(public:true)
-    elsif params[:shared]  
+    elsif params[:shared]
       @questions = current_user.shared_questions
       unless @questions.any?
         @questions = current_user.questions
@@ -83,7 +83,7 @@ class QuestionsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @questions.uniq.map(&:service), except: [:user_id] }
+      format.json { render json: (@questions + current_user.shared_questions).uniq.map(&:service), except: [:user_id] }
     end
   end
 
@@ -147,7 +147,7 @@ class QuestionsController < ApplicationController
 
     respond_to do |format|
       if @question.save
-        @event = Event.find_by_id_or_token(params[:redirect_to_session]) if params[:redirect_to_session]
+        @event = Event.find_by_id_or_token(params[:redirect_to_session]) if params[:redirect_to_session] && !params[:redirect_to_session].blank?
         if params[:also_start_question] == "true"
           @survey = @question.to_survey
           @survey.event = @event
@@ -195,7 +195,7 @@ class QuestionsController < ApplicationController
   def export
     unless params[:question_ids].blank?
       questions = params[:question_ids].map do |id|
-        Question.find(id).service        
+        Question.find(id).service
       end.select do |question|
         question.user == current_user
       end
@@ -204,13 +204,13 @@ class QuestionsController < ApplicationController
       send_data exported_string, type: Mime::Type.lookup_by_extension(extension), filename: 'Pingo_Questions.'+extension
     else
       redirect_to questions_path, alert: t("messages.select_questions_for_export")
-    end    
+    end
   end
-  
+
   def share
     unless params[:question_ids].blank? && params[:share_user_id].blank?
       questions = params[:question_ids].map do |id|
-        Question.find(id).service        
+        Question.find(id).service
       end.select do |question|
         question.user == current_user
       end
@@ -275,7 +275,7 @@ class QuestionsController < ApplicationController
     @question = Question.find(params[:id]).service
 
     unless !@question.nil? && @question.can_be_accessed_by?(current_user)
-      flash[:error] = t("messages.no_access_to_question") 
+      flash[:error] = t("messages.no_access_to_question")
       redirect_to questions_path, status: :forbidden and return false
     end
     true

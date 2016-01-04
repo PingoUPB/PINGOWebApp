@@ -1,16 +1,16 @@
-<% # note that this view is rendered via JQuery in the show.js.erb 
+<% # note that this view is rendered via JQuery in the show.js.erb
 %>
 
 <script>
 	show_view = true;
 </script>
 	<p class="lead"><% if survey.original_survey %><%= icon_tag("repeat", title:t(".repeated"), data: {toggle: "tooltip", placement: "right"}) %> <% end %>
-		<span id="survey_name" data-placement="bottom" data-toggle="tooltip" data-delay="100" title="<%= t "survey" %> <%= t ".from" %> <%= l(survey.created_at) %>"><%= survey.name || t(".survey") %></span> 
-		
+		<span id="survey_name" data-placement="bottom" data-toggle="tooltip" data-delay="100" title="<%= t "survey" %> <%= t ".from" %> <%= l(survey.created_at) %>"><%= survey.name || t(".survey") %></span>
+
       <%= link_to icon_tag("comment"), question_question_comments_path(survey.question, survey_id: survey.id), title: t("comment"), remote: true, class: "comment_modal_link", data: {toggle: "tooltip", placement: "bottom"} if survey.question.present? %>
     </p>
 
-    
+
 	<% unless survey.description.blank? %>
 		<p><strong><%= t ".description"%>:</strong> <%= h survey.description %></p>
 	<% end %>
@@ -21,8 +21,8 @@
 	<% if survey.type == "text" %>
 		<p><%= t ".is_text" %></p>
 	<% end %>
-	
-	<% if survey.running?(true) %>
+
+	<!--<% if survey.running?(true) %>
 		<p id="running-notice">
 		<small><%= t(".running_notice", :url => ENV["URL_PREFIX"]+"/"+survey.event.token.to_s).html_safe %><br/>
 			<% if survey.ends %>
@@ -37,27 +37,15 @@
 				</audio>
 			<% end %>
 		<% end %>
-	<% end %>
+	<% end %> -->
+	<%= render partial: "survey_running", locals: {survey: @survey} %>
 
-	<div class="survey-realtime">
-		<span class="survey-realtime__item">
-			<%= t ".votes_participants" %>:
-			<span id="voter-count"><%= @survey.total_votes %></span>
-		</span>
-		<% if survey.running?(true) && survey.ends %>
-		<span class="survey-realtime__item survey-realtime__item--countdown" id="countdown-container" style="display:none;">
-			<%= t ".time_left" %>:
-			<span id="countdown">
-				XX:XX
-			</span>
-		</span>
-		<% end %>
-	</div>
 
-<!-- 
+
+<!--
 <p>
 <small><%= link_to t("edit"), edit_event_survey_path(survey.event, survey) %></small>
-</p> 
+</p>
 //-->
 <% if survey.has_options? and survey.options.count > 0 %>
 	<section class="option-results">
@@ -72,10 +60,10 @@
 
 			<div class="canvas_downloadable clearfix">
 				<canvas id="chart" height="300" class="chart-container__chart"></canvas>
-				<a href="#chart" class="btn canvas_download-button" id="save_chart_btn" download="pingo_chart.png"><%= icon_tag("download-alt") %></a>
+				<a href="#chart" class="btn btn-default canvas_download-button" id="save_chart_btn" download="pingo_chart.png"><%= icon_tag("download-alt") %></a>
 
 				<% if survey.options.any?(&:correct) %>
-				<a class="btn pull-right canvas__show-highlight" id="show-highlights" data-toggle="button">Korrekte markieren</a>
+				<a class="btn btn-default pull-right canvas__show-highlight" id="show-highlights" data-toggle="button"><%= t(".mark_correct") %></a>
 				<% end %>
 
     <% if survey.original_survey %>
@@ -85,26 +73,26 @@
 				</ul>
 			</div>
 		<% end %>
-		</div>	
+		</div>
 	</section>
 
 <% elsif survey.type == "text" %>
  <% if !survey.running? && survey.total_votes > 0 %>
    	<div class="btn-group">
-   <button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><%= t(".switch_view") %> <span class="caret"></span></button>
+   <button class="btn btn-small dropdown-toggle btn-default" data-toggle="dropdown"><%= t(".switch_view") %> <span class="caret"></span></button>
      <ul class="dropdown-menu close-on-click" role="menu">
        <li><%= link_to t(".tag_cloud"), results_event_survey_path(@survey.event, @survey, view_type: "tag_cloud"), remote: true %></li>
        <li><%= link_to t(".table"), results_event_survey_path(@survey.event, @survey, view_type: "text"), remote: true %></li>
    </ul>
 </div>
-   <div id="detailed_results" class="row">
+   <div id="detailed_results">
   <% if survey.total_votes > 6 %>
 	<%= render "text_tag_cloud_result", survey: @survey %>
   <% else %>
 	<%= render "text_table_results", survey: @survey %>
   <% end %>
     </div>
-	
+
  <% else %>
 	<div style="clear:left;"><%= image_tag "tag_cloud_placeholder.png" %></div>
   <% end %>
@@ -114,20 +102,19 @@
 
 <% elsif survey.type == "number" %>
     <% if !survey.running? && survey.total_votes > 0 %>
-    	 
   		<p><%= t (".avg") %>: <%= badge(number_with_precision survey.voting_avg, precision: 2, strip_insignificant_zeros: true) %> </p>
   		<p> <%= t (".stdev") %>: <%= badge(number_with_precision survey.voting_stdev, precision: 2, strip_insignificant_zeros: true) %> </p>
   		<p> <%= t (".median") %>: <%= badge(number_with_precision survey.voting_median, precision: 2, strip_insignificant_zeros: true) %> </p>
 
         <div class="btn-group">
-          <button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><%= t(".switch_view") %> <span class="caret"></span></button>
+          <button class="btn btn-default btn-small dropdown-toggle" data-toggle="dropdown"><%= t(".switch_view") %> <span class="caret"></span></button>
           <ul class="dropdown-menu close-on-click">
             <li><%= link_to t(".chart"), results_event_survey_path(@survey.event, @survey, view_type: "clustered_chart", method_kind: "clustered"), remote: true %></li>
             <li><%= link_to t(".histogram"), results_event_survey_path(@survey.event, @survey, view_type: "clustered_chart", method_kind: "histogram"), remote: true %></li>
             <li><%= link_to t(".table"), results_event_survey_path(@survey.event, @survey, view_type: "text"), remote: true %></li>
           </ul>
         </div>
-        <div id="detailed_results" class="row">
+        <div id="detailed_results">
           <% if survey.total_votes > 6 %>
               <%= render "number_clustered_chart_results", survey: @survey %>
           <% else %>
@@ -139,17 +126,17 @@
 
     <% end %>
 
-	
+
 <% end %>
 
 <div id="actions" class="well survey-actions">
 	<% if survey.running?(true) %>
 		<%= form_tag(stop_event_survey_path(survey.event, survey), remote: true, class: "form-inline survey-actions__form") %>
 			 <label for="stoptime"><%= submit_tag t(".stop1"), :disable_with => t("wait"), :class => "btn btn-danger" %></label>
-			<%= select_tag "stoptime", options_for_select(duration_choices(true), 1) %>
+			<%= select_tag "stoptime", options_for_select(duration_choices(true), 1), class: "form-control" %>
 		</form>
 	<% else %>
-		
+
 		<% if survey.event.latest_survey == survey.to_model %>
 
 		 <%= form_tag(start_event_survey_path(survey.event, survey), remote: true, class: "form-inline survey-actions__form") %>
@@ -158,17 +145,17 @@
 	 	 </form>
 
 		<% end %>
-		
+
 		<%= form_tag(repeat_event_survey_path(survey.event, survey), remote: true, class: "form-inline survey-actions__form") %>
 			<%= submit_tag t(".repeat1"), :disable_with => t("wait"), :class => "btn btn-success repeat-survey-button" %>
-			<%= select_tag "duration", options_for_select(duration_choices(false), 120), id: "repeatDuration" %>
+			<%= select_tag "duration", options_for_select(duration_choices(false), 120), class:"form-control", id: "repeatDuration" %>
 		</form>
-		
+
 			<script>
-			$(document).ready(function() {  			
+			$(document).ready(function() {
 		  		$(document).on("change", "#repeatDuration", function() {
 		  			$("#hidden_stoptime").val($('#repeatDuration option:selected').val());
-		  		}); 
+		  		});
 		  		$(document).on("click", "#save_chart_btn", function(e) {
 		  			if($("#chart").length > 0){
 		  				var base_str = $("#chart").get(0).toDataURL();

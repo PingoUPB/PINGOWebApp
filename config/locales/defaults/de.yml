@@ -14,7 +14,7 @@ de:
     w_out_countdown: "ohne Countdown"
     wait: "Bitte warten..."
     imprint: "Impressum"
-    upb: "Universität Paderborn"
+    upb: "Name der Universität"
     privacy_policy: "Datenschutzerklärung"
     back: "Zurück"
     show: "Anzeigen"
@@ -64,7 +64,7 @@ de:
         sign_up: "Registrieren"
         edit_account: "Einstellungen"
         quick_start: "Schnellstart"
-        new_survey: "neue Session"
+        new_survey: "Neue Session"
         your_events: "Sessions"
         your_questions: "Fragen"
         getting_started: "Erste Schritte"
@@ -73,6 +73,17 @@ de:
         project_website: "Projekt-Website"
         take_tour: "Tour starten"
         invite: "Weiterempfehlen"
+        survey_execution: "Umfrage durchführen"
+        survey_design: "Umfrageplanung"
+        questions_catalogue: "Fragenkatalog"
+        new_question: "Neue Frage"
+        import_questions: "Fragen importieren"
+
+    footer:
+        help: "Hilfe"
+        info: "Info"
+        legal: "Rechtliches"
+        further: "PINGO ist ein Open-Source Classroom Response System, programmiert von der Uni Paderborn."
 
     type:
       number: "Numerisch"

@@ -1,8 +1,14 @@
-<div class="control-group nested-fields">
-	<div class="controls">
-	<%= link_to_remove_association icon_tag("minus-sign"), f %>
-	<%= f.text_field :name, placeholder: t("name") %>
-	<label for="correct" class="radio"><%= f.radio_button :correct, true, class: "radio_correct_true" %>(<%= t("surveys.edit.correct_answer") %>?)</label>
-	<%= f.radio_button :correct, false, class: "radio_correct_false", style: "display:none" %>
+<div class="form-inline nested-fields row-margin">
+	<div class="form-group">
+		<%= link_to_remove_association icon_tag("minus-sign"), f %>
+		<%= f.text_field :name, placeholder: t("name"), class: "form-control" %>
+	</div>
+	<div class="form-group col-md-offset-1">
+		<div class="radio">
+			<label><%= f.radio_button :correct, true, class: "radio_correct_true" %> 
+				&nbsp; <%= t("surveys.edit.correct_answer") %>?
+				<%= f.radio_button :correct, false, class: "radio_correct_false", style: "display:none" %>
+			</label>
+		</div>
 	</div>
 </div>

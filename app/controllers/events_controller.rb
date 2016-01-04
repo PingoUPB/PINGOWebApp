@@ -20,6 +20,11 @@ class EventsController < ApplicationController
     end
   end
 
+  def latest_survey
+    @event = Event.find_by_token(params[:id])
+    render json: @event.latest_survey
+  end
+
   # POST /find
   def find
     if params[:id] && params[:id].match(/\A\d{3,}\z/) # at least 3 digits
@@ -32,7 +37,7 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
-    @event = Event.find_by_token(params[:id])
+    @event = Event.find_by_id_or_token(params[:id])
     check_access
     return if performed?
 

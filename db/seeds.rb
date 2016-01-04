@@ -5,8 +5,16 @@
 #
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Emanuel', :city => cities.first)
+require 'securerandom'
+
 puts 'EMPTY THE MONGODB DATABASE'
 Mongoid.master.collections.reject { |c| c.name =~ /^system/}.each(&:drop)
 puts 'SETTING UP DEFAULT USER LOGIN'
-user = User.create! :name => 'admin', :email => 'user@test.com', :password => 'please', :password_confirmation => 'please', :admin => true
-puts 'user@test.com created (Password: please): ' << user.email
+random_password = SecureRandom.urlsafe_base64(6)
+user = User.create! :name => 'admin', :email => 'user@example.com', :password => random_password,
+                    :password_confirmation => random_password, :admin => true,
+                    :first_name => 'Max', :last_name => 'Mustermann',
+                    :organization => 'Meine Uni',
+                    :faculty => 'Meine Fakultaet',
+                    :chair => 'PINGO'
+puts 'user@example.com created with password: ' << random_password

@@ -2,7 +2,7 @@ de:
     registration:
         first_name: "Vorname"
         last_name: "Nachname"
-        faculty: "Fakultät"
+        faculty: "Fakultät / Abteilung"
         chair: "Lehrstuhl"
         organization: "Universität / Organisation"
         user_comment: "Für welche Veranstaltungen planen Sie PINGO einzusetzen?"
@@ -19,6 +19,8 @@ de:
         feedback: "Bitte teilen Sie uns den Grund für Ihre Unzufriedenheit mit, damit wir unser Angebot verbessern können. Vielen Dank für die Nutzung unserer Applikation."
         wants_sound: "Ton abspielen?"
         wants_sound_info: "Einen Ton abspielen, wenn die letzten zehn Sekunden des Countdowns angebrochen sind."
+        allow_external_analytics: "Anonyme Nutzungsberichte erlauben"
+        allow_external_analytics_info: "Nutzungsberichte, z. B. durch Google Analytics, ermöglichen uns die zielgerichtete Weiterentwicklung und Fehlerverbesserung. Durch Deaktivieren der Option werden auch von Ihren Teilnehmern bei Direktaufruf über die URL mit Sessionnummer oder den QR-Code keine Informationen erhoben."
         newsletter: "Newsletter abonnieren?"
         newsletter_info: "Unser Newsletter informiert über neue Features, Tipps und Tricks zur Nutzung und mehr."
         general_settings: "Allgemeine Einstellungen"
@@ -34,3 +36,14 @@ de:
         natural_sciences: "Naturwissenschaften"
         mechanical_engineering: "Maschinenbau"
         elec_math_infor: "Elektrotechnik, Informatik, Mathematik"
+    mongoid:
+      models:
+        user: "Benutzer"
+      attributes:
+        user:
+          email: "E-Mail"
+          first_name: "Vorname"
+          last_name: "Nachname"
+          faculty: "Fakultät / Abteilung"
+          organization: "Universität / Organisation"
+          password: "Kennwort"

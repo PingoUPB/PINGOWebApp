@@ -1,10 +1,8 @@
-<div class="control-group">
-  <label class="control-label" for="event_custom_locale">
-    <span rel="popover" data-placement="left" data-content="<%= strip_tags(t(".language_tooltip")) %>" title="<%= strip_tags(t(".language_headline")) %>"><%= icon_tag(:globe) %> <%= t ".language_headline" %></span>
+<div class="form-group">
+  <label for="event_custom_locale">
+    <span data-toggle="popover" data-placement="left" data-content="<%= strip_tags(t(".language_tooltip")) %>" title="<%= strip_tags(t(".language_headline")) %>"><%= icon_tag(:globe) %> <%= t ".language_headline" %></span>
   </label>
-  <div class="controls">
-    <%= select_tag("event_custom_locale_select", options_for_select([[t(".de"), "de"], [t(".en"), "en"]], selected: @event.custom_locale), prompt: "-") %>
-  </div>
+    <%= select_tag("event_custom_locale_select", options_for_select([[t(".de"), "de"], [t(".en"), "en"]], selected: @event.custom_locale), prompt: "-", class: "form-control") %>
 </div>
 
 <% content_for :javascript do %>

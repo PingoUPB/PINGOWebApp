@@ -45,7 +45,7 @@ class IliasParser
       flow_node = presentation_node.add_element "flow"
       mattext_node = (flow_node.add_element "material").add_element "mattext"
       mattext_node.attributes["texttype"] = "text/xhtml"
-      mattext_node.text = question.name
+      mattext_node.text = strip_control_characters(question.name).encode(:xml => :text)
 
       if question.type.in? ["multi", "single"]
         response_lid_node = flow_node.add_element "response_lid"
@@ -209,6 +209,13 @@ class IliasParser
       (metafield.add_element "fieldlabel").text = label
       (metafield.add_element "fieldentry").text = entries[current]
       current = current + 1
+    end
+  end
+  
+  # following method from http://rosettacode.org/wiki/Strip_control_codes_and_extended_characters_from_a_string#Ruby
+  def strip_control_characters(_str)
+    _str.chars.each_with_object("") do |char, str|
+      str << char unless char.ascii_only? and (char.ord < 32 or char.ord == 127)
     end
   end
 end

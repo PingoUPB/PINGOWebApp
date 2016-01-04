@@ -1,6 +1,14 @@
-<div class="modal fade hide" id="chartNoticeModal" style="padding:25px;text-align:center" role="dialog" aria-hidden="true">
-	<p>
-    <%= t("questions.chart_notice_text").html_safe %>
-	</p>
-	<button class="btn" data-dismiss="modal" aria-hidden="true"><%= t "close" %></button>
+<div class="modal fade" id="chartNoticeModal" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<p>
+					<%= t("questions.chart_notice_text").html_safe %>
+				</p>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-default" data-dismiss="modal" aria-hidden="true"><%= t "close" %></button>
+			</div>
+		</div>
+	</div>
 </div>

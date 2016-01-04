@@ -14,7 +14,7 @@ en:
     duration: "Duration"
     wait: "Please wait..."
     imprint: "Imprint"
-    upb: "University of Paderborn"
+    upb: "your University name"
     privacy_policy: "Privacy policy (German)"
     back: "back"
     show: "show"
@@ -72,6 +72,17 @@ en:
         intro_video: "Intro video"
         take_tour: "Take the tour"
         invite: "Recommend PINGO"
+        survey_execution: "Survey execution"
+        survey_design: "Survey design"
+        questions_catalogue: "Questions catalogue"
+        new_question: "New question"
+        import_questions: "Import questions"
+
+    footer:
+        help: "Help"
+        info: "Info"
+        legal: "Legal"
+        further: "PINGO is an open-source class room system, made by the University of Paderborn."
 
     type:
       number: "Numeric"
@@ -113,6 +124,8 @@ en:
         question_successfully_added: "Question successfully added"
         no_access_to_question: "You do not have access to this question."
         token_reset_success: "You've been signed off from all third-party apps that were connected to your PINGO account."
+        invite_success: "Invitation sent successfully! Thanks for recommending PINGO."
+        invite_fail: "Unfortunately the entered email address is incorrect. We were not able to send the invitation."
         select_questions_for_export: "Please select questions for export"
     mongoid:
         errors:

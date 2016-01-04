@@ -7,7 +7,7 @@
 		<th>&nbsp;</th>
 		<th scope="col"><%= t "events.show.votes" %></th>
 		<th>&nbsp;</th>
-		<th>&nbsp;</th>
+	<!--	<th>&nbsp;</th> -->
 		<th>&nbsp;</th>
 	</tr>
 	</thead>
@@ -23,11 +23,15 @@
 				<%= t "events.show.created_ago", time: time_ago_in_words(survey.created_at) %> (<%= l survey.created_at %>)
 			<% end %>
 			</td>
-			<td><% if survey.original_survey && survey.service.results_comparable? %> <%= link_to icon_tag("repeat"), changed_event_survey_path(survey.event, survey), remote: true, class: "compare_link", title: t("events.show.compare_votings") %> <% end %> </td>
+			<td>
+                <% if survey.original_survey && survey.service.results_comparable? %>
+                    <%= link_to icon_tag("repeat"), changed_event_survey_path(survey.event, survey), remote: true, class: "compare_link", title: t("events.show.compare_votings"), data: {toggle: "modal"} %>
+                <% end %>
+            </td>
 			<td id="votes-<%= survey.id.to_s %>"><%= survey.total_votes %></td>
 			<td> <%= link_to icon_tag("comment"), question_question_comments_path(survey.question, survey_id: survey.id), title: t("comment"), remote: true, class: "comment_modal_link" if survey.question.present? %> </td>
-			<td> <%= link_to icon_tag("pencil"), edit_event_survey_path(survey.event, survey), title: t("edit") %> </td>
-			<td><%= link_to icon_tag("minus-sign"), event_survey_path(survey.event, survey), 
+			<!-- <td> <%= link_to icon_tag("pencil"), edit_event_survey_path(survey.event, survey), title: t("edit") %> </td> -->
+			<td><%= link_to icon_tag("minus-sign"), event_survey_path(survey.event, survey),
 			title: t("events.show.delete_survey"), confirm: t("events.show.delete_sure"), method: :delete %></td>
 		</tr>
 	<% end %>

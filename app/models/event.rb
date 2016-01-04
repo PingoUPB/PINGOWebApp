@@ -41,8 +41,12 @@ class Event
   end
 
   def self.find_by_id_or_token(token_or_id)
-    if token_or_id.length <= TOKEN_LENGTH
-      Event.find_by_token(token_or_id)
+    if token_or_id.length <= TOKEN_LENGTH && !token_or_id.to_s.blank?
+      if token_or_id.to_s.length < TOKEN_LENGTH
+        Event.find_by_token("0"*(TOKEN_LENGTH - token_or_id.to_s.length) + token_or_id.to_s)
+      else
+        Event.find_by_token(token_or_id)
+      end
     else
       Event.find(token_or_id)
     end
@@ -75,6 +79,32 @@ class Event
     self.collaborators = v.split(",").reject(&:blank?).map do |u|
       User.find(u)
     end
+  end
+
+  # for token length upgrade purposes
+  def self.check_and_upgrade_all_tokens! # upgrades tokens by padding with leading zeros
+    results = []
+    errors = []
+    puts ""
+    all_evt_ids = Event.where("this.token.length < #{Event::TOKEN_LENGTH.to_s}").only(:id).map(&:id)
+    puts "#{all_evt_ids.count.to_s} events"
+    all_evt_ids.each_with_index do |event_id, i|
+      e = Event.find(event_id)
+      print "#{i.to_s}: #{e.token.to_s} .. "
+      old_token = e.token.to_s
+      # FIXME: Warning: The following line adds two zeros (hard coded!). Please adapt for your token length.
+      new_token =  "00#{e.token.to_s}" # ("%0#{Event::TOKEN_LENGTH.to_s}d" % e.token.to_s)
+      print "#{old_token} -> #{new_token} .. "
+      begin
+        e.set(:token, new_token)
+      rescue ex
+        errors << old_token
+        puts "..error"
+      end
+      results << [old_token, e.token]
+      puts "..ok"
+    end
+    [results, errors]
   end
 
 end

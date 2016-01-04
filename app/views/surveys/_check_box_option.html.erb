@@ -1,7 +1,7 @@
-<label for="option_<%= check_box_option.id %>" class="checkbox well">
+<label for="option_<%= check_box_option.id %>" class="well center-block">
 	<input type="checkbox" name="option[]" value="<%= check_box_option.id %>" id="option_<%= check_box_option.id %>" />
 	<%= check_box_option.name %>
-<% unless check_box_option.description.blank? %>	
+<% unless check_box_option.description.blank? %>
 	<br/><small><%= check_box_option.description %></small>
 <% end %>
 </label>

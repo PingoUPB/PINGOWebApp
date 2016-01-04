@@ -1,3 +1,10 @@
+<%
+if I18n.locale == :de
+  ytlink = "KK22QMb0MFA"
+else
+  ytlink = "aZC3NnUqZcs"
+end
+%>
 <%= t '.subheader', name: @user.name %>
 
 <%= strip_tags(t('.intro_text').html_safe) %>
@@ -19,7 +26,7 @@ http://pingo.upb.de/tutorial/tutorial.html
 http://www.upb.de/pingo
 
 <%= t('user_mailer.welcome.videos') %>
-http://www.youtube.com/watch?v=KK22QMb0MFA
+http://www.youtube.com/watch?v=<%= ytlink %>
 
 <%= t "user_mailer.welcome.contact_text" %>: pingo-support@upb.de
 

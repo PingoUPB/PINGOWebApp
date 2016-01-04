@@ -6,12 +6,13 @@
 //= require twitter/bootstrap/modal
 //= require twitter/bootstrap/tab
 //= require twitter/bootstrap/button
-//= require twitter/bootstrap/typeahead
+//= require libs/bootstrap3-typeahead
 //= require libs/bootstrap-tagmanager
 //= require libs/fullscreen
 //= require libs/stupidtable
 //= require libs/deprecated_functions
 //= require libs/Chart
+//= require libs/js.cookie
 //= require layout_helpers
 //= require events
 //= require surveys

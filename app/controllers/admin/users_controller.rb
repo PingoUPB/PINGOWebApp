@@ -1,32 +1,40 @@
+# :nocov:
 class Admin::UsersController < ApplicationController
   require 'csv'
+  
+  if defined?(NewRelic)
+    newrelic_ignore
+  end
 
   before_filter :authenticate_user!
   before_filter :require_admin
-  
+
   # GET /admin/users
   # GET /admin/users.json
   def index
-    @users = User.order_by([[:created_at, :asc]]).all
+    @users = User.order_by([[:created_at, :desc]])
+    if params[:all] != "true"
+      @users = @users.limit(100)
+    end
     start_date = (Date.today - 1.month)
     conditions = User.where(:created_at.gte => start_date.to_time.utc).selector
-    registrations_mr = User.collection.group(:keyf => "function(doc) { d = new Date(doc.created_at); return {month: d.getMonth() + 1, day: d.getDate() }; }", 
-                    :initial => { :registrations => 0 }, 
-                    :reduce => "function(doc,prev) { prev.registrations += +1; }", 
+    registrations_mr = User.collection.group(:keyf => "function(doc) { d = new Date(doc.created_at); return {month: d.getMonth() + 1, day: d.getDate() }; }",
+                    :initial => { :registrations => 0 },
+                    :reduce => "function(doc,prev) { prev.registrations += +1; }",
                     :cond => conditions)
-    
+
     # smthg like: select day(users.created_at) as d, month(users.created_at) as m, sum(*) from users where created_at > :x group by (d, m)
-    
+
     @registrations = {}
-    
+
     start_date.upto(Date.today) do |day|
       @registrations["#{day.day}.#{day.month}"] = 0
     end
-    
+
     registrations_mr.each do |reg|
       @registrations["#{reg["day"].to_i}.#{reg["month"].to_i}"] = reg["registrations"].to_i
     end
-  
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: {users: @users, registrations: @registrations } }
@@ -80,14 +88,14 @@ class Admin::UsersController < ApplicationController
   # PUT /admin/users/1
   # PUT /admin/users/1.json
   def update
-    @user = User.find(params[:id])   
-    
+    @user = User.find(params[:id])
+
     # https://github.com/plataformatec/devise/wiki/How-To:-Manage-users-through-a-CRUD-interface
     if params[:user][:password].blank?
       params[:user].delete(:password)
       params[:user].delete(:password_confirmation)
     end
-    
+
     @user.admin = (params[:user][:admin] == "1")
 
     respond_to do |format|
@@ -127,3 +135,4 @@ class Admin::UsersController < ApplicationController
   end
 
 end
+# :nocov:

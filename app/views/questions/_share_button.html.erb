@@ -1,39 +1,42 @@
 <!-- Button to trigger modal -->
-<a href="#shareModal" role="button" class="btn questions-table__action-button disabled" data-toggle="modal"><%= icon_tag(:share) %> <%= t("share") %></a>
-
-<% unless no_modal %> 
-  <!-- Modal -->
-  <!-- similar to single question or session sharing user search -->
-  <div id="shareModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel" aria-hidden="true">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-      <h3 id="shareModalLabel"><%= t ".share_questions" %></h3>
-    </div>
-    <div class="modal-body">
-          <div class="input-append">
-            <label for="mail_for_collaborators"><%= icon_tag(:share) %> <%= t "events.collaborators.collaborators_headline" %></label>
-            <input placeholder="<%= strip_tags(t("events.collaborators.collaborators_placeholder")) %>"  autocomplete="off" type="text" data-provide="typeahead" name="email" id="mail_for_collaborators" 
-          data-source='<%= current_user.contacts.map {|u| "#{u.name} (#{u.email})"}.to_json %>'><a class="btn btn-primary" id="collaborator-search"><%= t("share") %></a>
-          </div>
-          <p class="alert alert-danger small island" id="collaborators_feedback" style="display: none"></p>
-          <p class="success alert-success small island" id="collaborators_wait" style="display: none">✓ <%= t('wait').html_safe %></p>
+<a href="#shareModal" role="button" class="btn btn-default questions-table__action-button disabled" data-toggle="modal"><%= icon_tag(:share) %> <%= t("share") %></a>
+<% unless no_modal %>
+<!-- Modal -->
+<!-- similar to single question or session sharing user search -->
+<div id="shareModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 id="shareModalLabel" class="modal-title"><%= t ".share_questions" %></h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="mail_for_collaborators"><%= icon_tag(:share) %> <%= t "events.collaborators.collaborators_headline" %></label>
+          <input placeholder="<%= strip_tags(t("events.collaborators.collaborators_placeholder")) %>"  autocomplete="off" type="text" class="form-control" data-provide="typeahead" name="email" id="mail_for_collaborators"
+          data-source='<%= current_user.contacts.map {|u| "#{u.name} (#{u.email})"}.to_json %>'>
+        </div>
+        <div class="form-group">
+          <a class="btn btn-primary" id="collaborator-search"><%= t("share") %></a>
+        </div>
+        <p class="alert alert-danger small island" id="collaborators_feedback" style="display: none"></p>
+        <p class="success alert-success small island" id="collaborators_wait" style="display: none">✓ <%= t('wait').html_safe %></p>
         
         <p>&nbsp;</p>
         <p>&nbsp;</p>
-    </div>
-    <div class="modal-footer">
-      <button class="btn" data-dismiss="modal" aria-hidden="true"><%= t("close") %></button>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true"><%= t("close") %></button>
+      </div>
     </div>
   </div>
-
-  <%= content_for :javascript do  %>
-  <script type="text/javascript" charset="utf8">
-  	window.PINGO.collaborators = { locales: {
-  	remove: "<%= t('remove').html_safe %>",
-  	not_found: "<%= t('events.collaborators.not_found').html_safe %>"
-  }}
-
-
-  </script>
-  <% end %>
+</div>
+<%= content_for :javascript do  %>
+<script type="text/javascript" charset="utf8">
+  window.PINGO.collaborators = { locales: {
+  remove: "<%= t('remove').html_safe %>",
+  not_found: "<%= t('events.collaborators.not_found').html_safe %>"
+}}
+</script>
+<% end %>
 <% end %>

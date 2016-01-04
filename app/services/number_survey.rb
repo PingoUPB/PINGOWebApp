@@ -5,7 +5,7 @@ class NumberSurvey < GenericSurvey
       unless matches?(voters: voter)
         add_to_set(:voters, voter.to_s)
         begin
-          push("voters_hash.numbers", BigDecimal(option.gsub(",", ".")).to_f)
+          push("voters_hash.numbers", BigDecimal.new(option.gsub(",", ".")).to_f)
         rescue ; end
         track_vote(voter)
         true
@@ -16,7 +16,7 @@ class NumberSurvey < GenericSurvey
   end
 
   def raw_results
-    if self.total_votes > 0
+    if self.total_votes > 0 && self.voters_hash
       self.voters_hash['numbers'].map do |word|
         OpenStruct.new voter_id: nil, answer: word
       end

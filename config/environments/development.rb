@@ -56,6 +56,10 @@ def pprint(arg)
 end
 
 # Git version display in logo
-repo = Grit::Repo.new(Rails.root + '.git')
-last_commit = repo.commits.first
-ENV['COMMIT_HASH'] = last_commit.id+"/"+last_commit.authored_date.to_s
+begin
+  repo = Grit::Repo.new(Rails.root + '.git')
+  last_commit = repo.commits.first
+  ENV['COMMIT_HASH'] = last_commit.id+"/"+last_commit.authored_date.to_s
+rescue
+  ENV['COMMIT_HASH'] = 'unknown'
+end

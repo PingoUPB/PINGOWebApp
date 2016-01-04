@@ -1,18 +1,19 @@
 source 'http://rubygems.org'
-gem 'rails', '= 3.2.16'
+gem 'rails', '= 3.2.22'
 gem "strong_parameters", "~> 0.1.5" # Rails 4 style attr_accessible / https://github.com/rails/strong_parameters
 
 group :assets do
-  gem 'less-rails-bootstrap', "~> 2.3"
   gem 'coffee-rails', "~> 3.2.2"
   gem 'uglifier', "~> 1.3.0"
-  gem "therubyracer", "~> 0.11.3"
+  gem 'less-rails-bootstrap'
+  gem "therubyracer", "~> 0.12.1"
 end
 
 gem 'jquery-rails'
 gem "googlecharts"
 gem 'fancybox-rails'
 gem "rspec-rails", ">= 2.6.1", :group => [:development, :test]
+gem 'did_you_mean', group: [:development, :test]
 gem 'eventmachine' #, :git => 'git://github.com/eventmachine/eventmachine.git'
 
 group :test do
@@ -28,7 +29,6 @@ group :test do
 	gem "poltergeist" # DEPS: mac: brew install phantomjs / linux: apt-get install phantomjs
 	gem 'simplecov', :require => false
 end
-
 
 gem "bson_ext", ">= 1.6.4"
 gem "mongoid", "2.4.12"
@@ -83,12 +83,12 @@ gem 'em-hiredis'
 
 group :production do
 	gem 'rpm_contrib'
-	gem "newrelic_rpm", "~> 3.5.4.33"
+	gem "newrelic_rpm", '>= 3.9.4.245'
 end
 
 group :development do
   gem "binding_of_caller", ">= 0.7.1", platforms: [:mri_19, :rbx]
-  gem "better_errors", ">= 0.7.2"
+  gem "better_errors", "~> 1.1.0"
   gem "rack-mini-profiler", require: false
 end
 

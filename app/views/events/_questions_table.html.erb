@@ -1,13 +1,7 @@
-<p>
-     <%= select_tag "tags", options_for_select([["✱ " + t(".all_tags"), '']] + current_user.question_tags.sort.map{ |t| [t, t]}),  class: "span2", style: "height: auto; font-size: 10pt;" %>
-</p>
+<div class="form-group">
+	<%= select_tag "tags", options_for_select([["✱ " + t(".all_tags"), '']] + current_user.question_tags.sort.map{ |t| [t, t]}),  class: "form-control" %>
+</div>
 <table id="question-list" class="table table-condensed table-striped">
-	<!-- <thead>
-	<tr>
-		<th>&nbsp;</th>
-		<th scope="col"><%= t "name" %></th>
-	</tr>
-	</thead> -->
 	<tbody>
 		<tr class="hidden" id="templateQuestionRow" data-model="question" data-tags="">
 			<td data-action="add_question"></td>
@@ -24,16 +18,23 @@ $("#questions_duration").bind("change", function(){
 		$(this).attr("href", $(this).attr("href").replace(/duration=\d+/, "duration=" + duration));
 	});
 });
-
-
 $("#tags").bind("change", function(){
 	if($(this).val() == ""){
 		$("#question-list tbody tr").not(".hidden").show();
 	} else {
-		$("#question-list tbody tr:not([data-tags*='" + $(this).val() + "'])").hide();
-		$("#question-list tbody tr[data-tags*='" + $(this).val() + "']").show();
+		var selectedTag = $(this).val();
+		$("#question-list tbody tr[data-tags]").each(function(index) {
+			var currentTags = $(this).data("tags");
+			// TODO possible improvement: render as JSON-array and let jQuery convert
+			if(typeof(currentTags.split) == "function"){
+				if(jQuery.inArray(selectedTag, currentTags.split(",")) !== -1){
+					$(this).show();
+				} else {
+					$(this).hide();
+				}
+			}
+		});
 	}
 });
-
 </script>
 <% end %>

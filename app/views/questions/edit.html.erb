@@ -1,19 +1,22 @@
 <h1><%= t(".edit_question") %></h1>
 
 <div class="row">
-  <div class="span8">
+  <div class="col-md-8">
     <%= render @question.form_partial, question: @question, namespace: 'single' %>
   </div>
-  <div class="span4">
+  <div class="col-md-4">
     <%= render "events/collaborators", item: @question %>
+
+    <% if @question.kind_of?(ChoiceQuestion) && @question.persisted? %>
+    	<hr>
+		<p>
+			<%= link_to t(".transform", kind: @question.type == "multi" ? "Single" : "Multiple"), transform_question_path, method: :post, class: "btn btn-default", id: "transform_link" %>
+		</p>
+	<% end %>
   </div>
 </div>
 
-<% if @question.kind_of?(ChoiceQuestion) %>
-	<p><small><%= link_to t(".transform", kind: @question.type == "multi" ? "Single" : "Multiple"), transform_question_path, method: :post, class: "", id: "transform_link" %></small></p>
-<% end %>
-<br>
-<%= link_to t("back"), questions_path %>
+<%= link_to t("back"), questions_path, class: "btn btn-sm btn-default" %>
 
 <%= render "screenshot_modal" %>
 <%= render "chart_notice_modal" %>

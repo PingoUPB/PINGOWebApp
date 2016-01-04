@@ -105,13 +105,13 @@ class MoodleXmlParser
       end
 
       # Fragetext setzen
-      q.name = element.elements["questiontext/text"].text
+      q.name = ActionView::Base.full_sanitizer.sanitize(element.elements["questiontext/text"].text)
 
       # Über Antwortmöglichkeiten iterieren, bei Number-Fragen oder Freitext-Fragen werden die korrekten Antworten ignoriert
       unless question_type == "numerical" || question_type == "essay" || question_type == "shortanswer"
         element.elements.each("answer") do |answer|
           correct = Integer(answer.attributes["fraction"]) > 0 ? true : false
-          text = answer.elements["text"].text
+          text = ActionView::Base.full_sanitizer.sanitize(answer.elements["text"].text)
           q.question_options << QuestionOption.new(name: text, correct: correct)
         end
       end

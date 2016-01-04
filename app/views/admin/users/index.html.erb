@@ -1,6 +1,6 @@
 <% title("Admin") %>
 <div data-role="header">
-<p><%= link_to "» Session-Spion", events_path(all: true), class: "btn btn-success" %> <%= link_to "» Fragen-Spion", questions_path(all: true), class: "btn btn-warning" %> <%= link_to "» Stats", stats_path, class: "btn" %></p>
+<p><%= link_to "» Session-Spion", events_path(all: true), class: "btn btn-success" %> <%= link_to "» Fragen-Spion", questions_path(all: true), class: "btn btn-warning" %>  <%= link_to "» Stats", stats_path, class: "btn btn-default" %></p>
 <h1>Listing users</h1>
 </div>
 <table class="table table-bordered table-hover table-condensed">
@@ -18,9 +18,9 @@
 <tbody>
 <% @users.each do |user| %>
   <tr>
-	<td><%= h user.name %> 
+	<td><%= h user.name %>
     <td><%= user.organization %> <%= user.faculty %> <%= user.chair %></td>
-	<td><%= l(user.created_at, :format => :short) if user.created_at %></td>
+	<td><%= l(user.created_at, :format => :long) if user.created_at %></td>
 	<td><%= user.events.count if user.events %></td>
     <td><%= link_to 'Show', admin_user_path(user) %></td>
     <td><%= link_to 'Edit', edit_admin_user_path(user) %></td>
@@ -34,6 +34,7 @@
 </tbody>
 </table>
 <p>
+<%= link_to "show all users (currently showing last 100)", admin_users_path(all: 'true'), class: "btn btn-small", data: { disable_with: "Loading (may take several seconds)" } unless params[:all] == 'true' %><br>
 <%= link_to 'New User', new_admin_user_path, :class => "btn" %><br><br>
 
 <h5>Chart: User registrations per day</h5>

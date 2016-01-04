@@ -1,25 +1,22 @@
 <%= form_for @event, :class => "well form-horizontal" do |f| %>
 <%= error_msg_for @event %>
 <fieldset>
-  <div class="control-group">
-    <label class="control-label" for="event_name"><%= t "name" %></label>
-    <div class="controls">
-      <%= f.text_field :name, class: "input-xlarge", required: "required" %>
-    </div>
+  <div class="form-group">
+    <label for="event_name"><%= t "name" %></label>
+    <%= f.text_field :name, class: "form-control", required: "required" %>
   </div>
-  <div class="control-group">
-    <label class="control-label" for="event_description"><%= t "description" %></label>
-    <div class="controls">
-      <%= f.text_area :description, class: "input-xlarge autogrow", rows: 3, rel: "popover", data: {content:  t("events.help.description_help"), trigger: "hover"}, title: t("description") %>
-    </div>
+  <div class="form-group">
+    <label for="event_description"><%= t "description" %></label>
+    <%= f.text_area :description, class: "form-control autogrow", rows: 3 %>
+    <p class="help-block"><%= t("events.help.description_help") %>
   </div>
-  <div class="control-group">
-    <label class="control-label" for="event_mathjax"><%= t ".formula_support" %></label>
-    <div class="controls">
-      <%= f.check_box :mathjax, rel: "popover", data: {content: t("events.help.formula_support", default: "formula support")}, title: t(".formula_support", default: "formula support") %>
-    </div>
+  <div class="checkbox">
+    <label for="event_mathjax" data-content="<%= t("events.help.formula_support", default: "formula support") %>" data-toggle="popover" title="<%= t(".formula_support", default: "formula support") %>">
+      <%= f.check_box :mathjax %>
+      <%= t ".formula_support" %>
+    </label>
   </div>
-   <div class="form-actions">
+   <div class="form-group">
     <%= f.hidden_field :collaborators_form, class: "collaborators-form" %>
     <%= f.hidden_field :custom_locale %>
     <%= f.submit "OK", :class => "btn btn-primary", id: "new_event_submit" %>

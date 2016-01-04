@@ -253,7 +253,6 @@ def sign_up
   fill_in "Last name", :with => @visitor[:last_name]
   fill_in "University / organization", :with => @visitor[:organization]
   fill_in "Faculty", :with => @visitor[:faculty]
-  fill_in "Chair", :with => @visitor[:chair]
   fill_in "E-Mail", :with => @visitor[:email]
   fill_in "Password", :with => @visitor[:password]
   fill_in "Password confirmation", :with => @visitor[:password_confirmation]

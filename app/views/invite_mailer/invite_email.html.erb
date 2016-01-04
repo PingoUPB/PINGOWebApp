@@ -1,3 +1,10 @@
+<%
+if I18n.locale == :de
+  ytlink = "KK22QMb0MFA"
+else
+  ytlink = "aZC3NnUqZcs"
+end
+%>
 <!DOCTYPE html>
 <html>
   <head>
@@ -50,8 +57,8 @@
         <%= t 'user_mailer.welcome.videos' %>:
     </p>
     <p style="text-align: center;">
-        <a href="http://www.youtube.com/watch?v=KK22QMb0MFA"><img src="http://www.youtube.com/yt/brand/media/image/yt-brand-standard-logo-95x40.png"></a><br>
-          <a href="http://www.youtube.com/watch?v=KK22QMb0MFA">http://www.youtube.com/watch?v=KK22QMb0MFA</a>
+        <a href="http://www.youtube.com/watch?v=<%= ytlink %>"><img src="http://www.youtube.com/yt/brand/media/image/yt-brand-standard-logo-95x40.png"></a><br>
+          <a href="http://www.youtube.com/watch?v=<%= ytlink %>">http://www.youtube.com/watch?v=<%= ytlink %></a>
     </p>
     <p>
       <%= t "user_mailer.welcome.contact_text" %>: <a href="mailto: pingo-support@uni-paderborn.de">pingo-support@upb.de</a>

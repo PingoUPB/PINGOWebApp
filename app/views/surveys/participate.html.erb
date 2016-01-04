@@ -20,7 +20,7 @@ fieldset[data-role="controlgroup"] label {
 		<h2><%= @event.name %></h2>
 	<script>var running = true;</script>
 	<h3 class="lead"><%= @survey.name %></h3>
-	<div id="overmsg">	
+	<div id="overmsg">
 		<p><%= t ".over" %></p>
 	</div>
 	<div id="countdown-container" style="display:none;">
@@ -47,7 +47,7 @@ fieldset[data-role="controlgroup"] label {
 	    </fieldset>
 	</div>
 	<%= hidden_field_tag "id", @survey.id %>
-	<div id="vote-button"><%= submit_tag t(".vote")+"!", :disable_with => t("wait"), :class => "btn btn-primary btn-large btn-block-resp" %></div>
+	<div id="vote-button"><%= submit_tag t(".vote")+"!", :disable_with => t("wait"), :class => "btn btn-primary btn-lg btn-block-resp" %></div>
 	</form>
 
 	<% unless @event.description.blank? %>
@@ -91,7 +91,7 @@ fieldset[data-role="controlgroup"] label {
 	      console.log(data);
 		}
 	}
-      
+
     };
 </script>
 <% else %>
@@ -114,12 +114,12 @@ fieldset[data-role="controlgroup"] label {
 			      port: <%= ENV["JUGGERNAUT_PORT"] %>
 		  	});
 
-			
-		  	jug.on("connect", function(){ 
+
+		  	jug.on("connect", function(){
 				connected = true;
 				log("connected!"); // debug
 		  	});
-			jug.on("disconnect", function(){ 
+			jug.on("disconnect", function(){
 		  		connected = false;
 				log("disconnected!"); // debug
 		  	});
@@ -183,5 +183,13 @@ fieldset[data-role="controlgroup"] label {
 	    });
 	 </script>
 	 <%= mathjax_tag %>
+	<% end %>
+<% end %>
+
+<% if @user_just_voted %>
+	<% content_for :ga_js do %>
+	if(typeof ga !== 'undefined'){
+		ga('send', 'event', 'audience_interaction', 'vote', {'page': '/<%= @survey.event.to_param %>'});
+	}
 	<% end %>
 <% end %>

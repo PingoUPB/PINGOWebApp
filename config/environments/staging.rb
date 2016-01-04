@@ -37,7 +37,7 @@ Eclickr::Application.configure do
   # config.logger = SyslogLogger.new
 
   # Use a different cache store in production
-  config.cache_store = :dalli_store, "pongola.uni-paderborn.de", { :async => true }
+  # config.cache_store = :dalli_store, "example.com", { :async => true }
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"
@@ -59,7 +59,7 @@ Eclickr::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
   
-  config.action_mailer.default_url_options = { :host => 'pingo-beta.upb.de' }
+  config.action_mailer.default_url_options = { :host => 'pingo-beta.example.com' }
   
   # https://github.com/romanbsd/translate
   #config.from_locales = [:en]
@@ -72,9 +72,8 @@ Eclickr::Application.configure do
   end
 end
 
-
   # Juggernaut Server
-  ENV["USE_JUGGERNAUT"] = "true"
+  ENV["USE_JUGGERNAUT"] = "false" # make sure to somehow namespace if using same server for production
   ENV["JUGGERNAUT_HOST"] = "ws.example.com"
   ENV["JUGGERNAUT_PORT"] = "8080"
   
@@ -84,21 +83,19 @@ end
   #ENV['COMMIT_HASH'] = last_commit.id+"/"+last_commit.authored_date.to_s
   ENV['COMMIT_HASH'] = "unknown"
   
-  #maxcluster URLs
-  ENV["REDISTOGO_URL"] = "redis://HOST:port"
-  ENV["MONGOHQ_URL"] = "mongodb://user:pw@HOST:PORT/DBNAME"
+  ENV["REDISTOGO_URL"] = "redis://127.0.0.1:6379"
+  ENV["MONGOHQ_URL"] = "mongodb://user:pass@127.0.0.1:27017/eclickr_staging"
   ENV["MEMCACHE_PASSWORD"] = ""
-  ENV["MEMCACHE_SERVERS"] = ""
+  ENV["MEMCACHE_SERVERS"] = "127.0.0.1"
   ENV["MEMCACHE_USERNAME"] = ""
   
   ENV["NEW_RELIC_APP_NAME"] = ""
   ENV["NEW_RELIC_LICENSE_KEY"] = ""
-  
 
 # Domain without slash
 ENV["URL_PREFIX"] = "http://example.com" # make sure you also set the URL for action mailer at the end of the config block above
 
-# organization subnet (set the I18n-Key "upb" to your org name, then it will be prefilled in the reg form)
+# organization subnet
 ENV["ORG_SUBNET"] = "131.234.0.0/16"
 
 ENV["ANALYTICS"] = "false" # tracks some statistics about usage (not to be confused with google analytics)

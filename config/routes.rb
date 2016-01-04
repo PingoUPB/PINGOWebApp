@@ -9,6 +9,10 @@ Eclickr::Application.routes.draw do
   # API routes
   post "api/get_auth_token" => "api#get_auth_token"
   post "api/check_auth_token" => "api#check_auth_token"
+  post "api/save_ppt_settings" => "api#save_ppt_settings"
+  get "api/load_ppt_settings" => "api#load_ppt_settings"
+  get "api/load_ppt_list" => "api#load_ppt_list"
+  post "api/delete_ppt_settings" => "api#delete_ppt_settings"
   get "api/question_types" => "api#question_types"
   get "api/duration_choices" => "api#duration_choices"
   
@@ -36,6 +40,7 @@ Eclickr::Application.routes.draw do
       post "exit_question" => "surveys#exit_question"
       get "connected" => "events#connected_users"
       get "export"
+      get "latest_survey" => "events#latest_survey"
     end
     resources :surveys do
       member do

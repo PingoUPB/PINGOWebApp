@@ -1,7 +1,11 @@
-<div class="control-group nested-fields">
-	<div class="controls">
-	<%= link_to_remove_association icon_tag("minus-sign"), f %>
-	<%= f.text_field :name, placeholder: t("name") %>
-	<label for="correct" class="checkbox inline"><%= f.check_box :correct, :class => "checkbox inline" %>(<%= t("surveys.edit.correct_answer") %>?)</label>
- </div>
+<div class="form-inline nested-fields row-margin">
+	<div class="form-group">
+		<%= link_to_remove_association icon_tag("minus-sign"), f %>
+		<%= f.text_field :name, placeholder: t("name"), class: "form-control" %>
+	</div>
+	<div class="form-group col-md-offset-1">
+			<label class="checkbox-inline"><%= f.check_box :correct %> 
+				&nbsp; <%= t("surveys.edit.correct_answer") %>?
+			</label>
+	</div>
 </div>

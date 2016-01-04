@@ -25,7 +25,7 @@ class TextSurvey < GenericSurvey
   end
 
   def raw_results
-    if self.total_votes > 0
+    if self.total_votes > 0 && self.voters_hash
       self.voters_hash['words'].map do |word|
         OpenStruct.new voter_id: nil, answer: word
       end
@@ -45,7 +45,7 @@ class TextSurvey < GenericSurvey
   end
 
   def multi?
-    settings && survey.settings["answers"] == MULTI_ANSWERS
+    settings && (survey.settings["answers"] == MULTI_ANSWERS || survey.settings["answers"] == THREE_ANSWERS)
   end
 
   def max_answers

@@ -1,95 +1,167 @@
 <!DOCTYPE html>
 <html lang="<%= I18n.locale  %>">
 <head>
-    <title><%= content_for?(:title) ? content_for(:title) + " — " : "" %>PINGO</title>
-  <%= stylesheet_link_tag "application" %>
-  <%= stylesheet_link_tag "lecturer" %>
-  <!--[if lt IE 9]>
-  	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
+	<title><%= content_for?(:title) ? content_for(:title) + " — " : "" %>MyPINGO</title>
+	<%= stylesheet_link_tag "application" %>
+	<%= stylesheet_link_tag "lecturer" %>
+	<!--[if lt IE 9]>
+		<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
 
-  <% unless Rails.env.production? %>
-    <style type="text/css">
-      .translation_missing {
-        border-bottom: 1px dashed #F5A9A9;
-        background-color: #F4DCDC;
-      }
-    </style>
-  <% end %>
+	<% unless Rails.env.production? %>
+		<style type="text/css">
+			.translation_missing {
+				border-bottom: 1px dashed #F5A9A9;
+				background-color: #F4DCDC;
+			}
+		</style>
+	<% end %>
 
-  <%= csrf_meta_tags %>
+	<%= csrf_meta_tags %>
 
-  <%= yield(:head) -%>
+	<%= yield(:head) -%>
 
-  <link rel="shortcut icon" href="/favicon.ico"/>
-  <link rel="icon" type="image/png" href="/favicon.png"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link rel="shortcut icon" href="/favicon.ico"/>
+	<link rel="icon" type="image/png" href="/favicon.png"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <!-- iOS device stuff -->
-  <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114.png" />
-  <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon.png" />
-  <meta name="apple-mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-status-bar-style" content="black"/> 
-  <link rel="apple-touch-startup-image" href="/splash-screen-320x460.png" media="screen and (max-device-width: 320px)" />
-  <link rel="apple-touch-startup-image" media="(max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2)" href="/splash-screen-640x920.png" /> 
+	<!-- iOS device stuff -->
+	<link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114.png" />
+	<link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon.png" />
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+	<link rel="apple-touch-startup-image" href="/splash-screen-320x460.png" media="screen and (max-device-width: 320px)" />
+	<link rel="apple-touch-startup-image" media="(max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2)" href="/splash-screen-640x920.png" />
 
  <% if is_device?("msie") %>
-    <meta name="application-name" content="PINGO">
-    <meta name="msapplication-starturl" content="/">
-    <link rel="shortcut icon" href="/favicon.ico">
-   <% if user_signed_in? %>
-    <meta name="msapplication-task"
-        content="name=neue Session;
-        action-uri=/events/new;
-        icon-uri=http://icons.iconseeker.com/ico/web-development-3/action-add-grey-thin.ico">
-    <meta name="msapplication-task" 
-        content="name=Ihre Sessions;
-        action-uri=/events;
-        icon-uri=http://icons.iconseeker.com/ico/aspnet/unordered-list.ico">
-   <% end %>
+		<meta name="application-name" content="PINGO">
+		<meta name="msapplication-starturl" content="/">
+		<link rel="shortcut icon" href="/favicon.ico">
+	 <% if user_signed_in? %>
+		<meta name="msapplication-task"
+				content="name=Neue/New Session;
+				action-uri=/events/new;
+				icon-uri=http://icons.iconseeker.com/ico/web-development-3/action-add-grey-thin.ico">
+		<meta name="msapplication-task"
+				content="name=Ihre/Your Sessions;
+				action-uri=/events;
+				icon-uri=http://icons.iconseeker.com/ico/aspnet/unordered-list.ico">
+	 <% end %>
  <% end %>
+
+	<meta name="msapplication-config" content="none"> 
 
 </head>
 
 <body>
-  <header class="navbar navbar-fixed-top">
-        <div class="navbar-inner">
-          <div class="container-fluid">
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </a>
-			<% unless Rails.env.staging? %>
-            	<%= link_to "PINGO", root_path, class: "brand" %>
-			<% else %>
-				<%= link_to "PINGO beta", root_path, class: "brand", title: ENV['COMMIT_HASH'] %>
-			<% end %>
-            <div class="nav-collapse">
-              <ul class="nav">
-                <%= render 'shared/navigation' %>
-              </ul>
-            </div><!--/.nav-collapse -->
-          </div>
-        </div>
-  </header>
-<div class="container">
- 
-<%= render "shared/flashes" %>
+<div id="wrap">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<% unless Rails.env.production? %>
+			<span class="env-badge" title="<%= ENV['COMMIT_HASH'] %>">
+				<%= ENV['RAILS_ENV'] %>
+			</span>
+		<% end %>
+		<div class="container-centered">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-nav-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<%= link_to image_tag("logo.svg", alt: "PINGO"), root_path, class: "navbar-brand", title: "PINGO" %>
+			</div>
+			<div class="collapse navbar-collapse" id="main-nav-collapse">
+				<ul class="nav navbar-nav">
+					<%= render 'shared/navigation' %>
+				</ul>
+			</div><!--/.nav-collapse -->
+		</div>
+	</nav>
+	<div class="container-centered">
 
-<%= yield %>
-<hr noshade id="footer-hr" />
-<footer>
-	<strong><%= t "imprint" %></strong>: <a href="http://www.uni-paderborn.de/pingo" target="_blank">PINGO</a>, <%= t "upb" %> | pingo-support(at)uni-paderborn.de | <a id="privacy-policy-link" href="/privacy_policy.html" class="iframe" title="<%= t "privacy_policy" %>"><%= t "privacy_policy" %></a>
+	<%= render "shared/flashes" %>
+
+	<%= yield %>
+
+	</div>
+</div><!-- END WRAP -->
+
+<footer class="main-footer">
+	<div class="container-centered">
+		<div class="row">
+			<div class="col-md-12">
+				<h4>MyPINGO</h4>
+			</div>
+			<div class="col-sm-3">
+				<ul class="list-unstyled">
+					<li><strong><%= t('footer.help') %></strong></li>
+					<li>
+							<%= link_to t("navigation.intro_video"), "#pingo_video", data: {toggle: "modal"} %>
+					</li>
+					<% if user_signed_in? %>
+					<li>
+							<%= link_to t("navigation.take_tour"), root_path(tour: "true") %>
+					</li>
+					<% end %>
+                    <% if I18n.locale == :de %>
+					<li>
+							<%= link_to t("navigation.getting_started"), "/tutorial/tutorial.html", target: "_blank", hreflang: "de" %>
+					</li>
+					<li>
+							<%= link_to "Didaktische Hinweise", "https://groups.uni-paderborn.de/winfo2/pingo/misc/PINGO_Didaktische%20Handreichung%20Einsatzm%C3%B6glichkeiten_final.pdf", target: "_blank", hreflang: "de", title: "Handreichung zu didaktischen Einsatzmoeglichkeiten" %>
+					</li>
+					<% end %>
+				</ul>
+			</div>
+ 			<div class="col-sm-3">
+ 				<ul class="list-unstyled">
+ 					<li><strong><%= t('footer.info') %></strong></li>
+ 					<% if user_signed_in? %>
+ 					<li>
+ 							<%= link_to t("navigation.invite"), invitation_path, rel: "nofollow" %>
+ 					</li>
+ 					<% end %>
+ 					<li>
+ 						<%= link_to "Info-Website", "http://trypingo.com/de", :target => "_blank", :hreflang => "de" %>
+ 					</li>
+      <% if I18n.locale == :de %>
+ 					<li>
+ 					<%= link_to t("navigation.project_website"), "http://www.example.com/your-info-site", :target => "_blank", :hreflang => "de" %>
+ 					</li>
+ 					<li>
+ 							<%= link_to "Blog", "http://blogs.uni-paderborn.de/pingo/", target: "_blank", hreflang: "de" %>
+ 					</li>
+      <% end %>
+ 					<li>
+ 							<%= link_to "Another info link", "https://www.example.com", target: "_blank", hreflang: "de" %>
+ 					</li>
+ 				</ul>
+ 			</div>
+			<div class="col-sm-3">
+				<ul class="list-unstyled">
+					<li><strong><%= t('footer.legal') %></strong></li>
+					<li><a href="http://example.com/imprint" target="_blank" hreflang="de"><%= t "imprint" %></a></li>
+					<li><a href="/privacy_policy.html" data-toggle="modal" title="<%= t "privacy_policy" %>" data-target="#ajaxModal"><%= t "privacy_policy" %></a></li>
+				</ul>
+			</div>
+			<div class="col-sm-3">
+				<strong><%= t "upb" %></strong>
+				<p>support(at)your-uni.example.com</p>
+				<p class="text-muted"><%= t('footer.further') %></p>
+			</div>
+		</div>
+	</div>
 </footer>
-</div>
+
 
 <% unless user_signed_in? %>
-  <%= render partial: "shared/login_modal" %>
+	<%= render partial: "shared/login_modal" %>
 <% end %>
 
 
 <%= render "shared/video" %>
+<%= render "shared/ajax_modal" %>
 
 <%= javascript_include_tag "application" %>
 <%= javascript_include_tag "lecturer" %>
@@ -98,50 +170,30 @@
 <%= yield(:javascript) -%>
 
 <% if user_signed_in? %>
-    <script>
-        window.PINGO.surveys.vars.choice_answers = "<%= escape_javascript options_for_select(answer_choices, quick_start_settings["options"]) %>";
-        window.PINGO.surveys.vars.text_answers = "<%= escape_javascript options_for_select(text_choices) %>";
-    </script>
+		<script>
+				window.PINGO.surveys.vars.choice_answers = "<%= escape_javascript options_for_select(answer_choices, quick_start_settings["options"]) %>";
+				window.PINGO.surveys.vars.text_answers = "<%= escape_javascript options_for_select(text_choices) %>";
+		</script>
 <% end %>
 
 <% if is_device?("msie") && user_signed_in? %>
  <!-- IE 9+ pinned site (recent sessions): -->
-  <script>
-    try {
-      window.external.msSiteModeClearJumpList();
-      window.external.msSiteModeCreateJumplist('Letzte Sessions');
-        <% current_user.events.desc(:created_at).limit(2).each do |le| %>
-          window.external.msSiteModeAddJumpListItem 
-              ('<%= [truncate(le.name), "-", le.token.to_s].join(" ") %>', 
-               '<%= event_path(le, only_path: false) %>',
-               '/favicon.ico');
-        <% end %>
-      window.external.msSiteModeShowJumplist();
-    } catch (ex) { }
-  </script>
+	<script>
+		try {
+			window.external.msSiteModeClearJumpList();
+			window.external.msSiteModeCreateJumplist('Letzte/Recent Sessions');
+				<% current_user.events.desc(:created_at).limit(2).each do |le| %>
+					window.external.msSiteModeAddJumpListItem
+							('<%= [truncate(le.name), "-", le.token.to_s].join(" ") %>',
+							 '<%= event_path(le, only_path: false) %>',
+							 '/favicon.ico');
+				<% end %>
+			window.external.msSiteModeShowJumplist();
+		} catch (ex) { }
+	</script>
 <% end %>
 
-
-<script>
-  // policy fancybox:
-  jQuery(document).ready(function() {
-    jQuery("#privacy-policy-link").fancybox();
-  });
-
-<% if Rails.env.production? %>
-  // google analytics:
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-35829703-1']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-<% end %>
-
-</script>
+<%= render "shared/google_analytics" %>
 
 
 </body>

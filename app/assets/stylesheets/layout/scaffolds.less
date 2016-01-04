@@ -1,11 +1,11 @@
 pre {
-  background-color: #eee;
-  padding: 10px;
-  font-size: 11px; }
+	background-color: #eee;
+	padding: 10px;
+	font-size: 11px; }
 
 div {
-  &.field, &.actions {
-    margin-bottom: 10px; } 
+	&.field, &.actions {
+		margin-bottom: 10px; }
 }
 .field_with_errors > label,
 .field_with_errors .help-block,
@@ -16,18 +16,23 @@ div {
 .control-group .field_with_errors > label,
 .control-group .field_with_errors .help-block,
 .control-group .field_with_errors .help-inline {
-  color: #b94a48;
+	color: @alert-danger-text;
 }
 .field_with_errors > input,
 .field_with_errors > textarea {
-	border-color: #b94a48;
+	border-color: @alert-danger-border;
 }
 
 #error_explanation {
-  width: 450px;
-  border: 2px solid #b94a48;
-  padding: 7px;
-  padding-bottom: 0;
-  margin-bottom: 20px;
-  background-color: #f0f0f0;
+	border: 1px solid @alert-danger-border;
+	border-radius: 4px;
+	background-color: @alert-danger-bg;
+	margin-bottom: 15px;
+	padding: 15px;
+	color: @alert-danger-text;
+
+	h2 {
+		font-size: 20px;
+		margin-top: 0;
+	}
 }

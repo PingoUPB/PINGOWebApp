@@ -4,7 +4,7 @@ window.PINGO.currentLanguage = function(){
 
 window.PINGO.Init = function(){
 	jQuery(document).ready(function() {
-		jQuery("*[rel='popover']").popover({html: true, trigger: 'hover'});
+		jQuery("*[data-toggle='popover']").popover({html: true, trigger: 'hover'});
 		jQuery("*[data-toggle='tooltip']").tooltip();
 		jQuery("*[data-toggle='button']").button();
 	});

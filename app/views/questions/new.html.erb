@@ -1,35 +1,51 @@
-<h1><%= t("questions.create_question") %></h1>
+<div class="row row-margin">
+  <div class="col-md-12">
+    <h1><%= t("questions.create_question") %></h1>
+    <!--<p><%= link_to t("back"), :back, class:"btn btn-default btn-sm" %></p>-->
+  </div>
+</div>
 
-<%= link_to t("back"), :back %>
-<br/>
-<br/>
-<div class="tabbable tabs-left">
-  <ul class="nav nav-tabs" id="Tabs">
-    <li><a href="#single-tab" data-toggle="tab"><%= t "type.single" %></a></li>
-    <li><a href="#multi-tab" data-toggle="tab"><%= t "type.multi" %></a></li>
-    <li><a href="#text-tab" data-toggle="tab"><%= t "type.text" %></a></li>
-    <li><a href="#number-tab" data-toggle="tab"><%= t "type.number" %> <span class="label label-info">BETA</span></a></li>
-  </ul>
-  <div class="tab-content">
-    <div class="tab-pane active" id="choose-tab">
-      <strong><%= icon_tag "icon-chevron-left" %> <%= t ".please_choose_question_type_to_continue" %></strong>
+<div class="row row-margin">
+  <div class="tabbable tabs-left">
+    <div class="col-md-3">
+      <ul class="nav nav-pills nav-stacked row-margin" id="Tabs">
+        <li><a href="#single-tab" data-toggle="tab"><%= t "type.single" %></a></li>
+        <li><a href="#multi-tab" data-toggle="tab"><%= t "type.multi" %></a></li>
+        <li><a href="#text-tab" data-toggle="tab"><%= t "type.text" %></a></li>
+        <li><a href="#number-tab" data-toggle="tab"><%= t "type.number" %> <span class="label label-info">BETA</span></a></li>
+      </ul>
+      <div class="well well-sm">
+          <small><%= link_to t("questions.how_will_it_look")+"?", "#screenshotModal", data: {toggle: "modal"} %>
+          <br>
+          <%= link_to t("questions.chart_notice"), "#chartNoticeModal", data: {toggle: "modal"} %>
+          </small>
+      </div>
     </div>
-    <div class="tab-pane" id="single-tab">
-      <%= render partial: @question_single.form_partial, locals: {question: @question_single, namespace: 'single'} %>
-    </div>
-    <div class="tab-pane" id="multi-tab">
-     	<%= render partial: @question_multi.form_partial, locals: {question: @question_multi} %>
-    </div>
-	  <div class="tab-pane" id="text-tab">
-     	<%= render partial: @question_text.form_partial, locals: {question: @question_text} %>
-    </div>
-    <div class="tab-pane" id="number-tab">
-      <%= render partial: @question_number.form_partial, locals: {question: @question_number} %>
+    <div class="tab-content col-md-9">
+      <div class="tab-pane active" id="choose-tab">
+        <strong><%= icon_tag "icon-chevron-left" %> <%= t ".please_choose_question_type_to_continue" %></strong>
+      </div>
+      <div class="tab-pane" id="single-tab">
+        <%= render partial: @question_single.form_partial, locals: {question: @question_single, namespace: 'single'} %>
+      </div>
+      <div class="tab-pane" id="multi-tab">
+       	<%= render partial: @question_multi.form_partial, locals: {question: @question_multi} %>
+      </div>
+  	  <div class="tab-pane" id="text-tab">
+       	<%= render partial: @question_text.form_partial, locals: {question: @question_text} %>
+      </div>
+      <div class="tab-pane" id="number-tab">
+        <%= render partial: @question_number.form_partial, locals: {question: @question_number} %>
+      </div>
     </div>
   </div>
 </div>
 
-<%= link_to t("back"), :back %>
+<div class="row">
+  <div class="col-md-12">
+    <%= link_to t("back"), :back, class:"btn btn-default btn-sm" %>
+  </div>
+</div>
 
 <%= render "screenshot_modal" %>
 <%= render "chart_notice_modal" %>
