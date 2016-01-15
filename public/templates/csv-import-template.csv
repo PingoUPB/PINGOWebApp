@@ -1,7 +1,8 @@
-Type,Question,Correct,Answers
-multi,Welche Antworten sind die richtigen?,1;2,a,b,c,d
-text,"Was sind die ersten drei Farben, die Ihnen einfallen?",3
-single,Welche Antwort ist die richtige?,2,a,b,c,d
-match,Ordnen Sie die Paare richtig zu!,1;2;3,a1 - a2,b1 - b2,c1 - c2
-text,Wie geht es Ihnen heute?,1
-number,Welche natürliche Zahl liegt zwischen 3 und 5?,""
+Type,Question,Tags,Correct,Answers,,
+category,Ordnen Sie sinnvoll zu,Natur;Flora;Fauna,,Bäume|||Esche;Kastanie,Fische|||Flunder,
+order,Ordnen Sie die Begriffe alphabetisch,Alphabet,,1) Baum,2) Fisch,3) Zebra
+number,Geben Sie die ersten drei Nachkommastellen von Pi an,Pi,,,,
+text,Wie hieß Luther mit Vornamen,Reformation;Vorname;Martin,1,,,
+match,Ordnen Sie einem jeden Begriff sein Gegenteil zu,Antonym;Gegenteil,,Weiß – Schwarz,Hell – dunkel,
+multi,Was sind Vornamen von Precht?,Philosophen,2;3,Martin,Richard,David
+single,Wer wurde 2014 Fußballweltmeister?,Fußball;WM,2,Argentinien,Deutschland,Brasilien

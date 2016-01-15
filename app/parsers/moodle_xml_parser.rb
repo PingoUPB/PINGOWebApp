@@ -7,7 +7,7 @@ class MoodleXmlParser
     # Über Fragen iterieren
     questions.each do |question|
 
-      # moodle xml doesn't support order- nor category questions, so we skip them
+      # moodle xml doesn't support neither order- nor category questions, so we skip them
       if question.type == "order"
         next
       elsif question.type == "category"
