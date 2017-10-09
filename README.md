@@ -46,9 +46,16 @@ See the `stylesheepts/custom_bootstrap/variables.less` for more info. Some infor
 Production
 ---------
 
-This varies from setup to setup. However, we have good experience using NGINX as a reverse proxy. For high performance, make sure you run the Rails app with the Thin webserver and in production mode, i. e. running the server command with the prefix `RAILS_ENV=production` (you can also set ENV vars in your OS). Use TLS/SSL to protect your user data and backup your database regurarily.
+This varies from setup to setup. However, we have good experience using NGINX as a reverse proxy. For high performance, make sure you run the Rails app with the Thin webserver and in production mode, i. e. running the server command with the prefix `RAILS_ENV=production` (you can also set ENV vars in your OS). 
+
+Use TLS/SSL to protect your user data and backup your database regurarily.
+
 Setup the `config/environments/production.rb` file and check the `config/initializers`-files.
+
 Precompile your assets and serve them with a webserver.
+
+If you use foreman, check the settings in the (hidden) `/.env`-file.
+
 Also, add a link to an imprint in the `app/views/layouts/application.html.erb`.
 
 I18n

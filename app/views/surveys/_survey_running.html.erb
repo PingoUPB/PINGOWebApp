@@ -23,7 +23,7 @@
 	</span>
 	<% if survey.running?(true) && survey.ends %>
     	<% if params[:ppt_view] == 'true' %>
-    		<br><br>
+    		<span style="padding-left:2em"></span>
     	<% end %>
 	<span class="survey-realtime__item <% if params[:ppt_view] != 'true' %>survey-realtime__item--countdown<% end %>" id="countdown-container" style="display:none;">
 		<%= t ".time_left" %>:

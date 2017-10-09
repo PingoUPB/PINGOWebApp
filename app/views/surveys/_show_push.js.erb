@@ -1,0 +1,53 @@
+<% unless ENV["USE_JUGGERNAUT"] == "false" %>
+  // Juggernaut Push init
+    var jug;
+    if(typeof(Faye) !== "undefined"){
+        jug = new Faye.Client('<%= ENV["PUSH_URL"] %>');
+        jug.on("transport:up", function(){
+          connected = true;
+        });
+        jug.on("transport:down", function(){
+          connected = false;
+        });
+    } else {
+	  	jug = new Juggernaut({
+		      secure: false, //('https:' == document.location.protocol),
+		      host: "<%= ENV["JUGGERNAUT_HOST"] %>",
+		      port: <%= ENV["JUGGERNAUT_PORT"] %>
+	  	});
+	  	jug.on("connect", function(){
+				connected = true;
+	  	});
+			jug.on("disconnect", function(){
+	  		connected = false;
+	  	});
+    }
+
+    // subscribe callback, that's the push stuff
+    var countdown_callback = function(data){
+        if(data.type == "countdown"){
+          if(iterationOk(data.iteration)){
+            setCountdown(data.payload);
+          }
+        }
+    };
+    var voters_count_callback = function(data){
+        if (data.type == "voter_count"){
+          if(timestampOk(data.timestamp)){
+            setVoterCount(data.payload, "<%= @survey.id.to_s %>");
+          }
+        }
+    };
+    
+    if(typeof(Faye) !== "undefined"){
+        jug.subscribe("/s/<%= @survey.id.to_s %>", countdown_callback);
+    } else {
+        jug.subscribe("s<%= @survey.id.to_s %>", countdown_callback);
+    }
+    
+    if(typeof(Faye) !== "undefined"){
+        jug.subscribe("/v/<%= @survey.id.to_s %>", voters_count_callback);
+    } else {
+        jug.subscribe("v<%= @survey.id.to_s %>", voters_count_callback);
+    }
+<% end %>

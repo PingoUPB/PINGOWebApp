@@ -4,7 +4,7 @@
 </script>
 <% unless ENV["USE_JUGGERNAUT"] == "false" %>
 <% content_for :javascript do %>
-<script type="text/javascript" charset="utf-8" src="http://<%= ENV["JUGGERNAUT_HOST"] %>:<%= ENV["JUGGERNAUT_PORT"] %>/application.js"></script>
+    <%= push_script_tag %>
 <% end %>
 <% end %>
 <div id="fullscreen">

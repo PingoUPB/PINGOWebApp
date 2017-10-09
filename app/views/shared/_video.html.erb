@@ -24,7 +24,7 @@ end
 </div>
 <% content_for :javascript do %>
 <script>
-var iFrameHTML = '<iframe id="videoiFrame" width="640" height="360" src="http://www.youtube-nocookie.com/embed/<%= ytlink %>?rel=0&enablejsapi=1&origin=<%= ENV["URL_PREFIX"] %>" frameborder="0" allowfullscreen></iframe>';
+var iFrameHTML = '<iframe id="videoiFrame" width="640" height="360" src="https://www.youtube-nocookie.com/embed/<%= ytlink %>?rel=0&enablejsapi=1&origin=<%= ENV["URL_PREFIX"] %>" frameborder="0" allowfullscreen></iframe>';
 	$('#pingo_video').on('show.bs.modal', function () {
 	$("#videoContainer").html(iFrameHTML);
 	});

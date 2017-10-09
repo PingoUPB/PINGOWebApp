@@ -1,5 +1,5 @@
 source 'http://rubygems.org'
-gem 'rails', '= 3.2.22'
+gem 'rails', '~> 3.2'
 gem "strong_parameters", "~> 0.1.5" # Rails 4 style attr_accessible / https://github.com/rails/strong_parameters
 
 group :assets do
@@ -75,9 +75,11 @@ gem 'capistrano', :group => [:nonheroku]
 gem 'rvm-capistrano', :group => [:nonheroku]
 
 gem "juggernaut"
+gem "oj" # faster JSON parsing
 
 #gem "mongrel", :group => :development
 
+gem 'redis'
 gem 'em-redis', '>= 0.3.0'
 gem 'em-hiredis'
 

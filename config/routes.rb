@@ -10,12 +10,13 @@ Eclickr::Application.routes.draw do
   post "api/get_auth_token" => "api#get_auth_token"
   post "api/check_auth_token" => "api#check_auth_token"
   post "api/save_ppt_settings" => "api#save_ppt_settings"
+  post "api/save_question" => "api#save_question"
   get "api/load_ppt_settings" => "api#load_ppt_settings"
   get "api/load_ppt_list" => "api#load_ppt_list"
   post "api/delete_ppt_settings" => "api#delete_ppt_settings"
   get "api/question_types" => "api#question_types"
   get "api/duration_choices" => "api#duration_choices"
-  
+
   get "api/find_user_by_email" => "api#find_user_by_email"
 
   get "stats" => "home#stats", as: :stats
@@ -77,11 +78,13 @@ Eclickr::Application.routes.draw do
     resources :users
     get 'voting_analytics' => 'users#voting_analytics'
   end
-
+  
   # for survey quicklinks like "/1234" - must be last route.
   get ":id" => "surveys#participate", :constraints => {:id => /[0-9]+/}, :as => :participate
 
   mount Amnesia::Application.new => "/amnesia" if defined?(Amnesia)
+
+  mount Pingohort::Engine, at: "/pingohort" if defined?(Pingohort)
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

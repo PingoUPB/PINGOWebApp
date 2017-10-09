@@ -11,7 +11,8 @@
 
 <%= javascript_include_tag "application" %>
 
-<body><%= render partial: "show", locals: {survey: @survey} %></body>
+<body>
+  <%= render partial: "show", locals: {survey: @survey} %>
 
 <%= javascript_include_tag "lecturer" %>
 
@@ -27,4 +28,24 @@
 %>
 <% end %>
 
+<% if @survey.event.mathjax? %>
+	<script type="text/x-mathjax-config">
+	MathJax.Hub.Config({
+  	tex2jax: {
+  	inlineMath: [ ['$','$'] ],
+  	processEscapes: true
+  	}
+	});
+	</script>
+  
+	<%= mathjax_tag %>
+  
+  <script>
+    if(MathJax !== undefined) {
+    	MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+    }
+  </script>
+<% end %>
+
+</body>
 </html>

@@ -154,7 +154,7 @@ class QuestionsController < ApplicationController
           duration = @event.default_question_duration
           @survey.save
           @survey.start!(duration)
-          publish_push_notification("sess"+@survey.event.token.to_s, {:type => "status_change", :payload => "started", "timestamp" => Time.new})
+          publish_push_notification("/sess/"+@survey.event.token.to_s, {:type => "status_change", :payload => "started", "timestamp" => Time.new})
           start_countdown_worker(@survey.id) if duration > 0
         end
         format.html { redirect_to (@event || questions_path), notice: t("messages.question_successfully_created") }

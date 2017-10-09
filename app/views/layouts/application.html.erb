@@ -72,9 +72,21 @@
 				<%= link_to image_tag("logo.svg", alt: "PINGO"), root_path, class: "navbar-brand", title: "PINGO" %>
 			</div>
 			<div class="collapse navbar-collapse" id="main-nav-collapse">
+        
 				<ul class="nav navbar-nav">
 					<%= render 'shared/navigation' %>
 				</ul>
+        
+        <% unless user_signed_in? %>
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="http://trypingo.com<%= I18n.locale == :de ? "/de" : ""%>" hreflang="<%= I18n.locale %>" rel="me">
+              <%= icon_tag("info-sign") + t("navigation.more_info_about_pingo") %>
+            </a>
+          </li>
+        </ul>
+        <% end %>
+        
 			</div><!--/.nav-collapse -->
 		</div>
 	</nav>
@@ -84,6 +96,7 @@
 
 	<%= yield %>
 
+    <br>
 	</div>
 </div><!-- END WRAP -->
 

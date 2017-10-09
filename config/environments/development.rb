@@ -43,6 +43,7 @@ end
 ENV["USE_JUGGERNAUT"] = "false"
 ENV["JUGGERNAUT_HOST"] = "localhost"
 ENV["JUGGERNAUT_PORT"] = "8080"
+ENV["PUSH_URL"] = ENV["JUGGERNAUT_URL"] = "http://#{ENV["JUGGERNAUT_HOST"]}:3000/faye"
 
 # Domain without slash
 ENV["URL_PREFIX"] = "http://localhost:3000"

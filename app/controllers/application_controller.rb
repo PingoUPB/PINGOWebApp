@@ -81,11 +81,17 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def publish_push_notification(*args)
-    unless ENV["USE_JUGGERNAUT"] == "false"
+  def publish_push_notification(channel, message)
+    unless ENV["USE_JUGGERNAUT"] == "false" # && ENV["USE_PUSH"] == "false"
       begin
-        Juggernaut.publish(*args)
+        unless ENV["FAYE_ENABLED"] == "false"
+          EventMachine::HttpRequest.new(ENV["PUSH_URL"], :connection_timeout => 2.0).post(body: {message: {channel: channel, data: message}.to_json })
+        end
+        unless ENV["JUGGERNAUT_ENABLED"] == "false"
+          Juggernaut.publish(channel.gsub("/", ""), message)
+        end
       rescue => e
+        puts "Error publishing the push message:"
         Metric.track_error :my_event_name, exception_message: e.message.to_s
       end
     else

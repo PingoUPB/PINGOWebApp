@@ -12,7 +12,7 @@ fieldset[data-role="controlgroup"] label {
 
 <% unless ENV["USE_JUGGERNAUT"] == "false" %>
 	<% content_for :javascript do %>
-		<script type="text/javascript" charset="utf-8" src="http://<%= ENV["JUGGERNAUT_HOST"] %>:<%= ENV["JUGGERNAUT_PORT"] %>/application.js"></script>
+		<%= push_script_tag %>
 	<% end %>
 <% end %>
 
@@ -52,6 +52,7 @@ fieldset[data-role="controlgroup"] label {
 
 	<% unless @event.description.blank? %>
 	<footer class="event-desc">
+    <br>
 		<small>	<%= @event.description %> </small>
 	</footer>
 	<% end %>
@@ -108,27 +109,40 @@ fieldset[data-role="controlgroup"] label {
 		<script>
 
 			// Juggernaut Push init
-		  	var jug = new Juggernaut({
-			      secure: false, //('https:' == document.location.protocol),
-			      host: "<%= ENV["JUGGERNAUT_HOST"] %>",
-			      port: <%= ENV["JUGGERNAUT_PORT"] %>
-		  	});
+            var jug;
+		  	if(typeof(Faye) !== "undefined"){
+		  	    jug = new Faye.Client('<%= ENV["PUSH_URL"] %>');
+    		  	jug.on("transport:up", function(){
+    					connected = true;
+    					log("connected!"); // debug
+    		  	});
+    				jug.on("transport:down", function(){
+    		  		connected = false;
+    					log("disconnected!"); // debug
+    		  	});
+		  	}
+            else {
+    		  	jug = new Juggernaut({
+    			      secure: false, //('https:' == document.location.protocol),
+    			      host: "<%= ENV["JUGGERNAUT_HOST"] %>",
+    			      port: <%= ENV["JUGGERNAUT_PORT"] %>
+    		  	});
+    		  	jug.on("connect", function(){
+    					connected = true;
+    					log("connected!"); // debug
+    		  	});
+    				jug.on("disconnect", function(){
+    		  		connected = false;
+    					log("disconnected!"); // debug
+    		  	});
+            }
 
-
-		  	jug.on("connect", function(){
-				connected = true;
-				log("connected!"); // debug
-		  	});
-			jug.on("disconnect", function(){
-		  		connected = false;
-				log("disconnected!"); // debug
-		  	});
+		  	
 
 
 			<% if @survey %>
 
-			// subscribe callback, that's the push stuff
-		  	jug.subscribe("s<%= @survey.id.to_s %>", function(data){
+            var survey_callback = function(data){
 				log(data); // debug
 				if(data.type == "status_change"){
 					if(timestampOk(data.timestamp)){
@@ -150,20 +164,29 @@ fieldset[data-role="controlgroup"] label {
 						setCountdown(data.payload);
 					}
 				}
-		  	});
+		  	};
+
+			// subscribe callback, that's the push stuff
+            if(typeof(Faye) !== "undefined"){
+                jug.subscribe("/s/<%= @survey.id.to_s %>", survey_callback);
+            } else {
+    		  	jug.subscribe("s<%= @survey.id.to_s %>", survey_callback);
+            }
 
 			<% end %>
 
-			jug.subscribe("sess<%= @event.token.to_s %>", function(data){
+            var event_callback = function(data){
 				log(data); // debug
-				if(data.type == "status_change"){
-					if(timestampOk(data.timestamp)){
-						if(data.payload == "started"){
-							enableUI();
-						}
-					}
+				if(data.type == "status_change" && timestampOk(data.timestamp) && data.payload == "started"){
+					enableUI();
 				}
-			});
+			};
+
+            if(typeof(Faye) !== "undefined"){
+                jug.subscribe("/sess/<%= @event.token.to_s %>", event_callback);
+            } else {
+                jug.subscribe("sess<%= @event.token.to_s %>", event_callback);
+            }
 		</script>
 	<% end %>
 
@@ -188,8 +211,6 @@ fieldset[data-role="controlgroup"] label {
 
 <% if @user_just_voted %>
 	<% content_for :ga_js do %>
-	if(typeof ga !== 'undefined'){
 		ga('send', 'event', 'audience_interaction', 'vote', {'page': '/<%= @survey.event.to_param %>'});
-	}
 	<% end %>
 <% end %>

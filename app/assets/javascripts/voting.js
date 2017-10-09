@@ -54,11 +54,6 @@ function updateCountdown() {
       $( "#countdown" ).css('color', 'red');
       $( "#countdown" ).animate({fontSize: "2.5em"}, 200);
     }
-    if(countdown === 1){
-      if(window.parent.postMessage !== undefined){
-        window.parent.postMessage("stopped", "*");
-      }
-    }
     if(show_view && sound_enabled && countdown == 10){
       document.getElementById("sound").play();
     }
@@ -68,6 +63,9 @@ function updateCountdown() {
   else {
     $( "#countdown" ).text( "0:00" );
     disableUI();
+    if(window.parent.postMessage !== undefined){
+        window.parent.postMessage("stopped", "*");
+      }
     return true;
   }
   timeout = setTimeout(function() { updateCountdown(); }, 200);

@@ -37,8 +37,12 @@
 <%= yield %>
 <!-- <footer>
 <small><%= link_to "Switch to desktop mode", "/switch_view?mobile=0" %></small>
-
 </footer>-->
+<footer class="legal-footer-short">
+  <hr>
+  <small><a href="https://www.example.com/imprint" target="_blank" hreflang="de"><%= t "imprint" %></a> | 
+				<a href="/privacy_policy.html" title="<%= t "privacy_policy" %>" target="_blank" hreflang="de"><%= t "privacy_policy" %></a>&nbsp;&nbsp;</small>
+</footer>
 </div>
 
 <%= javascript_include_tag "application" %>

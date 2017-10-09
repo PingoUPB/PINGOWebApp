@@ -8,16 +8,16 @@ class SurveysController < ApplicationController
   def index
     @event = Event.find_by_id_or_token(params[:event_id])
     render text: t("messages.no_access_to_session"), status: :forbidden and return  if !@event.nil? && !current_user.admin && @event.user != current_user && !@event.collaborators.include?(current_user)
-    
+
     return if performed?
-    
+
     @surveys = @event.surveys.display_fields.desc(:created_at)
 
     respond_to do |format|
       format.html { render partial: "events/surveys_table", locals: {event: @event} }
-      format.json { send_data @surveys.to_json, 
-                              :type => 'json; charset=utf-8; header=present', 
-                              :filename => 'PINGO_surveys_'+@event.token+'_'+Time.current.to_s.tr(" ", "_")+'.json' 
+      format.json { send_data @surveys.to_json,
+                              :type => 'json; charset=utf-8; header=present',
+                              :filename => 'PINGO_surveys_'+@event.token+'_'+Time.current.to_s.tr(" ", "_")+'.json'
                   }
     end
   end
@@ -78,7 +78,7 @@ class SurveysController < ApplicationController
     respond_to do |format|
       if @survey.save
         format.html { redirect_to event_survey_path(@survey.event, @survey), notice: t("messages.survey_successfully_created") }
-        format.json { render json: @survey, status: :created, location: @survey }
+        format.json { render json: @survey, status: :created, location: event_survey_path(@survey.event, @survey) }
       else
         format.html { render action: "new" }
         format.json { render json: @survey.errors, status: :unprocessable_entity }
@@ -113,7 +113,7 @@ class SurveysController < ApplicationController
     check_access
     return if performed?
 
-    publish_push_notification("s"+@survey.id.to_s, {:type => "status_change", :payload => "stopped", "timestamp" => Time.new})
+    publish_push_notification("/s/"+@survey.id.to_s, {:type => "status_change", :payload => "stopped", "timestamp" => Time.new})
 
     @survey.destroy
 
@@ -159,14 +159,14 @@ class SurveysController < ApplicationController
     if(is_numeric?(params[:stoptime]))
       @survey.start!(params[:stoptime].to_i)
       if params[:stoptime].to_i > 0
-        publish_push_notification("s"+@survey.id.to_s, {:type => "status_change", :payload => "started_with_end", "timestamp" => Time.new})
+        publish_push_notification("/s/"+@survey.id.to_s, {:type => "status_change", :payload => "started_with_end", "timestamp" => Time.new})
         start_countdown_worker(@survey.id)
       else
-        publish_push_notification("s"+@survey.id.to_s, {:type => "status_change", :payload => "started", "timestamp" => Time.new})
+        publish_push_notification("/s/"+@survey.id.to_s, {:type => "status_change", :payload => "started", "timestamp" => Time.new})
       end
     else
       @survey.start!
-      publish_push_notification("s"+@survey.id.to_s, {:type => "status_change", :payload => "started", "timestamp" => Time.new})
+      publish_push_notification("/s/"+@survey.id.to_s, {:type => "status_change", :payload => "started", "timestamp" => Time.new})
     end
     respond_to do |format|
       set_locale_for_event_or_survey
@@ -184,12 +184,12 @@ class SurveysController < ApplicationController
 
     if(is_numeric?(params[:stoptime]) && params[:stoptime].to_i > 0)
       @survey.stop!(params[:stoptime].to_i)
-      publish_push_notification("s"+@survey.id.to_s, {:type => "status_change", :payload => "stop_scheduled", "time" => @survey.time_left(true), "timestamp" => Time.new})
+      publish_push_notification("/s/"+@survey.id.to_s, {:type => "status_change", :payload => "stop_scheduled", "time" => @survey.time_left(true), "timestamp" => Time.new})
       start_countdown_worker(@survey.id)
       flash_notice = t('messages.survey_stop_scheduled')
     else
       @survey.stop!
-      publish_push_notification("s"+@survey.id.to_s, {:type => "status_change", :payload => "stopped", "timestamp" => Time.new})
+      publish_push_notification("/s/"+@survey.id.to_s, {:type => "status_change", :payload => "stopped", "timestamp" => Time.new})
       flash_notice = t('messages.survey_stopped')
     end
     respond_to do |format|
@@ -222,11 +222,11 @@ class SurveysController < ApplicationController
       set_locale_for_event_or_survey
       if @survey.save
         @survey.service.start!(duration)
-        publish_push_notification("sess"+@survey.event.token.to_s, {:type => "status_change", :payload => "started", "timestamp" => Time.new})
+        publish_push_notification("/sess/"+@survey.event.token.to_s, {:type => "status_change", :payload => "started", "timestamp" => Time.new})
         start_countdown_worker(@survey.id) if duration > 0
         format.html { redirect_to event_path(@survey.event), notice: t("messages.survey_successfully_created") }
         format.js { render "events/add_question" }
-        format.json { render json: @survey, status: :created, location: @survey }
+        format.json { render json: @survey, status: :created, location: event_survey_path(@survey.event, @survey) }
       else
         format.html { render action: "new" }
         format.json { render json: @survey.errors, status: :unprocessable_entity }
@@ -288,8 +288,8 @@ class SurveysController < ApplicationController
     if activate
       vid = voter
       vid = get_or_create_voter_id if vid.nil?
-      @survey = Survey.find(id)
-      if @survey.vote_for_option(vid,option)
+      @survey = Survey.find(id).service
+      if @survey.vote(vid,option)
         respond_to do |format|
           format.html { redirect_to root_path, notice: t(voting_ok) }
           format.json { head :ok }
@@ -327,8 +327,10 @@ class SurveysController < ApplicationController
 
     if params[:survey_name]
       @survey.name = params[:survey_name]
-      params[:predef_options].each do |option|
-        @survey.options.new(name: option)
+      if params[:predef_options]
+        params[:predef_options].each do |option|
+          @survey.options.new(name: option)
+        end
       end
     elsif @survey.has_options?
 
@@ -358,11 +360,11 @@ class SurveysController < ApplicationController
     respond_to do |format|
       if @survey.save
         @survey.service.start!(duration)
-        publish_push_notification("sess"+@survey.event.token.to_s, {:type => "status_change", :payload => "started", "timestamp" => Time.new})
+        publish_push_notification("/sess/"+@survey.event.token.to_s, {:type => "status_change", :payload => "started", "timestamp" => Time.new})
         start_countdown_worker(@survey.id) if duration > 0
         format.html { redirect_to event_path(@survey.event), notice: t("messages.survey_successfully_created") }
         format.js { render "events/add_question" }
-        format.json { render json: @survey, status: :created, location: @survey }
+        format.json { render json: @survey, status: :created, location: event_survey_path(@survey.event, @survey) }
       else
         format.html { render action: "new" }
         format.json { render json: @survey.errors, status: :unprocessable_entity }
@@ -381,8 +383,8 @@ class SurveysController < ApplicationController
     @survey.name = t("surveys.exit_question")
     @survey.type = "single"
 
-    options_amount = 3
     options = [t("positive"),t("neutral"),t("negative")]
+    options_amount = options.length
 
     duration = (is_numeric?(params[:duration]) ? params[:duration].to_i : 300)
 
@@ -393,11 +395,11 @@ class SurveysController < ApplicationController
     respond_to do |format|
       if @survey.save
         @survey.start!(duration)
-        publish_push_notification("sess"+@survey.event.token.to_s, {:type => "status_change", :payload => "started", "timestamp" => Time.new})
+        publish_push_notification("/sess/"+@survey.event.token.to_s, {:type => "status_change", :payload => "started", "timestamp" => Time.new})
         start_countdown_worker(@survey.id) if duration > 0
         format.html { redirect_to event_path(@survey.event), notice: t("messages.survey_successfully_created") }
         format.js { render "events/add_question" }
-        format.json { render json: @survey, status: :created, location: @survey }
+        format.json { render json: @survey, status: :created, location: event_survey_path(@survey.event, @survey) }
       else
         format.html { render action: "new" }
         format.json { render json: @survey.errors, status: :unprocessable_entity }

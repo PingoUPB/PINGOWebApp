@@ -76,12 +76,20 @@ end
   ENV["USE_JUGGERNAUT"] = "false" # make sure to somehow namespace if using same server for production
   ENV["JUGGERNAUT_HOST"] = "ws.example.com"
   ENV["JUGGERNAUT_PORT"] = "8080"
+  ENV["FAYE_ENABLED"] == "true" # should events be sent to faye
+  ENV["JUGGERNAUT_ENABLED"] == "true" # should events be sent to juggernaut
   
   # Git version display in logo (set automatically at heroku)
   #repo = Grit::Repo.new(Rails.root + '.git')
   #last_commit = repo.commits.first
   #ENV['COMMIT_HASH'] = last_commit.id+"/"+last_commit.authored_date.to_s
   ENV['COMMIT_HASH'] = "unknown"
+  ENV["PUSH_URL"] = ENV["JUGGERNAUT_URL"] = "http://#{ENV["JUGGERNAUT_HOST"]}:8888/faye"
+
+  # Git version display in logo
+  repo = Grit::Repo.new(Rails.root + '.git')
+  last_commit = repo.commits.first
+  ENV['COMMIT_HASH'] = last_commit.id+"/"+last_commit.authored_date.to_s
   
   ENV["REDISTOGO_URL"] = "redis://127.0.0.1:6379"
   ENV["MONGOHQ_URL"] = "mongodb://user:pass@127.0.0.1:27017/eclickr_staging"

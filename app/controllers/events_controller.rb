@@ -211,7 +211,7 @@ class EventsController < ApplicationController
     respond_to do |format|
       if @survey.save
         @survey.start!(duration)
-        publish_push_notification("sess"+@survey.event.token.to_s, {:type => "status_change", :payload => "started", "timestamp" => Time.new})
+        publish_push_notification("/sess/"+@survey.event.token.to_s, {:type => "status_change", :payload => "started", "timestamp" => Time.new})
         start_countdown_worker(@survey.id) if duration > 0
         format.html { redirect_to event_path(@survey.event), notice: t("messages.survey_successfully_created") }
         format.js

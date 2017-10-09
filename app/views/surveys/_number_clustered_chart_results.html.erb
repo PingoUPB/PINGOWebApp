@@ -1,6 +1,5 @@
 <%
    clusters = survey.number_counts(params[:method_kind] == "histogram" && survey.total_votes > 1 ? :histogram : :clustered)
-   pp clusters.values
    chart = Gchart.bar(data: clusters.values.map {|num| num * 100 / survey.total_votes },
                           max_value: 100,
                           title: "#{t("results")} (%)",

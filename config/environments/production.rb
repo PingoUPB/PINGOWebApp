@@ -58,38 +58,44 @@ Eclickr::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
-  
+
   config.action_mailer.default_url_options = { :host => 'example.com' } # set this for emails
-  
+
   # lograge config / https://github.com/roidrage/lograge
   config.lograge.enabled = true
   config.lograge.custom_options = lambda do |event|
     {ip: event.payload[:ip]}
   end
-  
+
 end
 
   # Juggernaut Server
-  ENV["USE_JUGGERNAUT"] = "true"
+  ENV["USE_JUGGERNAUT"] = "true" # defines whether push is activated generally
+  ENV["FAYE_ENABLED"] == "true" # should events be sent to faye
+  ENV["JUGGERNAUT_ENABLED"] == "true" # should events be sent to juggernaut
+  # please note: views/javascript is not affected. see view_helper for the inclusion tag.
+
   ENV["JUGGERNAUT_HOST"] = "ws.example.com"
   ENV["JUGGERNAUT_PORT"] = "8080"
+  ENV["PUSH_URL"] = ENV["JUGGERNAUT_URL"] = "https://#{ENV["JUGGERNAUT_HOST"]}/faye"
   
+
   # Git version display in logo (set automatically at heroku)
   #repo = Grit::Repo.new(Rails.root + '.git')
   #last_commit = repo.commits.first
   #ENV['COMMIT_HASH'] = last_commit.id+"/"+last_commit.authored_date.to_s
   ENV['COMMIT_HASH'] = "unknown"
-  
+
   #maxcluster URLs
   ENV["REDISTOGO_URL"] = "redis://HOST:port"
   ENV["MONGOHQ_URL"] = "mongodb://user:pw@HOST:PORT/DBNAME"
   ENV["MEMCACHE_PASSWORD"] = ""
   ENV["MEMCACHE_SERVERS"] = ""
   ENV["MEMCACHE_USERNAME"] = ""
-  
+
   ENV["NEW_RELIC_APP_NAME"] = ""
   ENV["NEW_RELIC_LICENSE_KEY"] = ""
-  
+
 
 # Domain without slash
 ENV["URL_PREFIX"] = "http://example.com" # make sure you also set the URL for action mailer at the end of the config block above

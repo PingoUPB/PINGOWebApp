@@ -35,32 +35,54 @@ class ApiController < ApplicationController
 
   def save_ppt_settings
     u = current_user
-
-    current_settings = u.ppt_settings || {}
-    #current_settings[params[:file]] = params[:json_hash].to_s
     fn = params[:file].to_s.gsub(".","_")
-    u.update_attributes(ppt_settings: u.ppt_settings.merge({fn => params[:json_hash]}))
+    sn = params[:session]
+    hash = u.ppt_settings[sn] ? u.ppt_settings[sn] : {}
+    hash = hash.merge({fn => params[:json_hash]})
+    u.update_attributes(ppt_settings: u.ppt_settings.merge(sn=>hash))
     render json: u.reload, only: [:ppt_settings]
+  end
+
+  def save_question
+    u = current_user
+    slidesettings = params[:slide_hash]
+    @question = Question.new
+    if slidesettings["questionID"] 
+        @question = u.questions.find(slidesettings["questionID"])
+    end
+    @question.user = u
+    @question.name = slidesettings["questionTitle"]
+    @question.question_options.clear
+    if slidesettings["answerOptions"]
+      slidesettings["answerOptions"].each do |option|
+        @question.question_options.build(name: option, correct: false)
+      end
+    end
+    @question.type = slidesettings["questionType"]
+    @question.save
+    render json: @question
   end
 
   def load_ppt_settings
     u = current_user
-    render json: u.ppt_settings[params[:file]]
+    fn = params[:file].to_s.gsub(".","_")
+    render json: u.ppt_settings[params[:session]][fn]
   end
 
   def delete_ppt_settings
     u = current_user
-
-    current_settings = u.ppt_settings || {}
-    #current_settings[params[:file]] = params[:json_hash].to_s
     fn = params[:file].to_s.gsub(".","_")
-    u.update_attributes(ppt_settings: u.ppt_settings.except(fn))
+    u.update_attributes(ppt_settings: u.ppt_settings[params[:session]].except(fn))
     render json: u.reload, only: [:ppt_settings]
   end
 
   def load_ppt_list
     u = current_user
-    render json: u.ppt_settings.keys
+    list = []
+    if u.ppt_settings[params[:session]]
+      list = u.ppt_settings[params[:session]].keys
+    end
+    render json: list
   end
 
   def question_types # used for PINGO remote

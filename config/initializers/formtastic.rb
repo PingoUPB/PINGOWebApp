@@ -83,3 +83,8 @@ Formtastic::FormBuilder.i18n_lookups_by_default = true
 # You can add custom inputs or override parts of Formtastic by subclassing SemanticFormBuilder and
 # specifying that class here.  Defaults to SemanticFormBuilder.
 # Formtastic::SemanticFormHelper.builder = MyCustomBuilder
+
+# bad hack... for some reason the constant cannot be found in production mode (though at rails c...). :(
+unless defined?(Formtastic::I18n::SCOPES) #FIXME
+  Formtastic::I18n::SCOPES = ["%{model}.%{nested_model}.%{action}.%{attribute}", "%{model}.%{nested_model}.%{attribute}", "%{nested_model}.%{action}.%{attribute}", "%{nested_model}.%{attribute}", "%{model}.%{action}.%{attribute}", "%{model}.%{attribute}", "%{attribute}"]
+end

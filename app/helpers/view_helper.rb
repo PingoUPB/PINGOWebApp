@@ -1,17 +1,6 @@
 module ViewHelper
-  def gravatar_for email, options = {}
-    # http://stackoverflow.com/questions/770876/5043452#5043452
-    options = {:alt => 'Gravatar', :class => 'avatar', :size => 80}.merge! options
-    id = Digest::MD5::hexdigest email.strip.downcase
-    url = 'http://www.gravatar.com/avatar/' + id + '.jpg?s=' + options[:size].to_s
-    options.delete :size
-    image_tag url, options
-  end
-  
   def mathjax_tag
-    '<script 
-       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-    </script>'.html_safe
+    '<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>'.html_safe
   end
   
   def error_msg_for(obj)
@@ -23,6 +12,16 @@ module ViewHelper
           end.join.html_safe)
         ) # ul
       end # div
+    end
+  end
+  
+  def push_script_tag(sample_hosts=false) # if sample_hosts is true, 80% go to the first, rest to second tag.
+    use_first = true
+    use_first = [true, true, true, true, false].sample if sample_hosts
+    if use_first
+      ('<script type="text/javascript" src="' + ENV["PUSH_URL"] + '/client.js"></script>').html_safe
+    else
+      ('<script type="text/javascript" charset="utf-8" src="http://' + ENV["JUGGERNAUT_HOST"] + ':' + ENV["JUGGERNAUT_PORT"] + '/application.js"></script>').html_safe
     end
   end
 end
