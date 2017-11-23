@@ -1,6 +1,8 @@
 class EventsController < ApplicationController
   before_filter :authenticate_user!, :except => [:participate, :find]
   layout :detect_browser
+  
+  swagger_controller :events, "View, create and modify Events (aka 'PINGO Sessions')"
 
   # GET /events
   # GET /events.json
@@ -19,10 +21,28 @@ class EventsController < ApplicationController
       format.json { render json: @events }
     end
   end
+  
+  swagger_api :index do |api|
+        summary "Return a list of the user's events (aka Sessions)."
+        api.param :form, :shared, :boolean, :optional, "Set this parameter to any value to display events that have been shared with the user. Omit to display user events."
+        ApiController::add_auth_token_parameter(api, true)
+        response :unauthorized
+        response :not_found
+        response :forbidden
+  end
 
   def latest_survey
     @event = Event.find_by_token(params[:id])
     render json: @event.latest_survey
+  end
+  
+  swagger_api :latest_survey do |api|
+        summary "Get info about the latest/newest survey for the queried event."
+        api.param :path, "id", :string, :required
+        ApiController::add_auth_token_parameter(api, true)
+        response :unauthorized
+        response :not_found
+        response :forbidden
   end
 
   # POST /find
@@ -48,6 +68,15 @@ class EventsController < ApplicationController
       format.json { render json: @event, methods: :latest_survey }
       format.csv { export }
     end
+  end
+  
+  swagger_api :show do |api|
+        summary "Get info about the event and the latest/newest survey for the queried event."
+        api.param :path, "id", :string, :required
+        ApiController::add_auth_token_parameter(api, true)
+        response :unauthorized
+        response :not_found
+        response :forbidden
   end
 
   # GET /events/new
@@ -86,6 +115,16 @@ class EventsController < ApplicationController
       end
     end
   end
+  
+  swagger_api :create do |api|
+        summary "Create a new event for the currently authenticated user."
+        api.param :form, "event", :Event, :required, "Event info"
+        ApiController::add_auth_token_parameter(api)
+        response :created
+        response :unprocessable_entity
+        response :unauthorized
+        response :forbidden
+  end
 
   # PUT /events/1
   # PUT /events/1.json
@@ -108,6 +147,17 @@ class EventsController < ApplicationController
       end
     end
   end
+  
+  swagger_api :update do |api|
+        summary "Change details of an event for the currently authenticated user."
+        api.param :path, "id", :string, :required
+        api.param :form, "event", :Event, :required, "Event info"
+        ApiController::add_auth_token_parameter(api)
+        response :not_found
+        response :unprocessable_entity
+        response :unauthorized
+        response :forbidden
+  end
 
   # DELETE /events/1
   # DELETE /events/1.json
@@ -123,6 +173,15 @@ class EventsController < ApplicationController
       format.html { redirect_to events_url }
       format.json { head :ok }
     end
+  end
+  
+  swagger_api :destroy do |api|
+        summary "Delete an event. This cannot be undone, use with care as all associated survey data will be purged, as well."
+        api.param :path, "id", :string, :required
+        ApiController::add_auth_token_parameter(api)
+        response :not_found
+        response :unauthorized
+        response :forbidden
   end
 
   # GET /events/1/connected
@@ -185,6 +244,17 @@ class EventsController < ApplicationController
       end
     end
   end
+  
+  swagger_api :quick_start do |api|
+        summary "Creates a new event with a running survey of the specified type."
+        api.param_list :form, "q_type", :string, :optional, "Question type", Question.question_types
+        api.param :form, "options", :integer, :optional, "Number of options for single/multiple choice surveys. Options will be alphabetically orderd. Maximum is 26."
+        api.param :form, "duration", :integer, :required, "Duration of the running survey in seconds. Supply 0 for open end surveys."
+        ApiController::add_auth_token_parameter(api)
+        response :unprocessable_entity
+        response :unauthorized
+        response :forbidden
+  end
 
   # POST /events/:id/add_question
   def add_question
@@ -221,6 +291,19 @@ class EventsController < ApplicationController
         format.json { render json: @survey.errors, status: :unprocessable_entity }
       end
     end
+  end
+  
+  swagger_api :add_question do |api|
+        summary "Adds the supplied question to the event identified by :id"
+        api.param :path, "id", :string, :required, "Event ID to add question to"
+        api.param :form, "question", :Question, :required, "Question object to add to event"
+        api.param :form, "options", :integer, :optional, "Number of options for single/multiple choice surveys. Options will be alphabetically orderd. Maximum is 26."
+        api.param :form, "duration", :integer, :optional, "Duration of the running survey in seconds. Supply 0 for open end surveys. Omit to use user's preference"
+        ApiController::add_auth_token_parameter(api)
+        response :not_found
+        response :unprocessable_entity
+        response :unauthorized
+        response :forbidden
   end
 
   # GET /events/:id/export
@@ -260,6 +343,13 @@ class EventsController < ApplicationController
     end
 
     send_data csv_data, :type => 'text/csv; charset=utf-8; header=present', :filename => 'PINGO_surveys_'+@event.token+'_'+Time.current.to_s.tr(" ", "_")+'.csv'
+  end
+  
+  swagger_model :Event do
+        description "An Event (aka Session) object."
+        property "name", :string, :optional, "Event name/title"
+        property "description", :string, :optional, "Event description"
+        property "mathjax", :boolean, :optional, "Whether this is a MathJax enabled event."
   end
 
   protected

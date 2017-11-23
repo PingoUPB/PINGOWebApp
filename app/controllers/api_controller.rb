@@ -4,6 +4,12 @@ class ApiController < ApplicationController
 
   INVALID_TOKEN = "invalid"
   EMPTY_OPTIONS = [""]
+  
+  swagger_controller :api, "General API methods"
+  
+  def self.add_auth_token_parameter(api, as_query_param = false)
+    api.param((as_query_param ? :query : :form), "auth_token", :string, :required, "Authentication token (see `api/get_auth_token`)")
+  end
 
   def get_auth_token # used for PINGO remote and ppt app
     resource = User.find_for_database_authentication(email: params[:email])
@@ -19,6 +25,13 @@ class ApiController < ApplicationController
       render json: {authentication_token: INVALID_TOKEN}
     end
   end
+  
+  swagger_api :get_auth_token do
+    summary "Gets an auth token for initial login."
+    notes "returns '#{INVALID_TOKEN}' if an error occured (such as invalid user/password combination)"
+    param :form, "email", :string, :required
+    param :form, "password", :string, :required
+  end
 
 
   def check_auth_token # used for PINGO remote and ppt app
@@ -32,7 +45,14 @@ class ApiController < ApplicationController
       render json: {valid: false}
     end
   end
-
+  
+  swagger_api :check_auth_token do
+    summary "Checks whether the supplied API token is valid."
+    notes "returns a JSON hash with a 'valid' key being either true or false."
+    param :form, "auth_token", :string, :required
+  end
+  
+  # :nocov:
   def save_ppt_settings
     u = current_user
     fn = params[:file].to_s.gsub(".","_")
@@ -42,6 +62,7 @@ class ApiController < ApplicationController
     u.update_attributes(ppt_settings: u.ppt_settings.merge(sn=>hash))
     render json: u.reload, only: [:ppt_settings]
   end
+  # :nocov:
 
   def save_question
     u = current_user
@@ -63,6 +84,7 @@ class ApiController < ApplicationController
     render json: @question
   end
 
+  # :nocov:
   def load_ppt_settings
     u = current_user
     fn = params[:file].to_s.gsub(".","_")
@@ -84,6 +106,7 @@ class ApiController < ApplicationController
     end
     render json: list
   end
+  # :nocov:
 
   def question_types # used for PINGO remote
     render json: {question_types: [{type: "single",
@@ -112,10 +135,18 @@ class ApiController < ApplicationController
                                     options_en: EMPTY_OPTIONS}
     ]}
   end
+  
+  swagger_api :question_types do
+    summary "Returns a list of questions types with their names in German and English."
+  end
 
   def duration_choices
     # drop(1) because without countdown is not supported by PINGO remote
     render json: {duration_choices: DURATION_CHOICES.drop(1)}
+  end
+  
+  swagger_api :duration_choices do
+    summary "Returns a list of default PINGO duration choices."
   end
 
 
@@ -133,4 +164,14 @@ class ApiController < ApplicationController
       head :not_found
     end
   end
+  
+  swagger_api :find_user_by_email do |api|
+      summary "Looks up a user id and name for a given email address. Useful in combination with sharing events and sharing questions."
+      ApiController::add_auth_token_parameter(api, true)
+      api.param :query, "email", :string, :required
+      response :unauthorized
+      response :not_found
+      response :precondition_failed
+  end
+  
 end

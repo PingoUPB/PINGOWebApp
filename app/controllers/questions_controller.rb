@@ -1,6 +1,8 @@
 class QuestionsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :check_access, except: [:index, :new, :create, :show, :add_to_own, :import, :export, :upload, :share]
+  
+  swagger_controller :questions, "View, create, modify and share questions."
 
   def index
     if params[:public]
@@ -85,6 +87,13 @@ class QuestionsController < ApplicationController
       format.html # index.html.erb
       format.json { render json: (@questions + current_user.shared_questions).uniq.map(&:service), except: [:user_id] }
     end
+  end
+  
+  swagger_api :index do |api|
+        summary "Get a list of the user's questions, including those that were shared by others."
+        ApiController::add_auth_token_parameter(api, true)
+        response :unauthorized
+        response :forbidden
   end
 
   def show

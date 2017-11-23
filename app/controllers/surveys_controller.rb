@@ -2,6 +2,8 @@ class SurveysController < ApplicationController
   before_filter :authenticate_user!, :except => [:vote, :vote_test, :participate]
 
   layout :detect_browser #, :only => [:participate, :find]
+  
+  swagger_controller :surveys, "View, create, and modify Surveys"
 
   # GET /events/:event_id/surveys
   # GET /events/:event_id/surveys.json
@@ -20,6 +22,15 @@ class SurveysController < ApplicationController
                               :filename => 'PINGO_surveys_'+@event.token+'_'+Time.current.to_s.tr(" ", "_")+'.json'
                   }
     end
+  end
+  
+  swagger_api :index do |api|
+        summary "Get all displayable details about the surveys for the given event (session)."
+        api.param :path, "event_id", :string, :required
+        ApiController::add_auth_token_parameter(api, true)
+        response :unauthorized
+        response :forbidden
+        response :not_found
   end
 
   # GET /events/:event_id/surveys/1
@@ -47,6 +58,16 @@ class SurveysController < ApplicationController
       format.js
       format.json { render json: @survey }
     end
+  end
+  
+  swagger_api :show do |api|
+        summary "Get information about a specific survey, identified by its ID."
+        api.param :path, "event_id", :string, :required, "Event ID"
+        api.param :path, "id", :string, :required, "Survey ID"
+        ApiController::add_auth_token_parameter(api, true)
+        response :unauthorized
+        response :forbidden
+        response :not_found
   end
 
   # GET /events/:event_id/surveys/new
@@ -85,6 +106,17 @@ class SurveysController < ApplicationController
       end
     end
   end
+  
+  swagger_api :create do |api|
+        summary "Create a new survey inside of the supplied Event."
+        api.param :path, "event_id", :string, :required, "Event ID, where the survey should be created in"
+        api.param :form, "survey", :Survey, :required, "Survey information"
+        ApiController::add_auth_token_parameter(api)
+        response :created
+        response :unprocessable_entity
+        response :unauthorized
+        response :forbidden
+  end
 
   # PUT /events/:event_id/surveys/1
   # PUT /events/:event_id/surveys/1.json
@@ -104,6 +136,18 @@ class SurveysController < ApplicationController
       end
     end
   end
+  
+  swagger_api :update do |api|
+        summary "Update a survey."
+        api.param :path, "event_id", :string, :required, "Event ID"
+        api.param :path, "id", :string, :required, "Survey ID"
+        api.param :form, "survey", :Survey, :required, "Survey information"
+        ApiController::add_auth_token_parameter(api)
+        response :created
+        response :unprocessable_entity
+        response :unauthorized
+        response :forbidden
+  end
 
   # DELETE /events/:event_id/surveys/1
   # DELETE /events/:event_id/surveys/1.json
@@ -121,6 +165,17 @@ class SurveysController < ApplicationController
       format.html { redirect_to event_path(@survey.event) }
       format.json { head :ok }
     end
+  end
+  
+  swagger_api :destroy do |api|
+        summary "Delete a survey."
+        api.param :path, "event_id", :string, :required, "Event ID"
+        api.param :path, "id", :string, :required, "Survey ID"
+        ApiController::add_auth_token_parameter(api)
+        response :not_found
+        response :unprocessable_entity
+        response :unauthorized
+        response :forbidden
   end
 
 
@@ -174,6 +229,18 @@ class SurveysController < ApplicationController
       format.js { render "events/add_question" }
     end
   end
+  
+  swagger_api :start do |api|
+        summary "Starts a survey. If survey is running, restart timer with supplied duration."
+        api.param :path, "event_id", :string, :required, "Event ID"
+        api.param :path, "id", :string, :required, "Survey ID"
+        api.param :form, "stoptime", :integer, :optional, "Duration of survey in seconds"
+        ApiController::add_auth_token_parameter(api)
+        response :unprocessable_entity
+        response :not_found
+        response :unauthorized
+        response :forbidden
+  end
 
   # POST /events/:event_id/surveys/1/stop
   def stop
@@ -197,6 +264,18 @@ class SurveysController < ApplicationController
       format.html { redirect_to event_survey_path(@survey.event, @survey), notice: flash_notice }
       format.js { render "events/add_question" }
     end
+  end
+  
+  swagger_api :stop do |api|
+        summary "Stops a survey."
+        api.param :path, "event_id", :string, :required, "Event ID"
+        api.param :path, "id", :string, :required, "Survey ID"
+  #      api.param :form, "stoptime", :integer, :optional, "Duration of survey in seconds"
+        ApiController::add_auth_token_parameter(api)
+        response :unprocessable_entity
+        response :not_found
+        response :unauthorized
+        response :forbidden
   end
 
   # POST /events/:event_id/surveys/1/repeat
@@ -232,6 +311,19 @@ class SurveysController < ApplicationController
         format.json { render json: @survey.errors, status: :unprocessable_entity }
       end
     end
+  end
+  
+  swagger_api :repeat do |api|
+        summary "Repeats a survey in the given event, i. e. clones the survey without answers and starts it (so results later can be compared)."
+        api.param :path, "event_id", :string, :required, "Event ID"
+        api.param :path, "id", :string, :required, "Survey ID"
+        api.param :form, "duration", :integer, :optional, "Duration of repeated survey in seconds. 0 for open end."
+        ApiController::add_auth_token_parameter(api)
+        response :created
+        response :not_found
+        response :unprocessable_entity
+        response :unauthorized
+        response :forbidden
   end
 
   # POST /vote
@@ -275,7 +367,19 @@ class SurveysController < ApplicationController
       end
     end
   end
+  
+  swagger_api :vote do |api|
+        summary "Votes for the given option (or free text input) for the supplied survey."
+        api.param :path, "event_id", :string, :required, "Event ID"
+        api.param :path, "id", :string, :required, "Survey ID"
+        api.param :form, "option", :string, :required, "ID of survey option to vote for or Array of IDs to vote for (choice questions), or number to vote for for numeric questions, or text to answer for free-text questions."
+        ApiController::add_auth_token_parameter(api)
+        response :not_found
+        response :unauthorized
+        response :forbidden
+  end
 
+  # :nocov:
   # POST vote-test
   # Regression TEST method
   def vote_test
@@ -302,6 +406,7 @@ class SurveysController < ApplicationController
       end
     end
   end
+  # :nocov:
 
   # POST /events/:id/quick_start
   def quick_start
@@ -371,6 +476,18 @@ class SurveysController < ApplicationController
       end
     end
   end
+  
+  swagger_api :quick_start do |api|
+        summary "Creates a new running survey of the specified type in the supplied event."
+        api.param :path, "event_id", :string, :required, "Event ID"
+        api.param_list :form, "q_type", :string, :optional, "Question type", Question.question_types
+        api.param :form, "options", :integer, :optional, "Number of options for single/multiple choice surveys. Options will be alphabetically orderd. Maximum is 26."
+        api.param :form, "duration", :integer, :required, "Duration of the running survey in seconds. Supply 0 for open end surveys."
+        ApiController::add_auth_token_parameter(api)
+        response :unprocessable_entity
+        response :unauthorized
+        response :forbidden
+  end
 
   def exit_question
     @event = Event.find_by_id_or_token(params[:id])
@@ -405,6 +522,17 @@ class SurveysController < ApplicationController
         format.json { render json: @survey.errors, status: :unprocessable_entity }
       end
     end
+  end
+  
+  swagger_api :exit_question do |api|
+        summary "Creates a new running exit survey ('Veranstaltungsfeedback') in the supplied event."
+        api.param :path, "event_id", :string, :required, "Event ID"
+        api.param :form, "duration", :integer, :required, "Duration of the running exit survey in seconds. Supply 0 for open end surveys or omit to use the 5 min. default."
+        ApiController::add_auth_token_parameter(api)
+        response :created
+        response :unprocessable_entity
+        response :unauthorized
+        response :forbidden
   end
 
   def changed
@@ -509,6 +637,13 @@ class SurveysController < ApplicationController
     render :nothing => true
   end
   # :nocov:
+  
+  swagger_model :Survey do
+        description "A survey object."
+        property "name", :string, :optional, "Event name/title"
+        property_list :type, :string, :required, "Survey type", Question.question_types
+        property "options", :string, :optional, "Survey Options for choice surveys. This is a custom array type that has not been modeled in the documentation yet. Get JSON from a survey to find out the format."
+  end
 
   protected
   def survey_params

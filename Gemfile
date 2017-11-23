@@ -106,3 +106,5 @@ gem 'ruby-standard-deviation'
 gem 'histogram', require: 'histogram/array'
 
 gem 'gift-parser', :git => 'git://github.com/PingoUPB/gift-parser.git', :require => 'gift'
+
+gem 'swagger-docs'
