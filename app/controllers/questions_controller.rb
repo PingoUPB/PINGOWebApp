@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :check_access, except: [:index, :new, :create, :show, :add_to_own, :import, :export, :upload, :share]
+  before_action :authenticate_user_from_token!
+  before_action :authenticate_user!
+  before_action :check_access, except: [:index, :new, :create, :show, :add_to_own, :import, :export, :upload, :share]
 
   def index
     if params[:public]
@@ -63,7 +64,7 @@ class QuestionsController < ApplicationController
 
     if params[:tag]
       q_before = @questions
-      @questions = @questions.tagged_with(params[:tag])
+      @questions = @questions.tagged_with(params[:tag]) # TODO
 
       unless @questions.any?
         params[:tag] = nil
@@ -261,13 +262,13 @@ class QuestionsController < ApplicationController
 
   def set_js_tags
     if params["single_question"] && params["single_question"][:tags]
-      params[:question][:tags] = params["single_question"][:tags]
+      params[:question][:tags] = params["single_question"][:tags].split(",")
     elsif params["multi_question"] && params["multi_question"][:tags]
-      params[:question][:tags] = params["multi_question"][:tags]
+      params[:question][:tags] = params["multi_question"][:tags].split(",")
     elsif params["text_question"] && params["text_question"][:tags]
-      params[:question][:tags] = params["text_question"][:tags]
+      params[:question][:tags] = params["text_question"][:tags].split(",")
     elsif params["number_question"] && params["number_question"][:tags]
-      params[:question][:tags] = params["number_question"][:tags]
+      params[:question][:tags] = params["number_question"][:tags].split(",")
     end
   end
 

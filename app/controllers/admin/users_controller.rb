@@ -6,8 +6,8 @@ class Admin::UsersController < ApplicationController
     newrelic_ignore
   end
 
-  before_filter :authenticate_user!
-  before_filter :require_admin
+  before_action :authenticate_user!
+  before_action :require_admin
 
   # GET /admin/users
   # GET /admin/users.json

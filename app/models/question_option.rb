@@ -3,7 +3,7 @@ class QuestionOption
   
    embedded_in :question
    field :name, type: String
-   field :correct, type: Boolean, defaut: false
+   field :correct, type: Boolean, default: false
    # smthing like couterpart options...
    
    validates_presence_of :name

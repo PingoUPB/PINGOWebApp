@@ -7,14 +7,14 @@ module PINGOSpecHelpers
 
   def login_user
     @request.env["devise.mapping"] = Devise.mappings[:user]
-    user = FactoryGirl.create(:user)
+    user = FactoryBot.create(:user)
     sign_in user
     @user = user
   end
 
   def login_hacker
     @request.env["devise.mapping"] = Devise.mappings[:user]
-    user = FactoryGirl.create(:hacker)
+    user = FactoryBot.create(:hacker)
     sign_in user
     @hacker = user
   end

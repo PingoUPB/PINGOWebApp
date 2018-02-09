@@ -1,6 +1,8 @@
 class ApiController < ApplicationController
   include ApplicationHelper
-  before_filter :authenticate_user!, :except => [:get_auth_token, :check_auth_token, :question_types, :duration_choices]
+  
+  before_action :authenticate_user_from_token!, :except => [:get_auth_token, :check_auth_token, :question_types, :duration_choices]
+  before_action :authenticate_user!, :except => [:get_auth_token, :check_auth_token, :question_types, :duration_choices]
 
   INVALID_TOKEN = "invalid"
   EMPTY_OPTIONS = [""]

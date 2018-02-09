@@ -8,10 +8,15 @@ if ENV["PLATFORM"] != "heroku"
     @queue = :timer_workers
 
     def self.publish_synchronous(channel, message)
-      url = URI.parse(ENV["PUSH_URL"])
-      Net::HTTP.post_form(url, {message: {channel: channel, data: message}.to_json })
       if defined?(Juggernaut)
         Juggernaut.publish(channel.gsub("/", ""), message)
+      end
+      
+      url = URI.parse(ENV["PUSH_URL"])
+      begin
+        Net::HTTP.post_form(url, {message: {channel: channel, data: message}.to_json })
+      rescue
+        sleep 2 # back off and wait for 2 sec. if server is under heavy load
       end
     end
 

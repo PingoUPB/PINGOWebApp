@@ -1,6 +1,6 @@
-require 'factory_girl'
+require 'factory_bot'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :user do
     first_name 'Testy'
     last_name 'McUserton'
@@ -57,7 +57,7 @@ FactoryGirl.define do
       # attributes; `create_list`'s second argument is the number of records
       # to create and we make sure the option is associated properly to the survey
       after(:create) do |survey, evaluator|
-        FactoryGirl.create_list(:option, evaluator.options_count, survey: survey)
+        FactoryBot.create_list(:option, evaluator.options_count, survey: survey)
       end
     end
 

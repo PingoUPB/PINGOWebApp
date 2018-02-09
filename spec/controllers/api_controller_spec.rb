@@ -4,7 +4,7 @@ describe ApiController do
 
 
   def create_test_session
-    @user = FactoryGirl.create(:user)
+    @user = FactoryBot.create(:user)
     @user.ensure_authentication_token!
   end
 

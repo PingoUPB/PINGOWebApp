@@ -57,7 +57,7 @@ class HomeController < ApplicationController
   end
 
   def blitz #for blitz.io
-    render :text => "42"
+    render :plain => "42"
   end
 
   private

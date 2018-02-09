@@ -4,11 +4,8 @@ class User
   
   # Include default devise modules. Others available are:
   # :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable, :token_authenticatable,
-         :recoverable, :rememberable, :trackable, :validatable
-         
-  attr_protected :admin
-  
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable  
 
 # Vor-, Nachname, Lehrstuhl, Fakultät, Welche Lehrveranstaltungen/user comment(nur bei Registrierung)
 
@@ -53,7 +50,7 @@ class User
   validates :organization, presence: true
   validates_uniqueness_of :name, :email, case_sensitive: false
   
-  attr_accessible :first_name, :last_name, :faculty, :chair, :organization, :user_comment, :email, :password, :password_confirmation, :remember_me, :wants_sound, :newsletter, :allow_external_analytics, :ppt_settings
+  #attr_accessible :first_name, :last_name, :faculty, :chair, :organization, :user_comment, :email, :password, :password_confirmation, :remember_me, :wants_sound, :newsletter, :allow_external_analytics, :ppt_settings
   
   has_many :events, dependent: :destroy
   has_many :questions, dependent: :destroy
@@ -83,18 +80,35 @@ class User
 
   def question_tags(type = nil)
     if type
-      self.questions.in(type: type).flat_map(&:tags_array).uniq if self.questions
+      self.questions.in(type: type).flat_map(&:tags).uniq if self.questions
     else
-      self.questions.flat_map(&:tags_array).uniq if self.questions
+      self.questions.flat_map(&:tags).uniq if self.questions
     end
   end
   
   def shared_question_tags(type = nil)
     if type
-      self.shared_questions.in(type: type).flat_map(&:tags_array).uniq
+      self.shared_questions.in(type: type).flat_map(&:tags).uniq
     else
-      self.shared_questions.flat_map(&:tags_array).uniq
+      self.shared_questions.flat_map(&:tags).uniq
     end
   end
+  
+  
+  # https://gist.github.com/josevalim/fb706b1e933ef01e4fb6
+  def ensure_authentication_token
+      if authentication_token.blank?
+        self.authentication_token = generate_authentication_token
+      end
+    end
+
+    private
+  
+    def generate_authentication_token
+      loop do
+        token = Devise.friendly_token
+        break token unless User.where(authentication_token: token).first
+      end
+    end
   
 end

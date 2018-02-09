@@ -23,11 +23,10 @@
   <script>
 
     $(document).ready(function() {
-        $(".radio_correct_true").live("change",function() {
+      $(document).on("change", ".radio_correct_true", function() {
           $(".radio_correct_true").prop('checked', false);
           $(".radio_correct_false").prop('checked', true);
           $(this).prop('checked',true);
-
       });
     });
   </script>

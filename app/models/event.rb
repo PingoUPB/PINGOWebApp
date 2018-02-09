@@ -23,11 +23,11 @@ class Event
   field :custom_locale, type: String
   validates :custom_locale, inclusion: {in: I18n.available_locales.map(&:to_s) + [""], allow_nil: true}
 
-  belongs_to :user
+  belongs_to :user, inverse_of: :events
   has_many :surveys, dependent: :destroy
 
   has_and_belongs_to_many :collaborators, class_name: "User", inverse_of: :shared_events
-  index :collaborator_ids, sparse: true
+  index({ collaborator_ids: 1 }, { sparse: true })
 
   validates :name, presence: true
   validates :user, presence: true
@@ -58,7 +58,7 @@ class Event
   end
 
   def refresh_state
-    self.inc(:state, 1)
+    self.inc(state: 1)
   end
 
   def current_viewers

@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   #before_filter :check_ip
-  before_filter :setup_test_helper
+  before_action :setup_test_helper
 
   # for lograge, add IP to logs
   def append_info_to_payload(payload)
@@ -114,5 +114,25 @@ class ApplicationController < ActionController::Base
       Rails.logger.info "set locale to #{@survey.event.custom_locale}"
     end
   end
+  
+  
+  protected
+  
+  # https://gist.github.com/josevalim/fb706b1e933ef01e4fb6
+    # For this example, we are simply using token authentication
+    # via parameters. However, anyone could use Rails's token
+    # authentication features to get the token from a header.
+    def authenticate_user_from_token!
+      user_token = params[:user_token].presence
+      user       = user_token && User.find_by_authentication_token(user_token.to_s)
+
+      if user
+        # Notice we are passing store false, so the user is not
+        # actually stored in the session and a token is needed
+        # for every request. If you want the token to work as a
+        # sign in token, you can simply remove store: false.
+        sign_in user, store: false
+      end
+    end
 
 end

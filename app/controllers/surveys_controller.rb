@@ -1,5 +1,6 @@
 class SurveysController < ApplicationController
-  before_filter :authenticate_user!, :except => [:vote, :vote_test, :participate]
+  before_action :authenticate_user_from_token!, :except => [:vote, :vote_test, :participate]
+  before_action :authenticate_user!, :except => [:vote, :vote_test, :participate]
 
   layout :detect_browser #, :only => [:participate, :find]
 
@@ -73,7 +74,7 @@ class SurveysController < ApplicationController
     @survey = Survey.new(survey_params)
     @survey.event = @event
 
-    render :text => t("messages.no_access_to_session"), :status => :forbidden and return  if !@event.nil? && !current_user.admin && @event.user != current_user
+    render :plain => t("messages.no_access_to_session"), :status => :forbidden and return  if !@event.nil? && !current_user.admin && @event.user != current_user
 
     respond_to do |format|
       if @survey.save
@@ -97,7 +98,7 @@ class SurveysController < ApplicationController
     respond_to do |format|
       if @survey.update_attributes(survey_params)
         format.html { redirect_to event_survey_path(@survey.event, @survey), notice: t("messages.survey_successfully_updated") }
-        format.json { render :text => "" }
+        format.json { render :plain => "" }
       else
         format.html { render action: "edit" }
         format.json { render json: @survey.errors, status: :unprocessable_entity }
@@ -204,7 +205,7 @@ class SurveysController < ApplicationController
     @event = Event.find_by_id_or_token(params[:event_id])
     original_survey = Survey.find(params[:id])
 
-    render :text => t("messages.no_access_to_session") and return  if !@event.nil? && !current_user.admin && @event.user != current_user
+    render :plain => t("messages.no_access_to_session") and return  if !@event.nil? && !current_user.admin && @event.user != current_user
 
     @survey = Survey.new
     @survey.event = @event
@@ -307,7 +308,7 @@ class SurveysController < ApplicationController
   def quick_start
     @event = Event.find_by_id_or_token(params[:id])
 
-    render :text => t("messages.no_access_to_session") and return  if !@event.nil? && !current_user.admin && @event.user != current_user
+    render :plain => t("messages.no_access_to_session") and return  if !@event.nil? && !current_user.admin && @event.user != current_user
 
     @survey = Survey.new
     @survey.event = @event
@@ -375,7 +376,7 @@ class SurveysController < ApplicationController
   def exit_question
     @event = Event.find_by_id_or_token(params[:id])
 
-    render :text => t("messages.no_access_to_session") and return  if !@event.nil? && !current_user.admin && @event.user != current_user
+    render :plain => t("messages.no_access_to_session") and return  if !@event.nil? && !current_user.admin && @event.user != current_user
 
     @survey = Survey.new
     @survey.event = @event
@@ -516,6 +517,6 @@ class SurveysController < ApplicationController
   end
 
   def check_access
-    render :text => t("messages.no_access_to_survey"), status: :forbidden and return  if !@survey.nil? && !current_user.admin && @survey.user != current_user && !@survey.collaborators.include?(current_user)
+    render :plain => t("messages.no_access_to_survey"), status: :forbidden and return  if !@survey.nil? && !current_user.admin && @survey.user != current_user && !@survey.collaborators.include?(current_user)
   end
 end

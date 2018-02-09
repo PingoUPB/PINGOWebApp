@@ -9,7 +9,7 @@ Given /^I am logged in as the user with email "(.*?)"$/ do |email|
   unless found_users.any?
     create_visitor
     @visitor[:email] = email
-    @user = FactoryGirl.create(:user, email: @visitor[:email])
+    @user = FactoryBot.create(:user, email: @visitor[:email])
   else
     @user = found_users.first
   end
@@ -38,7 +38,7 @@ end
 Given /^the user with email "(.*?)" exists$/ do |email|
   create_visitor
   @visitor[:email] = email
-  @user = FactoryGirl.create(:user, email: @visitor[:email])
+  @user = FactoryBot.create(:user, email: @visitor[:email])
 end
 
 Given /^the user named "(.*?)" with email "(.*?)" exists$/ do |name, email|
@@ -46,7 +46,7 @@ Given /^the user named "(.*?)" with email "(.*?)" exists$/ do |name, email|
   @visitor[:email] = email
   @visitor[:first_name] = name.rpartition(" ").first
   @visitor[:last_name] = name.rpartition(" ").last
-  @user = FactoryGirl.create(:user, email: @visitor[:email], first_name: @visitor[:first_name], last_name: @visitor[:last_name])
+  @user = FactoryBot.create(:user, email: @visitor[:email], first_name: @visitor[:first_name], last_name: @visitor[:last_name])
 end
 
 Given /^I do not exist as a user$/ do
@@ -232,16 +232,17 @@ end
 def create_user
   create_visitor
   delete_user
-  @user = FactoryGirl.create(:user, email: @visitor[:email])
+  @user = FactoryBot.create(:user, email: @visitor[:email])
 end
 
 def create_user2
   create_visitor2
   delete_user
-  @user = FactoryGirl.create(:user, email: @visitor[:email])
+  @user = FactoryBot.create(:user, email: @visitor[:email])
 end
 
 def delete_user
+  puts "!!!!!!!!!\n" + User.where(:email => @visitor[:email]).count
   @user ||= User.where(:email => @visitor[:email]).first
   @user.destroy unless @user.nil?
 end

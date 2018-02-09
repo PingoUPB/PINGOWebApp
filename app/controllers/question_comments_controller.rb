@@ -1,6 +1,6 @@
 class QuestionCommentsController < ApplicationController
 
-before_filter :load_and_check_access
+before_action :load_and_check_access
 
 def create
     @comment = @question.question_comments.build(comment_params)
@@ -30,7 +30,7 @@ protected
 
   def load_and_check_access
     @question = Question.find(params[:question_id])
-    render :text => t("messages.no_access_to_question"), status: :forbidden and return false unless @question.can_be_accessed_by?(current_user)
+    render :plain => t("messages.no_access_to_question"), status: :forbidden and return false unless @question.can_be_accessed_by?(current_user)
     true
   end
 

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe EventsController do
 
   def create_test_session
-    @survey = FactoryGirl.create(:survey)
+    @survey = FactoryBot.create(:survey)
     @event = @survey.event
     @user = @event.user
   end

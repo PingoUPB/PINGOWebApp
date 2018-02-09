@@ -4,7 +4,7 @@ class Metric
 	include Mongoid::Timestamps::Created
 
 	field :name, type: String
-	index :name
+	index({ name: 1 })
 	
 	field :meta, type: String
 

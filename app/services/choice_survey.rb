@@ -6,8 +6,8 @@ class ChoiceSurvey < GenericSurvey
 
   def vote(voter, option_ids)
     if self.survey.running?(false)
-      unless self.survey.matches?(voters: voter) #:fixme: is this "enough" concurrency safe?
-        self.survey.add_to_set(:voters, voter.to_s)
+      unless self.survey._matches?(voters: voter)
+        self.survey.add_to_set(voters: voter.to_s)
         if option_ids.respond_to?(:each)
           option_ids.each do |option|
             self.survey.options.find(option).vote_up

@@ -4,7 +4,7 @@ describe QuestionsController do
 
   def create_hackable_question 
     @question = create_multiple_choice_question
-    @user = FactoryGirl.create(:user)
+    @user = FactoryBot.create(:user)
     @question.user = @user
     @question.save!
   end
@@ -42,7 +42,7 @@ describe QuestionsController do
     it "allows sharing questions" do
       create_hackable_question
       sign_in @user
-      hacker = FactoryGirl.create(:hacker)
+      hacker = FactoryBot.create(:hacker)
 
       post :update, id: @question.id, question: { collaborators_form: [hacker.id] }
       expect(response.status).to eq(302)

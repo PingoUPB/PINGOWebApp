@@ -5,15 +5,15 @@ class Option
    field :name, type: String
    field :description, type: String
    field :votes, type: Integer, default: 0
-   field :correct, type: Boolean, defaut: nil
+   field :correct, type: Boolean, default: nil
    
    validates_presence_of :name
    
    def vote_up
-     self.inc(:votes, 1)
+     self.inc(votes: 1)
    end
    
    def vote_down
-     self.inc(:votes, -1)
+     self.inc(votes: -1)
    end
 end

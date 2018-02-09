@@ -1,15 +1,30 @@
 development:
-  host: localhost
-  database: eclickr_development
+  clients:
+    default:
+      database: eclickr_development
+      hosts:
+        - 127.0.0.1:27017
 
 test:
-  uri: <%= ENV['MONGOTEST_URL'] %>
-  
-staging:
-   uri: <%= ENV['MONGOHQ_URL'] %>
-   logger: false
+  clients:
+    default:
+     uri: <%= ENV['MONGOHQ_URL'] %>
 
-# set these environment variables on your prod server
+staging:
+  clients:
+    default:
+     uri: <%= ENV['MONGOHQ_URL'] %>
+  options:
+    log_level: :warning
+
 production:
- uri: <%= ENV['MONGOHQ_URL'] %>
- logger: false
+  clients:
+    default:
+     # The standard MongoDB connection URI allows for easy
+     # replica set connection setup.
+     # Use environment variables or a config file to keep your
+     # credentials safe e.g. <%= ENV['MONGODB_URI'] %>.
+     uri: <%= ENV['MONGOHQ_URL'] %>
+  options:
+    log_level: :warning
+    consistency: :eventual # is that OK?

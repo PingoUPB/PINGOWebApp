@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
-  before_filter :authenticate_user!, :except => [:participate, :find]
+  before_action :authenticate_user_from_token!, :except => [:participate, :find]
+  before_action :authenticate_user!, :except => [:participate, :find]
   layout :detect_browser
 
   # GET /events
@@ -180,7 +181,7 @@ class EventsController < ApplicationController
         format.html { redirect_to @event, notice: t("messages.session_survey_successfully_created") }
         format.json { render json: @survey, status: :created, location: @survey }
       else
-        format.html { render action: "new" }
+        format.html { render action: "new"; puts @survey.errors.messages }
         format.json { render json: @survey.errors, status: :unprocessable_entity }
       end
     end

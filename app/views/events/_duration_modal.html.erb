@@ -27,7 +27,7 @@
 <% content_for :javascript do %>
 	<script>
 		$("#durationModal").modal({show: false});
-		$("duration_modal_form").live("ajax:error", function(){
+		$(document).on("ajax:error", "duration_modal_form", function(){
 			alert("Leider ist ein Fehler aufgetreten. \n Unfortunately, an error occured.")
 		});
 	</script>

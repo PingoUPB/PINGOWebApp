@@ -34,6 +34,6 @@ class GenericQuestion < Delegator
     Question.reflect_on_association arg
   end
   
-  alias_method :question, :__getobj__ # reader for survey
+  alias_method :question, :__getobj__ # reader for question
   
 end

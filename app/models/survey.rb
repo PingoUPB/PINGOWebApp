@@ -7,7 +7,7 @@ class Survey
 
   after_save :delete_cache, :refresh_event_state
 
-  belongs_to :original_survey, class_name: "Survey", inverse_of: :repeated_surveys
+  belongs_to :original_survey, class_name: "Survey", inverse_of: :repeated_surveys, optional: true
   has_many :repeated_surveys, class_name: "Survey", inverse_of: :original_survey
   
   embeds_many :options
@@ -33,12 +33,12 @@ class Survey
 
   belongs_to :event, index: true
   
-  belongs_to :question
-  
-  scope :current, where(:starts.gte => DateTime.now).and(:ends.lt => DateTime.now)
-  scope :display_fields, only(:description, :ends, :name, :options, :starts, :event_id, :quick, :created_at, :multi, :type, :settings, :voters, :voters_hash, :original_survey_id, :exit_q, :question_id)
-  scope :participate_fields, only(:description, :ends, :name, :options, :starts, :event_id, :quick, :multi, :type, :exit_q, :settings)
-  scope :worker_fields, only(:voters, :multi, :type, :starts, :ends)
+  belongs_to :question, optional: true
+
+  scope :current, ->{ where(:starts.gte => DateTime.now).and(:ends.lt => DateTime.now) }
+  scope :display_fields, ->{ only(:description, :ends, :name, :options, :starts, :event_id, :quick, :created_at, :multi, :type, :settings, :voters, :voters_hash, :original_survey_id, :exit_q, :question_id) }
+  scope :participate_fields, ->{ only(:description, :ends, :name, :options, :starts, :event_id, :quick, :multi, :type, :exit_q, :settings) }
+  scope :worker_fields, ->{ only(:voters, :multi, :type, :starts, :ends) }
   
   validates :event, presence: true
   
@@ -85,13 +85,13 @@ class Survey
     self.ends = nil
     self.ends = DateTime.now + duration.seconds unless duration == 0
     self.starts = DateTime.now
-    self.save!
+    self.timeless.save!
   end
   
   def stop!(duration = 0)
     return false unless self.running?(true)
     self.ends = DateTime.now + duration.seconds
-    self.save!
+    self.timeless.save!
   end
 
   

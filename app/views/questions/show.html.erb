@@ -18,7 +18,7 @@ Text
 <%= t("type.number") %>
 <% end %>
 <br>
-<p><strong>Tags:</strong> <%= @question.tags_array.join(", ") %> </p>
+<p><strong>Tags:</strong> <%= @question.tags.join(", ") %> </p>
 <% if @question.has_options? %>
 <strong><%= t("surveys.show.options") %></strong>
 <ul id="question-options-list">

@@ -1,7 +1,7 @@
 class Question
   include Mongoid::Document
   include Mongoid::Timestamps
-  include Mongoid::Taggable
+  include Mongoid::TagCollectible::Tagged
   
   include ActiveModel::ForbiddenAttributesProtection # #rails4
 
@@ -23,12 +23,12 @@ class Question
 
   embeds_many :question_comments
 
-  belongs_to :user   # TODO can questions exist without user?
-  belongs_to :original_question, class_name: "Question", inverse_of: :copied_questions
+  belongs_to :user, inverse_of: :questions
+  belongs_to :original_question, class_name: "Question", inverse_of: :copied_questions, optional: true
   has_many :copied_questions, class_name: "Question", inverse_of: :original_question
 
   has_and_belongs_to_many :collaborators, class_name: "User", inverse_of: :shared_questions
-  index :collaborator_ids, sparse: true
+  index({ collaborator_ids: 1 }, { sparse: true })
 
 
   # this is where we setup getting the service objects
@@ -83,9 +83,9 @@ class Question
 
   def self.public_question_tags(type = nil)
     if type
-      self.where(public:true).in(type: type).flat_map(&:tags_array).uniq
+      self.where(public:true).in(type: type).flat_map(&:tags).uniq
     else
-      self.where(public:true).flat_map(&:tags_array).uniq
+      self.where(public:true).flat_map(&:tags).uniq
     end
   end
 

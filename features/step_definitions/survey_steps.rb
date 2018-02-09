@@ -1,32 +1,32 @@
 Given /^a survey exists$/ do 
   if @event
-    @survey = FactoryGirl.create(:survey, event: @event)
+    @survey = FactoryBot.create(:survey, event: @event)
   else
-    @survey = FactoryGirl.create(:survey)
+    @survey = FactoryBot.create(:survey)
   end
 end
 
 Given /^a survey with some options exists$/ do 
   if @event
-    @survey = FactoryGirl.create(:survey_with_options, event: @event)
+    @survey = FactoryBot.create(:survey_with_options, event: @event)
   else
-    @survey = FactoryGirl.create(:survey_with_options)
+    @survey = FactoryBot.create(:survey_with_options)
   end
 end
 
 Given /^a text survey exists$/ do
   if @event
-    @survey = FactoryGirl.create(:text_survey, event: @event)
+    @survey = FactoryBot.create(:text_survey, event: @event)
   else
-    @survey = FactoryGirl.create(:text_survey)
+    @survey = FactoryBot.create(:text_survey)
   end
 end
 
 Given /^a numeric survey exists$/ do
   if @event
-    @survey = FactoryGirl.create(:numeric_survey, event: @event)
+    @survey = FactoryBot.create(:numeric_survey, event: @event)
   else
-    @survey = FactoryGirl.create(:numeric_survey)
+    @survey = FactoryBot.create(:numeric_survey)
   end
 end
 

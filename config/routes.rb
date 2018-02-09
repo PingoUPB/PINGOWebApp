@@ -1,4 +1,4 @@
-Eclickr::Application.routes.draw do
+Rails.application.routes.draw do
 
   root :to => "home#index"
 
@@ -72,7 +72,7 @@ Eclickr::Application.routes.draw do
   get "invitations/new", :as => "invitation"
   post "invitations/deliver", :as => "deliver_invitation"
 
-  mount Maktoub::Engine => "/" # mounts newsletter engine at /newsletters
+  # mount Maktoub::Engine => "/" # mounts newsletter engine at /newsletters
 
   namespace :admin do
     resources :users
