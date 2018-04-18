@@ -8,7 +8,7 @@ class TextSurvey < GenericSurvey
   def vote(voter, option)
     if running?(false)
       unless matches?(voters: voter)
-        add_to_set(:voters, voter.to_s)
+        add_to_set(voters: voter.to_s)
         if option.respond_to?(:each)
           option.first(max_answers).each do |o|
             push("voters_hash.words", o.to_s.strip) unless o.blank?

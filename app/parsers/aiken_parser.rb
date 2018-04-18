@@ -103,7 +103,9 @@ class AikenParser
             end
           end
           current_question.user = user
-          current_question.tags = tags
+          
+          # current_question.tags = tags   ### FIXME
+          
           unless current_question.save
             errors << {"type" => "unknown_error", "text" => current_question.name}
           else

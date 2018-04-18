@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   #before_filter :check_ip
   before_action :setup_test_helper
+  before_action :configure_permitted_parameters, if: :devise_controller?
 
   # for lograge, add IP to logs
   def append_info_to_payload(payload)
@@ -123,8 +124,8 @@ class ApplicationController < ActionController::Base
     # via parameters. However, anyone could use Rails's token
     # authentication features to get the token from a header.
     def authenticate_user_from_token!
-      user_token = params[:user_token].presence
-      user       = user_token && User.find_by_authentication_token(user_token.to_s)
+      user_token = params[:auth_token].presence
+      user       = user_token && User.where(authentication_token: user_token.to_s).first
 
       if user
         # Notice we are passing store false, so the user is not
@@ -133,6 +134,12 @@ class ApplicationController < ActionController::Base
         # sign in token, you can simply remove store: false.
         sign_in user, store: false
       end
+    end
+    
+    def configure_permitted_parameters
+      allowed_user_keys = [:first_name, :last_name, :organization, :faculty, :user_comment, :newsletter]
+      devise_parameter_sanitizer.permit(:sign_up, keys: allowed_user_keys)
+      devise_parameter_sanitizer.permit(:account_update, keys: allowed_user_keys +  [:wants_sound])
     end
 
 end

@@ -17,7 +17,7 @@ class ChoiceSurvey < GenericSurvey
         else
           self.survey.options.find(option_ids).vote_up
         end
-        self.survey.add_to_set("voters_hash."+voter.to_s, (option_ids || :no_answer))
+        self.survey.push(:voters_hash => {voter.to_s => (option_ids || :no_answer)})
         self.survey.track_vote(voter)
         return true
       end

@@ -30,7 +30,7 @@ group :test do
 	gem 'simplecov', :require => false
 end
 
-gem 'mongoid', '~> 6.3.0'
+gem 'mongoid', '~> 7.0.0'
 gem 'mongoid-tag-collectible'
 gem 'mongoid_token', '~> 4.0.0', git: 'git://github.com/PingoUPB/mongoid_token.git', branch: "rails51-mongoid6"
 
@@ -106,7 +106,7 @@ gem 'obscenity', git: "git://github.com/PingoUPB/obscenity.git"
 
 gem 'pry-rails', :group => :development
 
-gem 'ruby-standard-deviation'
+gem 'ruby-standard-deviation', :git => 'git://github.com/PingoUPB/ruby-standard-deviation.git'
 gem 'histogram', require: 'histogram/array'
 
 gem 'gift-parser', :git => 'git://github.com/PingoUPB/gift-parser.git', :require => 'gift'

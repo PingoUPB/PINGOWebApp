@@ -65,7 +65,7 @@ class GiftImporter
           end
         end
         q.user = user
-        q.tags = tags
+        # q.tags = tags #### FIXME
         unless q.save
           errors << {"type" => "unknown_error", "text" => q.name}
         else

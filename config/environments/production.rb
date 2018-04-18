@@ -50,9 +50,7 @@ Rails.application.configure do
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
 
-  # Enable threaded mode
-  config.threadsafe! unless $rails_rake_task
-  #config.eager_loading = true # RAILS4 # rails 4
+  config.eager_loading = true # RAILS4 # rails 4
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation can not be found)
@@ -68,8 +66,6 @@ Rails.application.configure do
   config.lograge.custom_options = lambda do |event|
     {ip: event.payload[:ip]}
   end
-  
-  config.active_record.dump_schema_after_migration = false
 
 end
 

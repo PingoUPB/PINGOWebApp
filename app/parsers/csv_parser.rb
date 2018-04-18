@@ -89,7 +89,9 @@ class CsvParser
             end
 
             q.user = user
-            q.tags = tags
+            
+            # q.tags = tags #### FIXME
+            
             unless q.save # true/false je nachdem ob erfolgreich gesichert wurde
               errors << {"type" => "unknown_error", "text" => q.name}
             else

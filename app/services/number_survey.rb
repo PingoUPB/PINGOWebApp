@@ -3,7 +3,7 @@ class NumberSurvey < GenericSurvey
   def vote(voter, option)
     if running?(false)
       unless matches?(voters: voter)
-        add_to_set(:voters, voter.to_s)
+        add_to_set(voters: voter.to_s)
         begin
           push("voters_hash.numbers", BigDecimal.new(option.gsub(",", ".")).to_f)
         rescue ; end

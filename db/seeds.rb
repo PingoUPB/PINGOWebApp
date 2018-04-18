@@ -7,11 +7,10 @@
 #   Mayor.create(:name => 'Emanuel', :city => cities.first)
 require 'securerandom'
 
-puts 'EMPTY THE MONGODB DATABASE'
-Mongoid.master.collections.reject { |c| c.name =~ /^system/}.each(&:drop)
+
 puts 'SETTING UP DEFAULT USER LOGIN'
 random_password = SecureRandom.urlsafe_base64(6)
-user = User.create! :name => 'admin', :email => 'user@example.com', :password => random_password,
+user = User.create! :email => 'user@example.com', :password => random_password,
                     :password_confirmation => random_password, :admin => true,
                     :first_name => 'Max', :last_name => 'Mustermann',
                     :organization => 'Meine Uni',

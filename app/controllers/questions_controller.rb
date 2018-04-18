@@ -168,7 +168,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy
+    @question.destroy if @question.user == current_user || current_user.admin?
 
     respond_to do |format|
       format.html { redirect_to questions_path }

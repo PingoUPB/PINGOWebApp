@@ -85,13 +85,13 @@ class Survey
     self.ends = nil
     self.ends = DateTime.now + duration.seconds unless duration == 0
     self.starts = DateTime.now
-    self.timeless.save!
+    self.save!
   end
   
   def stop!(duration = 0)
     return false unless self.running?(true)
     self.ends = DateTime.now + duration.seconds
-    self.timeless.save!
+    self.save!
   end
 
   

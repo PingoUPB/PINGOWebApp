@@ -121,7 +121,9 @@ class MoodleXmlParser
         q.add_setting "answers", TextSurvey::ONE_ANSWER
       end
       q.user = user
-      q.tags = tags
+      
+      # q.tags = tags #### FIXME
+      
       unless q.save
         errors << {"type" => "unknown_error", "text" => q.name}
       else

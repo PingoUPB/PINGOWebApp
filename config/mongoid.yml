@@ -27,4 +27,3 @@ production:
      uri: <%= ENV['MONGOHQ_URL'] %>
   options:
     log_level: :warning
-    consistency: :eventual # is that OK?
