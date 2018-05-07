@@ -16,6 +16,7 @@ class ApiController < ApplicationController
 
     if resource.valid_password?(params[:password])
       resource.ensure_authentication_token! #make sure the user has a token generated
+      resource.save
       render json: {authentication_token: resource.authentication_token}
     else
       render json: {authentication_token: INVALID_TOKEN}
