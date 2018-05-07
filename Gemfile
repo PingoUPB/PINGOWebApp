@@ -1,5 +1,6 @@
 source 'http://rubygems.org'
 gem 'rails', '~> 5.1'
+gem 'rake'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
@@ -71,9 +72,12 @@ gem "grit"
 
 #gem 'simple_worker', :group => [:heroku]
 gem 'resque'
-gem 'capistrano'
-gem 'capistrano-newrelic'
-# gem 'rvm-capistrano', :group => [:nonheroku]
+
+group :development do
+  gem 'capistrano-rails',   '~> 1.1', require: false
+  gem 'capistrano-bundler', '~> 1.1', require: false
+	gem 'capistrano-rvm',   '~> 0.1', require: false
+end
 
 gem "juggernaut"
 gem "oj" # faster JSON parsing
