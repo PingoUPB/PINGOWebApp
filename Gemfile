@@ -108,7 +108,6 @@ gem 'obscenity', git: "https://github.com/PingoUPB/obscenity.git"
 
 gem 'pry-rails', :group => :development
 
-gem 'ruby-standard-deviation', :git => 'https://github.com/PingoUPB/ruby-standard-deviation.git'
 gem 'histogram', require: 'histogram/array'
 
 gem 'gift-parser', :git => 'https://github.com/PingoUPB/gift-parser.git', :require => 'gift'

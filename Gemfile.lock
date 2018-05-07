@@ -29,12 +29,6 @@ GIT
   specs:
     obscenity (1.0.1)
 
-GIT
-  remote: https://github.com/PingoUPB/ruby-standard-deviation.git
-  revision: adb9a5e73cf568e8d2c00cd0c8aaa8d31f9c49ca
-  specs:
-    ruby-standard-deviation (2.0.0)
-
 GEM
   remote: http://rubygems.org/
   specs:
@@ -496,7 +490,6 @@ DEPENDENCIES
   redis
   resque
   rspec-rails (>= 2.6.1)
-  ruby-standard-deviation!
   seer (>= 0.10.0)
   simplecov
   spring
