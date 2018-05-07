@@ -48,7 +48,7 @@
     <td><%= event.description %></td>
     <td><%= link_to t("show"), event_url(event) %></td>
     <td><%= link_to t("edit"), edit_event_path(event) %></td>
-    <td><%= link_to(t("delete"), event, confirm: t(".delete_sure"), method: :delete) unless params[:shared] %></td>
+    <td><%= link_to(t("delete"), event, "data-confirm" => t(".delete_sure"), method: :delete) unless params[:shared] %></td>
     <% if current_user.admin? %>
       <td><%= event.surveys.count %>/<%= (event.surveys).map(&:total_votes).max || 0 %></td>
       <td><%= (event.surveys.any? ? l(event.latest_survey.created_at, format: "%d.%m.%Y/%H:%M") : "") %></td>

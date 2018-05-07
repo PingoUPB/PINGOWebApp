@@ -32,11 +32,9 @@ end
 
 gem 'mongoid', '~> 7.0.0'
 gem 'mongoid-tag-collectible'
-gem 'mongoid_token', '~> 4.0.0', git: 'git://github.com/PingoUPB/mongoid_token.git', branch: "rails51-mongoid6"
+gem 'mongoid_token', '~> 4.0.0', git: 'https://github.com/PingoUPB/mongoid_token.git', branch: "rails51-mongoid6"
 
 gem "devise", "~> 4.4.0"
-
-#gem 'mongoid_taggable'
 
 gem "jqcloud-rails"
 
@@ -63,7 +61,7 @@ gem 'em-synchrony' #, :git => 'git://github.com/igrigorik/em-synchrony.git'
 gem 'rack-fiber_pool', :require => 'rack/fiber_pool'
 
 gem "thin"
-gem "amnesia", :groups => [:production, :staging], :git => 'git://github.com/PingoUPB/amnesia.git'
+gem "amnesia", :groups => [:production, :staging], :git => 'https://github.com/PingoUPB/amnesia.git'
 gem "foreman", :groups => [:production, :staging]
 gem "lograge", :groups => [:production, :staging]
 
@@ -100,13 +98,13 @@ end
 
 # gem 'maktoub'
 
-gem 'obscenity', git: "git://github.com/PingoUPB/obscenity.git"
+gem 'obscenity', git: "https://github.com/PingoUPB/obscenity.git"
 
 # gem 'better_logging'
 
 gem 'pry-rails', :group => :development
 
-gem 'ruby-standard-deviation', :git => 'git://github.com/PingoUPB/ruby-standard-deviation.git'
+gem 'ruby-standard-deviation', :git => 'https://github.com/PingoUPB/ruby-standard-deviation.git'
 gem 'histogram', require: 'histogram/array'
 
-gem 'gift-parser', :git => 'git://github.com/PingoUPB/gift-parser.git', :require => 'gift'
+gem 'gift-parser', :git => 'https://github.com/PingoUPB/gift-parser.git', :require => 'gift'

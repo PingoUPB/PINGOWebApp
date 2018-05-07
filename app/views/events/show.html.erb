@@ -140,7 +140,7 @@
 					options = ["Tag Cloud"];
 				}
 				current_row = templateRow.clone();
-				current_row.attr("data-tags", (this["tags_array"] || []).join(","));
+				current_row.attr("data-tags", (this["tags"] || []).join(","));
 				current_row.attr("id", "question_row" + this["_id"]);
 				current_row.find("td[data-action='add_question']").html(addLink.replace(/__Q__/, this["_id"]["$oid"]));
 				current_row.find("td[data-attribute='name']").text(this["name"]).popover({

@@ -46,7 +46,7 @@ class User
   
   validates :first_name, presence: true
   validates :last_name, presence: true
-  validates :faculty, presence: true
+
   validates :organization, presence: true
   validates_uniqueness_of :name, :email, case_sensitive: false
   

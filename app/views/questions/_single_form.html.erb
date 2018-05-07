@@ -77,7 +77,7 @@ $(document).ready(function() {
   	$(this).prop('checked',true);
 	});
 	$("#<%= namespace %>_question_tags").tagsManager({ // http://welldonethings.com/tags/manager
-	prefilled: "<%= question.tags %>",
+	prefilled: "<%= question.tags.join(",") %>",
 			hiddenTagListName: "<%= namespace %>_question[tags]",
 			preventSubmitOnEnter: true
 	});

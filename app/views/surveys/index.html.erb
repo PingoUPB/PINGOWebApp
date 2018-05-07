@@ -27,7 +27,7 @@
 	<% end %>
     <td><%= link_to 'Show', survey %></td>
     <td><%= link_to 'Edit', edit_survey_path(survey) %></td>
-    <td><%= link_to 'Delete', survey, confirm: 'Do you really want to delete ' + survey.name + '?', method: :delete %></td>
+    <td><%= link_to 'Delete', survey, "data-confirm" => 'Do you really want to delete ' + survey.name + '?', method: :delete %></td>
   </tr>
 <% end %>
 </table>

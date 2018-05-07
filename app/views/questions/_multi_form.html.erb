@@ -60,7 +60,7 @@
 <script>
 $(document).ready(function() {
 	$("#multi_question_tags").tagsManager({ // http://welldonethings.com/tags/manager
-		prefilled: "<%= question.tags %>",
+		prefilled: "<%= question.tags.join(",") %>",
 		hiddenTagListName: "multi_question[tags]",
 		preventSubmitOnEnter: true
 	});

@@ -64,7 +64,8 @@ class QuestionsController < ApplicationController
 
     if params[:tag]
       q_before = @questions
-      @questions = @questions.tagged_with(params[:tag]) # TODO
+      q_tag = QuestionTag.find(params[:tag])
+      @questions = q_tag.tagged
 
       unless @questions.any?
         params[:tag] = nil
@@ -263,6 +264,7 @@ class QuestionsController < ApplicationController
   def set_js_tags
     if params["single_question"] && params["single_question"][:tags]
       params[:question][:tags] = params["single_question"][:tags].split(",")
+      puts params[:question][:tags]
     elsif params["multi_question"] && params["multi_question"][:tags]
       params[:question][:tags] = params["multi_question"][:tags].split(",")
     elsif params["text_question"] && params["text_question"][:tags]
@@ -283,6 +285,6 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:name, :type, :description, :tags, :public, :collaborators_form, question_options_attributes: [:name, :correct, :id, :_destroy])
+    params.require(:question).permit! #(:name, :type, :description, :tags, :public, :collaborators_form, question_options_attributes: [:name, :correct, :id, :_destroy])
   end
 end

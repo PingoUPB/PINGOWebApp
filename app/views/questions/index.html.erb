@@ -111,7 +111,7 @@
 				<% else %>
 				<td> <%= link_to icon_tag("pencil"), edit_question_path(question), title: t("edit"), class: "question_edit_link" %> </td>
 				<td> <%= link_to icon_tag("minus-sign"), question,
-				title: t(".delete_question"), confirm: t(".delete_sure"), method: :delete %></td>
+				title: t(".delete_question"), "data-confirm" => t(".delete_sure"), method: :delete %></td>
 				<% end %>
 			</tr>
 			<% end %>

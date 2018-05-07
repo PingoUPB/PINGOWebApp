@@ -32,7 +32,7 @@
 			<td> <%= link_to icon_tag("comment"), question_question_comments_path(survey.question, survey_id: survey.id), title: t("comment"), remote: true, class: "comment_modal_link" if survey.question.present? %> </td>
 			<!-- <td> <%= link_to icon_tag("pencil"), edit_event_survey_path(survey.event, survey), title: t("edit") %> </td> -->
 			<td><%= link_to icon_tag("minus-sign"), event_survey_path(survey.event, survey),
-			title: t("events.show.delete_survey"), confirm: t("events.show.delete_sure"), method: :delete %></td>
+			title: t("events.show.delete_survey"), "data-confirm" => t("events.show.delete_sure"), method: :delete %></td>
 		</tr>
 	<% end %>
 	</tbody>
