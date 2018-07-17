@@ -7,14 +7,14 @@ class TextSurvey < GenericSurvey
 
   def vote(voter, option)
     if running?(false)
-      unless matches?(voters: voter)
+      unless _matches?(voters: voter)
         add_to_set(voters: voter.to_s)
         if option.respond_to?(:each)
           option.first(max_answers).each do |o|
-            push("voters_hash.words", o.to_s.strip) unless o.blank?
+            push({:voters_hash_words => o.to_s.strip}) unless o.blank?
           end
         else
-          push("voters_hash.words", option.to_s)
+          push({:voters_hash_words => option.to_s})
         end
         track_vote(voter)
         true
@@ -25,8 +25,8 @@ class TextSurvey < GenericSurvey
   end
 
   def raw_results
-    if self.total_votes > 0 && self.voters_hash
-      self.voters_hash['words'].map do |word|
+    if self.total_votes > 0 && voters_hash_words
+      self.voters_hash_words.map do |word|
         OpenStruct.new voter_id: nil, answer: word
       end
     else
@@ -64,8 +64,8 @@ class TextSurvey < GenericSurvey
   end
 
   def word_counts(locale = :en)
-    if voters_hash and voters_hash["words"]
-      Hash[@survey.voters_hash["words"].reject do |word|
+    if voters_hash_words
+      Hash[@survey.voters_hash_words.reject do |word|
         Obscenity.profane?(word)
       end.group_by(&:capitalize).map do |k, v|
         [k, v.length]

@@ -2,10 +2,10 @@ class NumberSurvey < GenericSurvey
 
   def vote(voter, option)
     if running?(false)
-      unless matches?(voters: voter)
+      unless _matches?(voters: voter)
         add_to_set(voters: voter.to_s)
         begin
-          push("voters_hash.numbers", BigDecimal.new(option.gsub(",", ".")).to_f)
+          push(:voters_hash_numbers => BigDecimal.new(option.gsub(",", ".")).to_f)
         rescue ; end
         track_vote(voter)
         true
@@ -16,8 +16,8 @@ class NumberSurvey < GenericSurvey
   end
 
   def raw_results
-    if self.total_votes > 0 && self.voters_hash
-      self.voters_hash['numbers'].map do |word|
+    if self.total_votes > 0 && voters_hash_numbers
+      self.voters_hash_numbers.map do |word|
         OpenStruct.new voter_id: nil, answer: word
       end
     else
@@ -40,9 +40,9 @@ class NumberSurvey < GenericSurvey
   end
 
   def number_counts(kind = :clustered, locale = :en)
-    if voters_hash and voters_hash["numbers"]
+    if voters_hash_numbers
       if kind == :clustered
-        clustered_votes = Statistics.cluster(voters_hash["numbers"].map do |number|
+        clustered_votes = Statistics.cluster(voters_hash_numbers.map do |number|
           Statistics.sigfig_to_s(number,2)
         end)
         Hash[clustered_votes.map do |cluster|
@@ -57,13 +57,13 @@ class NumberSurvey < GenericSurvey
         end
         ]
       elsif kind == :table
-        votes = voters_hash["numbers"].group_by { |number| number }.map do |key, val| 
+        votes = voters_hash_numbers.group_by { |number| number }.map do |key, val| 
           [ActionController::Base.helpers.number_with_delimiter(key, locale: locale), val.count]
         end 
 
         Hash[votes]
       else
-        Hash[Statistics.histogram voters_hash["numbers"]]
+        Hash[Statistics.histogram voters_hash_numbers]
       end
     else
       {}
@@ -79,20 +79,20 @@ class NumberSurvey < GenericSurvey
   end
 
   def voting_avg
-    if voters_hash and voters_hash["numbers"]
-      Statistics.avg voters_hash["numbers"]
+    if voters_hash_numbers
+      Statistics.avg voters_hash_numbers
     end
   end
 
   def voting_median
-    if voters_hash and voters_hash["numbers"]
-      Statistics.median voters_hash["numbers"]
+    if voters_hash_numbers
+      Statistics.median voters_hash_numbers
     end
   end
 
   def voting_stdev
-    if voters_hash and voters_hash["numbers"]
-      Statistics.stdev voters_hash["numbers"]
+    if voters_hash_numbers
+      Statistics.stdev voters_hash_numbers
     end
   end
 

@@ -121,6 +121,10 @@ class ApiController < ApplicationController
     render json: {duration_choices: DURATION_CHOICES.drop(1)}
   end
 
+  def me
+    # FIXME maybe change to use a JSON builder or rabl
+    render json: current_user, only: [:email, :name], methods: [:id, :contact_names_and_ids]
+  end
 
   ### for collaborators:
 

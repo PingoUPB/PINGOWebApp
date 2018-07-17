@@ -21,6 +21,8 @@ class Survey
   
   field :voters, type: Array
   field :voters_hash, type: Hash
+  field :voters_hash_numbers, type: Array
+  field :voters_hash_words, type: Array
   
   field :quick, type: Boolean
   field :multi, type: Boolean
@@ -36,7 +38,7 @@ class Survey
   belongs_to :question, optional: true
 
   scope :current, ->{ where(:starts.gte => DateTime.now).and(:ends.lt => DateTime.now) }
-  scope :display_fields, ->{ only(:description, :ends, :name, :options, :starts, :event_id, :quick, :created_at, :multi, :type, :settings, :voters, :voters_hash, :original_survey_id, :exit_q, :question_id) }
+  scope :display_fields, ->{ only(:description, :ends, :name, :options, :starts, :event_id, :quick, :created_at, :multi, :type, :settings, :voters, :voters_hash, :voters_hash_numbers, :voters_hash_words,:original_survey_id, :exit_q, :question_id) }
   scope :participate_fields, ->{ only(:description, :ends, :name, :options, :starts, :event_id, :quick, :multi, :type, :exit_q, :settings) }
   scope :worker_fields, ->{ only(:voters, :multi, :type, :starts, :ends) }
   

@@ -88,10 +88,6 @@ gem 'redis'
 gem 'em-redis', '>= 0.3.0'
 gem 'em-hiredis'
 
-group :production do
-	gem "newrelic_rpm", '>= 3.9.4.245'
-end
-
 group :development do
   gem "binding_of_caller", ">= 0.7.1"
   gem "better_errors", "~> 2.4.0"
@@ -103,6 +99,7 @@ end
 # gem 'maktoub'
 
 gem 'obscenity', git: "https://github.com/PingoUPB/obscenity.git"
+gem 'ruby-standard-deviation', :git => 'https://github.com/PingoUPB/ruby-standard-deviation.git'
 
 # gem 'better_logging'
 

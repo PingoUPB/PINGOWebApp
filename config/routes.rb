@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   post "api/delete_ppt_settings" => "api#delete_ppt_settings"
   get "api/question_types" => "api#question_types"
   get "api/duration_choices" => "api#duration_choices"
+  get "api/me" => "api#me"
 
   get "api/find_user_by_email" => "api#find_user_by_email"
 
@@ -73,6 +74,7 @@ Rails.application.routes.draw do
   post "invitations/deliver", :as => "deliver_invitation"
 
   # mount Maktoub::Engine => "/" # mounts newsletter engine at /newsletters
+  get "newsletter_confirm/:token" => "home#newsletter"
 
   namespace :admin do
     resources :users

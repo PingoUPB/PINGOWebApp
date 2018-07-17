@@ -24,7 +24,7 @@
 					</div>
 				</div>
 			</div>
-			<% if current_user.questions.any? %>
+			<% if current_user.questions.any? || current_user.shared_questions.any? %>
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4 class="panel-title">

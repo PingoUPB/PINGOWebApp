@@ -1,5 +1,5 @@
 <div class="form-group">
-	<%= select_tag "tags", options_for_select([["✱ " + t(".all_tags"), '']] + current_user.question_tags.sort.map{ |t| [t, t]}),  class: "form-control" %>
+	<%= select_tag "tags", options_for_select([["✱ " + t(".all_tags"), '']] + current_user.all_question_tags.sort.map{ |t| [t, t]}),  class: "form-control" %>
 </div>
 <table id="question-list" class="table table-condensed table-striped">
 	<tbody>

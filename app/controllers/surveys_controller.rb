@@ -473,7 +473,7 @@ class SurveysController < ApplicationController
   end
 
   def results
-    @survey = Survey.only(:type, :options, :voters_hash, :event_id, :voters).find(params[:id]).service
+    @survey = Survey.only(:type, :options, :voters_hash, :voters_hash_numbers, :voters_hash_words,:event_id, :voters).find(params[:id]).service
     check_access
     return if performed?
 

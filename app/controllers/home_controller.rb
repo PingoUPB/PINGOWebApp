@@ -13,6 +13,19 @@ class HomeController < ApplicationController
       end
     end
   end
+  
+  def newsletter
+    if !params[:token].blank?
+      @newsletter_user = User.where(newsletter_optin_token: params[:token]).first
+      if @newsletter_user
+        @newsletter_user.update_attribute(:newsletter_confirmed_at, Time.now)
+      else
+        render text: "Invalid Link, ungueltiger Link"
+      end
+    else
+      render text: "Invalid Link, ungueltiger Link"
+    end
+  end
 
 # :nocov:
   def stats

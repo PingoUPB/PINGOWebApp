@@ -104,7 +104,7 @@ class AikenParser
           end
           current_question.user = user
           
-          # current_question.tags = tags   ### FIXME
+          current_question.tags = tags
           
           unless current_question.save
             errors << {"type" => "unknown_error", "text" => current_question.name}
@@ -126,7 +126,7 @@ class AikenParser
             current_question.name = remove_leading_numbers line.chomp
             current_question.add_setting "answers", TextSurvey::ONE_ANSWER
             current_question.user = user
-            current_question.tags_array = tags
+            current_question.tags = tags
             current_question.save
           end
           question_count = question_count + 1

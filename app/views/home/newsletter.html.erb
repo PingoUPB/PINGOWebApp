@@ -1,0 +1,18 @@
+<h1>Newsletter Opt-In</h1>
+
+<div class="well">
+<% if I18n.locale == :de %>
+  <p><strong>&check; OK, danke!</strong><br></p>
+  <p>Vielen Dank für Ihre Zustimmung! Sie erhalten auch zukünftig Newsletter von uns.
+  <br>
+  Sie können dies jederzeit in Ihren Benutzereinstellungen oder via Link im Newsletter widerrufen.</p><br>
+  <small>Sie können dieses Browserfenster bzw. diesen -Tab nun schließen oder PINGO weiter nutzen.</small>
+<% else %>
+  <p><strong>&check; OK, thanks!</strong><br></p>
+  <p>Thank you very much for your consent. You will receive upcoming newsletters from the PINGO team.
+  <br>
+  You can always unsubscribe in your user settings or by using the unsubscribe-link in the newsletter.</p>
+  <br>
+  <small>You may now close this window/tab or continue using PINGO.</small>
+<% end %>
+</div>

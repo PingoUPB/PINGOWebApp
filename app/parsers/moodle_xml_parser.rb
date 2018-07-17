@@ -122,7 +122,7 @@ class MoodleXmlParser
       end
       q.user = user
       
-      # q.tags = tags #### FIXME
+      q.tags = tags
       
       unless q.save
         errors << {"type" => "unknown_error", "text" => q.name}

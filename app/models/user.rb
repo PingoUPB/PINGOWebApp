@@ -44,6 +44,9 @@ class User
 
   field :ppt_settings, type: Hash, default: Hash.new
   
+  field :newsletter_optin_token, type: String
+  field :newsletter_confirmed_at, type: Time, default: nil
+  
   validates :first_name, presence: true
   validates :last_name, presence: true
 
@@ -77,21 +80,34 @@ class User
   def name
     [first_name, last_name].join(" ")
   end
+  
+  def contact_names_and_ids
+    (self.contacts || []).map do |c|
+      {
+        id: c.id.to_s,
+        name: c.name
+      }
+    end
+  end
 
   def question_tags(type = nil)
     if type
-      self.questions.in(type: type).flat_map(&:tags).uniq if self.questions
+      self.questions.in(type: type).pluck(:tags).flatten.uniq if self.questions
     else
-      self.questions.flat_map(&:tags).uniq if self.questions
+      self.questions.pluck(:tags).flatten.uniq if self.questions
     end
   end
   
   def shared_question_tags(type = nil)
     if type
-      self.shared_questions.in(type: type).flat_map(&:tags).uniq
+      self.shared_questions.in(type: type).pluck(:tags).flatten.uniq
     else
-      self.shared_questions.flat_map(&:tags).uniq
+      self.shared_questions.pluck(:tags).flatten.uniq
     end
+  end
+  
+  def all_question_tags(type = nil)
+    (question_tags(type) + shared_question_tags(type)).uniq
   end
   
   

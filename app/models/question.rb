@@ -83,9 +83,9 @@ class Question
 
   def self.public_question_tags(type = nil)
     if type
-      self.where(public:true).in(type: type).flat_map(&:tags).uniq
+      self.where(public:true).in(type: type).pluck(:tags).flatten.uniq
     else
-      self.where(public:true).flat_map(&:tags).uniq
+      self.where(public:true).pluck(:tags).flatten.uniq
     end
   end
 

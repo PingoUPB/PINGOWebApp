@@ -199,7 +199,7 @@ class QuestionsController < ApplicationController
       questions = params[:question_ids].map do |id|
         Question.find(id).service
       end.select do |question|
-        question.user == current_user
+        question.can_be_accessed_by?(current_user)
       end
       extension, exporter = get_parser params[:export_type]
       exported_string = exporter.export questions
@@ -220,7 +220,7 @@ class QuestionsController < ApplicationController
       questions.each do |q|
         q.collaborators << share_user
       end
-      current_user.contacts.concat(share_user) unless current_user.contacts.include?(share_user)
+      current_user.contacts.append(share_user) unless current_user.contacts.include?(share_user)
       redirect_to questions_path, notice: t("messages.question_successfully_updated")
     else
       redirect_to questions_path, alert: t("messages.select_questions_to_share")
@@ -233,7 +233,7 @@ class QuestionsController < ApplicationController
 
   def upload
     extension, importer = get_parser params[:import_type]
-    errors = importer.import(params[:file], current_user, params[:question][:tags] || "")
+    errors = importer.import(params[:file], current_user, (params[:question][:tags] || "").split(","))
     unless errors[0].empty?
       @errors = errors[0]
       @successes = errors[1]
