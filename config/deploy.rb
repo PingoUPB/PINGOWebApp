@@ -2,7 +2,7 @@
 lock "~> 3.10.2"
 
 set :application, "pingo"
-set :repo_url, "git@github.com:PingoUPB/PINGOWebApp.git"
+set :repo_url, "ssh://gogs@git.coactum.de:2222/coactum/pingo-core.git"
 set :branch, "rails51"
 
 # Default branch is :master
