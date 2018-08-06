@@ -10,6 +10,9 @@ require "action_view/railtie"
 #require "action_cable/engine"
 require "sprockets/railtie"
 require "rails/test_unit/railtie"
+require 'rack'
+require 'rack/cors'
+
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -67,6 +70,13 @@ module Eclickr
     config.generators do |g|
         g.view_specs false
         g.helper_specs false
+    end
+
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins '*'
+        resource '*', :headers => :any, :methods => [:get, :post, :options, :patch, :put]
+      end
     end
   end
 end
