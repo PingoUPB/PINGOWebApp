@@ -96,6 +96,8 @@ end
   ENV["NEW_RELIC_APP_NAME"] = ""
   ENV["NEW_RELIC_LICENSE_KEY"] = ""
 
+  ENV["PINGO_RAILS_SECRET_TOKEN"] = "5548dc196d703e5c0e3c09f46da80b10b3bc44f966195bc65ff637715f7920171eedbf93876b2f72ad7d58da2dd994e59551c6004cd8d50a8b062ab90ccc29bc"
+
 
 # Domain without slash
 ENV["URL_PREFIX"] = "http://example.com" # make sure you also set the URL for action mailer at the end of the config block above
