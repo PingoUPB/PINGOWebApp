@@ -116,14 +116,17 @@ class ApiController < ApplicationController
     ]}
   end
 
+  # /api/me.json
+  def me 
+    #render json: current_user, only: [:wants_sound, :quick_start_settings], methods: [:name, :contacts]
+    render json: current_user.to_json(only: [:wants_sound, :quick_start_settings], include: {:contacts => {only: [:email], methods: [:id_as_string, :name]}})
+  end
+
+
+
   def duration_choices
     # drop(1) because without countdown is not supported by PINGO remote
     render json: {duration_choices: DURATION_CHOICES.drop(1)}
-  end
-
-  def me
-    # FIXME maybe change to use a JSON builder or rabl
-    render json: current_user, only: [:email, :name], methods: [:id, :contact_names_and_ids]
   end
 
   ### for collaborators:
@@ -135,7 +138,7 @@ class ApiController < ApplicationController
 
     user = User.where(email: email).first
     if user && current_user != user
-      render json: user, only: [:email], methods: [:name, :id]
+      render json: user.to_json(only: [:email, :id], methods: [:name, :id_as_string])
     else
       head :not_found
     end

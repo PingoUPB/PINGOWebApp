@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get "api/me" => "api#me"
 
   get "api/find_user_by_email" => "api#find_user_by_email"
+  get "api/me" => "api#me"
 
   get "stats" => "home#stats", as: :stats
   get "switch_view" => "home#switch_view"

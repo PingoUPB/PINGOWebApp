@@ -54,6 +54,8 @@ gem 'kgio' # speed up dalli
 
 gem 'rack-contrib'
 
+gem 'rack-cors', require: 'rack/cors'
+
 gem 'em-http-request' #, :git => 'git://github.com/igrigorik/em-http-request'
 #gem 'mongo', "1.6.2"
 #gem 'em-mongo'

@@ -90,6 +90,10 @@ class User
     end
   end
 
+  def id_as_string
+    id.to_s
+  end
+
   def question_tags(type = nil)
     if type
       self.questions.in(type: type).pluck(:tags).flatten.uniq if self.questions

@@ -146,7 +146,9 @@ class SurveysController < ApplicationController
           Rails.cache.write("last_survey/"+params[:id], @survey, :expires_in => 1.seconds)
         end
       }
-      format.json { render json: @event.state } # state info to update view if neccessary
+      response = {state: @event.state, survey: @event.latest_survey("participate").try(:service)};
+      format.json { render :json => response } # state info to update view if neccessary
+      # format.json { render json: @event.state }
     end
   end
 
@@ -173,6 +175,7 @@ class SurveysController < ApplicationController
       set_locale_for_event_or_survey
       format.html { redirect_to event_survey_path(@survey.event, @survey), notice: t('messages.survey_started') }
       format.js { render "events/add_question" }
+      format.json { render json: @survey, status: :created, location: event_survey_path(@survey.event, @survey) }
     end
   end
 
@@ -182,6 +185,16 @@ class SurveysController < ApplicationController
     @event = @survey.event
     check_access
     return if performed?
+
+
+    puts 
+    puts 
+    puts
+    puts params[:stoptime]
+    puts 
+    puts 
+    puts 
+    puts 
 
     if(is_numeric?(params[:stoptime]) && params[:stoptime].to_i > 0)
       @survey.stop!(params[:stoptime].to_i)
@@ -197,6 +210,7 @@ class SurveysController < ApplicationController
       set_locale_for_event_or_survey
       format.html { redirect_to event_survey_path(@survey.event, @survey), notice: flash_notice }
       format.js { render "events/add_question" }
+      format.json { render json: @survey, status: :created, location: event_survey_path(@survey.event, @survey)}
     end
   end
 
@@ -485,6 +499,8 @@ class SurveysController < ApplicationController
       @view_type = "text_table_results"
     end
     set_locale_for_event_or_survey
+
+    render :json => {survey: @survey, view_type: @view_type}
   end
 
   # :nocov:

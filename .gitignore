@@ -4,3 +4,4 @@ log/*.log
 tmp/
 .sass-cache/
 coverage
+node_modules

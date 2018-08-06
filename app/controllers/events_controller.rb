@@ -179,7 +179,9 @@ class EventsController < ApplicationController
         @survey.start!(duration)
         start_countdown_worker(@survey.id) if duration > 0
         format.html { redirect_to @event, notice: t("messages.session_survey_successfully_created") }
-        format.json { render json: @survey, status: :created, location: @survey }
+        #war vorher: 
+        #format.json { render json: @survey, status: :created, location: @survey}
+        format.json { render json: {survey: @survey, token: @survey.event.token.to_s}, status: :created}
       else
         format.html { render action: "new"; puts @survey.errors.messages }
         format.json { render json: @survey.errors, status: :unprocessable_entity }

@@ -8,7 +8,7 @@
 <% item.collaborators.each do |user| %>
 	<li class="collaborators__item">
 		<strong><%= user.name %></strong> (<%= user.email %>)
-		<a href="#" data-id="<%= user.id %>" class="remove-collaborator collaborators__action">
+		<a href="#" data-id="<%= user.id_as_string %>" class="remove-collaborator collaborators__action">
 			<%= t("remove") %>
 		</a>
 	</li>
