@@ -87,7 +87,7 @@ end
   ENV['COMMIT_HASH'] = "unknown"
 
   #maxcluster URLs
-  ENV["REDISTOGO_URL"] ||= "redis://HOST:port"
+  ENV["REDISTOGO_URL"] ||= "redis://localhost:6379"
   ENV["MONGOHQ_URL"] = "mongodb://user:pw@HOST:PORT/DBNAME"
   ENV["MEMCACHE_PASSWORD"] = ""
   ENV["MEMCACHE_SERVERS"] = ""
