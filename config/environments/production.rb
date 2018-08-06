@@ -1,6 +1,6 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb
-  
+
   config.eager_load = true
 
   # Code is not reloaded between requests
@@ -78,7 +78,7 @@ end
   ENV["JUGGERNAUT_HOST"] = "ws.example.com"
   ENV["JUGGERNAUT_PORT"] = "8080"
   ENV["PUSH_URL"] = ENV["JUGGERNAUT_URL"] = "https://#{ENV["JUGGERNAUT_HOST"]}/faye"
-  
+
 
   # Git version display in logo (set automatically at heroku)
   #repo = Grit::Repo.new(Rails.root + '.git')
@@ -87,7 +87,7 @@ end
   ENV['COMMIT_HASH'] = "unknown"
 
   #maxcluster URLs
-  ENV["REDISTOGO_URL"] = "redis://HOST:port"
+  ENV["REDISTOGO_URL"] ||= "redis://HOST:port"
   ENV["MONGOHQ_URL"] = "mongodb://user:pw@HOST:PORT/DBNAME"
   ENV["MEMCACHE_PASSWORD"] = ""
   ENV["MEMCACHE_SERVERS"] = ""

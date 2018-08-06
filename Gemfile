@@ -99,7 +99,7 @@ end
 # gem 'maktoub'
 
 gem 'obscenity', git: "https://github.com/PingoUPB/obscenity.git"
-gem 'ruby-standard-deviation', :git => 'https://github.com/PingoUPB/ruby-standard-deviation.git'
+#gem 'ruby-standard-deviation', :git => 'https://github.com/PingoUPB/ruby-standard-deviation.git'
 
 # gem 'better_logging'
 
