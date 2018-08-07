@@ -1,4 +1,5 @@
 class SettingsController < Devise::RegistrationsController
+  respond_to :html, :json
 
   def update
     @user = current_user
