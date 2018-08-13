@@ -17,7 +17,7 @@ class ApiController < ApplicationController
     if resource.valid_password?(params[:password])
       resource.ensure_authentication_token! #make sure the user has a token generated
       resource.save
-      render json: {authentication_token: resource.authentication_token}
+      render json: {authentication_token: resource.authentication_token, user: resource}
     else
       render json: {authentication_token: INVALID_TOKEN}
     end
@@ -30,7 +30,8 @@ class ApiController < ApplicationController
       return
     end
     if User.where(authentication_token: params[:auth_token]).first
-      render json: {valid: true}
+      resource = User.where(authentication_token: params[:auth_token]).first
+      render json: {valid: true, user: resource}
     else
       render json: {valid: false}
     end
