@@ -54,13 +54,6 @@ gem 'kgio' # speed up dalli
 
 gem 'rack-contrib'
 
-gem 'em-http-request' #, :git => 'git://github.com/igrigorik/em-http-request'
-#gem 'mongo', "1.6.2"
-#gem 'em-mongo'
-gem 'em-synchrony' #, :git => 'git://github.com/igrigorik/em-synchrony.git'
-
-gem 'rack-fiber_pool', :require => 'rack/fiber_pool'
-
 gem "thin"
 gem "amnesia", :groups => [:production, :staging], :git => 'https://github.com/PingoUPB/amnesia.git'
 gem "foreman", :groups => [:production, :staging]
