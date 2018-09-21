@@ -39,3 +39,11 @@ set :branch, "rails51"
 
 # Uncomment the following to require manually verifying the host key before first deploy.
 # set :ssh_options, verify_host_key: :secure
+
+after :deploy, "deploy:update_code", "deploy:reindex_mongo"
+
+namespace :deploy do
+  task :reindex_mongo, :roles => :app, :except => { :no_release => true } do
+    run "RAILS_ENV=#{fetch(:stage)} bundle exec rake db:mongoid:create_indexes --trace"
+  end
+end

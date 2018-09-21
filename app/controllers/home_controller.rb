@@ -20,10 +20,10 @@ class HomeController < ApplicationController
       if @newsletter_user
         @newsletter_user.update_attribute(:newsletter_confirmed_at, Time.now)
       else
-        render text: "Invalid Link, ungueltiger Link"
+        render plain: "Invalid Link, ungueltiger Link"
       end
     else
-      render text: "Invalid Link, ungueltiger Link"
+      render plain: "Invalid Link, ungueltiger Link"
     end
   end
 

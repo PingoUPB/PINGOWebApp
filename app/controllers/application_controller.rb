@@ -79,7 +79,11 @@ class ApplicationController < ActionController::Base
     unless ENV["USE_JUGGERNAUT"] == "false" # && ENV["USE_PUSH"] == "false"
       begin
         unless ENV["FAYE_ENABLED"] == "false"
-          EventMachine::HttpRequest.new(ENV["PUSH_URL"], :connection_timeout => 2.0).post(body: {message: {channel: channel, data: message}.to_json })
+          url = URI.parse(ENV["PUSH_URL"])
+          request = Net::HTTP::Post.new(url.path)
+          request.content_type = "application/json"
+          request.body = {message: {channel: channel, data: message}}.to_json
+          Net::HTTP.start(url.host, url.port, :read_timeout => 2) {|http| http.request(request)}
         end
         unless ENV["JUGGERNAUT_ENABLED"] == "false"
           Juggernaut.publish(channel.gsub("/", ""), message)
