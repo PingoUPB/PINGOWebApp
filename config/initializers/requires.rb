@@ -4,3 +4,4 @@ require "statistics"
 require "cluster"
 require "clusterer"
 require "csv"
+require 'rss'

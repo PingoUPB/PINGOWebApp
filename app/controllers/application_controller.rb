@@ -69,14 +69,7 @@ class ApplicationController < ActionController::Base
 
   def start_countdown_worker(id)
     if Rails.env.production? || Rails.env.staging?
-      if ENV["PLATFORM"] == "heroku"
-        worker = CountdownWorker.new
-        worker.url = ENV["REDISTOGO_URL"]
-        worker.sid = id
-        worker.queue(timeout: 120) #because atm we're on a free 5hrs/month plan ;)
-      else
         Resque.enqueue(ResqueCountdownWorker, id, ENV["REDISTOGO_URL"])
-      end
     else
       #worker.run_local #(:timeout=>30) # note: this is blocking!
     end

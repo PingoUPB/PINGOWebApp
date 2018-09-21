@@ -129,7 +129,7 @@ class Admin::UsersController < ApplicationController
             csv << [v.time_left, v.duration, v.session_uri, v.voter_id]
           end
         end
-        render text: csv_string.to_s
+        render plain: csv_string.to_s
       end
     end
   end

@@ -118,7 +118,7 @@ class QuestionsController < ApplicationController
       if @question.update_attributes(question_params)
         current_user.contacts.concat (@question.collaborators - current_user.contacts)
         format.html { redirect_to question_path(@question), notice: t("messages.question_successfully_updated") }
-        format.json { render text: "" }
+        format.json { render plain: "" }
       else
         format.html { render action: "edit" }
         format.json { render json: @question.errors, status: :unprocessable_entity }
@@ -130,7 +130,7 @@ class QuestionsController < ApplicationController
     respond_to do |format|
       if @question.kind_of?(ChoiceQuestion) && @question.transform
         format.html { redirect_to question_path(@question), notice: t("messages.question_successfully_updated") }
-        format.json { render text: "" }
+        format.json { render plain: "" }
       else
         format.html { render action: "edit" }
         format.json { render json: @question.errors, status: :unprocessable_entity }

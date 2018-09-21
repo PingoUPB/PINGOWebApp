@@ -84,9 +84,8 @@ gem "oj" # faster JSON parsing
 
 #gem "mongrel", :group => :development
 
-gem 'redis'
-gem 'em-redis', '>= 0.3.0'
-gem 'em-hiredis'
+gem "hiredis", "~> 0.6.0"
+gem "redis", ">= 3.2.0", :require => ["redis", "redis/connection/hiredis"]
 
 group :development do
   gem "binding_of_caller", ">= 0.7.1"

@@ -77,13 +77,8 @@ class HomeController < ApplicationController
   def get_blog_posts(url)
     begin
       feed = nil
-      if Rails.env.production? || Rails.env.staging?
-        rss_resp = EventMachine::HttpRequest.new(url).get
-        feed = RSS::Parser.parse(rss_resp.response)
-      else
-        open(url) do |rss|
-          feed = RSS::Parser.parse(rss)
-        end
+      open(url) do |rss|
+        feed = RSS::Parser.parse(rss)
       end
 
       unless feed.nil?

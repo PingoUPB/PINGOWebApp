@@ -2,7 +2,8 @@
 lock "~> 3.10.2"
 
 set :application, "pingo"
-set :repo_url, "git@github.com:PingoUPB/PINGOWebApp.git"
+set :repo_url, "git://github.com/PingoUPB/PINGOWebApp.git"
+#set :repo_url, "git@github.com:PingoUPB/PINGOWebApp.git"
 set :branch, "rails51"
 
 # Default branch is :master

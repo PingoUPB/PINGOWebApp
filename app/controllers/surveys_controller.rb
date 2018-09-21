@@ -8,7 +8,7 @@ class SurveysController < ApplicationController
   # GET /events/:event_id/surveys.json
   def index
     @event = Event.find_by_id_or_token(params[:event_id])
-    render text: t("messages.no_access_to_session"), status: :forbidden and return  if !@event.nil? && !current_user.admin && @event.user != current_user && !@event.collaborators.include?(current_user)
+    render plain: t("messages.no_access_to_session"), status: :forbidden and return  if !@event.nil? && !current_user.admin && @event.user != current_user && !@event.collaborators.include?(current_user)
 
     return if performed?
 
@@ -272,7 +272,7 @@ class SurveysController < ApplicationController
     else
       respond_to do |format|
         format.html { redirect_to "/"+@survey.event.to_param, alert: t("messages.already_voted") }
-        format.json { render text: t("messages.already_voted") }
+        format.json { render plain: t("messages.already_voted") }
       end
     end
   end
@@ -298,7 +298,7 @@ class SurveysController < ApplicationController
       else
         respond_to do |format|
           format.html { redirect_to "/"+@survey.event.to_param, alert: t("messages.already_voted") }
-          format.json { render text: t("messages.already_voted") }
+          format.json { render plain: t("messages.already_voted") }
         end
       end
     end

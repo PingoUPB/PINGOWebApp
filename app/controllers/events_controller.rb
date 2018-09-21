@@ -129,7 +129,7 @@ class EventsController < ApplicationController
   # GET /events/1/connected
   def connected_users
     @event = Event.find_by_token(params[:id])
-    render text: (@event.try(:current_viewers) || "-")
+    render plain: (@event.try(:current_viewers) || "-")
   end
 
   # POST /quick_start
@@ -269,6 +269,6 @@ class EventsController < ApplicationController
   end
 
   def check_access
-    render text: t("messages.no_access_to_session"), status: :forbidden and return  if !@event.nil? && !current_user.admin && @event.user != current_user && !@event.collaborators.include?(current_user)
+    render plain: t("messages.no_access_to_session"), status: :forbidden and return  if !@event.nil? && !current_user.admin && @event.user != current_user && !@event.collaborators.include?(current_user)
   end
 end

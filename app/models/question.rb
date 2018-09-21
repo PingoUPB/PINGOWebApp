@@ -29,7 +29,8 @@ class Question
 
   has_and_belongs_to_many :collaborators, class_name: "User", inverse_of: :shared_questions
   index({ collaborator_ids: 1 }, { sparse: true })
-
+  
+  before_validation :downcase_tags
 
   # this is where we setup getting the service objects
   def service
@@ -104,4 +105,9 @@ class Question
     end
   end
 
+  private
+
+  def downcase_tags
+    tags = tags.map(&:downcase) if tags
+  end
 end
