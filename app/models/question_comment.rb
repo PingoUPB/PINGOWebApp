@@ -3,7 +3,7 @@ class QuestionComment
   include Mongoid::Timestamps
 
   embedded_in :question
-  belongs_to :survey
+  belongs_to :survey, optional: true
 
   field :text, type: String
   validates :text, presence: true

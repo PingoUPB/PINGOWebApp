@@ -292,7 +292,7 @@ class SurveysController < ApplicationController
       @survey = Survey.find(id).service
       if @survey.vote(vid,option)
         respond_to do |format|
-          format.html { redirect_to root_path, notice: t(voting_ok) }
+          format.html { redirect_to root_path }
           format.json { head :ok }
         end
       else

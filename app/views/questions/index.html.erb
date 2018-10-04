@@ -126,6 +126,10 @@
 	<div class="well">
 		<p><strong><%= t(".no_questions_yet") %></strong></p>
 		<p><%= link_to t(".click_to_create_new_question"), new_question_path %></p>
+    <p>&nbsp;</p>
+    <% if current_user.shared_questions.any? %>
+      <p><%= link_to (icon_tag("share") + t(".shared_questions")).html_safe, questions_path(shared: "true"), class: "btn btn-default" %></p>
+    <% end %>
 	</div>
 	<% end %>
 </div>

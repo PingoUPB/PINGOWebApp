@@ -5,7 +5,7 @@ class QuestionsController < ApplicationController
 
   def index
     if params[:public]
-      @questions = Question.where(public:true)
+      @questions = Question.where(public: true)
     elsif params[:shared]
       @questions = current_user.shared_questions
       unless @questions.any?
@@ -14,7 +14,7 @@ class QuestionsController < ApplicationController
       end
     else
       @questions = current_user.questions.desc(:created_at)
-      @questions = Question.all.desc(:created_at) if(params[:all] && current_user.admin?)
+      @questions = Question.order_by([:created_at, :desc]) if(params[:all] && current_user.admin?)
     end
 
     if params[:q_type] # TODO: refactor maybe? soooo long :(
@@ -64,8 +64,13 @@ class QuestionsController < ApplicationController
 
     if params[:tag]
       q_before = @questions
-      q_tag = QuestionTag.find(params[:tag])
-      @questions = q_tag.tagged
+      QuestionTag.find(params[:tag])
+      #if params[:public]
+      #  @questions = q_tag.tagged.where(public: true)
+      #else
+      #  @questions = q_tag.tagged.where(tags: params[:tag]).select { |q| q.can_be_accessed_by?(current_user)}
+      #end
+      @questions = @questions.where(tags: params[:tag])
 
       unless @questions.any?
         params[:tag] = nil

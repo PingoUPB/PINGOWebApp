@@ -17,11 +17,14 @@ class Admin::UsersController < ApplicationController
       @users = @users.limit(100)
     end
     start_date = (Date.today - 1.month)
-    conditions = User.where(:created_at.gte => start_date.to_time.utc).selector
-    registrations_mr = User.collection.group(:keyf => "function(doc) { d = new Date(doc.created_at); return {month: d.getMonth() + 1, day: d.getDate() }; }",
-                    :initial => { :registrations => 0 },
-                    :reduce => "function(doc,prev) { prev.registrations += +1; }",
-                    :cond => conditions)
+    
+    mr_map = "function() { d = new Date(this.created_at); emit({month: d.getMonth() + 1, day: d.getDate() },  1); }"
+
+    mr_reduce = "function(dateObject, registrations) {
+      return Array.sum(registrations);
+    }"
+    
+    registrations_mr = User.where(:created_at.gte => start_date.to_time.utc).map_reduce(mr_map, mr_reduce).out(inline: 1)
 
     # smthg like: select day(users.created_at) as d, month(users.created_at) as m, sum(*) from users where created_at > :x group by (d, m)
 
@@ -32,7 +35,7 @@ class Admin::UsersController < ApplicationController
     end
 
     registrations_mr.each do |reg|
-      @registrations["#{reg["day"].to_i}.#{reg["month"].to_i}"] = reg["registrations"].to_i
+      @registrations["#{reg["_id"]["day"].to_i}.#{reg["_id"]["month"].to_i}"] = reg["value"].to_i
     end
 
     respond_to do |format|
