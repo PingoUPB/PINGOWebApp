@@ -8,6 +8,7 @@ class UserMailer < ActionMailer::Base
   #
   def welcome(user)
     @name = user.name
+    @newsletter_token = user.newsletter_optin_token
 
     mail to: user.email
   end

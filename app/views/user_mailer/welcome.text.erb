@@ -10,6 +10,13 @@ Das Handbuch mit ausführlicheren Anweisungen finden Sie unter:
 http://pingo.upb.de/tutorial/tutorial.html
 <% end %>
 
+<% if @newsletter_token %>
+<%= t ".newsletter_text" %>
+
+<%= t ".newsletter_button" %>:
+http://pingo.upb.de/newsletter_confirm/<%= @newsletter_token %>
+<% end %>
+
 <%= t ".more_info_text" %>
 
 <%= t ".more_info_button" %>:

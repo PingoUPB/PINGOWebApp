@@ -7,6 +7,8 @@ en:
       start_tour_button: "Start tour"
       more_info_text: "PINGO is an acronym for 'Peer Instruction for very large groups'  is the web-based classroom response system that has been developed at the University of Paderborn. You can find out more about our project online. We also blog about PINGO (currently in German, though)."
       more_info_button: "Find out more about PINGO"
+      newsletter_button: "Confirm subscription"
+      newsletter_text: "To confirm your PINGO newsletter subscription, please click the following button"
       videos: "To explain the Peer Instruction concept in general as well as the idealtype Peer Discussion, we have developed some video tutorials"
       contact_text: "Please do not hesitate to contact us, if you got further questions concerning PINGO"
   invite_mailer:

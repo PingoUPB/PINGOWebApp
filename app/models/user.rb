@@ -117,6 +117,13 @@ class User
         self.authentication_token = generate_authentication_token
       end
   end
+  
+  def generate_newsletter_token
+      loop do
+        random_token = SecureRandom.urlsafe_base64(nil, false)
+        break random_token unless User.where(newsletter_optin_token: random_token).any?
+      end
+  end
 
     private
   

@@ -22,6 +22,10 @@ class SettingsController < Devise::RegistrationsController
   # http://stackoverflow.com/a/15017055/238931
   def create
     super
+    if @user.newsletter
+      @user.generate_newsletter_token
+      @user.save
+    end
     UserMailer.welcome(@user).deliver unless @user.invalid?
   end
   

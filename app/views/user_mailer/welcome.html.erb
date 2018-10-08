@@ -23,6 +23,17 @@
 				<a href="http://pingo.upb.de/?tour=true&utm_source=invitation&utm_medium=email&utm_campaign=user+invitation" style="color: white;"><%= t ".start_tour_button" %></a>
 			</td></tr>
 		</table>
+    
+    <% if @newsletter_token %>
+      <p>
+        <%= t ".newsletter_text" %>:</p>
+    
+      <table align="center" width="200" height="60" style="border: 1px solid black; background-color: #00205B; text-align:center;">
+			<tr><td>
+				<a href="http://pingo.upb.de/newsletter_confirm/<%= @newsletter_token %> style="color: white;"><%= t ".newsletter_button" %></a>
+			</td></tr>
+		</table>
+    <% end %>
 	
 	<% if I18n.locale == :de %>
 		<p>
