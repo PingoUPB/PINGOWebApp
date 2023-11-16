@@ -258,7 +258,7 @@ class SurveysController < ApplicationController
             end
           else
             if params[:option].respond_to? :each
-              voted_for = "<br>- " + params[:option].reject {|o| o.blank? }.join("<br>- ") + "<br>"
+              voted_for = " " + params[:option].reject {|o| o.blank? }.join(", ")
             else
               voted_for = params[:option]
             end
